@@ -1,13 +1,18 @@
-import React, { Component } from 'react';
-import { Button } from 'antd';
+import React from 'react';
 import './App.css';
-
-class App extends Component {
+import { BrowserRouter , Route, Redirect, Switch} from "react-router-dom";
+import LoginComponent from './component/login/login.component'
+import Desgincomponent from './component/Home/Desgin.component'
+class App extends React.Component {
   render() {
     return (
-      <div className="App">
-        <Button type="primary">Button</Button>
-      </div>
+      <BrowserRouter>
+        <Switch>
+          <Route exact path='/' component={LoginComponent}></Route>
+          <Route path='/desgin' component={Desgincomponent}></Route>
+          <Redirect to='/'></Redirect>
+        </Switch>
+      </BrowserRouter>
     );
   }
 }
