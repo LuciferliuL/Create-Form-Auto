@@ -15,7 +15,9 @@ class NormalLoginForm extends React.Component {
             }
         });
     }
-
+    onChange = (value) => {
+        console.log(value)
+    }
     render() {
         const { getFieldDecorator } = this.props.form;
         const formItemLayout = {
@@ -39,7 +41,7 @@ class NormalLoginForm extends React.Component {
                         })(
                             <Cascader
                                 options={options}
-                                onChange={onChange}
+                                onChange={this.onChange}
                                 changeOnSelect
                                 expandTrigger="hover"
                             />
@@ -102,7 +104,4 @@ const options = [{
     }],
 }];
 
-function onChange(value) {
-    console.log(value);
-}
 
