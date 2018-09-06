@@ -9,7 +9,7 @@ class App extends React.Component {
       <BrowserRouter>
         <Switch>
           <Route exact path='/' component={LoginComponent}></Route>
-          <Route path='/desgin' component={Desgincomponent}></Route>
+          <Route path='/Design' component={Desgincomponent}></Route>
           <Redirect to='/'></Redirect>
         </Switch>
       </BrowserRouter>

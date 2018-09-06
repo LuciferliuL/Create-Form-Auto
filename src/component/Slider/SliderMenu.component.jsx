@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
 import { Menu, Icon } from "antd";
+import { Link } from 'react-router-dom'
+import { bindActionCreators } from "redux";
+import { connect } from 'react-redux'
+import { selectkeysToHeader } from '../../actions/Header.action'
 const SubMenu = Menu.SubMenu;
 
 class SliderMenucomponent extends Component {
     //选中得回调
-    onSelect = (item,keys,selectedKeys) => {
-        console.log(item)
+    onSelect = (item) => {
+        // console.log(item)
+        this.props.onTodoClick(item.selectedKeys)
     }
     render() {
         const menudata = []
@@ -15,8 +20,10 @@ class SliderMenucomponent extends Component {
                 e.children.forEach(value => {
                     datas.push(
                         <Menu.Item key={value.key}>
-                            <Icon type={value.type}></Icon>
-                            <span>{value.key}</span>
+                            <Link to='/Design/er'>
+                                <Icon type={value.type}></Icon>
+                                <span>{value.key}</span>
+                            </Link>
                         </Menu.Item>)
                 })
                 menudata.push(
@@ -30,60 +37,75 @@ class SliderMenucomponent extends Component {
             } else {
                 menudata.push(
                     <Menu.Item key={e.key}>
-                        <Icon type={e.type}></Icon>
-                        <span>{e.key}</span>
+                        <Link to={e.link}>
+                            <Icon type={e.type}></Icon>
+                            <span>{e.key}</span>
+                        </Link>
                     </Menu.Item>
                 )
             }
         })
-        
+
         return (
-            <Menu theme="dark" 
-            defaultSelectedKeys={['1']} 
-            mode="inline"
-            onSelect={this.onSelect}>
-               {menudata}
+            <Menu
+                forceSubMenuRender={true}
+                selectedKeys={this.props.selectedKeys}
+                theme="dark"
+                defaultSelectedKeys={this.props.selectedKeys}
+                mode="inline"
+                onSelect={this.onSelect}>
+                {menudata}
             </Menu>
         );
     }
 }
 
-export default SliderMenucomponent;
+function mapStateToProps(state){
+    // console.log(state);
+    
+    return{
+        selectedKeys: state.Slider.selectedKeys
+    }
+}
+function mapDispatchProps(dispatch){  
+    return {
+        onTodoClick: (k)=>{
+            dispatch(selectkeysToHeader(k))
+        }
+    }
+}
+export default connect(mapStateToProps,mapDispatchProps)(SliderMenucomponent);
 
 const sliderData = [
     {
-        key: 'user',
+        key: '表单总览',
         type: 'pie-chart',
-        children: []
+        children: [],
+        link: '/Design/er'
     }, {
-        key: 'desktop',
+        key: '表单设计',
         type: 'desktop',
-        children: [
-            {
-                key: 'desktop1',
-                type: 'desktop'
-            },
-            {
-                key: 'desktop2',
-                type: 'desktop'
-            }
-        ]
+        children: [],
+        link: '/Design/Stylist'
     }, {
         key: 'team',
         type: 'team',
         children: [
             {
                 key: 'desktop3',
-                type: 'desktop'
+                type: 'desktop',
+                link: '/Design/er',
             },
             {
                 key: 'desktop4',
-                type: 'desktop'
+                type: 'desktop',
+                link: '/Design/er',
             }
         ]
     }, {
         key: 'file',
         type: 'file',
-        children: []
+        children: [],
+        link: '/Design/er'
     }
 ]

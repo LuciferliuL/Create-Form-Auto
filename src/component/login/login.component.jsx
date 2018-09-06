@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Form, Icon, Input, Button, Card, Cascader } from 'antd';
 import './login.component.css'
 
@@ -11,7 +11,11 @@ class NormalLoginForm extends React.Component {
             //登入判断
             if (!err) {
                 console.log('Received values of form: ', values);
-                this.props.history.push('/desgin')
+                let path = {
+                    pathname:'/Design/er',
+                    state:values
+                }
+                this.props.history.push(path)
             }
         });
     }
