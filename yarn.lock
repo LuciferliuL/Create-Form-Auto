@@ -7210,6 +7210,10 @@ react-dom@^16.4.2:
     object-assign "^4.1.1"
     prop-types "^15.6.0"
 
+react-draggable-tags@^0.2.1:
+  version "0.2.1"
+  resolved "http://registry.npm.taobao.org/react-draggable-tags/download/react-draggable-tags-0.2.1.tgz#bf151b61944cef061fad73fa984a7c0ffd5bdae3"
+
 react-error-overlay@^4.0.1:
   version "4.0.1"
   resolved "http://registry.npm.taobao.org/react-error-overlay/download/react-error-overlay-4.0.1.tgz#417addb0814a90f3a7082eacba7cee588d00da89"

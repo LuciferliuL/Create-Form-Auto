@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { Menu, Icon } from "antd";
 import { Link } from 'react-router-dom'
-import { bindActionCreators } from "redux";
 import { connect } from 'react-redux'
-import { selectkeysToHeader } from '../../actions/Header.action'
+import { selectkeysToHeader } from './action/Header.action'
 const SubMenu = Menu.SubMenu;
 
 class SliderMenucomponent extends Component {

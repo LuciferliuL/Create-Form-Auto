@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Table, Button, Popconfirm } from 'antd'
 import { connect } from 'react-redux'
-import { selectkeysToHeader } from '../../actions/Header.action'
+import { selectkeysToHeader } from '../Slider/action/Header.action'
+import { stylistDataSourceGet, stylistDataSourceAsync } from '../stylist/action/Stylist.action'
 
 
 class DesignTablecomponent extends Component {
@@ -87,16 +88,15 @@ class DesignTablecomponent extends Component {
   }
   TableHeader = () => (
     <div>
-      <Button onClick={this.CreateTable.bind(this, 'new')}>新建表单</Button>
+      <Button onClick={this.CreateTable.bind(this, '')}>新建表单</Button>
     </div>
   )
   CreateTable = (dataSource) => {
-    let tableSource = {
-      pathname: '/Design/Stylist',
-      state: dataSource === 'new' ? '' : dataSource
-    }
-    this.props.history.push(tableSource)
+    console.log(dataSource);
+    
+    this.props.update(dataSource)
     this.props.onTodoClick(['表单设计'])
+    this.props.history.push('/Design/Stylist') 
   }
   render() {
     return (
@@ -113,13 +113,18 @@ class DesignTablecomponent extends Component {
 }
 
 const mapStateToProps = (state) => {
-
+  return {
+    StylistData: state.StylistData
+  }
 }
 const mapDispatchProps = (dispatch) => {
   return {
-    onTodoClick: (k)=>{
-        dispatch(selectkeysToHeader(k))
+    onTodoClick: (k) => {
+      dispatch(selectkeysToHeader(k))
+    },
+    update: (k) => {
+      dispatch(stylistDataSourceAsync(k))
     }
-}
+  }
 }
 export default connect(mapStateToProps, mapDispatchProps)(DesignTablecomponent);

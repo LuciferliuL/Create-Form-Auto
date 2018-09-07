@@ -1,15 +1,15 @@
-import { SELECTKEYS_TO_HEADER } from '../actions/Header.action'
+import { STYLIST_DATASOURCE_GET } from '../action/Stylist.action'
 
 const initialState = {
-    selectedKeys: ['表单总览']
+    data: []
 }
 
 export default function(state = initialState, action){
     switch(action.type){
-        case SELECTKEYS_TO_HEADER:{
+        case STYLIST_DATASOURCE_GET:{
             return {
                 ...state,
-                selectedKeys:action.selectedKeys
+                data:action.dataSource
             }
         }
         default:
