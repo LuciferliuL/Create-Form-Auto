@@ -9,7 +9,7 @@ import SliderRightcomponent from '../SliderRIght/SliderRight.component'
 import { Dragact } from 'dragact'
 
 const getblockStyle = isDragging => {
-    
+
     return {
         background: isDragging ? '#1890ff' : 'white'
     }
@@ -25,25 +25,24 @@ class Stylistcomponent extends Component {
 
         var data = ev.dataTransfer.getData("ID");
         console.log(this.props.currentTagsUpdata);
-        // if (data === this.props.currentTagsUpdata.id) {
+        if (data === this.props.currentTagsUpdata.id) {
+
             this.props.FormData(this.props.currentTagsUpdata)
-            // setTimeout(() => {
-            //     this.props.FormDataUpata(this.dragact.getLayout())
-            // }, 1000);
-        // }
+
+        }
     }
     confirm = (e) => {
         // console.log(this.dragact.getLayout());
         this.props.FormDataUpata(this.dragact.getLayout())
         this.props.rightUpdata(e)
-        
+
     }
     cancel = (e) => {
         // console.log(e);
-        
+
     }
     //固定位置
-    time =( )=>{
+    time = () => {
         this.props.FormDataUpata(this.dragact.getLayout())
     }
     render() {
@@ -61,7 +60,7 @@ class Stylistcomponent extends Component {
                                 onDrop={this.drop.bind(this)}
                                 style={{ width: '100%', minHeight: '400px', padding: '5px' }}>
                                 <Dragact
-                                    ref={(n)=>{ this.dragact = n}}
+                                    ref={(n) => { this.dragact = n }}
                                     layout={this.props.UpdataFormData} //必填项
                                     col={24} //必填项
                                     width={800} //必填项
@@ -82,21 +81,25 @@ class Stylistcomponent extends Component {
                                                     ...provided.props.style,
                                                     ...getblockStyle(provided.isDragging),
                                                     padding: '5px',
-                                                    border:'1px dashed black'
+                                                    border: '1px dashed black'
                                                 }}
                                             >
                                                 <Popconfirm title="你要干什么？"
                                                     icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
-                                                     okText="编辑" cancelText="删除"
-                                                     onConfirm={this.confirm.bind(this,item)} 
-                                                     onCancel={this.cancel.bind(this,item)}>
+                                                    okText="编辑" cancelText="删除"
+                                                    onConfirm={this.confirm.bind(this, item)}
+                                                    onCancel={this.cancel.bind(this, item)}>
                                                     <Icon
                                                         className="Delete"
                                                         type="minus-square"
                                                         theme="filled" />
                                                 </Popconfirm>
-                                                {provided.isDragging ? '正在抓取' : '停放'}
-                                                <PublicComponent PublicData={item} ></PublicComponent>
+                                                {
+                                                    item.type === 'Group' ?
+                                                        <PublicComponent PublicData={item}/>
+                                                        : <PublicComponent PublicData={item} />
+                                                }
+
                                             </div>
                                         )
                                     }}
@@ -131,7 +134,7 @@ const mapDispatchProps = (dispatch) => {
         FormData: (k) => {
             dispatch(formSourceData(k))
         },
-        FormDataUpata: (k)=>{
+        FormDataUpata: (k) => {
             dispatch(formSourceDataUpdata(k))
         },
         rightUpdata: (k) => {
