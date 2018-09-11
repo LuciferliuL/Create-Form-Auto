@@ -1,37 +1,27 @@
 import React, { Component } from 'react';
-import { Input , Form} from 'antd'
+import { Input, Form } from 'antd'
 
 const FormItem = Form.Item
 class InputPublicComponent extends Component {
     render() {
         const { getFieldDecorator } = this.props.form
-        const { defaultValue, disabled, label, attr, required, message } = this.props.PublicData
-        if (this.props.TYPE === 'DEV') {
-            return (
-                <div>
-                    <label style={{ width: '30%', display: 'inline-block' }}>{label}</label>
-                    <div style={{ width: '70%', display: 'inline-block' }}>
-                        <Input
-                            value={defaultValue}
-                            disabled={disabled}
-                        />
-                    </div>
-                </div>
-            )
-        } else {
+        const { placeholder, disabled, label, id, required, message,layout } = this.props.PublicData 
+        return (
             <FormItem
                 label={label}
+                {...layout}
             >
-                {getFieldDecorator({ attr }, {
+                {getFieldDecorator( id , {
                     rules: [{ required: { required }, message: { message } }],
                 })(
                     <Input
-                        defaultValue={defaultValue}
+                        // defaultValue={defaultValue}
                         disabled={disabled}
+                        placeholder={placeholder}
                     />
                 )}
             </FormItem>
-        }
+        )
     }
 }
 

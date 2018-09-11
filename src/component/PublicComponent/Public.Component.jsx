@@ -1,15 +1,24 @@
 import React, { Component } from 'react';
-import { Form } from 'antd'
 import InputPublicComponent from './Input/Input.PublicComponent'
+import RadioPublicComponent from './radio/radio.PublicComponent'
+import CheckboxPublicComponent from './checkbox/checkbox.PublicComponent'
 
 class PublicComponent extends Component {
     render() {
-        const {PublicData, TYPE} = this.props
-        const {type} = PublicData
+        const { PublicData} = this.props
+        const { type } = PublicData
         switch (type) {
             case 'INPUT':
                 return (
-                    <InputPublicComponent PublicData={PublicData} TYPE={TYPE}></InputPublicComponent>
+                    <InputPublicComponent PublicData={PublicData} ></InputPublicComponent>
+                )
+            case 'RadioGroup':
+                return (
+                    <RadioPublicComponent PublicData={PublicData} ></RadioPublicComponent>
+                )
+            case 'CheckBox':
+                return (
+                    <CheckboxPublicComponent PublicData={PublicData} ></CheckboxPublicComponent>
                 )
             default:
                 return (

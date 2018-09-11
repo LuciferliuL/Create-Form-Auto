@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Table, Button, Popconfirm } from 'antd'
 import { connect } from 'react-redux'
 import { selectkeysToHeader } from '../Slider/action/Header.action'
-import { stylistDataSourceGet, stylistDataSourceAsync } from '../stylist/action/Stylist.action'
+import { stylistDataSourceAsync } from '../stylist/action/Stylist.action'
 
 
 class DesignTablecomponent extends Component {
@@ -93,10 +93,14 @@ class DesignTablecomponent extends Component {
   )
   CreateTable = (dataSource) => {
     console.log(dataSource);
-    
-    this.props.update(dataSource)
+    //mock的数据 新建表单或者获取表单要覆盖原来的
+    const data = [
+      { id: 1, name: 'apple' }, { id: 2, name: 'watermelon' }, { id: 3, name: 'banana' },
+      { id: 4, name: 'lemon' }, { id: 5, name: 'orange' }, { id: 6, name: 'grape' },
+      { id: 8, type: 'INPUT', width: 4, required: true, message: "123", attr: "11", label: "输入框", defaultValue: "123", disabled: false, content: true }, { id: 9, name: 'peach' }]
+    this.props.update(data)
     this.props.onTodoClick(['表单设计'])
-    this.props.history.push('/Design/Stylist') 
+    this.props.history.push('/Design/Stylist')
   }
   render() {
     return (

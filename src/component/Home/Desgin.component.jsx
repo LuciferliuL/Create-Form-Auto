@@ -16,7 +16,7 @@ class Desgincomponent extends Component {
         user:this.props.location.state
     };
     onCollapse = (collapsed) => {
-        console.log(collapsed);
+        // console.log(collapsed);
         this.setState({ collapsed })
     }
 

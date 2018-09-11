@@ -1,74 +1,111 @@
 import React, { Component } from 'react';
-import { Row, Col, Card, Button, Icon, Input, Popconfirm, Form } from 'antd'
-import { DraggableAreasGroup } from 'react-draggable-tags';
+import { Row, Col, Card, Icon, Popconfirm, Form } from 'antd'
 import { connect } from 'react-redux'
-import { stylistDataSourceGet } from './action/Stylist.action'
+import { stylistDataSourceGet, formSourceData, currentAttr, formSourceDataUpdata } from './action/Stylist.action'
 import './Stylist.css'
-import Tagcomponent from './Tag/Tag.component'
 import PublicComponent from '../PublicComponent/Public.Component'
+import SliderCard from '../SliderCard/SliderCard'
+import SliderRightcomponent from '../SliderRIght/SliderRight.component'
+import { Dragact } from 'dragact'
 
-const group = new DraggableAreasGroup()
-const DraggableArea = group.addArea()
+const getblockStyle = isDragging => {
+    
+    return {
+        background: isDragging ? '#1890ff' : 'white'
+    }
+}
+
 class Stylistcomponent extends Component {
-    state = {
-        initialTags: [
-            { id: 1, name: 'apple' }, { id: 2, name: 'watermelon' }, { id: 3, name: 'banana' },
-            { id: 4, name: 'lemon' }, { id: 5, name: 'orange' }, { id: 6, name: 'grape' },
-            { id: 8, type: 'INPUT', required: true, message: "123", attr: "11", label: "输入框", defaultValue: "", disabled: false, content: <PublicComponent /> }, { id: 9, name: 'peach' }]
+    allowDrop = (ev) => {
+        ev.preventDefault()
     }
-    handleAdd = () => {
-        this.addTag({ id: 111, name: '22231awea' })
-    }
-    confirm = (tag) => {
-        console.log(tag);
+    drop = (ev) => {
+        ev.preventDefault();
+        // console.log(ev);
 
-        // const initialTags = this.state.initialTags.filter(t => tag.id !== t.id);
-        // this.setState({ initialTags: initialTags })
+        var data = ev.dataTransfer.getData("ID");
+        console.log(this.props.currentTagsUpdata);
+        // if (data === this.props.currentTagsUpdata.id) {
+            this.props.FormData(this.props.currentTagsUpdata)
+            // setTimeout(() => {
+            //     this.props.FormDataUpata(this.dragact.getLayout())
+            // }, 1000);
+        // }
+    }
+    confirm = (e) => {
+        // console.log(this.dragact.getLayout());
+        this.props.FormDataUpata(this.dragact.getLayout())
+        this.props.rightUpdata(e)
+        
+    }
+    cancel = (e) => {
+        // console.log(e);
+        
+    }
+    //固定位置
+    time =( )=>{
+        this.props.FormDataUpata(this.dragact.getLayout())
     }
     render() {
         // console.log(this.state.dataSource);
-
         return (
             <div>
                 <Row gutter={1}>
-                    <Col span={6}>
-                        <Card>
-                            <Button onClick={this.handleAdd}>添加</Button>
-                        </Card>
+                    <Col span={5}>
+                        <SliderCard></SliderCard>
                     </Col>
                     <Col span={14}>
-                        <Card bodystyle={{ padding: '5px', minwidth: '500px' }}>
-                            <Form>
-                                <div className="Simple">
-                                    <DraggableArea
-
-                                        initialTags={this.state.initialTags}
-                                        render={({ tag, deleteThis }) => (
-                                            <div className="tag" onClick={this.confirm.bind(this, tag)} style={{ width: '100%' }}>
+                        <Card>
+                            <Form
+                                onDragOver={this.allowDrop.bind(this)}
+                                onDrop={this.drop.bind(this)}
+                                style={{ width: '100%', minHeight: '400px', padding: '5px' }}>
+                                <Dragact
+                                    ref={(n)=>{ this.dragact = n}}
+                                    layout={this.props.UpdataFormData} //必填项
+                                    col={24} //必填项
+                                    width={800} //必填项
+                                    rowHeight={40} //必填项
+                                    margin={[5, 5]} //必填项
+                                    className="plant-layout" //必填项
+                                    style={{ border: '1px dashed black' }} //非必填项
+                                    placeholder={true}
+                                    onDragEnd={this.time.bind(this)}
+                                >
+                                    {(item, provided) => {
+                                        // console.log(item);
+                                        return (
+                                            <div
+                                                {...provided.props}
+                                                {...provided.dragHandle}
+                                                style={{
+                                                    ...provided.props.style,
+                                                    ...getblockStyle(provided.isDragging),
+                                                    padding: '5px',
+                                                    border:'1px dashed black'
+                                                }}
+                                            >
                                                 <Popconfirm title="你要干什么？"
                                                     icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
-                                                    onConfirm={this.confirm.bind(this, tag)} onCancel={deleteThis} okText="编辑" cancelText="删除">
+                                                     okText="编辑" cancelText="删除"
+                                                     onConfirm={this.confirm.bind(this,item)} 
+                                                     onCancel={this.cancel.bind(this,item)}>
                                                     <Icon
                                                         className="Delete"
                                                         type="minus-square"
                                                         theme="filled" />
                                                 </Popconfirm>
-                                                {
-                                                    tag.content ? <PublicComponent PublicData={tag} TYPE='DEV'/> : tag.name
-                                                }
+                                                {provided.isDragging ? '正在抓取' : '停放'}
+                                                <PublicComponent PublicData={item} ></PublicComponent>
                                             </div>
-                                        )}
-                                        getAddTagFunc={addTag => this.addTag = addTag}
-                                        onChange={(tags) => console.log(tags)}
-                                    />
-                                </div>
+                                        )
+                                    }}
+                                </Dragact>
                             </Form>
                         </Card>
                     </Col>
-                    <Col span={4}>
-                        <Card>
-                            123
-                        </Card>
+                    <Col span={5}>
+                        <SliderRightcomponent currentAttr={this.props.currentAttr}></SliderRightcomponent>
                     </Col>
                 </Row>
             </div>
@@ -80,13 +117,25 @@ const mapStateToProps = (State) => {
     console.log(State);
 
     return {
-        StylistData: State.StylistData
+        InitStylistData: State.InitStylistData.InitStylistData,
+        currentTagsUpdata: State.currentTagsUpdata.InitialTags,
+        UpdataFormData: State.UpdataFormData,
+        currentAttr: State.currentAttr
     }
 }
 const mapDispatchProps = (dispatch) => {
     return {
         updateData: (k) => {
             dispatch(stylistDataSourceGet(k))
+        },
+        FormData: (k) => {
+            dispatch(formSourceData(k))
+        },
+        FormDataUpata: (k)=>{
+            dispatch(formSourceDataUpdata(k))
+        },
+        rightUpdata: (k) => {
+            dispatch(currentAttr(k))
         }
     }
 }

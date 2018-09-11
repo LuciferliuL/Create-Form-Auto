@@ -5,6 +5,7 @@
   "dependencies": {
     "antd": "^3.9.1",
     "babel-plugin-import": "^1.8.0",
+    "dragact": "^0.2.12",
     "isomorphic-fetch": "^2.2.1",
     "react": "^16.4.2",
     "react-app-rewire-less": "^2.1.3",
