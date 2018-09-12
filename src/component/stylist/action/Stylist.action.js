@@ -2,7 +2,7 @@ export const STYLIST_DATASOURCE_GET = 'STYLIST_DATASOURCE_GET'
 export const FORM_SOURCE_DATA = 'FORM_SOURCE_DATA'
 export const CURRENT_ATTR = 'CURRENT_ATTR'
 export const FORM_SOURCE_DATA_UPDATA = 'FORM_SOURCE_DATA_UPDATA'
-
+export const FORM_SOURCE_DATA_DELETE = 'FORM_SOURCE_DATA_DELETE'
 //需要编辑选中的元素
 export const stylistDataSourceGet = (InitStylistData) => {
     return {
@@ -31,7 +31,13 @@ export const formSourceDataUpdata = (formSourceDataUpdata) => {
         formSourceDataUpdata:formSourceDataUpdata
     }
 }
-
+//删除
+export const formSourceDataDelete = (formSourceDataDelete) => {
+    return {
+        type:FORM_SOURCE_DATA_DELETE,
+        formSourceDataDelete:formSourceDataDelete
+    }
+}
 //右边显示的属性
 export const currentAttr = (currentAttr) => {
     return {
@@ -39,3 +45,4 @@ export const currentAttr = (currentAttr) => {
         currentAttr: currentAttr
     }
 }
+

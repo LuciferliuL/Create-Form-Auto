@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Col, Card, Icon, Popconfirm, Form } from 'antd'
 import { connect } from 'react-redux'
-import { stylistDataSourceGet, formSourceData, currentAttr, formSourceDataUpdata } from './action/Stylist.action'
+import { stylistDataSourceGet, formSourceData, currentAttr, formSourceDataUpdata, formSourceDataDelete } from './action/Stylist.action'
 import './Stylist.css'
 import PublicComponent from '../PublicComponent/Public.Component'
 import SliderCard from '../SliderCard/SliderCard'
@@ -38,8 +38,8 @@ class Stylistcomponent extends Component {
 
     }
     cancel = (e) => {
-        // console.log(e);
-
+        console.log(e);
+        this.props.FormDataDelete(e)
     }
     //固定位置
     time = () => {
@@ -67,7 +67,7 @@ class Stylistcomponent extends Component {
                                     rowHeight={40} //必填项
                                     margin={[5, 5]} //必填项
                                     className="plant-layout" //必填项
-                                    style={{ border: '1px dashed black' }} //非必填项
+                                    style={{ border: '1px dashed black',minHeight:'300px' }} //非必填项
                                     placeholder={true}
                                     onDragEnd={this.time.bind(this)}
                                 >
@@ -94,12 +94,7 @@ class Stylistcomponent extends Component {
                                                         type="minus-square"
                                                         theme="filled" />
                                                 </Popconfirm>
-                                                {
-                                                    item.type === 'Group' ?
-                                                        <PublicComponent PublicData={item}/>
-                                                        : <PublicComponent PublicData={item} />
-                                                }
-
+                                                <PublicComponent PublicData={item} />
                                             </div>
                                         )
                                     }}
@@ -139,6 +134,9 @@ const mapDispatchProps = (dispatch) => {
         },
         rightUpdata: (k) => {
             dispatch(currentAttr(k))
+        },
+        FormDataDelete: (k) => {
+            dispatch(formSourceDataDelete(k))
         }
     }
 }

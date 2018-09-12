@@ -8,7 +8,7 @@ import RangePickerPublicComponent from './times/RangePicker.PublicComponent'
 import TablePublicComponent from './table/Table.PublicComponent'
 import LookUpPublicComponent from './lookup/LookUp.PublicComponent'
 import GroupPublicComponent from './group/Group.PublicComponent'
-
+import SwitchPublicComponent from './Switch/Switch.PublicComponent'
 class PublicComponent extends Component {
     render() {
         const { PublicData } = this.props
@@ -49,6 +49,10 @@ class PublicComponent extends Component {
             case 'Group':
                 return (
                     <GroupPublicComponent></GroupPublicComponent>
+                )
+            case 'Switch':
+                return (
+                    <SwitchPublicComponent PublicData={PublicData}></SwitchPublicComponent>
                 )
             default:
                 return (

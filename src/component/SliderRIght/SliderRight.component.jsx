@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 import { Card, Tabs, Form, Input } from 'antd'
+import { connect } from 'react-redux'
+import { currentAttrUpdata, formUpdataFromCurrent } from './action/Right.action.js'
+
 const TabPane = Tabs.TabPane
 const FormItem = Form.Item
 const HTMLTitle = [
     { label: 'id', name: 'ID' },
     { label: 'message', name: '错误提示' },
     { label: 'label', name: '标题' },
-    { label: 'defaultValue', name: '默认提示' }
+    { label: 'required', name: '必填项' },
+    { label: 'disabled', name: '是否禁止' },
 ]
 class SliderRightcomponent extends Component {
     handleSubmit = (e) => {
@@ -22,26 +26,35 @@ class SliderRightcomponent extends Component {
         const formItemLayout = {
             labelCol: {
                 xs: { span: 24 },
-                sm: { span: 6 },
+                sm: { span: 8 },
             },
             wrapperCol: {
                 xs: { span: 24 },
-                sm: { span: 18 },
+                sm: { span: 16 },
             },
         };
+        const { currentAttr } = this.props.currentAttr
+        // console.log(currentAttr);
+
         let inputList = []
-        HTMLTitle.forEach(e => {
+        HTMLTitle.forEach((e, i) => {
             inputList.push(
                 <FormItem
-                    key={e.name}
                     label={e.name}
-                    {...formItemLayout}>
+                    {...formItemLayout}
+                    key={i}
+                >
                     {getFieldDecorator(e.label)(
-                        <Input />
+                        <Input
+                        />
                     )}
                 </FormItem>
             )
         })
+
+
+
+
         return (
             <Card>
                 <Form onSubmit={this.handleSubmit.bind(this)}>
@@ -59,23 +72,48 @@ class SliderRightcomponent extends Component {
     }
 }
 
-export default Form.create({
+const mapPropsToState = (state) => {
+    return {
+
+    }
+}
+const mapDispatchProps = (dispatch) => {
+    return {
+        updata: (k) => {
+            dispatch(currentAttrUpdata(k))
+        },
+        upForm: (k) => {
+            dispatch(formUpdataFromCurrent(k))
+        }
+    }
+}
+export default connect(mapPropsToState, mapDispatchProps)(Form.create({
     onFieldsChange(props, changedFields) {
-        props.onChange(changedFields);
+        console.log(props);
+        console.log(changedFields);
+        let value = changedFields[Object.keys(changedFields)[0]]['value']
+        let label = changedFields[Object.keys(changedFields)[0]]['name']
+        let obj = {}
+        obj[label] = value
+        props.updata(props.currentAttr)
+        props.upForm(props.currentAttr)
     },
     mapPropsToFields(props) {
-        // console.log(props);
-        // const { initialTags } = props
-        // let Field = {}
-        // HTMLTitle.forEach(e => {
-        //     Field[e.label] = Form.createFormField({ value: initialTags[e.label] })
-        // })
+        // console.log(props.currentAttr);
+        const { currentAttr } = props
+        let Field = {}
+        if (Object.keys(currentAttr).length > 0) {
+            HTMLTitle.forEach(e => {
+                Field[e.label] = Form.createFormField({ value: currentAttr[e.label] })
+            })
+        }
+
         // Object.keys(initialTags).forEach(e => {
         //     Field[e] = Form.createFormField({ value: initialTags[e] })
         // })
-        // return Field;
+        return Field;
     },
     onValuesChange(_, values) {
-        console.log(values);
+        // console.log(values);
     },
-})(SliderRightcomponent);
+})(SliderRightcomponent));

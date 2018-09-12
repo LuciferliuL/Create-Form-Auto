@@ -61,85 +61,88 @@ const SData = [
     {
         GridX: 0, GridY: 0, w: 24, h: 8, key: '0', pageSize: 10, scroll: 180,
         icons: 'table', label: '简单表格', type: 'Table',
-        columns: [{
-            title: '姓名',
-            dataIndex: 'name',
-            key: 'name',
-        }, {
-            title: '年龄',
-            dataIndex: 'age',
-            key: 'age',
-        }, {
-            title: '住址',
-            dataIndex: 'address',
-            key: 'address',
-        }],
-        data: [{
-            key: '1',
-            name: '胡彦斌',
-            age: 32,
-            address: '西湖区湖底公园1号'
-        }, {
-            key: '2',
-            name: '胡彦祖',
-            age: 42,
-            address: '西湖区湖底公园1号'
-        }, {
-            key: '3',
-            name: '胡彦祖',
-            age: 42,
-            address: '西湖区湖底公园1号'
-        }, {
-            key: '4',
-            name: '胡彦祖',
-            age: 42,
-            address: '西湖区湖底公园1号'
-        }, {
-            key: '5',
-            name: '胡彦祖',
-            age: 42,
-            address: '西湖区湖底公园1号'
-        }, {
-            key: '6',
-            name: '胡彦祖',
-            age: 42,
-            address: '西湖区湖底公园1号'
-        }, {
-            key: '7',
-            name: '胡彦祖',
-            age: 42,
-            address: '西湖区湖底公园1号'
-        }, {
-            key: '8',
-            name: '胡彦祖',
-            age: 42,
-            address: '西湖区湖底公园1号'
-        }, {
-            key: '9',
-            name: '胡彦祖',
-            age: 42,
-            address: '西湖区湖底公园1号'
-        }, {
-            key: '10',
-            name: '胡彦祖',
-            age: 42,
-            address: '西湖区湖底公园1号'
-        }, {
-            key: '11',
-            name: '胡彦祖',
-            age: 42,
-            address: '西湖区湖底公园1号'
-        }]
+        columns: [
+            {
+                title: '姓名',
+                dataIndex: 'name',
+                key: 'name',
+            }, {
+                title: '年龄',
+                dataIndex: 'age',
+                key: 'age',
+            }, {
+                title: '住址',
+                dataIndex: 'address',
+                key: 'address',
+            }],
+        data: [
+            {
+                key: '1',
+                name: '胡彦斌',
+                age: 32,
+                address: '西湖区湖底公园1号'
+            }, {
+                key: '2',
+                name: '胡彦祖',
+                age: 42,
+                address: '西湖区湖底公园1号'
+            }, {
+                key: '3',
+                name: '胡彦祖',
+                age: 42,
+                address: '西湖区湖底公园1号'
+            }, {
+                key: '4',
+                name: '胡彦祖',
+                age: 42,
+                address: '西湖区湖底公园1号'
+            }, {
+                key: '5',
+                name: '胡彦祖',
+                age: 42,
+                address: '西湖区湖底公园1号'
+            }, {
+                key: '6',
+                name: '胡彦祖',
+                age: 42,
+                address: '西湖区湖底公园1号'
+            }, {
+                key: '7',
+                name: '胡彦祖',
+                age: 42,
+                address: '西湖区湖底公园1号'
+            }, {
+                key: '8',
+                name: '胡彦祖',
+                age: 42,
+                address: '西湖区湖底公园1号'
+            }, {
+                key: '9',
+                name: '胡彦祖',
+                age: 42,
+                address: '西湖区湖底公园1号'
+            }, {
+                key: '10',
+                name: '胡彦祖',
+                age: 42,
+                address: '西湖区湖底公园1号'
+            }, {
+                key: '11',
+                name: '胡彦祖',
+                age: 42,
+                address: '西湖区湖底公园1号'
+            }]
     },
     {
         GridX: 0, GridY: 0, w: 8, h: 2, key: '0',
         icons: 'diff', id: 8, type: 'LookUp', required: true,
-        message: "123", label: "LookUp", disabled: false,optionLable:'value',
+        message: "123", label: "LookUp", disabled: false, optionLable: 'value',
         layout: {
             labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
             wrapperCol: { xs: { span: 24 }, sm: { span: 16 } }
         },
-        dataSource:[{
+        dataSource: [
+            {
             title: '话题',
             children: [{
                 title: 'AntDesign',
@@ -167,9 +170,18 @@ const SData = [
                 count: 101230121,
             }],
         }]
-    },{
+    }, {
         GridX: 0, GridY: 0, w: 24, h: 8, key: '0',
         icons: 'copy', id: 8, type: 'Group', label: "组别"
+    }, {
+        GridX: 0, GridY: 0, w: 8, h: 2, key: '0',
+        icons: 'key', id: 8, type: 'Switch', required: true,
+        message: "123", label: "开关", checked: false, disabled: false,
+        unCheckedChildren:'NO', checkedChildren:'YES',
+        layout: {
+            labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
+            wrapperCol: { xs: { span: 24 }, sm: { span: 16 } }
+        }
     }
 ]
 
