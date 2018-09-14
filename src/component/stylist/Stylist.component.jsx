@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Card, Icon, Popconfirm, Form } from 'antd'
+import { Row, Col, Card, Icon, Popconfirm, Form, Button, Modal, Input } from 'antd'
 import { connect } from 'react-redux'
 import { stylistDataSourceGet, formSourceData, currentAttr, formSourceDataUpdata, formSourceDataDelete } from './action/Stylist.action'
 import './Stylist.css'
@@ -14,8 +14,12 @@ const getblockStyle = isDragging => {
         background: isDragging ? '#1890ff' : 'white'
     }
 }
-
+const FormItem = Form.Item
 class Stylistcomponent extends Component {
+    state = {
+        visible: false
+    }
+
     allowDrop = (ev) => {
         ev.preventDefault()
     }
@@ -45,16 +49,59 @@ class Stylistcomponent extends Component {
     time = () => {
         this.props.FormDataUpata(this.dragact.getLayout())
     }
+    showModal = () => {
+        this.setState({
+            visible: true,
+        });
+    }
+
+    handleCancel = (e) => {
+        console.log(e);
+        this.setState({
+            visible: false,
+        });
+    }
+    handleSubmit = (e) => {
+        e.preventDefault();
+        this.props.form.validateFields((err, values) => {
+            if (!err) {
+                console.log('Received values of form: ', values);
+                let saveList = this.props.UpdataFormData
+                localStorage.setItem(values.formname, JSON.stringify(saveList))
+                this.setState({
+                    visible: false,
+                });
+            }
+        });
+    }
     render() {
         // console.log(this.state.dataSource);
+        const { getFieldDecorator } = this.props.form;
         return (
             <div>
+                <Modal
+                    title="保存表单"
+                    visible={this.state.visible}
+                >
+                    <Form onSubmit={this.handleSubmit}>
+                        <FormItem>
+                            {getFieldDecorator('formname', {
+                                rules: [{ required: true, message: 'Please input your formname!' }],
+                            })(
+                                <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="表单名称" />
+                            )}
+                        </FormItem>
+                        <Button type="primary" htmlType="submit" className="login-form-button">确定</Button>
+                        <Button onClick={this.handleCancel.bind(this)}>取消</Button>
+                    </Form>
+                </Modal>
                 <Row gutter={1}>
                     <Col span={5}>
                         <SliderCard></SliderCard>
                     </Col>
                     <Col span={14}>
-                        <Card>
+                        <Card title="表单预览"
+                            extra={<Button onClick={this.showModal.bind(this)}>保存</Button>}>
                             <Form
                                 onDragOver={this.allowDrop.bind(this)}
                                 onDrop={this.drop.bind(this)}
@@ -67,7 +114,7 @@ class Stylistcomponent extends Component {
                                     rowHeight={40} //必填项
                                     margin={[5, 5]} //必填项
                                     className="plant-layout" //必填项
-                                    style={{ border: '1px dashed black',minHeight:'300px' }} //非必填项
+                                    style={{ border: '1px dashed black', minHeight: '300px' }} //非必填项
                                     placeholder={true}
                                     onDragEnd={this.time.bind(this)}
                                 >
@@ -140,4 +187,4 @@ const mapDispatchProps = (dispatch) => {
         }
     }
 }
-export default connect(mapStateToProps, mapDispatchProps)(Stylistcomponent);
+export default connect(mapStateToProps, mapDispatchProps)(Form.create()(Stylistcomponent));

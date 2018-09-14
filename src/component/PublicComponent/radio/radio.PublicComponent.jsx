@@ -6,15 +6,16 @@ const FormItem = Form.Item
 class RadioPublicComponent extends Component {
     render() {
         const { getFieldDecorator } = this.props.form
-        const {  disabled, label, id, required, message, RadioValue, groupname, layout } = this.props.PublicData
+        const {  disabled, label, id, required, message, GroupValue, groupname, layout } = this.props.PublicData
         const radiolist = []
-        RadioValue.forEach((e, i) => {
+        GroupValue.forEach((e, i) => {
             radiolist.push(<Radio value={e.value} key={i + e.value}>{e.name}</Radio>)
         });
         return (
             <FormItem
                 label={label}
                 {...layout}
+                style={{paddingTop:'15px'}}
             >
                 {getFieldDecorator(id, {
                     rules: [{ required: { required }, message: { message } }],

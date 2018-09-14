@@ -49,7 +49,7 @@ export const UpdataFormData = (state = [], action) => {
 export const currentAttr = (state = {}, action) => {
     switch (action.type) {
         case CURRENT_ATTR:
-            return Object.assign({}, state, action.currentAttr)
+            return  state = action.currentAttr
         case CURRENT_ATTR_UPDATA:
             return Object.assign({}, state, action.currentAttr)
         default:

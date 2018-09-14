@@ -48,7 +48,7 @@ class PublicComponent extends Component {
                 )
             case 'Group':
                 return (
-                    <GroupPublicComponent></GroupPublicComponent>
+                    <GroupPublicComponent PublicData={PublicData}></GroupPublicComponent>
                 )
             case 'Switch':
                 return (

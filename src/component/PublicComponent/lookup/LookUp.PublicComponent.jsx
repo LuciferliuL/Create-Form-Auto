@@ -8,16 +8,16 @@ class LookUpPublicComponent extends Component {
 
     render() {
         const { getFieldDecorator } = this.props.form
-        const { optionLable, dataSource, placeholder, disabled, label, id, required, message, layout } = this.props.PublicData
+        const { optionLable, dataSource, placeholder, disabled, label, id, required, message, layout, columns } = this.props.PublicData
         const options = dataSource.map(group => (
             <OptGroup
                 key={group.title}
-            // label={renderTitle(group.title)}
             >
                 {group.children.map(opt => (
-                    <Option key={opt.title} value={opt.title}>
-                        {opt.title}
-                        <span className="certain-search-item-count">{opt.count} 人 关注</span>
+                    <Option key={opt[columns[0]]} value={opt[columns[0]]}>
+                        {columns.map((e,i) => (
+                            <span className="certain-search-item-count" key={e + i}>{opt[columns[i]]}</span>
+                        ))}
                     </Option>
                 ))}
             </OptGroup>
@@ -27,6 +27,7 @@ class LookUpPublicComponent extends Component {
                 <FormItem
                     label={label}
                     {...layout}
+                    style={{ paddingTop: '15px' }}
                 >
                     {getFieldDecorator(id, {
                         rules: [{ required: { required }, message: { message } }],
@@ -41,7 +42,7 @@ class LookUpPublicComponent extends Component {
                             style={{ width: '100%' }}
                             dataSource={options}
                             placeholder={placeholder}
-                            optionLabelProp={optionLable}
+                            optionLabelProp='value'
                         >
                             <Input suffix={<Icon type="search" className="certain-category-icon" />} />
                         </AutoComplete>

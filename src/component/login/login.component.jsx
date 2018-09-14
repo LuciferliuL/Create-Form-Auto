@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Icon, Input, Button, Card, Cascader } from 'antd';
+import { Form, Icon, Input, Button, Card, Cascader, Radio } from 'antd';
 import './login.component.css'
 
 const FormItem = Form.Item;
@@ -11,10 +11,19 @@ class NormalLoginForm extends React.Component {
             //登入判断
             if (!err) {
                 console.log('Received values of form: ', values);
-                let path = {
-                    pathname:'/Design/er',
-                    state:values
+                let path = {}
+                if (values.use === 'a') {
+                    path = {
+                        pathname: '/Design/er',
+                        state: values
+                    }
+                } else {
+                    path = {
+                        pathname: '/USER',
+                        state: values
+                    }
                 }
+
                 this.props.history.push(path)
             }
         });
@@ -37,6 +46,19 @@ class NormalLoginForm extends React.Component {
         return (
             <Card className="width-40 margin-auto center">
                 <Form onSubmit={this.handleSubmit} className="center">
+                    <FormItem
+                        {...formItemLayout}
+                        label="目的"
+                    >
+                        {getFieldDecorator('use', {
+                            rules: [{ required: true, message: '目的' }]
+                        })(
+                            <Radio.Group buttonStyle="solid">
+                                <Radio.Button value="a">我是设计者</Radio.Button>
+                                <Radio.Button value="b">我是使用者</Radio.Button>
+                            </Radio.Group>
+                        )}
+                    </FormItem>
                     <FormItem
                         {...formItemLayout}
                         label="公司">

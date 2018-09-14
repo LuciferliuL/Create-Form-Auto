@@ -11,15 +11,16 @@ class SelectPublicComponent extends Component {
 
     render() {
         const { getFieldDecorator } = this.props.form
-        const { disabled, label, id, required, message, SelectValue, layout } = this.props.PublicData
+        const { disabled, label, id, required, message, GroupValue, layout } = this.props.PublicData
         const SelectGroup = []
-        SelectValue.forEach((e, i) => {
+        GroupValue.forEach((e, i) => {
             SelectGroup.push(<Option value={e.value} key={i + e.value}>{e.name}</Option>)
         });
         return (
             <FormItem
                 label={label}
                 {...layout}
+                style={{paddingTop:'15px'}}
             >
                 {getFieldDecorator(id, {
                     rules: [{ required: { required }, message: { message } }],

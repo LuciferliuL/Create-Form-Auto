@@ -16,6 +16,7 @@ class RangePickerPublicComponent extends Component {
             <FormItem
                 label={label}
                 {...layout}
+                style={{paddingTop:'15px'}}
             >
                 {getFieldDecorator(id, {
                     rules: [{ required: { required }, message: { message } }],

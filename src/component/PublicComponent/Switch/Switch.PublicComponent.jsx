@@ -5,7 +5,7 @@ const FormItem = Form.Item
 class SwitchPublicComponent extends Component {
     render() {
         const { getFieldDecorator } = this.props.form
-        const { id, required, message, label, disabled, layout , checked, unCheckedChildren, checkedChildren} = this.props.PublicData
+        const { id, required, message, label, disabled, layout, checked, unCheckedChildren, checkedChildren } = this.props.PublicData
 
         return (
             <FormItem
@@ -17,7 +17,7 @@ class SwitchPublicComponent extends Component {
                     rules: [{ required: { required }, message: { message } }],
                 })(
                     <Switch
-                        defaultchecke={checked.toString()}
+                        checked={checked}
                         disabled={disabled}
                         checkedChildren={checkedChildren}
                         unCheckedChildren={unCheckedChildren} />

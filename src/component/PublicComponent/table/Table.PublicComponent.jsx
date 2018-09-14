@@ -4,9 +4,9 @@ import { Table } from 'antd'
 
 class TablePublicComponent extends Component {
     render() {
-        const { columns, data , pageSize ,scroll ,label} = this.props.PublicData
+        const { columnsTable, dataSource , pageSize ,scroll ,label} = this.props.PublicData
         return (
-            <Table title={()=>label} columns={columns} dataSource={data} pagination={{ pageSize: pageSize}} scroll={{ y: scroll}}/>
+            <Table title={()=>label} columns={columnsTable} dataSource={dataSource} pagination={{ pageSize: pageSize}} scroll={{ y: scroll}}/>
         )
     }
 }

@@ -87,20 +87,10 @@ const sliderData = [
         children: [],
         link: '/Design/Stylist'
     }, {
-        key: 'team',
-        type: 'team',
-        children: [
-            {
-                key: 'desktop3',
-                type: 'desktop',
-                link: '/Design/er',
-            },
-            {
-                key: 'desktop4',
-                type: 'desktop',
-                link: '/Design/er',
-            }
-        ]
+        key: '表单预览',
+        type: 'code',
+        children: [],
+        link: '/Design/ReadForm'
     }, {
         key: 'file',
         type: 'file',

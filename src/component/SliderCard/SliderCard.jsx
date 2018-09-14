@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Card, Icon } from 'antd'
+import { Card, Icon, Tabs } from 'antd'
 import { connect } from 'react-redux'
 import { currentTagsUpdata } from './action/SliderCard.action.js'
 
+const TabPane = Tabs.TabPane
 const CardGrid = Card.Grid
 const gridStyle = {
     width: '50%',
@@ -33,7 +34,7 @@ class SliderCard extends Component {
         ev.dataTransfer.setData("ID", ADD_TAG.id)
         //需要移动的目标数据
         // console.log(ADD_TAG);
-        
+
         this.props.Updata(ADD_TAG)
 
     }
@@ -46,18 +47,37 @@ class SliderCard extends Component {
                     <span style={pointer}>{e.label}</span>
                 </CardGrid>)
         })
+        const s = []
+        this.props.SQLDATA.forEach(e => {
+            s.push(
+                <CardGrid style={gridStyle} key={e.icons} draggable="true" onDragStart={this.drag.bind(this, e)}>
+                    <Icon type={e.icons} theme="outlined" />
+                    <span style={pointer}>{e.label}</span>
+                </CardGrid>
+            )
+        })
         return (
-            <Card title="Card Title">
-                {c}
-            </Card>
+            <Tabs defaultActiveKey='1'>
+                <TabPane tab='基础组件' key='1'>
+                    <Card>
+                        {c}
+                    </Card>
+                </TabPane>
+                <TabPane tab='SQL组件' key='2'>
+                    <Card>
+                        {s}
+                    </Card>
+                </TabPane>
+            </Tabs>
         )
     }
 }
 
 const mapStateToProps = (State) => {
     return {
-        SliderCardData: State.SliderCardData, 
-        UpdataFormData:State.UpdataFormData
+        SliderCardData: State.SliderCardData,
+        UpdataFormData: State.UpdataFormData,
+        SQLDATA: State.SQL_Data
     }
 }
 const mapDispatchProps = (dispatch) => {
