@@ -127,7 +127,6 @@ class Stylistcomponent extends Component {
                                                 style={{
                                                     ...provided.props.style,
                                                     ...getblockStyle(provided.isDragging),
-                                                    padding: '5px',
                                                     border: '1px dashed black'
                                                 }}
                                             >

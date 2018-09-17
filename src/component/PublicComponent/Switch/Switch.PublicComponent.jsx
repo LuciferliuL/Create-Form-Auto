@@ -11,7 +11,6 @@ class SwitchPublicComponent extends Component {
             <FormItem
                 label={label}
                 {...layout}
-                style={{ paddingTop: '10px' }}
             >
                 {getFieldDecorator(id, {
                     rules: [{ required: { required }, message: { message } }],
