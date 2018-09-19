@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Checkbox, Form } from 'antd'
+import { connect } from 'react-redux'
 
 const FormItem = Form.Item
 class CheckboxPublicComponent extends Component {
@@ -11,19 +12,39 @@ class CheckboxPublicComponent extends Component {
             <FormItem
                 label={label}
                 {...layout}
+                labelCol={{ span: 6 }}
             >
-                {getFieldDecorator( id , {
+                {getFieldDecorator(id, {
                     rules: [{ required: { required }, message: { message } }],
                 })(
-                    <Checkbox checked={checked} disabled={disabled} />
+                    <Checkbox disabled={disabled} defaultChecked={checked} />
 
                 )}
-        </FormItem>
+            </FormItem>
         )
     }
 }
 
-export default CheckboxPublicComponent = Form.create()(CheckboxPublicComponent);
+const mapStateToProps = (state) => {
+    return {
+        current: state.currentAttr
+    }
+}
+const mapDispatchProps = (dispatch) => {
+    return {
+
+    }
+}
+export default CheckboxPublicComponent = connect(mapStateToProps, mapDispatchProps)(Form.create({
+    mapPropsToFields(props) {
+        // console.log(props);
+        let Field = {}
+        let values = props.current.checked
+        let key = props.current.key
+        Field[key] = Form.createFormField({ value: values })
+        return Field
+    },
+})(CheckboxPublicComponent));
 
 
 

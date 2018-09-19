@@ -141,7 +141,7 @@ const SData = [
         layout: {
             labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
             wrapperCol: { xs: { span: 24 }, sm: { span: 16 } }
-        },
+        },td:0,tr:0,shows:false,values:'',
         columns: [
             {
             title: 'Date',
@@ -353,7 +353,7 @@ const SQL = [
         layout: {
             labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
             wrapperCol: { xs: { span: 24 }, sm: { span: 16 } }
-        },
+        },td:0,tr:0,shows:false,values:'',
         columns: [
             {
             title: 'Date',
@@ -524,7 +524,7 @@ const SQL = [
         layout: {
             labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
             wrapperCol: { xs: { span: 24 }, sm: { span: 16 } }
-        },
+        },td:0,tr:0,shows:false,values:'',
         columns: [
             {
             title: 'Date',
@@ -695,7 +695,7 @@ const SQL = [
         layout: {
             labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
             wrapperCol: { xs: { span: 24 }, sm: { span: 16 } }
-        },
+        },td:0,tr:0,shows:false,values:'',
         columns: [
             {
             title: 'Date',
@@ -866,7 +866,7 @@ const SQL = [
         layout: {
             labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
             wrapperCol: { xs: { span: 24 }, sm: { span: 16 } }
-        },
+        },td:0,tr:0,shows:false,values:'',
         columns: [
             {
             title: 'Date',

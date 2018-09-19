@@ -15,6 +15,7 @@ class RadioPublicComponent extends Component {
             <FormItem
                 label={label}
                 {...layout}
+                labelCol={{span:4}}
             >
                 {getFieldDecorator(id, {
                     rules: [{ required: { required }, message: { message } }],

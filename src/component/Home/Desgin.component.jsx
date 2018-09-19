@@ -27,7 +27,7 @@ class Desgincomponent extends Component {
             <Layout style={{ minHeight: '100vh' }}>
                 <Sider
                     breakpoint="lg"
-                    onBreakpoint={(broken) => { console.log(broken); }}
+                    // onBreakpoint={(broken) => { console.log(broken); }}
                     collapsible
                     collapsed={this.state.collapsed}
                     onCollapse={this.onCollapse}

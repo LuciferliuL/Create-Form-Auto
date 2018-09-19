@@ -7,6 +7,8 @@ import PublicComponent from '../PublicComponent/Public.Component'
 import SliderCard from '../SliderCard/SliderCard'
 import SliderRightcomponent from '../SliderRIght/SliderRight.component'
 import { Dragact } from 'dragact'
+import { formUpdataFromCurrent } from '../SliderRIght/action/Right.action'
+import { tdAddDown, tdReduceUp, trAddDown, trReduceUp, shows, updataValues } from '../PublicComponent/lookup/action/lookup.action'
 
 const getblockStyle = isDragging => {
 
@@ -17,7 +19,84 @@ const getblockStyle = isDragging => {
 const FormItem = Form.Item
 class Stylistcomponent extends Component {
     state = {
-        visible: false
+        visible: false,
+        domWidth: 0,
+        read: true
+    }
+    myRef = React.createRef()
+    componentDidMount() {
+        window.addEventListener('keyup', this.handleKeyDown)
+        this.times = setTimeout(() => {
+            this.changeWidth()
+        }, 10)
+    }
+    changeWidth = () => {
+        const dom = (this.myRef.current.container.clientWidth) - 64
+        this.setState({
+            domWidth: dom
+        })
+    }
+    componentWillUnmount() {
+        window.removeEventListener('keyup', this.handleKeyDown)
+        clearTimeout(this.times)
+    }
+    handleKeyDown = (e) => {
+        // console.log(this.state.tr);
+        // console.log(this.state.td);
+        const { dataSource, columns } = this.props.currentAttr
+        switch (e.keyCode) {
+            case 37://左
+                if (this.props.currentAttr.td > 0) {
+                    console.log('左');
+                    this.props.tdReduceUp(this.props.currentAttr.td)
+                }
+                break;
+            case 40://下
+                if (this.props.currentAttr.tr < dataSource.length - 1) {
+                    console.log('下');
+                    this.props.trAddDown(this.props.currentAttr.tr)
+                }
+                break;
+            case 39://右
+                if (this.props.currentAttr.td < columns.length - 1) {
+                    console.log('right');
+                    this.props.tdAddDown(this.props.currentAttr.td)
+                }
+                break;
+            case 38://上
+                if (this.props.currentAttr.tr > 0) {
+                    console.log('up');
+                    this.props.trReduceUp(this.props.currentAttr.tr)
+                }
+                break;
+            case 13:
+                this.CLick()
+                this.props.shows(this.props.currentAttr.shows)
+                break
+        }
+    }
+    CLick = () => {
+        const { dataSource } = this.props.currentAttr
+        if (dataSource !== []) {
+            let arr = []
+            dataSource.forEach(e => {
+                let l = []
+                Object.keys(e).forEach(t => {
+                    l.push(e[t])
+                })
+                arr.push(l)
+            })
+            // console.log(this.state.tr);
+            // console.log(this.state.td);
+            let id = this.props.currentAttr.id
+            console.log(this.props.currentAttr.tr);
+            console.log(this.props.currentAttr.td);
+            console.log(id);
+            console.log(arr);
+            this.props.updataValues(JSON.parse(JSON.stringify(arr[this.props.currentAttr.tr][this.props.currentAttr.td])))
+            this.props.upForm(this.props.currentAttr)
+        }
+
     }
 
     allowDrop = (ev) => {
@@ -28,7 +107,7 @@ class Stylistcomponent extends Component {
         // console.log(ev);
 
         var data = ev.dataTransfer.getData("ID");
-        console.log(this.props.currentTagsUpdata);
+        // console.log(this.props.currentTagsUpdata);
         if (data === this.props.currentTagsUpdata.id) {
 
             this.props.FormData(this.props.currentTagsUpdata)
@@ -39,7 +118,7 @@ class Stylistcomponent extends Component {
         // console.log(this.dragact.getLayout());
         this.props.FormDataUpata(this.dragact.getLayout())
         this.props.rightUpdata(e)
-
+        console.log(this.props.currentAttr);
     }
     cancel = (e) => {
         console.log(e);
@@ -54,9 +133,15 @@ class Stylistcomponent extends Component {
             visible: true,
         });
     }
+    read = () => {
 
+        this.setState({
+            read: !this.state.read
+        }, () => { this.changeWidth() })
+    }
     handleCancel = (e) => {
         console.log(e);
+        this.props.form.resetFields(['formname'])
         this.setState({
             visible: false,
         });
@@ -82,6 +167,7 @@ class Stylistcomponent extends Component {
                 <Modal
                     title="保存表单"
                     visible={this.state.visible}
+                    footer={null}
                 >
                     <Form onSubmit={this.handleSubmit}>
                         <FormItem>
@@ -96,12 +182,19 @@ class Stylistcomponent extends Component {
                     </Form>
                 </Modal>
                 <Row gutter={1}>
-                    <Col span={5}>
+                    <Col span={this.state.read ? 5 : 0} >
                         <SliderCard></SliderCard>
                     </Col>
-                    <Col span={14}>
+                    <Col span={this.state.read ? 14 : 24}>
                         <Card title="表单预览"
-                            extra={<Button onClick={this.showModal.bind(this)}>保存</Button>}>
+                            extra={
+                                <div>
+                                    <Button onClick={this.read.bind(this)}>预览</Button>
+                                    <Button onClick={this.showModal.bind(this)}>保存</Button>
+                                </div>
+
+                            }
+                            ref={this.myRef}>
                             <Form
                                 onDragOver={this.allowDrop.bind(this)}
                                 onDrop={this.drop.bind(this)}
@@ -110,7 +203,7 @@ class Stylistcomponent extends Component {
                                     ref={(n) => { this.dragact = n }}
                                     layout={this.props.UpdataFormData} //必填项
                                     col={24} //必填项
-                                    width={800} //必填项
+                                    width={this.state.domWidth} //必填项
                                     rowHeight={40} //必填项
                                     margin={[5, 5]} //必填项
                                     className="plant-layout" //必填项
@@ -124,11 +217,14 @@ class Stylistcomponent extends Component {
                                             <div
                                                 {...provided.props}
                                                 {...provided.dragHandle}
-                                                style={{
+                                                style={this.state.read ? {
                                                     ...provided.props.style,
                                                     ...getblockStyle(provided.isDragging),
                                                     border: '1px dashed black'
-                                                }}
+                                                } : {
+                                                        ...provided.props.style,
+                                                        ...getblockStyle(provided.isDragging)
+                                                    }}
                                             >
                                                 <Popconfirm title="你要干什么？"
                                                     icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
@@ -140,7 +236,7 @@ class Stylistcomponent extends Component {
                                                         type="minus-square"
                                                         theme="filled" />
                                                 </Popconfirm>
-                                                <PublicComponent PublicData={item} />
+                                                <PublicComponent PublicData={item} currentAttr={this.props.currentAttr} />
                                             </div>
                                         )
                                     }}
@@ -148,7 +244,7 @@ class Stylistcomponent extends Component {
                             </Form>
                         </Card>
                     </Col>
-                    <Col span={5}>
+                    <Col span={this.state.read ? 5 : 0}>
                         <SliderRightcomponent currentAttr={this.props.currentAttr}></SliderRightcomponent>
                     </Col>
                 </Row>
@@ -183,7 +279,28 @@ const mapDispatchProps = (dispatch) => {
         },
         FormDataDelete: (k) => {
             dispatch(formSourceDataDelete(k))
-        }
+        },
+        tdAddDown: (k) => {
+            dispatch(tdAddDown(k))
+        },
+        tdReduceUp: (k) => {
+            dispatch(tdReduceUp(k))
+        },
+        trAddDown: (k) => {
+            dispatch(trAddDown(k))
+        },
+        trReduceUp: (k) => {
+            dispatch(trReduceUp(k))
+        },
+        shows: (k) => {
+            dispatch(shows(k))
+        },
+        updataValues: (k) => {
+            dispatch(updataValues(k))
+        },
+        upForm: (k) => {
+            dispatch(formUpdataFromCurrent(k))
+        },
     }
 }
 export default connect(mapStateToProps, mapDispatchProps)(Form.create()(Stylistcomponent));

@@ -16,43 +16,43 @@ class PublicComponent extends Component {
         switch (type) {
             case 'INPUT':
                 return (
-                    <InputPublicComponent PublicData={PublicData} ></InputPublicComponent>
+                    <InputPublicComponent PublicData={PublicData} Read={this.props.Read}></InputPublicComponent>
                 )
             case 'RadioGroup':
                 return (
-                    <RadioPublicComponent PublicData={PublicData} ></RadioPublicComponent>
+                    <RadioPublicComponent PublicData={PublicData} Read={this.props.Read}></RadioPublicComponent>
                 )
             case 'CheckBox':
                 return (
-                    <CheckboxPublicComponent PublicData={PublicData} ></CheckboxPublicComponent>
+                    <CheckboxPublicComponent PublicData={PublicData} Read={this.props.Read}></CheckboxPublicComponent>
                 )
             case 'Select':
                 return (
-                    <SelectPublicComponent PublicData={PublicData}></SelectPublicComponent>
+                    <SelectPublicComponent PublicData={PublicData} Read={this.props.Read}></SelectPublicComponent>
                 )
             case 'Date':
                 return (
-                    <DatePublicComponent PublicData={PublicData}></DatePublicComponent>
+                    <DatePublicComponent PublicData={PublicData} Read={this.props.Read}></DatePublicComponent>
                 )
             case 'Range':
                 return (
-                    <RangePickerPublicComponent PublicData={PublicData}></RangePickerPublicComponent>
+                    <RangePickerPublicComponent PublicData={PublicData} Read={this.props.Read}></RangePickerPublicComponent>
                 )
             case 'Table':
                 return (
-                    <TablePublicComponent PublicData={PublicData}></TablePublicComponent>
+                    <TablePublicComponent PublicData={PublicData} Read={this.props.Read}></TablePublicComponent>
                 )
             case 'LookUp':
                 return (
-                    <LookUpPublicComponent PublicData={PublicData}></LookUpPublicComponent>
+                    <LookUpPublicComponent PublicData={PublicData} Read={this.props.Read}></LookUpPublicComponent>
                 )
             case 'Group':
                 return (
-                    <GroupPublicComponent PublicData={PublicData}></GroupPublicComponent>
+                    <GroupPublicComponent PublicData={PublicData} Read={this.props.Read}></GroupPublicComponent>
                 )
             case 'Switch':
                 return (
-                    <SwitchPublicComponent PublicData={PublicData}></SwitchPublicComponent>
+                    <SwitchPublicComponent PublicData={PublicData} Read={this.props.Read}></SwitchPublicComponent>
                 )
             default:
                 return (

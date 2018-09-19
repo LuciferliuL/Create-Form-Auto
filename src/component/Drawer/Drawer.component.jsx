@@ -15,7 +15,7 @@ class Drawercomponent extends Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                console.log('Received values of form: ', values);
+                // console.log('Received values of form: ', values);
                 this.props.updata(values)
                 this.props.upForm(values)
             }
@@ -25,7 +25,7 @@ class Drawercomponent extends Component {
     render() {
         // GroupValue,dataSource,SQL
         const { getFieldDecorator } = this.props.form
-        console.log(this.props.flag);
+        // console.log(this.props.flag);
         let content = []
         if (this.props.flag === 'SQL') {
             content.push(
@@ -58,22 +58,20 @@ class Drawercomponent extends Component {
                 </FormItem>
             )
         } else if (this.props.flag === 'columns') {
-            this.props.currentAttr.columns.forEach((element, i) => {
-                content.push(
-                    <FormItem
-                        label={'列数组' + i}
-                        key={"columns" + i}>
-                        {getFieldDecorator(element, {
-                            rules: [
-                                {
-                                    required: true,
-                                    message: 'please enter url description',
-                                },
-                            ],
-                        })(<Input></Input>)}
-                    </FormItem>
-                )
-            });
+            content.push(
+                <FormItem
+                    label='列数组'
+                    key="columns">
+                    {getFieldDecorator('columns', {
+                        rules: [
+                            {
+                                required: true,
+                                message: 'please enter url description',
+                            },
+                        ],
+                    })(<TextArea autosize></TextArea>)}
+                </FormItem>
+            )
         } else {
 
         }
@@ -83,6 +81,7 @@ class Drawercomponent extends Component {
                 placement="right"
                 closable={false}
                 visible={this.props.hide}
+                width='500'
             >
                 <Form onSubmit={this.onSure}>
                     {content}
@@ -142,15 +141,13 @@ export default connect(
         const { currentAttr } = props
         let Field = {}
         if (Object.keys(currentAttr).length > 0 && props.flag === 'columns') {
-            currentAttr.columns.forEach(e => {
-                Field[e] = Form.createFormField({ value: e })
-            })
+            Field['columns'] = Form.createFormField({ value: JSON.stringify(currentAttr.columns) })
         } else if (Object.keys(currentAttr).length > 0 && props.flag === 'SQL') {
             Field['SQL'] = Form.createFormField({ value: currentAttr.SQL })
         } else if (Object.keys(currentAttr).length > 0 && props.flag === 'dataSource') {
             Field['dataSource'] = Form.createFormField({ value: JSON.stringify(currentAttr.dataSource) })
-        }else {
-            
+        } else {
+
         }
         console.log(Field);
         return Field;

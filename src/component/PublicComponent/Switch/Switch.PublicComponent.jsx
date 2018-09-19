@@ -11,12 +11,13 @@ class SwitchPublicComponent extends Component {
             <FormItem
                 label={label}
                 {...layout}
+                labelCol={{span:3}}
             >
                 {getFieldDecorator(id, {
                     rules: [{ required: { required }, message: { message } }],
                 })(
                     <Switch
-                        checked={checked}
+                        defaultChecked={checked}
                         disabled={disabled}
                         checkedChildren={checkedChildren}
                         unCheckedChildren={unCheckedChildren} />

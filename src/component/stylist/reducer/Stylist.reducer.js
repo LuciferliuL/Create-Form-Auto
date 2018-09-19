@@ -1,7 +1,9 @@
-import { STYLIST_DATASOURCE_GET } from '../action/Stylist.action'
+import { STYLIST_DATASOURCE_GET, FORM_UPDATA_FUGAI } from '../action/Stylist.action'
 import { FORM_SOURCE_DATA, FORM_SOURCE_DATA_UPDATA, FORM_SOURCE_DATA_DELETE } from '../action/Stylist.action'
 import { CURRENT_ATTR } from '../action/Stylist.action'
 import { CURRENT_ATTR_UPDATA, FORM_UPDATA_FROM_CURRENT } from '../../SliderRIght/action/Right.action'
+import { TD_ADD_DOWN, TD_REDUCE_UP, TR_ADD_DOWN, TR_REDUCE_UP, SHOWS, UPDATA_VALUES } from '../../PublicComponent/lookup/action/lookup.action'
+
 const initialState = []
 
 export const InitStylistData = (state = initialState, action) => {
@@ -41,6 +43,8 @@ export const UpdataFormData = (state = [], action) => {
             return state.map(e => e.key === action.currentAttr.key
                 ? Object.assign(e, action.currentAttr)
                 : e)
+        case FORM_UPDATA_FUGAI:
+            return state = action.init
         default:
             return state;
     }
@@ -49,9 +53,23 @@ export const UpdataFormData = (state = [], action) => {
 export const currentAttr = (state = {}, action) => {
     switch (action.type) {
         case CURRENT_ATTR:
-            return  state = action.currentAttr
+            return state = action.currentAttr
         case CURRENT_ATTR_UPDATA:
             return Object.assign({}, state, action.currentAttr)
+        case TD_ADD_DOWN:
+            return { ...state, td: state.td + 1 }
+        case TD_REDUCE_UP:
+            return { ...state, td: state.td - 1 }
+        case TR_ADD_DOWN:
+            return { ...state, tr: state.tr + 1 }
+        case TR_REDUCE_UP:
+            return { ...state, tr: state.tr - 1 }
+        case SHOWS:
+            return { ...state, shows: !action.shows }
+        case UPDATA_VALUES:
+            return {
+                ...state, values: action.init
+            }
         default:
             return state
     }

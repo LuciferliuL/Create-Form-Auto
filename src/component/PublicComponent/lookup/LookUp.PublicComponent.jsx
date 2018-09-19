@@ -1,83 +1,30 @@
 import React, { Component } from 'react';
 import { Form, Pagination, Input, Button, Modal } from 'antd'
+import { connect } from 'react-redux'
 import './LookUp.PublicComponent.css'
+import { shows } from './action/lookup.action'
+import { currentAttr } from '../../stylist/action/Stylist.action'
 
 const FormItem = Form.Item
 class LookUpPublicComponent extends Component {
-    state = {
-        visibles: false,
-        td: 0,
-        tr: 0,
-        list: []
+    ClickHandleKey = (key) => {
+        console.log(key);
+        let obj = this.props.UpdataFormData.find(e => e.key === key)
+        this.props.UpDataCurrent(obj)
+        this.props.shows(this.props.current.shows)
     }
-
-    componentDidMount() {
-        console.log(this.state.tr);
-        console.log(this.state.td);
-        const { dataSource, columns } = this.props.PublicData
-        let arr = []
-        dataSource.forEach(e => {
-            let l = []
-            Object.keys(e).forEach(t => {
-                l.push(e[t])
-            })
-            arr.push(l)
-        })
-        this.setState({
-            list: arr
-        })
-    }
-    handleKeyDown = (e) => {
-        const { dataSource, columns } = this.props.PublicData
-        switch (e.keyCode) {
-            case 37://左
-                if (this.state.td > 0) {
-                    this.setState((pre) => ({ td: pre.td - 1 }))
-                }
-                break;
-            case 38://下
-                if (this.state.tr > 0) {
-                    this.setState((pre) => ({ tr: pre.tr - 1 }))
-                }
-                break;
-            case 39://右
-                if (this.state.td < columns.length - 1) {
-                    this.setState((pre) => ({ td: pre.td + 1 }))
-                }
-                break;
-            case 40://上
-                if (this.state.tr < dataSource.length - 1) {
-                    this.setState((pre) => ({ tr: pre.tr + 1 }))
-                }
-                break;
-
-            case 13:
-                this.CLick()
-                this.setState({
-                    visibles: false,
-                });
-                break
-
+    ClickHandleShows = () => {
+        if (Object.keys(this.props.current).length > 0) {
+            this.props.shows(this.props.current.shows)
         }
-    }
-    showModal = () => {
-        this.setState({
-            visibles: true,
-        },()=>{window.addEventListener('keyup', this.handleKeyDown)});
-    }
 
-    CLick = () => {
-        console.log(this.state.tr);
-        console.log(this.state.td);
-        let id = this.props.PublicData.id
-        let obj = {}
-        obj[id] = JSON.parse(JSON.stringify(this.state.list[this.state.tr][this.state.td]))  
-        this.props.form.setFieldsValue(obj)
     }
     render() {
-        const { td, tr } = this.state
+        console.log(this.props.Read);
+
+        const { td, tr, shows } = this.props.current
         const { getFieldDecorator } = this.props.form
-        const { optionLable, dataSource, placeholder, disabled, label, id, required, message, layout, columns } = this.props.PublicData
+        const { dataSource, placeholder, disabled, label, id, required, message, layout, columns } = this.props.PublicData
         let thead = []
         columns.forEach((e, i) => (
             thead.push(
@@ -104,12 +51,12 @@ class LookUpPublicComponent extends Component {
         return (
             <div className="certain-category-search-wrapper" style={{ width: '100%' }}>
                 <Modal
-                    visible={this.state.visibles}
+                    visible={shows}
                     width='100%'
                     style={{ top: '0' }}
                     footer={<Pagination defaultCurrent={6} total={500}></Pagination>}
                 >
-                    <table style={{ width: '100%' }}>
+                    <table style={{ width: '100%' }} >
                         <thead>
                             <tr>
                                 {thead}
@@ -125,10 +72,15 @@ class LookUpPublicComponent extends Component {
                         </tbody>
                     </table>
                 </Modal>
-                <Button style={{ opacity: 0, width: '100%', position: 'absolute', zIndex: 2 }} onClick={this.showModal.bind(this)}>aaaa</Button>
+                {
+                    this.props.Read === 'R' ?
+                        <Button style={{ opacity: 0, width: '50%', position: 'absolute', zIndex: 2, right: '5%' }} onClick={this.ClickHandleKey.bind(this, this.props.PublicData.key)}>aaaa</Button>
+                        : <Button style={{ opacity: 0, width: '50%', position: 'absolute', zIndex: 2, right: '5%' }} onClick={this.ClickHandleShows.bind(this)}>aaaa</Button>
+                }
                 <FormItem
                     label={label}
                     {...layout}
+                    labelCol={{span:3}}
                 >
                     {getFieldDecorator(id, {
                         rules: [{ required: { required }, message: { message } }],
@@ -140,8 +92,38 @@ class LookUpPublicComponent extends Component {
         )
     }
 }
+const mapStateToProps = (state) => {
+    console.log(state);
 
-export default LookUpPublicComponent = Form.create()(LookUpPublicComponent);
+    return {
+        current: state.currentAttr,
+        UpdataFormData: state.UpdataFormData
+    }
+}
+const mapDispatchProps = (dispatch) => {
+    return {
+        shows: (k) => {
+            dispatch(shows(k))
+        },
+        UpDataCurrent: (k) => {
+            dispatch(currentAttr(k))
+        }
+    }
+}
+
+export default LookUpPublicComponent = connect(mapStateToProps, mapDispatchProps)(Form.create({
+    mapPropsToFields(props) {
+        console.log(props);
+        let Field = {}
+        let v = props.UpdataFormData.find(e => e.key === props.PublicData.key).values
+        let id = props.UpdataFormData.find(e => e.key === props.PublicData.key).id
+        Field[id] = Form.createFormField({ value: v })
+        // console.log(Field);
+
+        return Field
+
+    },
+})(LookUpPublicComponent));
 
 
 

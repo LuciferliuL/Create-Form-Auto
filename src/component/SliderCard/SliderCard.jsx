@@ -57,18 +57,21 @@ class SliderCard extends Component {
             )
         })
         return (
-            <Tabs defaultActiveKey='1'>
-                <TabPane tab='基础组件' key='1'>
-                    <Card>
-                        {c}
-                    </Card>
-                </TabPane>
-                <TabPane tab='SQL组件' key='2'>
-                    <Card>
-                        {s}
-                    </Card>
-                </TabPane>
-            </Tabs>
+            <Card>
+                <Tabs defaultActiveKey='1'>
+                    <TabPane tab='基础组件' key='1'>
+                        <Card>
+                            {c}
+                        </Card>
+                    </TabPane>
+                    <TabPane tab='SQL组件' key='2'>
+                        <Card>
+                            {s}
+                        </Card>
+                    </TabPane>
+                </Tabs>
+            </Card>
+
         )
     }
 }
