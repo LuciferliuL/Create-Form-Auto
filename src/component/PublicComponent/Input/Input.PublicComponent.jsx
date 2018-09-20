@@ -5,18 +5,16 @@ const FormItem = Form.Item
 class InputPublicComponent extends Component {
     render() {
         const { getFieldDecorator } = this.props.form
-        const { placeholder, disabled, label, id, required, message,layout } = this.props.PublicData 
+        const { placeholder, disabled, label, id, required, message, layout } = this.props.PublicData
         return (
             <FormItem
                 label={label}
                 {...layout}
-                labelCol={{span:3}}
             >
-                {getFieldDecorator( id , {
+                {getFieldDecorator(id, {
                     rules: [{ required: { required }, message: { message } }],
                 })(
                     <Input
-                        // defaultValue={defaultValue}
                         disabled={disabled}
                         placeholder={placeholder}
                     />
@@ -26,7 +24,16 @@ class InputPublicComponent extends Component {
     }
 }
 
-export default InputPublicComponent = Form.create()(InputPublicComponent);
+export default InputPublicComponent = Form.create({
+    mapPropsToFields(props) {
+        console.log(props);
+        if(props.Read === 'R'){
+            let Field = {}
+            Field[props.PublicData.id] = Form.createFormField({value:props.PublicData.defaultValue})
+            return Field
+        }
+      },
+})(InputPublicComponent);
 
 
 

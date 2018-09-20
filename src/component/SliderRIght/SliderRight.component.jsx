@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Card, Tabs, Form, Input, Switch, InputNumber, Radio, Icon } from 'antd'
+import { Card, Tabs, Form, Input, Switch, InputNumber, Radio, Icon, Select } from 'antd'
 import { connect } from 'react-redux'
 import { currentAttrUpdata, formUpdataFromCurrent, hidenDrawer, flagChange } from './action/Right.action.js'
 import Drawercomponent from '../Drawer/Drawer.component'
-
+const Option = Select.Option
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 const TabPane = Tabs.TabPane
@@ -61,6 +61,24 @@ class SliderRightcomponent extends Component {
                         </FormItem>
                     )
                     break;
+                case 'upKey':
+                    let selectOptions_ = []
+                    Object.keys(pre.currentAttr.dataSource[0]).forEach(e => { selectOptions_.push(<Option value={e} key={e}>{e}</Option>) })
+                    uniqueList.push(
+                        <div key={pre.currentAttr.key + 'upKey'}>
+                            <FormItem
+                                label='回传KEY'
+                                {...formItemLayout}
+                            >
+                                {getFieldDecorator('upKey')(
+                                    <Select style={{ width: 120 }} onChange={this.handleChange}>
+                                        {selectOptions_}
+                                    </Select>
+                                )}
+                            </FormItem>
+                        </div>
+                    )
+                    break
                 case 'GroupValue':
                     uniqueList.push(
                         <div key={pre.currentAttr.key + 'GroupValue'}>
@@ -146,17 +164,17 @@ class SliderRightcomponent extends Component {
                         </div>
                     )
                     break;
-                case 'dataSource':
+                case 'GroupValue':
                     uniqueList.push(
-                        <div key={pre.currentAttr.key + 'dataSource'}>
+                        <div key={pre.currentAttr.key + 'GroupValue'}>
                             <Drawercomponent></Drawercomponent>
                             <FormItem
-                                label='源数据'
+                                label='列数据'
                                 {...formItemLayout}
                             >
-                                {getFieldDecorator('dataSource')(
-                                    <Input addonAfter={<Icon type="setting" onClick={this.click.bind(this, 'dataSource')} />}></Input>
-                                )}
+                                {getFieldDecorator('GroupValue')(
+                                    <Input addonAfter={<Icon type="setting" onClick={this.click.bind(this, 'GroupValue')} />}></Input>
+                                )}GroupValue
                             </FormItem>
                         </div>
                     )
@@ -192,6 +210,50 @@ class SliderRightcomponent extends Component {
                         </div>
                     )
                     break;
+                case 'uniqueKey':
+                    let selectOptions = []
+                    Object.keys(pre.currentAttr.dataSource[0]).forEach(e => { selectOptions.push(<Option value={e} key={e}>{e}</Option>) })
+                    uniqueList.push(
+                        <div key={pre.currentAttr.key + 'uniqueKey'}>
+                            <FormItem
+                                label='显示字符'
+                                {...formItemLayout}
+                            >
+                                {getFieldDecorator('uniqueKey')(
+                                    <Select style={{ width: 120 }} onChange={this.handleChange}>
+                                        {selectOptions}
+                                    </Select>
+                                )}
+                            </FormItem>
+                        </div>
+                    )
+                    break;
+                case 'isTrueInLookUp':
+                    uniqueList.push(
+                        <FormItem
+                            label='关联lookup'
+                            {...formItemLayout}
+                            key={pre.currentAttr.key + 'isTrueInLookUp'}
+                        >
+                            {getFieldDecorator('isTrueInLookUp')(
+                                <Input></Input>
+                            )}
+                        </FormItem>
+                    )
+                    break
+                case 'typePoint':
+                    uniqueList.push(
+                        <FormItem
+                            label='关联字段'
+                            {...formItemLayout}
+                            key={pre.currentAttr.key + 'typePoint'}
+                        >
+                            {getFieldDecorator('typePoint')(
+                                <Input></Input>
+                            )}
+                        </FormItem>
+                    )
+                    break
                 default:
                     break;
             }
@@ -200,6 +262,10 @@ class SliderRightcomponent extends Component {
         this.setState({
             uniqueList: uniqueList
         })
+    }
+    handleChange = (e) => {
+        console.log(e);
+
     }
     click = (e) => {
         this.props.flagChange(e)

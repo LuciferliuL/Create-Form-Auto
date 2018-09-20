@@ -12,7 +12,6 @@ class CheckboxPublicComponent extends Component {
             <FormItem
                 label={label}
                 {...layout}
-                labelCol={{ span: 6 }}
             >
                 {getFieldDecorator(id, {
                     rules: [{ required: { required }, message: { message } }],

@@ -2,7 +2,8 @@ import { STYLIST_DATASOURCE_GET, FORM_UPDATA_FUGAI } from '../action/Stylist.act
 import { FORM_SOURCE_DATA, FORM_SOURCE_DATA_UPDATA, FORM_SOURCE_DATA_DELETE } from '../action/Stylist.action'
 import { CURRENT_ATTR } from '../action/Stylist.action'
 import { CURRENT_ATTR_UPDATA, FORM_UPDATA_FROM_CURRENT } from '../../SliderRIght/action/Right.action'
-import { TD_ADD_DOWN, TD_REDUCE_UP, TR_ADD_DOWN, TR_REDUCE_UP, SHOWS, UPDATA_VALUES } from '../../PublicComponent/lookup/action/lookup.action'
+import { TR_ADD_DOWN, TR_REDUCE_UP, SHOWS, UPDATA_VALUES } from '../../PublicComponent/lookup/action/lookup.action'
+import { TAG_PUSH_DATA_IN_COLUMNS, INPUT_VALUE_CHANGE, SQL_VALUE_CHANGE, GROUP_VALUE_CHANGE,TAG_PUSH_DATA_IN_GROUP } from '../../Drawer/action/Drawer.action'
 
 const initialState = []
 
@@ -56,10 +57,6 @@ export const currentAttr = (state = {}, action) => {
             return state = action.currentAttr
         case CURRENT_ATTR_UPDATA:
             return Object.assign({}, state, action.currentAttr)
-        case TD_ADD_DOWN:
-            return { ...state, td: state.td + 1 }
-        case TD_REDUCE_UP:
-            return { ...state, td: state.td - 1 }
         case TR_ADD_DOWN:
             return { ...state, tr: state.tr + 1 }
         case TR_REDUCE_UP:
@@ -69,6 +66,46 @@ export const currentAttr = (state = {}, action) => {
         case UPDATA_VALUES:
             return {
                 ...state, values: action.init
+            }
+        case TAG_PUSH_DATA_IN_COLUMNS:
+            let keys = action.key
+            let initial = action.initial
+            let list = []
+            state.columns.forEach((e, i) => {
+                if (i === keys) {
+                    list.push(initial)
+                }
+                list.push(e)
+            })
+            return {
+                ...state, columns: list
+            }
+        case TAG_PUSH_DATA_IN_GROUP:
+            let keys_ = action.key
+            let initial_ = action.initial
+            let list_ = []
+            state.GroupValue.forEach((e, i) => {
+                if (i === keys_) {
+                    list_.push(initial_)
+                }
+                list_.push(e)
+            })
+            return {
+                ...state, GroupValue: list_
+            }
+        case INPUT_VALUE_CHANGE:
+            state.columns[action.key][action.title] = action.data
+            return {
+                ...state
+            }
+        case GROUP_VALUE_CHANGE:
+            state.GroupValue[action.key][action.title] = action.data
+            return {
+                ...state
+            }
+        case SQL_VALUE_CHANGE:
+            return {
+                ...state, SQL: action.initial
             }
         default:
             return state

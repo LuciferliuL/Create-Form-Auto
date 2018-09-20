@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Drawer, Button, Input, Form } from 'antd'
+import { Drawer, Button, Input, Form, Col, Tag } from 'antd'
 import { hidenDrawer, currentAttrUpdata, formUpdataFromCurrent } from '../SliderRIght/action/Right.action'
+import { tagPushDataInColumns, inputValueChange, sqlValueChange, GroupValueChange,tagPushDataInGroup } from './action/Drawer.action'
 
 const InputGroup = Input.Group
-const FormItem = Form.Item
 const { TextArea } = Input
 class Drawercomponent extends Component {
     onClose = () => {
@@ -12,68 +12,108 @@ class Drawercomponent extends Component {
     };
     onSure = (e) => {
         //修改的结果在这里
-        e.preventDefault();
-        this.props.form.validateFields((err, values) => {
-            if (!err) {
-                // console.log('Received values of form: ', values);
-                this.props.updata(values)
-                this.props.upForm(values)
-            }
-        });
+        console.log(1);
+        this.props.upForm(this.props.currentAttr)
         this.props.hidefun(false)
     }
+    //列数据方法
+    TagAdd = (i) => {
+        this.props.tagPushDataInColumns(i, {
+            title: '',
+            dataIndex: '',
+            width: '',
+        })
+    }
+    GroupAdd = (i) => {
+        this.props.tagPushDataInGroup(i, {
+           name:'',
+           value:''
+        })
+    }
+    InputChange = (i, title, e) => {
+        this.props.inputValueChange(i, title, e.target.value)
+    }
+    GroupChange = (i, title, e) => {
+        this.props.GroupValueChange(i, title, e.target.value)
+    }
+    SQLChange = (e) => {
+        console.log(e.target.value);
+        this.props.sqlValueChange(e.target.value)
+    }
     render() {
-        // GroupValue,dataSource,SQL
-        const { getFieldDecorator } = this.props.form
-        // console.log(this.props.flag);
         let content = []
         if (this.props.flag === 'SQL') {
             content.push(
-                <FormItem
-                    label='SQL语句'
-                    key="SQL111">
-                    {getFieldDecorator('SQL', {
-                        rules: [
-                            {
-                                required: true,
-                                message: 'please enter url description',
-                            },
-                        ],
-                    })(<TextArea autosize></TextArea>)}
-                </FormItem>
-            )
-        } else if (this.props.flag === 'dataSource') {
-            content.push(
-                <FormItem
-                    label='数据源'
-                    key="dataSource111">
-                    {getFieldDecorator('dataSource', {
-                        rules: [
-                            {
-                                required: true,
-                                message: 'please enter url description',
-                            },
-                        ],
-                    })(<TextArea autosize></TextArea>)}
-                </FormItem>
+                <div key={'SQL12138'}>
+                    <Tag>SQL:</Tag>
+                    <TextArea autosize value={this.props.currentAttr.SQL} onChange={this.SQLChange.bind(this)}></TextArea>
+                </div>
             )
         } else if (this.props.flag === 'columns') {
             content.push(
-                <FormItem
-                    label='列数组'
-                    key="columns">
-                    {getFieldDecorator('columns', {
-                        rules: [
-                            {
-                                required: true,
-                                message: 'please enter url description',
-                            },
-                        ],
-                    })(<TextArea autosize></TextArea>)}
-                </FormItem>
+                <div key={1314165182}>
+                    <Col span={6}>
+                        <Tag>显示名称</Tag>
+                    </Col>
+                    <Col span={6}>
+                        <Tag>实际名称</Tag>
+                    </Col>
+                    <Col span={6}>
+                        <Tag>占位宽度</Tag>
+                    </Col>
+                </div>
             )
-        } else {
+            this.props.currentAttr.columns.forEach((e, i) => {
 
+                content.push(
+                    <div key={i}>
+                        <InputGroup style={{ padding: '5px' }} >
+                            <Col span={6}>
+                                <Input value={e.title} onChange={this.InputChange.bind(this, i, 'title')} />
+                            </Col>
+                            <Col span={6}>
+                                <Input value={e.dataIndex} onChange={this.InputChange.bind(this, i, 'dataIndex')} />
+                            </Col>
+                            <Col span={6}>
+                                <Input value={e.width} onChange={this.InputChange.bind(this, i, 'width')} />
+                            </Col>
+                            <Col span={6}>
+                                <Tag onClick={this.TagAdd.bind(this, i)}>添加</Tag>
+                                <Tag>删除</Tag>
+                            </Col>
+                        </InputGroup>
+                    </div>
+                )
+            });
+        } else if (this.props.flag === 'GroupValue') {
+            content.push(
+                <div key={132313182}>
+                    <Col span={6}>
+                        <Tag>显示名</Tag>
+                    </Col>
+                    <Col span={6}>
+                        <Tag>实际值</Tag>
+                    </Col>
+                </div>
+            )
+            this.props.currentAttr.GroupValue.forEach((e, i) => {
+                content.push(
+                    <div key={i}>
+                        <InputGroup style={{ padding: '5px' }} >
+                            <Col span={8}>
+                                <Input value={e.name} onChange={this.GroupChange.bind(this, i, 'name')} />
+                            </Col>
+                            <Col span={8}>
+                                <Input value={e.value} onChange={this.GroupChange.bind(this, i, 'value')} />
+                            </Col>
+                            <Col span={8}>
+                                <Tag onClick={this.GroupAdd.bind(this, i)}>添加</Tag>
+                                <Tag>删除</Tag>
+                            </Col>
+                        </InputGroup>
+                    </div>
+                )
+            });
         }
         return (
 
@@ -83,7 +123,7 @@ class Drawercomponent extends Component {
                 visible={this.props.hide}
                 width='500'
             >
-                <Form onSubmit={this.onSure}>
+                <Form>
                     {content}
                     <div
                         style={{
@@ -106,7 +146,7 @@ class Drawercomponent extends Component {
                         >
                             取消
                         </Button>
-                        <Button htmlType="submit" type="primary">确定</Button>
+                        <Button onClick={this.onSure.bind(this)} type="primary">确定</Button>
                     </div>
                 </Form>
             </Drawer>
@@ -130,28 +170,25 @@ const mapDispatchProps = (dispatch) => {
         },
         upForm: (k) => {
             dispatch(formUpdataFromCurrent(k))
+        },
+        tagPushDataInColumns: (k, init) => {
+            dispatch(tagPushDataInColumns(k, init))
+        },
+        tagPushDataInGroup: (k , init) => {
+            dispatch(tagPushDataInGroup(k , init))
+        },
+        inputValueChange: (k, title, data) => {
+            dispatch(inputValueChange(k, title, data))
+        },
+        GroupValueChange:(k, title, data) => {
+            dispatch(GroupValueChange(k, title, data))
+        },
+
+        sqlValueChange: (k) => {
+            dispatch(sqlValueChange(k))
         }
     }
 }
 export default connect(
     mapStateToProps, mapDispatchProps
-)(Form.create({
-    mapPropsToFields(props) {
-        console.log(props);
-        const { currentAttr } = props
-        let Field = {}
-        if (Object.keys(currentAttr).length > 0 && props.flag === 'columns') {
-            Field['columns'] = Form.createFormField({ value: JSON.stringify(currentAttr.columns) })
-        } else if (Object.keys(currentAttr).length > 0 && props.flag === 'SQL') {
-            Field['SQL'] = Form.createFormField({ value: currentAttr.SQL })
-        } else if (Object.keys(currentAttr).length > 0 && props.flag === 'dataSource') {
-            Field['dataSource'] = Form.createFormField({ value: JSON.stringify(currentAttr.dataSource) })
-        } else {
-
-        }
-        console.log(Field);
-        return Field;
-
-
-    },
-})(Drawercomponent));
+)(Form.create()(Drawercomponent));

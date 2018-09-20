@@ -5,13 +5,14 @@ const SData = [
         GridX: 0, GridY: 0, w: 8, h: 1, key: '0',
         icons: 'edit', id: 8, type: 'INPUT', required: false,
         message: "123", label: "输入框", placeholder: "123", disabled: false,
+        isTrueInLookUp:0,defaultValue:'',typePoint:'type',
         layout: {
             labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
             wrapperCol: { xs: { span: 24 }, sm: { span: 16 } }
         },
     },
     {
-        GridX: 0, GridY: 0, w: 8, h: 1, key: '0',
+        GridX: 0, GridY: 0, w: 8, h: 2, key: '0',
         icons: 'copyright', id: 8, type: 'RadioGroup', required: false,
         message: "123", label: "单选框组", disabled: false,
         GroupValue: [{ value: 'Apple', name: 'Apple' }, { value: 'Pear', name: 'Pear' }],
@@ -62,19 +63,19 @@ const SData = [
         GridX: 0, GridY: 0, w: 24, h: 8, key: '0', pageSize: 10, scroll: 180,
         icons: 'table', label: '简单表格', type: 'Table',
         SQL: 'select * where',
-        columnsTable: [
+        columns: [
             {
                 title: '姓名',
                 dataIndex: 'name',
-                key: 'name',
+                width:'20%'
             }, {
                 title: '年龄',
                 dataIndex: 'age',
-                key: 'age',
+                width:'20%'
             }, {
                 title: '住址',
                 dataIndex: 'address',
-                key: 'address',
+                width:'20%'
             }],
         dataSource: [
             {
@@ -137,11 +138,11 @@ const SData = [
     {
         GridX: 0, GridY: 0, w: 8, h: 1, key: '0',
         icons: 'diff', id: 8, type: 'LookUp', required: false,
-        message: "123", label: "LookUp", disabled: false,
+        message: "123", label: "LookUp", disabled: false,upKey:'',
         layout: {
             labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
             wrapperCol: { xs: { span: 24 }, sm: { span: 16 } }
-        },td:0,tr:0,shows:false,values:'',
+        },tr:0,shows:false,values:'',uniqueKey:'key',
         columns: [
             {
             title: 'Date',
@@ -161,7 +162,7 @@ const SData = [
             width: '10%',
         }, {
             title: 'Action',
-            key: 'action',
+            dataIndex: 'action',
             width: '50%'
         }],
         SQL: 'select * where',
@@ -185,123 +186,93 @@ const SData = [
             type: 'income',
             note: 'transfer',
         },{
-            key: 0,
+            key: 3,
             date: '2018-02-11',
             amount: 120,
             type: 'income',
             note: 'transfer',
         }, {
-            key: 1,
+            key: 4,
             date: '2018-03-11',
             amount: 243,
             type: 'income',
             note: 'transfer',
         }, {
-            key: 2,
+            key: 5,
             date: '2018-04-11',
             amount: 98,
             type: 'income',
             note: 'transfer',
         },{
-            key: 0,
+            key: 6,
             date: '2018-02-11',
             amount: 120,
             type: 'income',
             note: 'transfer',
         }, {
-            key: 1,
+            key: 7,
             date: '2018-03-11',
             amount: 243,
             type: 'income',
             note: 'transfer',
         }, {
-            key: 2,
+            key: 8,
             date: '2018-04-11',
             amount: 98,
             type: 'income',
             note: 'transfer',
         },{
-            key: 0,
+            key: 9,
             date: '2018-02-11',
             amount: 120,
             type: 'income',
             note: 'transfer',
         }, {
-            key: 1,
+            key: 10,
             date: '2018-03-11',
             amount: 243,
             type: 'income',
             note: 'transfer',
         }, {
-            key: 2,
+            key: 11,
             date: '2018-04-11',
             amount: 98,
             type: 'income',
             note: 'transfer',
         }, {
-            key: 1,
+            key: 12,
             date: '2018-03-11',
             amount: 243,
             type: 'income',
             note: 'transfer',
         }, {
-            key: 2,
+            key: 13,
             date: '2018-04-11',
             amount: 98,
             type: 'income',
             note: 'transfer',
         },{
-            key: 0,
+            key: 14,
             date: '2018-02-11',
             amount: 120,
             type: 'income',
             note: 'transfer',
         }, {
-            key: 1,
+            key: 15,
             date: '2018-03-11',
             amount: 243,
             type: 'income',
             note: 'transfer',
         }, {
-            key: 2,
+            key: 16,
             date: '2018-04-11',
             amount: 98,
             type: 'income',
             note: 'transfer',
         },{
-            key: 0,
+            key: 17,
             date: '2018-02-11',
             amount: 120,
-            type: 'income',
-            note: 'transfer',
-        }, {
-            key: 1,
-            date: '2018-03-11',
-            amount: 243,
-            type: 'income',
-            note: 'transfer',
-        }, {
-            key: 2,
-            date: '2018-04-11',
-            amount: 98,
-            type: 'income',
-            note: 'transfer',
-        },{
-            key: 0,
-            date: '2018-02-11',
-            amount: 120,
-            type: 'income',
-            note: 'transfer',
-        }, {
-            key: 1,
-            date: '2018-03-11',
-            amount: 243,
-            type: 'income',
-            note: 'transfer',
-        }, {
-            key: 2,
-            date: '2018-04-11',
-            amount: 98,
             type: 'income',
             note: 'transfer',
         }]

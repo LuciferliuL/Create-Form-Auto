@@ -35,30 +35,17 @@ class ReadForm extends Component {
         clearTimeout(this.times)
     }
     handleKeyDown = (e) => {
-        // console.log(e);
+        // console.log(this.state.tr);
+        // console.log(this.state.td);
         const { dataSource, columns } = this.props.currentAttr
         switch (e.keyCode) {
-            case 37://左
-                if (this.props.currentAttr.td > 0) {
-                    console.log('左');
-                    this.props.tdReduceUp(this.props.currentAttr.td)
-                }
-                break;
             case 40://下
                 if (this.props.currentAttr.tr < dataSource.length - 1) {
-                    console.log('下');
                     this.props.trAddDown(this.props.currentAttr.tr)
-                }
-                break;
-            case 39://右
-                if (this.props.currentAttr.td < columns.length - 1) {
-                    console.log('right');
-                    this.props.tdAddDown(this.props.currentAttr.td)
                 }
                 break;
             case 38://上
                 if (this.props.currentAttr.tr > 0) {
-                    console.log('up');
                     this.props.trReduceUp(this.props.currentAttr.tr)
                 }
                 break;
@@ -70,23 +57,11 @@ class ReadForm extends Component {
     }
     CLick = () => {
         const { dataSource } = this.props.currentAttr
-        let arr = []
-        dataSource.forEach(e => {
-            let l = []
-            Object.keys(e).forEach(t => {
-                l.push(e[t])
-            })
-            arr.push(l)
-        })
-        // console.log(this.state.tr);
-        // console.log(this.state.td);
-        let id = this.props.currentAttr.id
-        console.log(this.props.currentAttr.tr);
-        console.log(this.props.currentAttr.td);
-        console.log(id);
-        console.log(arr);
-        this.props.updataValues(JSON.parse(JSON.stringify(arr[this.props.currentAttr.tr][this.props.currentAttr.td])))
-        this.props.upForm(this.props.currentAttr)
+        if (dataSource !== []) {
+            console.log(this.props.currentAttr.tr);
+            this.props.updataValues(JSON.parse(JSON.stringify(dataSource[this.props.currentAttr.tr])))
+            this.props.upForm(this.props.currentAttr)
+        }
     }
     changeWidth = () => {
         const dom = (this.myRef.current.container.clientWidth) - 64
@@ -193,12 +168,6 @@ const mapDispatchProps = (dispatch) => {
         },
         updataValues: (k) => {
             dispatch(updataValues(k))
-        },
-        tdAddDown: (k) => {
-            dispatch(tdAddDown(k))
-        },
-        tdReduceUp: (k) => {
-            dispatch(tdReduceUp(k))
         },
         trAddDown: (k) => {
             dispatch(trAddDown(k))

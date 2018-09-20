@@ -9,6 +9,7 @@ import TablePublicComponent from './table/Table.PublicComponent'
 import LookUpPublicComponent from './lookup/LookUp.PublicComponent'
 import GroupPublicComponent from './group/Group.PublicComponent'
 import SwitchPublicComponent from './Switch/Switch.PublicComponent'
+import './PublicComponent.css'
 class PublicComponent extends Component {
     render() {
         const { PublicData } = this.props

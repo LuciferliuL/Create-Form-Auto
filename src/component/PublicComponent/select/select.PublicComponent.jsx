@@ -20,7 +20,6 @@ class SelectPublicComponent extends Component {
             <FormItem
                 label={label}
                 {...layout}
-                labelCol={{span:3}}
             >
                 {getFieldDecorator(id, {
                     rules: [{ required: { required }, message: { message } }],
