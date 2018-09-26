@@ -63,21 +63,24 @@ class SliderRightcomponent extends Component {
                     break;
                 case 'upKey':
                     let selectOptions_ = []
-                    Object.keys(pre.currentAttr.dataSource[0]).forEach(e => { selectOptions_.push(<Option value={e} key={e}>{e}</Option>) })
-                    uniqueList.push(
-                        <div key={pre.currentAttr.key + 'upKey'}>
-                            <FormItem
-                                label='回传KEY'
-                                {...formItemLayout}
-                            >
-                                {getFieldDecorator('upKey')(
-                                    <Select style={{ width: 120 }} onChange={this.handleChange}>
-                                        {selectOptions_}
-                                    </Select>
-                                )}
-                            </FormItem>
-                        </div>
-                    )
+                    if (pre.currentAttr.dataSource.length > 0) {
+                        Object.keys(pre.currentAttr.dataSource[0]).forEach(e => { selectOptions_.push(<Option value={e} key={e}>{e}</Option>) })
+                        uniqueList.push(
+                            <div key={pre.currentAttr.key + 'upKey'}>
+                                <FormItem
+                                    label='回传KEY'
+                                    {...formItemLayout}
+                                >
+                                    {getFieldDecorator('upKey')(
+                                        <Select style={{ width: 120 }} onChange={this.handleChange}>
+                                            {selectOptions_}
+                                        </Select>
+                                    )}
+                                </FormItem>
+                            </div>
+                        )
+                    }
+
                     break
                 case 'GroupValue':
                     uniqueList.push(
@@ -92,7 +95,6 @@ class SliderRightcomponent extends Component {
                                 )}
                             </FormItem>
                         </div>
-
                     )
                     break;
                 case 'checked':
@@ -212,21 +214,24 @@ class SliderRightcomponent extends Component {
                     break;
                 case 'uniqueKey':
                     let selectOptions = []
-                    Object.keys(pre.currentAttr.dataSource[0]).forEach(e => { selectOptions.push(<Option value={e} key={e}>{e}</Option>) })
-                    uniqueList.push(
-                        <div key={pre.currentAttr.key + 'uniqueKey'}>
-                            <FormItem
-                                label='显示字符'
-                                {...formItemLayout}
-                            >
-                                {getFieldDecorator('uniqueKey')(
-                                    <Select style={{ width: 120 }} onChange={this.handleChange}>
-                                        {selectOptions}
-                                    </Select>
-                                )}
-                            </FormItem>
-                        </div>
-                    )
+                    if (pre.currentAttr.dataSource.length > 0) {
+                        Object.keys(pre.currentAttr.dataSource[0]).forEach(e => { selectOptions.push(<Option value={e} key={e}>{e}</Option>) })
+                        uniqueList.push(
+                            <div key={pre.currentAttr.key + 'uniqueKey'}>
+                                <FormItem
+                                    label='显示字符'
+                                    {...formItemLayout}
+                                >
+                                    {getFieldDecorator('uniqueKey')(
+                                        <Select style={{ width: 120 }} onChange={this.handleChange}>
+                                            {selectOptions}
+                                        </Select>
+                                    )}
+                                </FormItem>
+                            </div>
+                        )
+                    }
+
                     break;
                 case 'isTrueInLookUp':
                     uniqueList.push(

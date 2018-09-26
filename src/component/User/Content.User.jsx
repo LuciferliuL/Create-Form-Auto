@@ -18,7 +18,9 @@ function mapStateToProps(State) {
 class ContentUser extends Component {
     state = {
         data: [],
-        domWidth: 0
+        domWidth: 0,
+        page: 1,
+        flag: true
     }
     myRef = React.createRef()
     changeWidth = () => {
@@ -38,14 +40,32 @@ class ContentUser extends Component {
         switch (e.keyCode) {
             case 40://下
                 if (this.props.currentAttr.tr < dataSource.length - 1) {
-                    this.props.trAddDown(this.props.currentAttr.tr)
+                    this.props.trAddDown(this.props.currentAttr.tr, 1)
                 }
                 break;
             case 38://上
                 if (this.props.currentAttr.tr > 0) {
-                    this.props.trReduceUp(this.props.currentAttr.tr)
+                    this.props.trReduceUp(this.props.currentAttr.tr, 1)
                 }
                 break;
+            case 37:
+                if (this.state.page > 1) {
+                    this.props.trReduceUp(this.props.currentAttr.tr, 10)
+                    this.setState((pre) => (
+                        {
+                            page: pre.page - 1
+                        }
+                    ))
+                }
+                break
+            case 39:
+                this.props.trAddDown(this.props.currentAttr.tr, 10)
+                this.setState((pre) => (
+                    {
+                        page: pre.page + 1
+                    }
+                ))
+                break
             case 13:
                 this.CLick()
                 this.props.shows(this.props.currentAttr.shows)
@@ -92,7 +112,7 @@ class ContentUser extends Component {
                 <div key={e.key}
                     style={{ position: "absolute", top: PositionTop, left: PositionLeft, width: width, height: height }}
                     onClick={this.PositionHTML.bind(this, e.type)}>
-                    <PublicComponent PublicData={e} Read={'R'} />
+                    <PublicComponent PublicData={e} Read={'R'} page={this.state.page} />
                 </div>
             )
         })
@@ -118,11 +138,11 @@ const mapDispatchProps = (dispatch) => {
         updataValues: (k) => {
             dispatch(updataValues(k))
         },
-        trAddDown: (k) => {
-            dispatch(trAddDown(k))
+        trAddDown: (k, i) => {
+            dispatch(trAddDown(k, i))
         },
-        trReduceUp: (k) => {
-            dispatch(trReduceUp(k))
+        trReduceUp: (k, i) => {
+            dispatch(trReduceUp(k, i))
         },
         shows: (k) => {
             dispatch(shows(k))

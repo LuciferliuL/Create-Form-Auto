@@ -45,7 +45,7 @@ class PublicComponent extends Component {
                 )
             case 'LookUp':
                 return (
-                    <LookUpPublicComponent PublicData={PublicData} Read={this.props.Read}></LookUpPublicComponent>
+                    <LookUpPublicComponent PublicData={PublicData} Read={this.props.Read} page={this.props.page}></LookUpPublicComponent>
                 )
             case 'Group':
                 return (

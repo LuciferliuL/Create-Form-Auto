@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Drawer, Button, Input, Form, Col, Tag } from 'antd'
 import { hidenDrawer, currentAttrUpdata, formUpdataFromCurrent } from '../SliderRIght/action/Right.action'
-import { tagPushDataInColumns, inputValueChange, sqlValueChange, GroupValueChange,tagPushDataInGroup } from './action/Drawer.action'
+import { tagPushDataInColumns, inputValueChange, sqlValueChange, GroupValueChange, tagPushDataInGroup } from './action/Drawer.action'
+import {upDataCurrentDataSource} from '../PublicComponent/lookup/action/lookup.action'
+import { API } from '../../lib/API/check.API'
+import { POST$ } from '../../lib/MATH/math'
 
 const InputGroup = Input.Group
 const { TextArea } = Input
@@ -26,8 +29,8 @@ class Drawercomponent extends Component {
     }
     GroupAdd = (i) => {
         this.props.tagPushDataInGroup(i, {
-           name:'',
-           value:''
+            name: '',
+            value: ''
         })
     }
     InputChange = (i, title, e) => {
@@ -174,19 +177,22 @@ const mapDispatchProps = (dispatch) => {
         tagPushDataInColumns: (k, init) => {
             dispatch(tagPushDataInColumns(k, init))
         },
-        tagPushDataInGroup: (k , init) => {
-            dispatch(tagPushDataInGroup(k , init))
+        tagPushDataInGroup: (k, init) => {
+            dispatch(tagPushDataInGroup(k, init))
         },
         inputValueChange: (k, title, data) => {
             dispatch(inputValueChange(k, title, data))
         },
-        GroupValueChange:(k, title, data) => {
+        GroupValueChange: (k, title, data) => {
             dispatch(GroupValueChange(k, title, data))
         },
 
         sqlValueChange: (k) => {
             dispatch(sqlValueChange(k))
-        }
+        },
+        upDataCurrentDataSource: (k) => {
+            dispatch(upDataCurrentDataSource(k))
+        },
     }
 }
 export default connect(

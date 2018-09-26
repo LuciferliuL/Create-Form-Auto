@@ -4,6 +4,7 @@ export const TR_ADD_DOWN = 'TR_ADD_DOWN'
 export const TR_REDUCE_UP = 'TR_REDUCE_UP'
 export const SHOWS = 'SHOWS'
 export const UPDATA_VALUES = 'UPDATA_VALUES'
+export const UPDATA_CURRENt_DATASOURCE = 'UPDATA_CURRENt_DATASOURCE'
 
 export const tdAddDown = (init) => {
     return {
@@ -17,16 +18,18 @@ export const tdReduceUp = (init) => {
         current:init
     }
 }
-export const trAddDown = (init) => {
+export const trAddDown = (init,step) => {
     return {
         type:TR_ADD_DOWN,
-        current:init
+        current:init,
+        step:step
     }
 }
-export const trReduceUp = (init) => {
+export const trReduceUp = (init,step) => {
     return {
         type:TR_REDUCE_UP,
-        current:init
+        current:init,
+        step:step
     }
 }
 
@@ -41,5 +44,12 @@ export const updataValues = (init) => {
     return {
         type:UPDATA_VALUES,
         init:init
+    }
+}
+
+export const upDataCurrentDataSource = (initial) => {
+    return {
+        type:UPDATA_CURRENt_DATASOURCE,
+        initial:initial
     }
 }

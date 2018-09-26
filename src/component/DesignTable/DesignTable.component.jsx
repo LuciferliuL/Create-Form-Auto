@@ -2,66 +2,35 @@ import React, { Component } from 'react';
 import { Table, Button, Popconfirm } from 'antd'
 import { connect } from 'react-redux'
 import { selectkeysToHeader } from '../Slider/action/Header.action'
-import { stylistDataSourceAsync } from '../stylist/action/Stylist.action'
-
+import { stylistDataSourceAsync, fugai } from '../stylist/action/Stylist.action'
+import { API } from '../../lib/API/check.API.js'
+import { GET$ } from '../../lib/MATH/math.js'
 
 class DesignTablecomponent extends Component {
   state = {
-    data: [{
-      key: 1,
-      name: 'John Brown sr.',
-      age: 60,
-      address: 'New York No. 1 Lake Park',
-      children: [{
-        key: 11,
-        name: 'John Brown',
-        age: 42,
-        address: 'New York No. 2 Lake Park',
-      }, {
-        key: 12,
-        name: 'John Brown jr.',
-        age: 30,
-        address: 'New York No. 3 Lake Park',
-        children: [{
-          key: 121,
-          name: 'Jimmy Brown',
-          age: 16,
-          address: 'New York No. 3 Lake Park',
-        }],
-      }, {
-        key: 13,
-        name: 'Jim Green sr.',
-        age: 72,
-        address: 'London No. 1 Lake Park',
-        children: [{
-          key: 131,
-          name: 'Jim Green',
-          age: 42,
-          address: 'London No. 2 Lake Park'
-        }],
-      }],
-    }, {
-      key: 2,
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sidney No. 1 Lake Park',
-    }],
+    data: [],
     columns: [{
       title: 'Name',
-      dataIndex: 'name',
+      dataIndex: 'Name',
+      key: 'Name'
     }, {
-      title: 'Age',
-      dataIndex: 'age',
+      title: 'BranchID',
+      dataIndex: 'BranchId',
       width: '12%',
+      key: 'BranchId'
     }, {
-      title: 'Address',
-      dataIndex: 'address',
+      title: 'LastModifyTime',
+      dataIndex: 'LastModifyTime',
       width: '30%',
+      key: 'LastModifyTime'
     }, {
-      title: 'Address',
+      key: 'PK',
+      title: '操作',
       width: '20%',
-      dataIndex: '',
+      dataIndex: 'PK',
       render: (text, record) => {
+        console.log(text, record);
+
         //增加判断
         return (
           this.state.data.length >= 1
@@ -70,14 +39,21 @@ class DesignTablecomponent extends Component {
                 <Popconfirm title="确定删除？" onConfirm={() => this.handleDelete(record.key)}>
                   <Button>Delete</Button>
                 </Popconfirm>
-                <Button onClick={this.CreateTable.bind(this, text)}>编辑</Button>
+                <Button onClick={this.CreateTable.bind(this, record)}>编辑</Button>
               </div>
             ) : null
         )
       }
     }]
   }
-
+  componentDidMount() {
+    GET$(API('CheckFormList').http, (res) => {
+      // console.log(res);
+      this.setState({
+        data: res
+      })
+    })
+  }
   //delete
   handleDelete = (key) => {
     //只是队列得删除  没有实际删除
@@ -88,19 +64,21 @@ class DesignTablecomponent extends Component {
   }
   TableHeader = () => (
     <div>
-      <Button onClick={this.CreateTable.bind(this, '')}>新建表单</Button>
+      <Button onClick={this.CreateTable.bind(this, 'new')}>新建表单</Button>
     </div>
   )
   CreateTable = (dataSource) => {
     console.log(dataSource);
     //mock的数据 新建表单或者获取表单要覆盖原来的
-    const data = [
-      { id: 1, name: 'apple' }, { id: 2, name: 'watermelon' }, { id: 3, name: 'banana' },
-      { id: 4, name: 'lemon' }, { id: 5, name: 'orange' }, { id: 6, name: 'grape' },
-      { id: 8, type: 'INPUT', width: 4, required: true, message: "123", attr: "11", label: "输入框", defaultValue: "123", disabled: false, content: true }, { id: 9, name: 'peach' }]
-    this.props.update(data)
-    this.props.onTodoClick(['表单设计'])
-    this.props.history.push('/Design/Stylist')
+    if (dataSource === 'new') {
+      this.props.onTodoClick(['表单设计'])
+      this.props.history.push('/Design/Stylist')
+    } else {
+      this.props.fugai(JSON.parse(dataSource.Bytes))
+      this.props.update(dataSource)
+      this.props.onTodoClick(['表单设计'])
+      this.props.history.push('/Design/Stylist')
+    }
   }
   render() {
     return (
@@ -110,7 +88,8 @@ class DesignTablecomponent extends Component {
           bordered={true}
           columns={this.state.columns}
           rowSelection={this.rowSelection}
-          dataSource={this.state.data} />
+          dataSource={this.state.data}
+          rowKey='PK' />
       </div>
     );
   }
@@ -128,7 +107,10 @@ const mapDispatchProps = (dispatch) => {
     },
     update: (k) => {
       dispatch(stylistDataSourceAsync(k))
-    }
+    },
+    fugai: (k) => {
+      dispatch(fugai(k))
+  },
   }
 }
 export default connect(mapStateToProps, mapDispatchProps)(DesignTablecomponent);

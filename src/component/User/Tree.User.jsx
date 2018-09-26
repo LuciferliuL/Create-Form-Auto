@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import { fugai } from '../stylist/action/Stylist.action'
 import { updataValues } from '../PublicComponent/lookup/action/lookup.action'
 import { formUpdataFromCurrent } from '../SliderRIght/action/Right.action'
-
+import { API } from '../../lib/API/check.API'
+import { GET$ } from '../../lib/MATH/math'
 
 const { SubMenu } = Menu
 class TreeUser extends Component {
@@ -12,18 +13,19 @@ class TreeUser extends Component {
         treeList: []
     }
     componentDidMount() {
-        let keys = []
-        for (var k in localStorage) {
-            keys.push(k)
-        }
-        this.setState({
-            treeList: keys
+        GET$(API('CheckFormList').http, (res) => {
+            console.log(res);
+            this.setState({
+                treeList: res
+            })
         })
+
     }
 
     onSelect = (Item) => {
+        console.log(Item);
 
-        let data = JSON.parse(localStorage.getItem(Item.key))
+        let data = JSON.parse(this.state.treeList.find(e => e.PK === Number(Item.key)).Bytes)
         data.forEach(e => {
             e.isUserMove = false
         })
@@ -36,19 +38,18 @@ class TreeUser extends Component {
         let TreeNodes = []
         treeList.forEach((e, i) => {
             TreeNodes.push(
-                <Menu.Item key={e}>
-                    <span>{e}</span>
+                <Menu.Item key={e.PK}>
+                    <span>{e.Name}</span>
                 </Menu.Item>
             )
         })
 
         return (
-            treeList.length ?
+            treeList.length > 0 ?
                 <Menu theme="dark" mode="inline" onSelect={this.onSelect}>
                     <SubMenu title='菜单'>
                         {TreeNodes}
                     </SubMenu>
-
                 </Menu>
                 : 'loading tree'
         );

@@ -2,7 +2,7 @@ import { STYLIST_DATASOURCE_GET, FORM_UPDATA_FUGAI } from '../action/Stylist.act
 import { FORM_SOURCE_DATA, FORM_SOURCE_DATA_UPDATA, FORM_SOURCE_DATA_DELETE } from '../action/Stylist.action'
 import { CURRENT_ATTR } from '../action/Stylist.action'
 import { CURRENT_ATTR_UPDATA, FORM_UPDATA_FROM_CURRENT } from '../../SliderRIght/action/Right.action'
-import { TR_ADD_DOWN, TR_REDUCE_UP, SHOWS, UPDATA_VALUES } from '../../PublicComponent/lookup/action/lookup.action'
+import { TR_ADD_DOWN, TR_REDUCE_UP, SHOWS, UPDATA_VALUES,UPDATA_CURRENt_DATASOURCE } from '../../PublicComponent/lookup/action/lookup.action'
 import { TAG_PUSH_DATA_IN_COLUMNS, INPUT_VALUE_CHANGE, SQL_VALUE_CHANGE, GROUP_VALUE_CHANGE,TAG_PUSH_DATA_IN_GROUP } from '../../Drawer/action/Drawer.action'
 
 const initialState = []
@@ -10,7 +10,7 @@ const initialState = []
 export const InitStylistData = (state = initialState, action) => {
     switch (action.type) {
         case STYLIST_DATASOURCE_GET: {
-            return Object.assign(state, { 'InitStylistData': action.InitStylistData })
+            return state = action.InitStylistData
         }
         default:
             return state
@@ -58,9 +58,9 @@ export const currentAttr = (state = {}, action) => {
         case CURRENT_ATTR_UPDATA:
             return Object.assign({}, state, action.currentAttr)
         case TR_ADD_DOWN:
-            return { ...state, tr: state.tr + 1 }
+            return { ...state, tr: action.current + action.step }
         case TR_REDUCE_UP:
-            return { ...state, tr: state.tr - 1 }
+            return { ...state, tr: action.current - action.step }
         case SHOWS:
             return { ...state, shows: !action.shows }
         case UPDATA_VALUES:
@@ -107,6 +107,10 @@ export const currentAttr = (state = {}, action) => {
             return {
                 ...state, SQL: action.initial
             }
+        case UPDATA_CURRENt_DATASOURCE:
+        return {
+            ...state,dataSource:action.initial
+        }
         default:
             return state
     }

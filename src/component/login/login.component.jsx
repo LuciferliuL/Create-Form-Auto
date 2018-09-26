@@ -1,30 +1,58 @@
 import React from 'react';
-import { Form, Icon, Input, Button, Card, Cascader, Radio } from 'antd';
+import { Form, Icon, Input, Button, Card, Cascader, Radio, message, Spin } from 'antd';
 import './login.component.css'
+import { API } from '../../lib/API/login.API'
+import { GETFetch, TreeMath, POSTFETCHNOBODY } from '../../lib/MATH/math'
 
 const FormItem = Form.Item;
 
 class NormalLoginForm extends React.Component {
+    state = {
+        listObj: [],
+        loading:true
+    }
+    componentDidMount() {
+        GETFetch(API('login').http, (res) => {
+            let SystemConnectList = res.SystemConnectList
+            this.setState({
+                listObj: TreeMath(SystemConnectList),
+                loading:false
+            })
+        })
+    }
+
+
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             //登入判断
             if (!err) {
-                console.log('Received values of form: ', values);
-                let path = {}
-                if (values.use === 'a') {
-                    path = {
-                        pathname: '/Design/er',
-                        state: values
-                    }
-                } else {
-                    path = {
-                        pathname: '/USER',
-                        state: values
-                    }
-                }
+                // console.log('Received values of form: ', values);
+                values.scope = values.scope[values.scope.length - 1]
+                // console.log(values);
+                let http = `grant_type=password&username=${values.username}&password=${values.password}&client_id=JZT&scope=${values.scope}`
+                POSTFETCHNOBODY(API('checkLoginID').http, http, (token) => {
+                    if (token.error_description) {
+                        message.error(token.error_description)
+                    } else {
+                        localStorage.setItem('token', token.access_token) //保存token
+                        localStorage.setItem('values',values)
+                        let path = {}
+                        if (values.use === 'a') {
+                            path = {
+                                pathname: '/Design/er',
+                                state: values
+                            }
+                        } else {
+                            path = {
+                                pathname: '/USER',
+                                state: values
+                            }
+                        }
 
-                this.props.history.push(path)
+                        this.props.history.push(path)
+                    }
+                })
             }
         });
     }
@@ -44,60 +72,62 @@ class NormalLoginForm extends React.Component {
             },
         };
         return (
-            <Card className="width-40 margin-auto center">
-                <Form onSubmit={this.handleSubmit} className="center">
-                    <FormItem
-                        {...formItemLayout}
-                        label="目的"
-                    >
-                        {getFieldDecorator('use', {
-                            rules: [{ required: true, message: '目的' }]
-                        })(
-                            <Radio.Group buttonStyle="solid">
-                                <Radio.Button value="a">我是设计者</Radio.Button>
-                                <Radio.Button value="b">我是使用者</Radio.Button>
-                            </Radio.Group>
-                        )}
-                    </FormItem>
-                    <FormItem
-                        {...formItemLayout}
-                        label="公司">
-                        {getFieldDecorator('company', {
-                            rules: [{ required: true, message: '公司必须选择！' }]
-                        })(
-                            <Cascader
-                                options={options}
-                                onChange={this.onChange}
-                                changeOnSelect
-                                expandTrigger="hover"
-                            />
-                        )}
-                    </FormItem>
-                    <FormItem
-                        {...formItemLayout}
-                        label='用户'>
-                        {getFieldDecorator('userName', {
-                            rules: [{ required: true, message: 'Please input your username!' }],
-                        })(
-                            <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />
-                        )}
-                    </FormItem>
-                    <FormItem
-                        {...formItemLayout}
-                        label='密码'>
-                        {getFieldDecorator('password', {
-                            rules: [{ required: true, message: 'Please input your Password!' }],
-                        })(
-                            <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Password" />
-                        )}
-                    </FormItem>
-                    <FormItem>
-                        <Button type="primary" htmlType="submit" className="login-form-button">
-                            Log in
+            <Spin size='large' spinning={this.state.loading}>
+                <Card className="width-40 margin-auto center">
+                    <Form onSubmit={this.handleSubmit} className="center">
+                        <FormItem
+                            {...formItemLayout}
+                            label="目的"
+                        >
+                            {getFieldDecorator('use', {
+                                rules: [{ required: true, message: '目的' }]
+                            })(
+                                <Radio.Group buttonStyle="solid">
+                                    <Radio.Button value="a">我是设计者</Radio.Button>
+                                    <Radio.Button value="b">我是使用者</Radio.Button>
+                                </Radio.Group>
+                            )}
+                        </FormItem>
+                        <FormItem
+                            {...formItemLayout}
+                            label="公司">
+                            {getFieldDecorator('scope', {
+                                rules: [{ required: true, message: '公司必须选择！' }]
+                            })(
+                                <Cascader
+                                    options={this.state.listObj}
+                                    onChange={this.onChange}
+                                    changeOnSelect
+                                    expandTrigger="hover"
+                                />
+                            )}
+                        </FormItem>
+                        <FormItem
+                            {...formItemLayout}
+                            label='用户'>
+                            {getFieldDecorator('username', {
+                                rules: [{ required: true, message: 'Please input your username!' }],
+                            })(
+                                <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />
+                            )}
+                        </FormItem>
+                        <FormItem
+                            {...formItemLayout}
+                            label='密码'>
+                            {getFieldDecorator('password', {
+                                rules: [{ required: true, message: 'Please input your Password!' }],
+                            })(
+                                <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Password" />
+                            )}
+                        </FormItem>
+                        <FormItem>
+                            <Button type="primary" htmlType="submit" className="login-form-button">
+                                登入
                         </Button>
-                    </FormItem>
-                </Form>
-            </Card>
+                        </FormItem>
+                    </Form>
+                </Card>
+            </Spin>
         );
     }
 }

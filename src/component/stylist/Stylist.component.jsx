@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Card, Icon, Popconfirm, Form, Button, Modal, Input } from 'antd'
+import { Row, Col, Card, Icon, Popconfirm, Form, Button, Modal, Input, message, Spin } from 'antd'
 import { connect } from 'react-redux'
 import { stylistDataSourceGet, formSourceData, currentAttr, formSourceDataUpdata, formSourceDataDelete } from './action/Stylist.action'
 import './Stylist.css'
@@ -8,7 +8,9 @@ import SliderCard from '../SliderCard/SliderCard'
 import SliderRightcomponent from '../SliderRIght/SliderRight.component'
 import { Dragact } from 'dragact'
 import { formUpdataFromCurrent } from '../SliderRIght/action/Right.action'
-import { tdAddDown, tdReduceUp, trAddDown, trReduceUp, shows, updataValues } from '../PublicComponent/lookup/action/lookup.action'
+import { trAddDown, trReduceUp, shows, updataValues } from '../PublicComponent/lookup/action/lookup.action'
+import { POST$ } from '../../lib/MATH/math'
+import { API } from '../../lib/API/check.API'
 
 const getblockStyle = isDragging => {
 
@@ -21,11 +23,11 @@ class Stylistcomponent extends Component {
     state = {
         visible: false,
         domWidth: 0,
-        read: true
+        read: true,
+        loading:false
     }
     myRef = React.createRef()
     componentDidMount() {
-        window.addEventListener('keyup', this.handleKeyDown)
         this.times = setTimeout(() => {
             this.changeWidth()
         }, 10)
@@ -37,7 +39,6 @@ class Stylistcomponent extends Component {
         })
     }
     componentWillUnmount() {
-        window.removeEventListener('keyup', this.handleKeyDown)
         clearTimeout(this.times)
     }
     handleKeyDown = (e) => {
@@ -62,8 +63,9 @@ class Stylistcomponent extends Component {
         }
     }
     CLick = () => {
+        window.removeEventListener('keyup', this.handleKeyDown)
         const { dataSource } = this.props.currentAttr
-        if (dataSource !== []) {
+        if (dataSource.length > 0) {
             console.log(this.props.currentAttr.tr);
             this.props.updataValues(JSON.parse(JSON.stringify(dataSource[this.props.currentAttr.tr])))
             this.props.upForm(this.props.currentAttr)
@@ -80,16 +82,12 @@ class Stylistcomponent extends Component {
         var data = ev.dataTransfer.getData("ID");
         // console.log(this.props.currentTagsUpdata);
         if (data === this.props.currentTagsUpdata.id) {
-
             this.props.FormData(this.props.currentTagsUpdata)
-
         }
     }
     confirm = (e) => {
-        // console.log(this.dragact.getLayout());
         this.props.FormDataUpata(this.dragact.getLayout())
         this.props.rightUpdata(e)
-        console.log(this.props.currentAttr);
     }
     cancel = (e) => {
         console.log(e);
@@ -120,21 +118,53 @@ class Stylistcomponent extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
+            this.setState({
+                loading:true
+            })
             if (!err) {
-                console.log('Received values of form: ', values);
-                let saveList = this.props.UpdataFormData
-                localStorage.setItem(values.formname, JSON.stringify(saveList))
+
+                let save = {}
+                if (this.props.InitStylistData.PK) {
+                    //编辑
+                    save = Object.assign({}, this.props.InitStylistData, values, { 'Bytes': JSON.stringify(this.props.UpdataFormData) })
+                    // console.log(newData);
+
+                } else {
+                    //新建
+                    let user = localStorage.getItem('values')
+                    save = {
+                        BranchId: user.BranchId,
+                        Bytes: JSON.stringify(this.props.UpdataFormData),
+                        Category: values.Category,
+                        FK: -1,
+                        Name: values.Name,
+                        PK: -1,
+                        Role: "",
+                        TelantId: "",
+                        PageSize: 15
+                    }
+                }
+                POST$(API('SaveForm').http, save, (res) => {
+                    console.log(res);
+                    res.PK === -1 ? message.error('保存失败') : message.success('保存成功')
+                })
                 this.setState({
                     visible: false,
+                    loading:false
                 });
             }
         });
+    }
+    PositionHTML = (key) => {
+        if (key === 'LookUp') {
+            window.addEventListener('keyup', this.handleKeyDown)
+        }
     }
     render() {
         // console.log(this.state.dataSource);
         const { getFieldDecorator } = this.props.form;
         return (
-            <div>
+            <Spin spinning={this.state.loading}>
                 <Modal
                     title="保存表单"
                     visible={this.state.visible}
@@ -142,10 +172,17 @@ class Stylistcomponent extends Component {
                 >
                     <Form onSubmit={this.handleSubmit}>
                         <FormItem>
-                            {getFieldDecorator('formname', {
+                            {getFieldDecorator('Name', {
                                 rules: [{ required: true, message: 'Please input your formname!' }],
                             })(
                                 <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="表单名称" />
+                            )}
+                        </FormItem>
+                        <FormItem>
+                            {getFieldDecorator('Category', {
+                                rules: [{ required: true, message: 'Please input your formname!' }],
+                            })(
+                                <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="表单类" />
                             )}
                         </FormItem>
                         <Button type="primary" htmlType="submit" className="login-form-button">确定</Button>
@@ -197,6 +234,7 @@ class Stylistcomponent extends Component {
                                                         ...provided.props.style,
                                                         ...getblockStyle(provided.isDragging)
                                                     }}
+                                                onClick={this.PositionHTML.bind(this, item.type)}
                                             >
                                                 <Popconfirm title="你要干什么？"
                                                     icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
@@ -220,7 +258,7 @@ class Stylistcomponent extends Component {
                         <SliderRightcomponent currentAttr={this.props.currentAttr}></SliderRightcomponent>
                     </Col>
                 </Row>
-            </div>
+            </Spin>
         );
     }
 }
@@ -229,7 +267,7 @@ const mapStateToProps = (State) => {
     console.log(State);
 
     return {
-        InitStylistData: State.InitStylistData.InitStylistData,
+        InitStylistData: State.InitStylistData,
         currentTagsUpdata: State.currentTagsUpdata.InitialTags,
         UpdataFormData: State.UpdataFormData,
         currentAttr: State.currentAttr

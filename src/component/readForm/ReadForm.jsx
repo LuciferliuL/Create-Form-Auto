@@ -1,20 +1,6 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Dragact } from 'dragact'
 import { Card, Button, Form, Modal, List, Row, Col } from 'antd'
-import PublicComponent from '../PublicComponent/Public.Component'
-import { fugai } from '../stylist/action/Stylist.action'
-import { tdAddDown, tdReduceUp, trAddDown, trReduceUp, shows, updataValues } from '../PublicComponent/lookup/action/lookup.action'
-import { formUpdataFromCurrent } from '../SliderRIght/action/Right.action'
-
-function mapStateToProps(State) {
-    return {
-        InitStylistData: State.InitStylistData.InitStylistData,
-        currentTagsUpdata: State.currentTagsUpdata.InitialTags,
-        UpdataFormData: State.UpdataFormData,
-        currentAttr: State.currentAttr
-    };
-}
+import ContentUser from '../User/Content.User'
 
 class ReadForm extends Component {
     state = {
@@ -23,71 +9,18 @@ class ReadForm extends Component {
         list: [],
         domWidth: 0
     }
-    myRef = React.createRef()
-    componentDidMount() {
-        window.addEventListener('keyup', this.handleKeyDown)
-        this.times = setTimeout(() => {
-            this.changeWidth()
-        }, 10)
-    }
-    componentWillUnmount() {
-        window.removeEventListener('keyup', this.handleKeyDown)
-        clearTimeout(this.times)
-    }
-    handleKeyDown = (e) => {
-        // console.log(this.state.tr);
-        // console.log(this.state.td);
-        const { dataSource, columns } = this.props.currentAttr
-        switch (e.keyCode) {
-            case 40://下
-                if (this.props.currentAttr.tr < dataSource.length - 1) {
-                    this.props.trAddDown(this.props.currentAttr.tr)
-                }
-                break;
-            case 38://上
-                if (this.props.currentAttr.tr > 0) {
-                    this.props.trReduceUp(this.props.currentAttr.tr)
-                }
-                break;
-            case 13:
-                this.CLick()
-                this.props.shows(this.props.currentAttr.shows)
-                break
-        }
-    }
-    CLick = () => {
-        const { dataSource } = this.props.currentAttr
-        if (dataSource !== []) {
-            console.log(this.props.currentAttr.tr);
-            this.props.updataValues(JSON.parse(JSON.stringify(dataSource[this.props.currentAttr.tr])))
-            this.props.upForm(this.props.currentAttr)
-        }
-    }
-    changeWidth = () => {
-        const dom = (this.myRef.current.container.clientWidth) - 64
-        this.setState({
-            domWidth: dom
-        })
-    }
     show = () => {
-        let keys = []
-        for (var k in localStorage) {
-            keys.push(k)
-        }
         this.setState({
             visible: true,
-            list: keys
         });
     }
     handleOk = (e) => {
-        console.log(e);
         this.setState({
             visible: false,
         });
     }
 
     handleCancel = (e) => {
-        console.log(e);
         this.setState({
             visible: false,
         });
@@ -127,63 +60,12 @@ class ReadForm extends Component {
                 <Card title="表单预览"
                     extra={<Button onClick={this.show.bind(this)}>表单选择</Button>}
                     ref={this.myRef}>
-                    <Form
-                        style={{ width: '100%', minHeight: '400px', padding: '5px' }}>
-                        <Dragact
-                            ref={(n) => { this.dragact = n }}
-                            layout={this.state.data} //必填项
-                            col={24} //必填项
-                            width={this.state.domWidth} //必填项
-                            rowHeight={40} //必填项
-                            margin={[5, 5]} //必填项
-                            className="plant-layout" //必填项
-                            style={{ minHeight: '300px' }} //非必填项
-                            placeholder={true}
-                        >
-                            {(item, provided) => {
-                                // console.log(item);
-                                return (
-                                    <div
-                                        style={{
-                                            ...provided.props.style,
-                                            padding: '5px',
-                                        }}
-                                    >
-                                        <PublicComponent PublicData={item} Read={'R'} />
-                                    </div>
-                                )
-                            }}
-                        </Dragact>
-                    </Form>
+                    <ContentUser></ContentUser>
                 </Card>
             </div>
         );
     }
 }
 
-const mapDispatchProps = (dispatch) => {
-    return {
-        upData: (k) => {
-            dispatch(fugai(k))
-        },
-        updataValues: (k) => {
-            dispatch(updataValues(k))
-        },
-        trAddDown: (k) => {
-            dispatch(trAddDown(k))
-        },
-        trReduceUp: (k) => {
-            dispatch(trReduceUp(k))
-        },
-        shows: (k) => {
-            dispatch(shows(k))
-        },
-        upForm: (k) => {
-            dispatch(formUpdataFromCurrent(k))
-        },
-    }
-}
 
-export default connect(
-    mapStateToProps, mapDispatchProps
-)(ReadForm);
+export default ReadForm;

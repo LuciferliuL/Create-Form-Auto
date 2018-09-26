@@ -1,37 +1,47 @@
 import React, { Component } from 'react';
 import TreeUser from './Tree.User.jsx'
 import ContentUser from './Content.User'
-import { Layout } from 'antd'
+import { Layout, Spin } from 'antd'
+import Headercomponent from '../Header/Header.component'
+import { withRouter } from 'react-router-dom'
 
-
-const { Header, Footer, Sider, Content } = Layout;
-class ReadForm extends Component {
+const { Sider, Content } = Layout;
+class USER extends Component {
     state = {
-        data: [],
-        domWidth: 0
-    }
-    
-    ClickTree = (e) => {
-        this.setState({
-            data: e
-        })
+        loading: true,
+        user: this.props.location.state
+    };
+    componentWillMount() {
+        if (this.props.location.state) {
+
+        } else {
+            this.props.history.push('/')
+        }
+        setTimeout(() => {
+            this.setState((pre)=>({
+                loading:!pre.loading
+            }))
+        }, 1000);
     }
     render() {
+        const { user , loading} = this.state
         return (
-            <Layout>
-                <Sider style={{ overflow: 'auto', height: '100vh', left: 0 }}>
-                    <TreeUser></TreeUser>
-                </Sider>
-                <Layout >
-                    <Content style={{ margin: '24px 16px 0', overflow: 'initial'}} >
-                        <ContentUser domWidth={this.state.domWidth} ></ContentUser>
-                    </Content>
+            <Spin spinning={loading}>
+                <Layout>
+                    <Sider style={{ overflow: 'auto', height: '100vh', left: 0 }}>
+                        <TreeUser></TreeUser>
+                    </Sider>
+                    <Layout >
+                        <Headercomponent user={user} R={'R'}></Headercomponent>
+                        <Content style={{ margin: '24px 16px 0', overflow: 'initial' }} >
+                            <ContentUser></ContentUser>
+                        </Content>
+                    </Layout>
                 </Layout>
-            </Layout>
-        );
+            </Spin>);
     }
 }
 
 
 
-export default ReadForm;
+export default withRouter(USER);

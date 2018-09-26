@@ -8,21 +8,29 @@ import DesignTablecomponent from '../DesignTable/DesignTable.component'
 import Stylistcomponent from '../stylist/Stylist.component'
 import ReadForm from '../readForm/ReadForm'
 
+
 const { Content, Footer, Sider } = Layout;
 
 
 class Desgincomponent extends Component {
     state = {
         collapsed: false,
-        user:this.props.location.state
+        user: this.props.location.state
     };
+    componentWillMount() {
+        if (this.props.location.state) {
+
+        } else {
+            this.props.history.push('/')
+        }
+    }
     onCollapse = (collapsed) => {
         // console.log(collapsed);
         this.setState({ collapsed })
     }
 
     render() {
-        const {user} = this.state
+        const { user } = this.state
         return (
             <Layout style={{ minHeight: '100vh' }}>
                 <Sider
@@ -42,7 +50,7 @@ class Desgincomponent extends Component {
                         </svg>
                         <h2 className='title'>九州通ERP</h2>
                     </div>
-                    <SliderMenucomponent ></SliderMenucomponent>
+                    <SliderMenucomponent></SliderMenucomponent>
                 </Sider>
                 <Layout>
                     <Headercomponent user={user}></Headercomponent>
@@ -50,7 +58,7 @@ class Desgincomponent extends Component {
                         <div style={{ padding: 24, background: '#fff', minHeight: 660 }}>
                             <Route path='/Design/er' component={DesignTablecomponent}></Route>
                             <Route path='/Design/Stylist' component={Stylistcomponent}></Route>
-                            <Route path='/Design/ReadForm' component={ReadForm}></Route>
+                            {/* <Route path='/Design/ReadForm' component={ReadForm}></Route> */}
                         </div>
                     </Content>
                     <Footers></Footers>
@@ -62,7 +70,7 @@ class Desgincomponent extends Component {
 
 const Footers = () => (
     <Footer style={{ textAlign: 'center' }}>
-        Ant Design ©2018 Created by Ant UED
+        DEV Design ©2018 Created by LEO
     </Footer>)
 
 

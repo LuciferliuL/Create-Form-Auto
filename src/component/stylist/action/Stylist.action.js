@@ -16,7 +16,7 @@ export const stylistDataSourceGet = (InitStylistData) => {
 export const stylistDataSourceAsync = (k) => {
     // console.log(k);
     return (dispatch, getState) => {
-        console.log(getState().InitStylistData);
+        // console.log(getState().InitStylistData);
         dispatch(stylistDataSourceGet(k))
     }
 }
