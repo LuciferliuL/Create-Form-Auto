@@ -52,6 +52,8 @@ export const UpdataFormData = (state = [], action) => {
 }
 
 export const currentAttr = (state = {}, action) => {
+    console.log(action);
+    
     switch (action.type) {
         case CURRENT_ATTR:
             return state = action.currentAttr
@@ -62,7 +64,7 @@ export const currentAttr = (state = {}, action) => {
         case TR_REDUCE_UP:
             return { ...state, tr: action.current - action.step }
         case SHOWS:
-            return { ...state, shows: !action.shows }
+            return { ...state, show:!action.shows.show }
         case UPDATA_VALUES:
             return {
                 ...state, values: action.init

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Layout, Menu, Dropdown, Button, Tag } from "antd";
+import { Layout, Menu, Dropdown, Button, Tag, Icon } from "antd";
 import { withRouter } from 'react-router-dom'
 
-const { Header } = Layout 
+const ButtonGroup = Button.Group;
+const { Header } = Layout
 class Headercomponent extends Component {
     state = {
         user: ''
@@ -39,7 +40,14 @@ class Headercomponent extends Component {
         );
         return (
             <Header style={{ background: '#fff', padding: '15px 35px' }}>
-                {this.props.R === 'R'?<div>123</div>:<div>321</div>
+                {this.props.R === 'R' ? <div style={{ float: 'left' }}>
+                    <ButtonGroup>
+                        <Button ><Icon type="security-scan" theme="outlined" />查询</Button>
+                        <Button ><Icon type="copyright" theme="outlined" />清空</Button>
+                        <Button ><Icon type="export" theme="outlined" />关闭</Button>
+                        <Button ><Icon type="usb" theme="outlined" />导出</Button>
+                    </ButtonGroup>
+                </div> : <div style={{ float: 'left' }}>你好！设计师</div>
                 }
                 <div style={{ float: 'right' }}>
                     <Child user={user}></Child>

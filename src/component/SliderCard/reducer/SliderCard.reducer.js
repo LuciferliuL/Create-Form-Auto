@@ -83,10 +83,11 @@ const SData = [
         GridX: 0, GridY: 0, w: 8, h: 1, key: '0',
         icons: 'diff', id: 8, type: 'LookUp', required: false,
         message: "123", label: "LookUp", disabled: false, upKey: '',
+        show:false,
         layout: {
             labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
             wrapperCol: { xs: { span: 24 }, sm: { span: 16 } }
-        }, tr: 0, shows: false, values: '', uniqueKey: 'key',
+        }, tr: 0,  values: '', uniqueKey: 'key',
         columns: [
             {
                 title: 'Date',
@@ -160,7 +161,8 @@ const SQL = [
         layout: {
             labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
             wrapperCol: { xs: { span: 24 }, sm: { span: 16 } }
-        }, tr: 0, shows: false, values: '', uniqueKey: 'key',
+        }, tr: 0,  values: '', uniqueKey: 'key',
+        show:false,
         columns: [{
             title: "采购员ID",
             dataIndex: "purchaser",
@@ -276,28 +278,29 @@ const SQL = [
         layout: {
             labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
             wrapperCol: { xs: { span: 24 }, sm: { span: 16 } }
-        }, tr: 0, shows: false, values: '', uniqueKey: 'key',
+        }, tr: 0, values: '', uniqueKey: 'key',
+        show:false,
         columns: [{
             title: "主键",
-            dataIndex: "pk",
+            dataIndex: "PK",
         }, {
             title: "助记码",
-            dataIndex: "abbr",
+            dataIndex: "ABBR",
         }, {
             title: "人员ID",
-            dataIndex: "staffid",
+            dataIndex: "STAFFID",
         }, {
             title: "人员名称",
-            dataIndex: "staffname",
+            dataIndex: "STAFFNAME",
         }, {
             title: "组织名称",
-            dataIndex: "orgname",
+            dataIndex: "ORGNAME",
         }, {
             title: "组织结构内码",
-            dataIndex: "orgid",
+            dataIndex: "ORGID",
         }, {
             title: "分公司ID",
-            dataIndex: "branchid",
+            dataIndex: "BRANCHID",
         }
         ],
         SQL: `select d.pk,d.abbr,d.staffid,d.staffname,d.orgname,d.orgid,e.branchid,e.orgname branchname/*,f.userid*/ from
@@ -314,16 +317,17 @@ const SQL = [
         GridX: 0, GridY: 0, w: 8, h: 1, key: '0',
         icons: 'hdd', id: 8, type: 'LookUp', required: false,
         message: "123", label: "字典检索", disabled: false, upKey: '',
+        show:false,
         layout: {
             labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
             wrapperCol: { xs: { span: 24 }, sm: { span: 16 } }
-        }, tr: 0, shows: false, values: '', uniqueKey: 'key',
+        }, tr: 0, values: '', uniqueKey: 'key',
         columns: [{
             title: "经销代销类型",
-            dataIndex: "dictitemcode",
+            dataIndex: "DICTITEMCODE",
         }, {
             title: "字典名称",
-            dataIndex: "dictitemname",
+            dataIndex: "DICTITEMNAME",
         }, {
             title: "备注",
             dataIndex: "note",
@@ -342,37 +346,38 @@ const SQL = [
         GridX: 0, GridY: 0, w: 8, h: 1, key: '0',
         icons: 'heat-map', id: 8, type: 'LookUp', required: false,
         message: "123", label: "客户检索", disabled: false, upKey: '',
+        show:false,
         layout: {
             labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
             wrapperCol: { xs: { span: 24 }, sm: { span: 16 } }
-        }, tr: 0, shows: false, values: '', uniqueKey: 'key',
+        }, tr: 0, values: '', uniqueKey: 'key',
         columns: [{
             title: "子公司主管部门名称",
-            dataIndex: "executivedept",
+            dataIndex: "EXECUTIVEDEPT",
         }, {
             title: "助记码",
-            dataIndex: "custmemorycode",
+            dataIndex: "CUSTMEMORYCODE",
         }, {
             title: "质管备注",
-            dataIndex: "qualificationdeadline",
+            dataIndex: "QUALIFICATIONDEADLINE",
         }, {
             title: "客户类别ID",
-            dataIndex: "custtypeid",
+            dataIndex: "CUSTTYPEID",
         }, {
             title: "客户内码",
-            dataIndex: "custid",
+            dataIndex: "CUSTID",
         }, {
             title: "客户编码",
-            dataIndex: "custno",
+            dataIndex: "CUSTNO",
         }, {
             title: "客户名称",
-            dataIndex: "custname",
+            dataIndex: "CUSTNAME",
         }, {
             title: "客户地址（注册地址）",
-            dataIndex: "custadd",
+            dataIndex: "CUSTADD",
         }, {
             title: "客户标识",
-            dataIndex: "custidentify",
+            dataIndex: "CUSTIDENTIFY",
         }, {
             title: "联系人",
             dataIndex: "CONTACTPERSON",
@@ -387,13 +392,13 @@ const SQL = [
             dataIndex: "BUSINESSMAN",
         }, {
             title: "不可经营类别",
-            dataIndex: "nonbusinesstype",
+            dataIndex: "NONBUSINESSTYPE",
         }, {
             title: "经营简码ID",
-            dataIndex: "businessscopecode",
+            dataIndex: "BUSINESSSCOPECODE",
         }, {
             title: "不可经营简码ID",
-            dataIndex: "nonbusinessscopecode",
+            dataIndex: "NONBUSINESSSCOPECODE",
         }, {
             title: "分销客户类型",
             dataIndex: "CUSTTYPE",
@@ -408,82 +413,82 @@ const SQL = [
             dataIndex: "MAINOPNAME",
         }, {
             title: "采购员",
-            dataIndex: "purchaser",
+            dataIndex: "PURCHASER",
         }, {
             title: "采购员ID",
-            dataIndex: "purchaserid",
+            dataIndex: "PURCHASERID",
         }, {
             title: "付款方式",
-            dataIndex: "paymentname",
+            dataIndex: "PAYMENTNAME",
         }, {
             title: "销售信贷期",
-            dataIndex: "salescredittime",
+            dataIndex: "SALESCREDITTIME",
         }, {
             title: "是否可进货",
             dataIndex: "ISPURCHASING",
         }, {
             title: "关联关系ID",
-            dataIndex: "relation",
+            dataIndex: "RELATION",
         }, {
             title: "是否集采",
-            dataIndex: "is_centralizedpurchasing",
+            dataIndex: "IS_CENTRALIZEDPURCHASING",
         }, {
             title: "是否可销售",
-            dataIndex: "issales",
+            dataIndex: "ISSALES",
         }, {
             title: "开发票要求",
-            dataIndex: "billingnote",
+            dataIndex: "BILLINGNOTE",
         }, {
             title: "责任开票员ID",
             dataIndex: "MAINOPID",
         }, {
             title: "主配送仓库ID",
-            dataIndex: "storeid",
+            dataIndex: "STOREID",
         }, {
             title: "区域划分名称",
-            dataIndex: "territoriestext",
+            dataIndex: "TERRITORIESTEXT",
         }, {
             title: "区域划分ID",
-            dataIndex: "territories",
+            dataIndex: "TERRITORIES",
         }, {
             title: "所属大区名称",
-            dataIndex: "ownerareatext",
+            dataIndex: "OWNERAREATEXT",
         }, {
             title: "大区经理ID",
             dataIndex: "AREAMGR",
         }, {
             title: "是否活动名称",
-            dataIndex: "is_activetext",
+            dataIndex: "IS_ACTIVETEXT",
         }, {
             title: "开户银行帐号",
-            dataIndex: "bankaccount",
+            dataIndex: "BANKACCOUNT",
         }, {
             title: "开户银行",
-            dataIndex: "depositbank",
+            dataIndex: "DEPOSITBANK",
         }, {
             title: "是否活动",
-            dataIndex: "is_active",
+            dataIndex: "IS_ACTIVE",
         }, {
             title: "收货地址",
-            dataIndex: "consignee",
+            dataIndex: "CONSIGNEE",
         }, {
             title: "收货人电话",
-            dataIndex: "consigneephone",
+            dataIndex: "CONSIGNEEPHONE",
         }, {
             title: "仓库地址",
-            dataIndex: "storeaddr",
+            dataIndex: "STOREADDR",
         }, {
             title: "客户简称",
-            dataIndex: "custabbreviation",
+            dataIndex: "CUSTABBREVIATION",
         }, {
             title: "客户业务类型ID(供、销)",
-            dataIndex: "partnertype",
+            dataIndex: "PARTNERTYPE",
         }, {
             title: "收货地址",
             dataIndex: "CONSIGNEEADD",
         }, {
             title: "是否管理合同",
-            dataIndex: "is_managecontract",
+            dataIndex: "IS_MANAGECONTRACT",
         }],
         SQL: `
         select f.executivedept,
@@ -564,37 +569,38 @@ const SQL = [
         GridX: 0, GridY: 0, w: 8, h: 1, key: '0',
         icons: 'rise', id: 8, type: 'LookUp', required: false,
         message: "123", label: "上游客户检索", disabled: false, upKey: '',
+        show:false,
         layout: {
             labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
             wrapperCol: { xs: { span: 24 }, sm: { span: 16 } }
-        }, tr: 0, shows: false, values: '', uniqueKey: 'key',
+        }, tr: 0,  values: '', uniqueKey: 'key',
         columns: [{
             title: "子公司主管部门名称",
-            dataIndex: "executivedept",
+            dataIndex: "EXECUTIVEDEPT",
         }, {
             title: "助记码",
-            dataIndex: "custmemorycode",
+            dataIndex: "CUSTMEMORYCODE",
         }, {
             title: "质管备注",
-            dataIndex: "qualificationdeadline",
+            dataIndex: "QUALIFICATIONDEADLINE",
         }, {
             title: "客户类别ID",
-            dataIndex: "custtypeid",
+            dataIndex: "CUSTTYPEID",
         }, {
             title: "客户内码",
-            dataIndex: "custid",
+            dataIndex: "CUSTID",
         }, {
             title: "客户编码",
-            dataIndex: "custno",
+            dataIndex: "CUSTNO",
         }, {
             title: "客户名称",
-            dataIndex: "custname",
+            dataIndex: "CUSTNAME",
         }, {
             title: "客户地址（注册地址）",
-            dataIndex: "custadd",
+            dataIndex: "CUSTADD",
         }, {
             title: "客户标识",
-            dataIndex: "custidentify",
+            dataIndex: "CUSTIDENTIFY",
         }, {
             title: "联系人",
             dataIndex: "CONTACTPERSON",
@@ -609,13 +615,13 @@ const SQL = [
             dataIndex: "BUSINESSMAN",
         }, {
             title: "不可经营类别",
-            dataIndex: "nonbusinesstype",
+            dataIndex: "NONBUSINESSTYPE",
         }, {
             title: "经营简码ID",
-            dataIndex: "businessscopecode",
+            dataIndex: "BUSINESSSCOPECODE",
         }, {
             title: "不可经营简码ID",
-            dataIndex: "nonbusinessscopecode",
+            dataIndex: "NONBUSINESSSCOPECODE",
         }, {
             title: "分销客户类型",
             dataIndex: "CUSTTYPE",
@@ -630,82 +636,82 @@ const SQL = [
             dataIndex: "MAINOPNAME",
         }, {
             title: "采购员",
-            dataIndex: "purchaser",
+            dataIndex: "PURCHASER",
         }, {
             title: "采购员ID",
-            dataIndex: "purchaserid",
+            dataIndex: "PURCHASERID",
         }, {
             title: "付款方式",
-            dataIndex: "paymentname",
+            dataIndex: "PAYMENTNAME",
         }, {
             title: "销售信贷期",
-            dataIndex: "salescredittime",
+            dataIndex: "SALESCREDITTIME",
         }, {
             title: "是否可进货",
             dataIndex: "ISPURCHASING",
         }, {
             title: "关联关系ID",
-            dataIndex: "relation",
+            dataIndex: "RELATION",
         }, {
             title: "是否集采",
-            dataIndex: "is_centralizedpurchasing",
+            dataIndex: "IS_CENTRALIZEDPURCHASING",
         }, {
             title: "是否可销售",
-            dataIndex: "issales",
+            dataIndex: "ISSALES",
         }, {
             title: "开发票要求",
-            dataIndex: "billingnote",
+            dataIndex: "BILLINGNOTE",
         }, {
             title: "责任开票员ID",
             dataIndex: "MAINOPID",
         }, {
             title: "主配送仓库ID",
-            dataIndex: "storeid",
+            dataIndex: "STOREID",
         }, {
             title: "区域划分名称",
-            dataIndex: "territoriestext",
+            dataIndex: "TERRITORIESTEXT",
         }, {
             title: "区域划分ID",
-            dataIndex: "territories",
+            dataIndex: "TERRITORIES",
         }, {
             title: "所属大区名称",
-            dataIndex: "ownerareatext",
+            dataIndex: "OWNERAREATEXT",
         }, {
             title: "大区经理ID",
             dataIndex: "AREAMGR",
         }, {
             title: "是否活动名称",
-            dataIndex: "is_activetext",
+            dataIndex: "IS_ACTIVETEXT",
         }, {
             title: "开户银行帐号",
-            dataIndex: "bankaccount",
+            dataIndex: "BANKACCOUNT",
         }, {
             title: "开户银行",
-            dataIndex: "depositbank",
+            dataIndex: "DEPOSITBANK",
         }, {
             title: "是否活动",
-            dataIndex: "is_active",
+            dataIndex: "IS_ACTIVE",
         }, {
             title: "收货地址",
-            dataIndex: "consignee",
+            dataIndex: "CONSIGNEE",
         }, {
             title: "收货人电话",
-            dataIndex: "consigneephone",
+            dataIndex: "CONSIGNEEPHONE",
         }, {
             title: "仓库地址",
-            dataIndex: "storeaddr",
+            dataIndex: "STOREADDR",
         }, {
             title: "客户简称",
-            dataIndex: "custabbreviation",
+            dataIndex: "CUSTABBREVIATION",
         }, {
             title: "客户业务类型ID(供、销)",
-            dataIndex: "partnertype",
+            dataIndex: "PARTNERTYPE",
         }, {
             title: "收货地址",
             dataIndex: "CONSIGNEEADD",
         }, {
             title: "是否管理合同",
-            dataIndex: "is_managecontract",
+            dataIndex: "IS_MANAGECONTRACT",
         }
         ],
         SQL: `select f.executivedept,

@@ -23,7 +23,9 @@ class LookUpPublicComponent extends Component {
         console.log(key);
         let obj = this.props.UpdataFormData.find(e => e.key === key)
         this.props.UpDataCurrent(obj)
-        this.props.shows(this.props.current.shows)
+        this.props.shows(obj)
+        console.log('obj');
+        
         let body = {
             "Sql": obj.SQL,
             "Param": JSON.stringify(this.state.Abbr),
@@ -38,6 +40,8 @@ class LookUpPublicComponent extends Component {
             })
             this.props.upDataCurrentDataSource(res.Results)
             this.props.upForm(this.props.current)
+            console.log('post');
+            
             this.setState({
                 totalPage:res.RecordCount
             })
@@ -45,9 +49,11 @@ class LookUpPublicComponent extends Component {
     }
     ClickHandleShows = (key) => {
         if (Object.keys(this.props.current).length > 0) {
-            this.props.shows(this.props.current.shows)
+            this.props.shows(obj)
             let obj = this.props.UpdataFormData.find(e => e.key === key)
             this.props.UpDataCurrent(obj)
+            console.log('obj');
+            
             let body = {
                 "Sql": obj.SQL,
                 "Param": JSON.stringify(this.state.Abbr),
@@ -62,6 +68,8 @@ class LookUpPublicComponent extends Component {
                 })
                 this.props.upDataCurrentDataSource(res.Results)
                 this.props.upForm(this.props.current)
+                console.log('post');
+                
                 this.setState({
                     totalPage:res.RecordCount
                 })
@@ -105,17 +113,14 @@ class LookUpPublicComponent extends Component {
         const page = {
             pageSize:10,
             totle:this.state.totalPage,
-            showTotal:(e,i)=>{console.log(e,i);
-            },
             current:this.props.page
         }
-        const { shows } = this.props.current
         const { getFieldDecorator } = this.props.form
-        const { dataSource, label, id, required, message, layout, columns } = this.props.PublicData
+        const { dataSource, label, id, required, message, layout, columns, show } = this.props.PublicData
         return (
             <div className="certain-category-search-wrapper" style={{ width: '100%' }}>
                 <Modal
-                    visible={shows}
+                    visible={show}
                     width='100%'
                     style={{ top: '0' }}
                     footer={null}
@@ -175,7 +180,7 @@ const mapDispatchProps = (dispatch) => {
 
 export default LookUpPublicComponent = connect(mapStateToProps, mapDispatchProps)(Form.create({
     mapPropsToFields(props) {
-        console.log(props);
+        // console.log(props);
         let Field = {}
         let v = props.UpdataFormData.find(e => e.key === props.PublicData.key)
         let values = v.values[v.uniqueKey]

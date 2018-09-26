@@ -24,7 +24,7 @@ class Stylistcomponent extends Component {
         visible: false,
         domWidth: 0,
         read: true,
-        loading:false
+        loading: false
     }
     myRef = React.createRef()
     componentDidMount() {
@@ -57,8 +57,8 @@ class Stylistcomponent extends Component {
                 }
                 break;
             case 13:
+                this.props.shows(this.props.currentAttr)
                 this.CLick()
-                this.props.shows(this.props.currentAttr.shows)
                 break
         }
     }
@@ -119,7 +119,7 @@ class Stylistcomponent extends Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             this.setState({
-                loading:true
+                loading: true
             })
             if (!err) {
 
@@ -150,7 +150,7 @@ class Stylistcomponent extends Component {
                 })
                 this.setState({
                     visible: false,
-                    loading:false
+                    loading: false
                 });
             }
         });
