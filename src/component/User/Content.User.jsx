@@ -94,7 +94,7 @@ class ContentUser extends Component {
         }
     }
     PositionHTML = (key) => {
-        console.log(key);
+        // console.log(key);
         if (key === 'LookUp') {
             window.addEventListener('keyup', this.handleKeyDown)
         }
@@ -164,4 +164,9 @@ const mapDispatchProps = (dispatch) => {
 }
 export default connect(
     mapStateToProps, mapDispatchProps
-)(ContentUser);
+)(Form.create({
+    mapPropsToFields(props){
+        console.log(props);
+        
+    }
+})(ContentUser));

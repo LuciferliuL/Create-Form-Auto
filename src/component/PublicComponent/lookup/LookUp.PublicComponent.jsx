@@ -20,11 +20,9 @@ class LookUpPublicComponent extends Component {
     }
 
     ClickHandleKey = (key) => {
-        console.log(key);
         let obj = this.props.UpdataFormData.find(e => e.key === key)
         this.props.UpDataCurrent(obj)
         this.props.shows(obj)
-        console.log('obj');
         
         let body = {
             "Sql": obj.SQL,
@@ -34,14 +32,12 @@ class LookUpPublicComponent extends Component {
             isPage: false
         }
         POST$(API('SQL').http, body, (res) => {
-            console.log(res);
+            // console.log(res);
             res.Results.forEach((e, i) => {
                 e['key'] = i + 'row'
             })
             this.props.upDataCurrentDataSource(res.Results)
             this.props.upForm(this.props.current)
-            console.log('post');
-            
             this.setState({
                 totalPage:res.RecordCount
             })
@@ -52,7 +48,6 @@ class LookUpPublicComponent extends Component {
             this.props.shows(obj)
             let obj = this.props.UpdataFormData.find(e => e.key === key)
             this.props.UpDataCurrent(obj)
-            console.log('obj');
             
             let body = {
                 "Sql": obj.SQL,
@@ -62,14 +57,12 @@ class LookUpPublicComponent extends Component {
                 isPage: false
             }
             POST$(API('SQL').http, body, (res) => {
-                console.log(res);
+                // console.log(res);
                 res.Results.forEach((e, i) => {
                     e['key'] = i + 'row'
                 })
                 this.props.upDataCurrentDataSource(res.Results)
                 this.props.upForm(this.props.current)
-                console.log('post');
-                
                 this.setState({
                     totalPage:res.RecordCount
                 })
@@ -89,9 +82,6 @@ class LookUpPublicComponent extends Component {
         console.log(selected, selectedRows, changeRows);
     }
     ParamChange = (e) => {
-        // console.log(
-        //     e.target.value
-        // );
         let Abbr = {}
         Abbr['Abbr'] = e.target.value
         this.setState({

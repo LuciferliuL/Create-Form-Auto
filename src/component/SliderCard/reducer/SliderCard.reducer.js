@@ -16,7 +16,7 @@ const SData = [
         icons: 'copyright', id: 8, type: 'RadioGroup', required: false,
         message: "123", label: "单选框组", disabled: false,
         GroupValue: [{ value: 'Apple', name: 'Apple' }, { value: 'Pear', name: 'Pear' }],
-        groupname: 'cen',
+        groupname: 'cen',defaultValue: '',
         layout: {
             labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
             wrapperCol: { xs: { span: 24 }, sm: { span: 16 } }
@@ -45,6 +45,7 @@ const SData = [
         GridX: 0, GridY: 0, w: 8, h: 1, key: '0',
         icons: 'calendar', id: 8, type: 'Date', required: false,
         message: "123", label: "日期选择", disabled: false, placeholder: "123",
+        defaultValue: '',
         layout: {
             labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
             wrapperCol: { xs: { span: 24 }, sm: { span: 16 } }
@@ -54,6 +55,7 @@ const SData = [
         GridX: 0, GridY: 0, w: 16, h: 1, key: '0',
         icons: 'contacts', id: 8, type: 'Range', required: false,
         message: "123", label: "时段选择", disabled: false,
+        defaultValue: '',
         layout: {
             labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
             wrapperCol: { xs: { span: 24 }, sm: { span: 16 } }

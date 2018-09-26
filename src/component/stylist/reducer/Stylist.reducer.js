@@ -2,8 +2,9 @@ import { STYLIST_DATASOURCE_GET, FORM_UPDATA_FUGAI } from '../action/Stylist.act
 import { FORM_SOURCE_DATA, FORM_SOURCE_DATA_UPDATA, FORM_SOURCE_DATA_DELETE } from '../action/Stylist.action'
 import { CURRENT_ATTR } from '../action/Stylist.action'
 import { CURRENT_ATTR_UPDATA, FORM_UPDATA_FROM_CURRENT } from '../../SliderRIght/action/Right.action'
-import { TR_ADD_DOWN, TR_REDUCE_UP, SHOWS, UPDATA_VALUES,UPDATA_CURRENt_DATASOURCE } from '../../PublicComponent/lookup/action/lookup.action'
-import { TAG_PUSH_DATA_IN_COLUMNS, INPUT_VALUE_CHANGE, SQL_VALUE_CHANGE, GROUP_VALUE_CHANGE,TAG_PUSH_DATA_IN_GROUP } from '../../Drawer/action/Drawer.action'
+import { TR_ADD_DOWN, TR_REDUCE_UP, SHOWS, UPDATA_VALUES, UPDATA_CURRENt_DATASOURCE } from '../../PublicComponent/lookup/action/lookup.action'
+import { TAG_PUSH_DATA_IN_COLUMNS, INPUT_VALUE_CHANGE, SQL_VALUE_CHANGE, GROUP_VALUE_CHANGE, TAG_PUSH_DATA_IN_GROUP } from '../../Drawer/action/Drawer.action'
+import { INPUT_CHANGE } from '../../PublicComponent/Public.action'
 
 const initialState = []
 
@@ -46,6 +47,10 @@ export const UpdataFormData = (state = [], action) => {
                 : e)
         case FORM_UPDATA_FUGAI:
             return state = action.init
+        case INPUT_CHANGE:
+            return state.map(e => e.key === action.key
+                ? {...e,defaultValue:action.value}
+                : e)
         default:
             return state;
     }
@@ -53,7 +58,7 @@ export const UpdataFormData = (state = [], action) => {
 
 export const currentAttr = (state = {}, action) => {
     console.log(action);
-    
+
     switch (action.type) {
         case CURRENT_ATTR:
             return state = action.currentAttr
@@ -64,7 +69,7 @@ export const currentAttr = (state = {}, action) => {
         case TR_REDUCE_UP:
             return { ...state, tr: action.current - action.step }
         case SHOWS:
-            return { ...state, show:!action.shows.show }
+            return { ...state, show: !action.shows.show }
         case UPDATA_VALUES:
             return {
                 ...state, values: action.init
@@ -110,9 +115,9 @@ export const currentAttr = (state = {}, action) => {
                 ...state, SQL: action.initial
             }
         case UPDATA_CURRENt_DATASOURCE:
-        return {
-            ...state,dataSource:action.initial
-        }
+            return {
+                ...state, dataSource: action.initial
+            }
         default:
             return state
     }
