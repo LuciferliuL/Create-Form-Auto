@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Button, Form, Modal, List, Row, Col } from 'antd'
+import { Card, Button,  Modal, List } from 'antd'
 import ContentUser from '../User/Content.User'
 
 class ReadForm extends Component {

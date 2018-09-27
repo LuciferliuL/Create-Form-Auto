@@ -23,6 +23,10 @@ class Headercomponent extends Component {
     enter = () => {
         this.props.history.push('/')
     }
+    SQLChecked = () => {
+        console.log(1);
+        
+    }
     render() {
         const { user } = this.state
         const menu = (
@@ -42,7 +46,7 @@ class Headercomponent extends Component {
             <Header style={{ background: '#fff', padding: '15px 35px' }}>
                 {this.props.R === 'R' ? <div style={{ float: 'left' }}>
                     <ButtonGroup>
-                        <Button ><Icon type="security-scan" theme="outlined" />查询</Button>
+                        <Button onClick={this.SQLChecked.bind(this)}><Icon type="security-scan" theme="outlined" />查询</Button>
                         <Button ><Icon type="copyright" theme="outlined" />清空</Button>
                         <Button ><Icon type="export" theme="outlined" />关闭</Button>
                         <Button ><Icon type="usb" theme="outlined" />导出</Button>

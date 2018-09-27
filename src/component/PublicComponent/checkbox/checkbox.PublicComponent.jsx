@@ -1,9 +1,16 @@
 import React, { Component } from 'react';
 import { Checkbox, Form } from 'antd'
 import { connect } from 'react-redux'
+import { inputChange } from '../Public.action'
 
 const FormItem = Form.Item
 class CheckboxPublicComponent extends Component {
+    CheckboxChange = (e) => {
+        console.log(e.target.checked);
+        
+        this.props.inputChange(this.props.PublicData.key,e.target.checked)
+        
+    }
     render() {
         const { getFieldDecorator } = this.props.form
         const { checked, disabled, label, id, required, message, layout } = this.props.PublicData
@@ -16,7 +23,7 @@ class CheckboxPublicComponent extends Component {
                 {getFieldDecorator(id, {
                     rules: [{ required: { required }, message: { message } }],
                 })(
-                    <Checkbox disabled={disabled} defaultChecked={checked} />
+                    <Checkbox disabled={disabled} defaultChecked={checked} onChange={this.CheckboxChange.bind(this)}/>
 
                 )}
             </FormItem>
@@ -31,7 +38,9 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchProps = (dispatch) => {
     return {
-
+        inputChange:(key,value)=>{
+            dispatch(inputChange(key,value))
+        }
     }
 }
 export default CheckboxPublicComponent = connect(mapStateToProps, mapDispatchProps)(Form.create({

@@ -99,14 +99,6 @@ class ContentUser extends Component {
             window.addEventListener('keyup', this.handleKeyDown)
         }
     }
-    handleSubmit = (e) => {
-        e.preventDefault();
-        this.props.form.validateFields((err, values) => {
-            if (!err) {
-                console.log('Received values of form: ', values);
-            }
-        });
-    }
     render() {
         let Dr = []
         let width_ = this.state.domWidth / 24
@@ -129,11 +121,9 @@ class ContentUser extends Component {
                 ref={this.myRef}
                 style={{ minHeight: '720px' }}>
                 <Form
-                    onSubmit={this.handleSubmit}
                     style={{ minHeight: '400px', padding: '5px', position: 'relative' }}>
                     {this.props.UpdataFormData.length < 1 ? 'loading'
                         : Dr}
-                    <Button htmlType="submit">123</Button>
                 </Form>
             </Card>
         );

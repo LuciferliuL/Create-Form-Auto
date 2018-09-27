@@ -26,6 +26,7 @@ const SData = [
         GridX: 0, GridY: 0, w: 4, h: 1, key: '0',
         icons: 'border', id: 8, type: 'CheckBox', required: false,
         message: "123", label: "多选框", checked: false, disabled: false,
+        defaultValue: '',
         layout: {
             labelCol: { xs: { span: 24 }, sm: { span: 16 }, },
             wrapperCol: { xs: { span: 24 }, sm: { span: 8 } }

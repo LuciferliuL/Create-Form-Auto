@@ -45,7 +45,6 @@ class LookUpPublicComponent extends Component {
     }
     ClickHandleShows = (key) => {
         if (Object.keys(this.props.current).length > 0) {
-            this.props.shows(obj)
             let obj = this.props.UpdataFormData.find(e => e.key === key)
             this.props.UpDataCurrent(obj)
             

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Button, Popconfirm } from 'antd'
+import { Table, Button, Popconfirm ,Spin} from 'antd'
 import { connect } from 'react-redux'
 import { selectkeysToHeader } from '../Slider/action/Header.action'
 import { stylistDataSourceAsync, fugai } from '../stylist/action/Stylist.action'
@@ -9,6 +9,7 @@ import { GET$ } from '../../lib/MATH/math.js'
 class DesignTablecomponent extends Component {
   state = {
     data: [],
+    loading:true,
     columns: [{
       title: 'Name',
       dataIndex: 'Name',
@@ -50,7 +51,8 @@ class DesignTablecomponent extends Component {
     GET$(API('CheckFormList').http, (res) => {
       // console.log(res);
       this.setState({
-        data: res
+        data: res,
+        loading:false
       })
     })
   }
@@ -82,7 +84,7 @@ class DesignTablecomponent extends Component {
   }
   render() {
     return (
-      <div>
+      <Spin spinning={this.state.loading}>
         <Table
           title={this.TableHeader}
           bordered={true}
@@ -90,7 +92,7 @@ class DesignTablecomponent extends Component {
           rowSelection={this.rowSelection}
           dataSource={this.state.data}
           rowKey='PK' />
-      </div>
+      </Spin>
     );
   }
 }
