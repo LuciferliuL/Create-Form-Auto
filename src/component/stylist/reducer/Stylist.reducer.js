@@ -1,4 +1,4 @@
-import { STYLIST_DATASOURCE_GET, FORM_UPDATA_FUGAI } from '../action/Stylist.action'
+import { STYLIST_DATASOURCE_GET, FORM_UPDATA_FUGAI, CLEAR_FORM, TABLE_UPDATA_FROM_RESULTS } from '../action/Stylist.action'
 import { FORM_SOURCE_DATA, FORM_SOURCE_DATA_UPDATA, FORM_SOURCE_DATA_DELETE } from '../action/Stylist.action'
 import { CURRENT_ATTR } from '../action/Stylist.action'
 import { CURRENT_ATTR_UPDATA, FORM_UPDATA_FROM_CURRENT } from '../../SliderRIght/action/Right.action'
@@ -50,8 +50,12 @@ export const UpdataFormData = (state = [], action) => {
             return state = action.init
         case INPUT_CHANGE:
             return state.map(e => e.key === action.key
-                ? {...e,defaultValue:action.value}
+                ? { ...e, defaultValue: action.value }
                 : e)
+        case CLEAR_FORM:
+            return state = action.initial
+        case TABLE_UPDATA_FROM_RESULTS:
+            return state.map(e => e.type === 'Table' ? { ...e, dataSource: action.initial } : e)
         default:
             return state;
     }

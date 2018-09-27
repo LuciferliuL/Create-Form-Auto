@@ -15,7 +15,6 @@ class Drawercomponent extends Component {
     };
     onSure = (e) => {
         //修改的结果在这里
-        console.log(1);
         this.props.upForm(this.props.currentAttr)
         this.props.hidefun(false)
     }

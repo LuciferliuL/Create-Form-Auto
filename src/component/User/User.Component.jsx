@@ -23,6 +23,11 @@ class USER extends Component {
             }))
         }, 1000);
     }
+    Loading = () => {
+        this.setState((pre)=>({
+            loading:!pre.loading
+        }))
+    }
     render() {
         const { user , loading} = this.state
         return (
@@ -32,7 +37,7 @@ class USER extends Component {
                         <TreeUser></TreeUser>
                     </Sider>
                     <Layout >
-                        <Headercomponent user={user} R={'R'}></Headercomponent>
+                        <Headercomponent user={user} R={'R'} Loading={this.Loading.bind(this)}></Headercomponent>
                         <Content style={{ margin: '24px 16px 0', overflow: 'initial' }} >
                             <ContentUser></ContentUser>
                         </Content>

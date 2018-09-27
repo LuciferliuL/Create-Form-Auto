@@ -65,7 +65,7 @@ const SData = [
     {
         GridX: 0, GridY: 0, w: 24, h: 8, key: '0', pageSize: 10, scroll: 180,
         icons: 'table', label: '简单表格', type: 'Table',
-        SQL: 'select * where',
+        SQL: 'select * where',groupname:'',
         columns: [
             {
                 title: '姓名',

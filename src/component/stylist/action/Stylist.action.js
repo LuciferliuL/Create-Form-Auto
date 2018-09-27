@@ -4,6 +4,8 @@ export const CURRENT_ATTR = 'CURRENT_ATTR'
 export const FORM_SOURCE_DATA_UPDATA = 'FORM_SOURCE_DATA_UPDATA'
 export const FORM_SOURCE_DATA_DELETE = 'FORM_SOURCE_DATA_DELETE'
 export const FORM_UPDATA_FUGAI = 'FORM_UPDATA_FUGAI'
+export const CLEAR_FORM = 'CLEAR_FORM'
+export const TABLE_UPDATA_FROM_RESULTS = 'TABLE_UPDATA_FROM_RESULTS'
 
 //需要编辑选中的元素
 export const stylistDataSourceGet = (InitStylistData) => {
@@ -55,3 +57,16 @@ export const fugai = (init) => {
     }
 }
 
+export const _clear = (initial = [])=>{
+    return {
+        type:CLEAR_FORM,
+        initial:initial
+    }
+}
+
+export const _tableUpdataFromResults = (initial) => {
+    return {
+        type:TABLE_UPDATA_FROM_RESULTS,
+        initial:initial
+    }
+}

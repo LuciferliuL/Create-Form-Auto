@@ -149,15 +149,15 @@ export const POST$ = (URL, POSTBODY, CALLBACK) => {
     POSTBODY = JSON.stringify(POSTBODY)
     let token = localStorage.getItem('token')
     $.ajax({
-        url:URL,
-        type:"POST",
-        contentType:'application/json;charset=utf-8',
-        data:POSTBODY,
-        dataType:"JSON",
-        beforeSend:function (xhr) {
-            xhr.setRequestHeader("Authorization", "Bearer " + token) 
+        url: URL,
+        type: "POST",
+        contentType: 'application/json;charset=utf-8',
+        data: POSTBODY,
+        dataType: "JSON",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("Authorization", "Bearer " + token)
         },
-        success:function(res){
+        success: function (res) {
             CALLBACK(res)
         }
     })
@@ -178,3 +178,14 @@ function getTime() {
 }
 
 export { getTime }
+
+function getHours() {
+    var myDate = new Date()
+    var myHours = ''
+    let hours = myDate.getHours() > 9 ? myDate.getHours() : '0' + myDate.getHours()
+    let minutes = myDate.getMinutes() > 9 ? myDate.getMinutes() : '0' + myDate.getMinutes()
+    let seconds = myDate.getSeconds() > 9 ? myDate.getSeconds() : '0' + myDate.getSeconds()
+    return myHours = `T${hours}:${minutes}:${seconds}`
+}
+
+export { getHours }
