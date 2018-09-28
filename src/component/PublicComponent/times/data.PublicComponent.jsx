@@ -8,7 +8,7 @@ const dateFormat = 'YYYY-MM-DD';
 const FormItem = Form.Item
 class DatePublicComponent extends Component {
     TimesChange = (date, dateString) => {
-        console.log(date, dateString);
+        // console.log(date, dateString);
         this.props.inputChange(this.props.PublicData.key, dateString + getHours())
     }
     render() {

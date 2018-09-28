@@ -58,7 +58,7 @@ class Desgincomponent extends Component {
                         <div style={{ padding: 24, background: '#fff', minHeight: 660 }}>
                             <Route path='/Design/er' component={DesignTablecomponent}></Route>
                             <Route path='/Design/Stylist' component={Stylistcomponent}></Route>
-                            {/* <Route path='/Design/ReadForm' component={ReadForm}></Route> */}
+                            <Route path='/Design/Arch' component={ReadForm}></Route>
                         </div>
                     </Content>
                     <Footers></Footers>

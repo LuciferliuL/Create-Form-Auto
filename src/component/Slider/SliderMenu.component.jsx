@@ -86,5 +86,10 @@ const sliderData = [
         type: 'desktop',
         children: [],
         link: '/Design/Stylist'
+    }, {
+        key: '表单权限',
+        type: 'lock',
+        children: [],
+        link: '/Design/Arch'
     }
 ]

@@ -4,8 +4,7 @@ import { Drawer, Button, Input, Form, Col, Tag } from 'antd'
 import { hidenDrawer, currentAttrUpdata, formUpdataFromCurrent } from '../SliderRIght/action/Right.action'
 import { tagPushDataInColumns, inputValueChange, sqlValueChange, GroupValueChange, tagPushDataInGroup } from './action/Drawer.action'
 import {upDataCurrentDataSource} from '../PublicComponent/lookup/action/lookup.action'
-import { API } from '../../lib/API/check.API'
-import { POST$ } from '../../lib/MATH/math'
+
 
 const InputGroup = Input.Group
 const { TextArea } = Input
@@ -48,7 +47,7 @@ class Drawercomponent extends Component {
             content.push(
                 <div key={'SQL12138'}>
                     <Tag>SQL:</Tag>
-                    <TextArea autosize value={this.props.currentAttr.SQL} onChange={this.SQLChange.bind(this)}></TextArea>
+                    <TextArea autosize={{minRows:25}} value={this.props.currentAttr.SQL} onChange={this.SQLChange.bind(this)}></TextArea>
                 </div>
             )
         } else if (this.props.flag === 'columns') {

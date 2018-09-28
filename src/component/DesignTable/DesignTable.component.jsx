@@ -70,7 +70,7 @@ class DesignTablecomponent extends Component {
     </div>
   )
   CreateTable = (dataSource) => {
-    console.log(dataSource);
+    // console.log(dataSource);
     //mock的数据 新建表单或者获取表单要覆盖原来的
     if (dataSource === 'new') {
       this.props.onTodoClick(['表单设计'])

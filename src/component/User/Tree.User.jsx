@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Tree, Menu } from 'antd';
+import { Menu } from 'antd';
 import { connect } from 'react-redux';
 import { fugai } from '../stylist/action/Stylist.action'
 import { updataValues } from '../PublicComponent/lookup/action/lookup.action'

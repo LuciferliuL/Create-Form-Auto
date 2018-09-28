@@ -9,7 +9,7 @@ const FormItem = Form.Item
 const dateFormat = 'YYYY-MM-DD';
 class RangePickerPublicComponent extends Component {
     TimesChange = (date, dateString) => {
-        console.log(date, dateString);
+        // console.log(date, dateString);
         let times = [dateString[0] + getHours(), dateString[1] + getHours()]
         this.props.inputChange(this.props.PublicData.key, times)
     }

@@ -17,6 +17,11 @@ export const API = (key) => {
                 method: 'POST',
                 http: baseAPI + '/api/dataquery/GetDataBySqlName'
             }
+        case 'CheckId':
+            return {
+                method:'GET',
+                http:'http://10.2.132.127:7000/api/DataSourceRole?$filter=SourceId eq 202'
+            }
         default:
             break;
     }
