@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Drawer, Button, Input, Form, Col, Tag } from 'antd'
 import { hidenDrawer, currentAttrUpdata, formUpdataFromCurrent } from '../SliderRIght/action/Right.action'
-import { tagPushDataInColumns, inputValueChange, sqlValueChange, GroupValueChange, tagPushDataInGroup } from './action/Drawer.action'
-import {upDataCurrentDataSource} from '../PublicComponent/lookup/action/lookup.action'
+import { tagPushDataInColumns, inputValueChange, sqlValueChange, GroupValueChange, tagPushDataInGroup, TagCancelDataInGroup, InputCancelData } from './action/Drawer.action'
+import { upDataCurrentDataSource } from '../PublicComponent/lookup/action/lookup.action'
 
 
 const InputGroup = Input.Group
@@ -19,6 +19,8 @@ class Drawercomponent extends Component {
     }
     //列数据方法
     TagAdd = (i) => {
+        console.log(i);
+        
         this.props.tagPushDataInColumns(i, {
             title: '',
             dataIndex: '',
@@ -30,6 +32,12 @@ class Drawercomponent extends Component {
             name: '',
             value: ''
         })
+    }
+    TagCancel = (i) => {
+        this.props.InputCancelData(i)
+    }
+    GroupCancel = (i) => {
+        this.props.TagCancelDataInGroup(i)
     }
     InputChange = (i, title, e) => {
         this.props.inputValueChange(i, title, e.target.value)
@@ -47,7 +55,7 @@ class Drawercomponent extends Component {
             content.push(
                 <div key={'SQL12138'}>
                     <Tag>SQL:</Tag>
-                    <TextArea autosize={{minRows:25}} value={this.props.currentAttr.SQL} onChange={this.SQLChange.bind(this)}></TextArea>
+                    <TextArea autosize={{ minRows: 25 }} value={this.props.currentAttr.SQL} onChange={this.SQLChange.bind(this)}></TextArea>
                 </div>
             )
         } else if (this.props.flag === 'columns') {
@@ -61,6 +69,9 @@ class Drawercomponent extends Component {
                     </Col>
                     <Col span={6}>
                         <Tag>占位宽度</Tag>
+                    </Col>
+                    <Col>
+                        <Tag onClick={this.TagAdd.bind(this, this.props.currentAttr.columns.length - 1)}>添加</Tag>
                     </Col>
                 </div>
             )
@@ -80,7 +91,7 @@ class Drawercomponent extends Component {
                             </Col>
                             <Col span={6}>
                                 <Tag onClick={this.TagAdd.bind(this, i)}>添加</Tag>
-                                <Tag>删除</Tag>
+                                <Tag onClick={this.TagCancel.bind(this, i)}>删除</Tag>
                             </Col>
                         </InputGroup>
                     </div>
@@ -109,7 +120,7 @@ class Drawercomponent extends Component {
                             </Col>
                             <Col span={8}>
                                 <Tag onClick={this.GroupAdd.bind(this, i)}>添加</Tag>
-                                <Tag>删除</Tag>
+                                <Tag onClick={this.GroupCancel.bind(this, i)}>删除</Tag>
                             </Col>
                         </InputGroup>
                     </div>
@@ -123,6 +134,7 @@ class Drawercomponent extends Component {
                 closable={false}
                 visible={this.props.hide}
                 width='500'
+                onClose={this.onClose.bind(this)}
             >
                 <Form>
                     {content}
@@ -191,6 +203,12 @@ const mapDispatchProps = (dispatch) => {
         upDataCurrentDataSource: (k) => {
             dispatch(upDataCurrentDataSource(k))
         },
+        TagCancelDataInGroup: (k) => {
+            dispatch(TagCancelDataInGroup(k))
+        },
+        InputCancelData: (k) => {
+            dispatch(InputCancelData(k))
+        }
     }
 }
 export default connect(

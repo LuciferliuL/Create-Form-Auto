@@ -70,6 +70,10 @@ class ContentUser extends Component {
                 this.props.shows(this.props.currentAttr)
                 this.CLick()
                 break
+            case 27:
+                this.props.shows(this.props.currentAttr)
+                this.props.upForm(this.props.currentAttr)
+                break
         }
     }
     CLick = () => {
@@ -155,8 +159,8 @@ const mapDispatchProps = (dispatch) => {
 export default connect(
     mapStateToProps, mapDispatchProps
 )(Form.create({
-    mapPropsToFields(props){
+    mapPropsToFields(props) {
         console.log(props);
-        
+
     }
 })(ContentUser));

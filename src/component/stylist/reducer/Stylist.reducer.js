@@ -3,7 +3,7 @@ import { FORM_SOURCE_DATA, FORM_SOURCE_DATA_UPDATA, FORM_SOURCE_DATA_DELETE } fr
 import { CURRENT_ATTR } from '../action/Stylist.action'
 import { CURRENT_ATTR_UPDATA, FORM_UPDATA_FROM_CURRENT } from '../../SliderRIght/action/Right.action'
 import { TR_ADD_DOWN, TR_REDUCE_UP, SHOWS, UPDATA_VALUES, UPDATA_CURRENt_DATASOURCE } from '../../PublicComponent/lookup/action/lookup.action'
-import { TAG_PUSH_DATA_IN_COLUMNS, INPUT_VALUE_CHANGE, SQL_VALUE_CHANGE, GROUP_VALUE_CHANGE, TAG_PUSH_DATA_IN_GROUP } from '../../Drawer/action/Drawer.action'
+import { TAG_PUSH_DATA_IN_COLUMNS, INPUT_VALUE_CHANGE, SQL_VALUE_CHANGE, GROUP_VALUE_CHANGE, TAG_PUSH_DATA_IN_GROUP, TAG_CANCEL_DATA_IN_GROUP ,INPUT_CANCEL_DATA} from '../../Drawer/action/Drawer.action'
 import { INPUT_CHANGE } from '../../PublicComponent/Public.action'
 
 const initialState = []
@@ -84,10 +84,11 @@ export const currentAttr = (state = {}, action) => {
             let initial = action.initial
             let list = []
             state.columns.forEach((e, i) => {
+                list.push(e)
                 if (i === keys) {
                     list.push(initial)
                 }
-                list.push(e)
+               
             })
             return {
                 ...state, columns: list
@@ -97,13 +98,36 @@ export const currentAttr = (state = {}, action) => {
             let initial_ = action.initial
             let list_ = []
             state.GroupValue.forEach((e, i) => {
+                list_.push(e)
                 if (i === keys_) {
                     list_.push(initial_)
                 }
-                list_.push(e)
+                
             })
             return {
                 ...state, GroupValue: list_
+            }
+        case TAG_CANCEL_DATA_IN_GROUP:
+            let keys__ = action.key
+            let list__ = []
+            state.GroupValue.forEach((e, i) => {
+                if (i !== keys__) {
+                    list__.push(e)
+                }
+            })
+            return {
+                ...state, GroupValue: list__
+            }
+        case INPUT_CANCEL_DATA:
+            let key_ = action.key
+            let lists_ = []
+            state.columns.forEach((e, i) => {
+                if (i !== key_) {
+                    lists_.push(e)
+                }
+            })
+            return {
+                ...state, columns: lists_
             }
         case INPUT_VALUE_CHANGE:
             state.columns[action.key][action.title] = action.data

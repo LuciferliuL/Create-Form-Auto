@@ -13,7 +13,7 @@ const FormItem = Form.Item
 class LookUpPublicComponent extends Component {
     state = {
         Abbr: {},
-        totalPage:0
+        totalPage: 0
     }
     componentDidMount() {
 
@@ -23,7 +23,7 @@ class LookUpPublicComponent extends Component {
         let obj = this.props.UpdataFormData.find(e => e.key === key)
         this.props.UpDataCurrent(obj)
         this.props.shows(obj)
-        
+
         let body = {
             "Sql": obj.SQL,
             "Param": JSON.stringify(this.state.Abbr),
@@ -39,15 +39,19 @@ class LookUpPublicComponent extends Component {
             this.props.upDataCurrentDataSource(res.Results)
             this.props.upForm(this.props.current)
             this.setState({
-                totalPage:res.RecordCount
+                totalPage: res.RecordCount
             })
         })
+    }
+    Cancel = () => {
+        this.props.shows(this.props.current)
+        this.props.upForm(this.props.current)
     }
     ClickHandleShows = (key) => {
         if (Object.keys(this.props.current).length > 0) {
             let obj = this.props.UpdataFormData.find(e => e.key === key)
             this.props.UpDataCurrent(obj)
-            
+
             let body = {
                 "Sql": obj.SQL,
                 "Param": JSON.stringify(this.state.Abbr),
@@ -63,7 +67,7 @@ class LookUpPublicComponent extends Component {
                 this.props.upDataCurrentDataSource(res.Results)
                 this.props.upForm(this.props.current)
                 this.setState({
-                    totalPage:res.RecordCount
+                    totalPage: res.RecordCount
                 })
             })
         }
@@ -100,9 +104,9 @@ class LookUpPublicComponent extends Component {
             selectedRowKeys: [this.props.current.tr + 'row']
         }
         const page = {
-            pageSize:10,
-            totle:this.state.totalPage,
-            current:this.props.page
+            pageSize: 10,
+            totle: this.state.totalPage,
+            current: this.props.page
         }
         const { getFieldDecorator } = this.props.form
         const { dataSource, label, id, required, message, layout, columns, show } = this.props.PublicData
@@ -113,6 +117,7 @@ class LookUpPublicComponent extends Component {
                     width='100%'
                     style={{ top: '0' }}
                     footer={null}
+                    onCancel={this.Cancel.bind(this)}
                 >
                     <Table
                         rowKey='key'

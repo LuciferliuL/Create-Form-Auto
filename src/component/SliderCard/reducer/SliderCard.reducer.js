@@ -168,16 +168,16 @@ const SQL = [
         show:false,
         columns: [{
             title: "采购员ID",
-            dataIndex: "purchaser",
+            dataIndex: "PURCHASER",
         }, {
             title: "商品内码",
-            dataIndex: "prodID",
+            dataIndex: "PRODID",
         }, {
             title: "商品编码",
-            dataIndex: "prodNO",
+            dataIndex: "PRODNO",
         }, {
             title: "商品名称",
-            dataIndex: "prodNAME",
+            dataIndex: "PRODNAME",
         }, {
             title: "包装单位",
             dataIndex: "PACKAGEUNIT",
@@ -195,55 +195,55 @@ const SQL = [
             dataIndex: "CHINESEDRUGYIELDLY",
         }, {
             title: "税率",
-            dataIndex: "taxrate",
+            dataIndex: "TAXRATE",
         }, {
             title: "商品助记码",
-            dataIndex: "prodMEMORYCODE",
+            dataIndex: "PRODMEMORYCODE",
         }, {
             title: "供应商简码",
-            dataIndex: "archiveno",
+            dataIndex: "ARCHIVENO",
         }, {
             title: "商品规格",
             dataIndex: "PRODSPECIFICATION",
         }, {
             title: "商品剂型",
-            dataIndex: "Proddosageformnotext",
+            dataIndex: "PRODDOSAGEFORMNOTEXT",
         }, {
             title: "是否集采",
-            dataIndex: "is_centralizedpurchasing",
+            dataIndex: "IS_CENTRALIZEDPURCHASING",
         }, {
             title: "处方分类ID",
-            dataIndex: "PrescriptionClass",
+            dataIndex: "PRESCRIPTIONCLASS",
         }, {
             title: "零售价",
-            dataIndex: "RetailPrice",
+            dataIndex: "RETAILPRICE",
         }, {
             title: "最低售价",
-            dataIndex: "MinSellPrice",
+            dataIndex: "MINSELLPRICE",
         }, {
             title: "厂家限价",
-            dataIndex: "minsellpricelimit",
+            dataIndex: "MINSELLPRICELIMIT",
         }, {
             title: "基准指导价",
             dataIndex: "SELLGUIDPRICE",
         }, {
             title: "含税售价",
-            dataIndex: "selltaxprice",
+            dataIndex: "SELLTAXPRICE",
         }, {
             title: "业务类型名称",
-            dataIndex: "busitypetext",
+            dataIndex: "BUSITYPETEXT",
         }, {
             title: "采购员ID",
-            dataIndex: "purchaseid",
+            dataIndex: "PURCHASEID",
         }, {
             title: "成本单价",
-            dataIndex: "CostPrice",
+            dataIndex: "COSTPRICE",
         }, {
             title: "核算成本价",
-            dataIndex: "costaccounting",
+            dataIndex: "COSTACCOUNTING",
         }, {
             title: "是否活动",
-            dataIndex: "is_active",
+            dataIndex: "IS_ACTIVE",
         }
         ],
         SQL: `select

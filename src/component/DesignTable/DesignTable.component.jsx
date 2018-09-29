@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { selectkeysToHeader } from '../Slider/action/Header.action'
 import { stylistDataSourceAsync, fugai } from '../stylist/action/Stylist.action'
 import { API } from '../../lib/API/check.API.js'
-import { GET$ } from '../../lib/MATH/math.js'
+import { GET$, POST$} from '../../lib/MATH/math.js'
 
 class DesignTablecomponent extends Component {
   state = {
@@ -37,7 +37,7 @@ class DesignTablecomponent extends Component {
           this.state.data.length >= 1
             ? (
               <div>
-                <Popconfirm title="确定删除？" onConfirm={() => this.handleDelete(record.key)}>
+                <Popconfirm title="确定删除？" onConfirm={this.handleDelete.bind(this, record)}>
                   <Button>Delete</Button>
                 </Popconfirm>
                 <Button onClick={this.CreateTable.bind(this, record)}>编辑</Button>
@@ -57,12 +57,26 @@ class DesignTablecomponent extends Component {
     })
   }
   //delete
-  handleDelete = (key) => {
+  handleDelete = (record) => {
     //只是队列得删除  没有实际删除
-    const data = [...this.state.data]
+    // const data = [...this.state.data]
+    // this.setState({
+    //   data: data.filter(item => item.key !== key)
+    // })
     this.setState({
-      data: data.filter(item => item.key !== key)
+      loading:true
     })
+    POST$(API('Delete').http + record.PK + '/Delete',{},(res)=>{
+      console.log(res);
+      GET$(API('CheckFormList').http, (res) => {
+        // console.log(res);
+        this.setState({
+          data: res,
+          loading:false
+        })
+      })
+    })
+    
   }
   TableHeader = () => (
     <div>
@@ -70,12 +84,16 @@ class DesignTablecomponent extends Component {
     </div>
   )
   CreateTable = (dataSource) => {
-    // console.log(dataSource);
+    console.log(dataSource);
     //mock的数据 新建表单或者获取表单要覆盖原来的
     if (dataSource === 'new') {
+      localStorage.setItem('C','N')
+      this.props.fugai([])
+      this.props.update({})
       this.props.onTodoClick(['表单设计'])
       this.props.history.push('/Design/Stylist')
     } else {
+      localStorage.setItem('C',JSON.stringify(dataSource))
       this.props.fugai(JSON.parse(dataSource.Bytes))
       this.props.update(dataSource)
       this.props.onTodoClick(['表单设计'])

@@ -264,7 +264,7 @@ class Stylistcomponent extends Component {
 }
 
 const mapStateToProps = (State) => {
-    console.log(State);
+    // console.log(State);
 
     return {
         InitStylistData: State.InitStylistData,
@@ -307,4 +307,14 @@ const mapDispatchProps = (dispatch) => {
         },
     }
 }
-export default connect(mapStateToProps, mapDispatchProps)(Form.create()(Stylistcomponent));
+export default connect(mapStateToProps, mapDispatchProps)(Form.create({
+    mapPropsToFields(props){
+        let Field = {}
+        console.log(props);
+        if(Object.keys(props.InitStylistData).length > 0){
+            Field['Name'] =  Form.createFormField({value:props.InitStylistData.Name})
+            Field['Category'] = Form.createFormField({value:props.InitStylistData.Category})
+        }
+        return Field
+    }
+})(Stylistcomponent));
