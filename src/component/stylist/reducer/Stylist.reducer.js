@@ -39,7 +39,6 @@ export const UpdataFormData = (state = [], action) => {
                     if (item.key !== action.formSourceDataDelete.key) {
                         return item
                     }
-                    return true
                 })
             } return state
         case FORM_UPDATA_FROM_CURRENT:

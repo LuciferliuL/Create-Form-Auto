@@ -346,7 +346,7 @@ class SliderRightcomponent extends Component {
 
                             >
                                 {getFieldDecorator('w')(
-                                    <InputNumber min={4} max={24} />
+                                    <InputNumber min={2} max={24} />
                                 )}
                             </FormItem>
                         </TabPane>
