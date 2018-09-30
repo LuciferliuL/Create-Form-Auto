@@ -54,15 +54,14 @@ export const UpdataFormData = (state = [], action) => {
         case CLEAR_FORM:
             return state = action.initial
         case TABLE_UPDATA_FROM_RESULTS:
-            return state.map(e => e.type === 'Table' ? { ...e, dataSource: action.initial } : e)
+            return state.map(e => e.type === 'Table' ? { ...e, dataSource: action.initial, totalPage:action.page } : e)
         default:
             return state;
     }
 }
 
 export const currentAttr = (state = {}, action) => {
-    console.log(action);
-
+    // console.log(action);
     switch (action.type) {
         case CURRENT_ATTR:
             return state = action.currentAttr
@@ -144,7 +143,7 @@ export const currentAttr = (state = {}, action) => {
             }
         case UPDATA_CURRENt_DATASOURCE:
             return {
-                ...state, dataSource: action.initial
+                ...state, dataSource: action.initial,totalPage:action.totalPage
             }
         default:
             return state

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Input, Button, Modal} from 'antd'
+import { Form, Pagination, Input, Button, Modal, Table, Radio } from 'antd'
 import { connect } from 'react-redux'
 import './LookUp.PublicComponent.css'
 import { shows, upDataCurrentDataSource } from './action/lookup.action'
@@ -7,8 +7,6 @@ import { currentAttr } from '../../stylist/action/Stylist.action'
 import { formUpdataFromCurrent } from '../../SliderRIght/action/Right.action'
 import { POST$ } from '../../../lib/MATH/math'
 import { API } from '../../../lib/API/check.API'
-import TablePublicComponent from '../table/Table.PublicComponent'
-
 
 const FormItem = Form.Item
 
@@ -18,27 +16,31 @@ class LookUpPublicComponent extends Component {
         totalPage: 0
     }
     componentDidMount() {
-        
+
     }
 
-    ClickHandleKey = (key,page,pagesize,show) => {
+    ClickHandleKey = (key) => {
         let obj = this.props.UpdataFormData.find(e => e.key === key)
         this.props.UpDataCurrent(obj)
-        if(show){
-            this.props.shows(obj)
-        }
-       
+        this.props.shows(obj)
+
         let body = {
             "Sql": obj.SQL,
             "Param": JSON.stringify(this.state.Abbr),
-            "PageIndex": page,
-            "PageSize": pagesize,
-            isPage: true
+            "PageIndex": 1,
+            "PageSize": 100,
+            isPage: false
         }
         POST$(API('SQL').http, body, (res) => {
-            console.log(res);
-            this.props.upDataCurrentDataSource(res.Results,res.RecordCount)
+            // console.log(res);
+            res.Results.forEach((e, i) => {
+                e['key'] = i + 'row'
+            })
+            this.props.upDataCurrentDataSource(res.Results)
             this.props.upForm(this.props.current)
+            this.setState({
+                totalPage: res.RecordCount
+            })
         })
     }
     Cancel = () => {
@@ -55,17 +57,33 @@ class LookUpPublicComponent extends Component {
                 "Param": JSON.stringify(this.state.Abbr),
                 "PageIndex": 1,
                 "PageSize": 100,
-                isPage: true
+                isPage: false
             }
             POST$(API('SQL').http, body, (res) => {
                 // console.log(res);
-                this.props.upDataCurrentDataSource(res.Results,res.RecordCount)
+                res.Results.forEach((e, i) => {
+                    e['key'] = i + 'row'
+                })
+                this.props.upDataCurrentDataSource(res.Results)
                 this.props.upForm(this.props.current)
+                this.setState({
+                    totalPage: res.RecordCount
+                })
             })
         }
 
     }
-
+    onSelectChange = (selectedRowKeys, selectedRows) => {
+        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+    }
+    onSelect_ = (record, selected, selectedRows) => {
+        console.log(selected);
+        console.log(record);
+        console.log(selectedRows);
+    }
+    onSelectAll_ = (selected, selectedRows, changeRows) => {
+        console.log(selected, selectedRows, changeRows);
+    }
     ParamChange = (e) => {
         let Abbr = {}
         Abbr['Abbr'] = e.target.value
@@ -75,8 +93,23 @@ class LookUpPublicComponent extends Component {
 
     }
     render() {
+        // console.log(this.props.Read);
+        const rowSelection = {
+            onChange: this.onSelectChange,
+            onSelect: this.onSelect_,
+            onSelectAll: this.onSelectAll_,
+            hideDefaultSelections: true,
+            type: 'radio',
+            selections: true,
+            selectedRowKeys: [this.props.current.tr + 'row']
+        }
+        const page = {
+            pageSize: 200,
+            totle: this.state.totalPage,
+            current: this.props.page
+        }
         const { getFieldDecorator } = this.props.form
-        const { dataSource, label, id, required, message, layout, columns, show , scroll} = this.props.PublicData
+        const { dataSource, label, id, required, message, layout, columns, show } = this.props.PublicData
         return (
             <div className="certain-category-search-wrapper" style={{ width: '100%' }}>
                 <Modal
@@ -86,15 +119,21 @@ class LookUpPublicComponent extends Component {
                     footer={null}
                     onCancel={this.Cancel.bind(this)}
                 >
-                    <TablePublicComponent 
-                    PublicData={this.props.current} 
-                    ClickHandleKey={this.ClickHandleKey.bind(this)}
-                    totalPage={this.state.totalPage}>
-                    </TablePublicComponent>
+                    <Table
+                        rowKey='key'
+                        columns={columns}
+                        rowSelection={rowSelection}
+                        dataSource={dataSource}
+                        type={Radio}
+                        bordered
+                        pagination={page}
+                        scroll={{ x: 10000 }}
+                        size="small"
+                    />
                 </Modal>
                 {
                     this.props.Read === 'R' ?
-                        <Button style={{ opacity: 0, width: '50%', position: 'absolute', zIndex: 2, right: '5%' }} onClick={this.ClickHandleKey.bind(this, this.props.PublicData.key,1,200,true)}>aaaa</Button>
+                        <Button style={{ opacity: 0, width: '50%', position: 'absolute', zIndex: 2, right: '5%' }} onClick={this.ClickHandleKey.bind(this, this.props.PublicData.key)}>aaaa</Button>
                         : <Button style={{ opacity: 0, width: '50%', position: 'absolute', zIndex: 2, right: '5%' }} onClick={this.ClickHandleShows.bind(this, this.props.current.key)}>aaaa</Button>
                 }
                 <FormItem
@@ -127,8 +166,8 @@ const mapDispatchProps = (dispatch) => {
         UpDataCurrent: (k) => {
             dispatch(currentAttr(k))
         },
-        upDataCurrentDataSource: (k,totalPage) => {
-            dispatch(upDataCurrentDataSource(k,totalPage))
+        upDataCurrentDataSource: (k) => {
+            dispatch(upDataCurrentDataSource(k))
         },
         upForm: (k) => {
             dispatch(formUpdataFromCurrent(k))

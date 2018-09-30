@@ -47,9 +47,10 @@ export const updataValues = (init) => {
     }
 }
 
-export const upDataCurrentDataSource = (initial) => {
+export const upDataCurrentDataSource = (initial,totalPage) => {
     return {
         type:UPDATA_CURRENt_DATASOURCE,
-        initial:initial
+        initial:initial,
+        totalPage:totalPage
     }
 }

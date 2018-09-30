@@ -18,11 +18,11 @@ class Desgincomponent extends Component {
         user: this.props.location.state
     };
     componentWillMount() {
-        if (this.props.location.state) {
+        // if (this.props.location.state) {
 
-        } else {
-            this.props.history.push('/')
-        }
+        // } else {
+        //     this.props.history.push('/')
+        // }
     }
     onCollapse = (collapsed) => {
         // console.log(collapsed);
@@ -53,7 +53,7 @@ class Desgincomponent extends Component {
                     <SliderMenucomponent></SliderMenucomponent>
                 </Sider>
                 <Layout>
-                    <Headercomponent user={user}></Headercomponent>
+                    {/* <Headercomponent user={user}></Headercomponent> */}
                     <Content style={{ margin: '10px 16px' }}>
                         <div style={{ padding: 24, background: '#fff', minHeight: 660 }}>
                             <Route path='/Design/er' component={DesignTablecomponent}></Route>

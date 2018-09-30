@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { Layout, Menu, Dropdown, Button, Tag, Icon,message } from "antd";
+import { Layout, Menu, Dropdown, Button, Tag, Icon, message } from "antd";
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { API } from '../../lib/API/check.API'
 import { POST$ } from '../../lib/MATH/math'
-import {_clear, _tableUpdataFromResults} from '../stylist/action/Stylist.action'
+import { _clear, _tableUpdataFromResults } from '../stylist/action/Stylist.action'
 
 const ButtonGroup = Button.Group;
 const { Header } = Layout
@@ -42,30 +42,42 @@ class Headercomponent extends Component {
                 } else {
                     valueList[e.id] = e.defaultValue
                 }
-            }else if(e.type === 'Table'){
+            } else if (e.type === 'Table') {
                 SQL = e.SQL
             }
         })
-
-        console.log(valueList);
-        let body = {
-            "Sql": SQL,
-            "Param": JSON.stringify(valueList),
-            "PageIndex": 1,
-            "PageSize": 100,
-            isPage: false
-        }
-        POST$(API('SQL').http, body, (res) => {
-            console.log(res);
-            this.props.Loading()
-            if(res.Results){
-                this.props._tableUpdataFromResults(res.Results)
-            }else{
-                message.error('没有数据返回')
+        let post = new Promise((resolve, reject) => {
+            let body = {
+                "Sql": SQL,
+                "Param": JSON.stringify(valueList),
+                "PageIndex": 1,
+                "PageSize": 200,
+                isPage: true
             }
-            
+            POST$(API('SQL').http, body, (res) => {
+                console.log(res);
+                if (res.Results) {
+                    this.props._tableUpdataFromResults(res.Results, res.RecordCount)
+                    resolve(true)
+                } else {
+                    reject(false)
+                }
+
+            })
+        })
+        let time = new Promise((resolve, reject)=>{
+            setTimeout(() => {
+                reject(false)
+            }, 10000);
         })
 
+        Promise.race([post, time])
+       .then((result)=>{
+           this.props.Loading()
+       })
+       .catch((err)=>{
+           message.error('获取数据超时')
+       })
     }
     render() {
         const { user } = this.state
@@ -88,7 +100,7 @@ class Headercomponent extends Component {
                     <ButtonGroup>
                         <Button onClick={this.SQLChecked.bind(this)}><Icon type="security-scan" theme="outlined" />查询</Button>
                         <Button ><Icon type="copyright" theme="outlined" />清空</Button>
-                        <Button onClick={()=>{this.props.clear()}}><Icon type="export" theme="outlined" />关闭</Button>
+                        <Button onClick={() => { this.props.clear() }}><Icon type="export" theme="outlined" />关闭</Button>
                         <Button ><Icon type="usb" theme="outlined" />导出</Button>
                     </ButtonGroup>
                 </div> : <div style={{ float: 'left' }}>你好！设计师</div>
@@ -111,11 +123,11 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchProps = (dispatch) => {
     return {
-        clear:()=>{
+        clear: () => {
             dispatch(_clear())
         },
-        _tableUpdataFromResults:(k)=>{
-            dispatch(_tableUpdataFromResults(k))
+        _tableUpdataFromResults: (k, totalPage) => {
+            dispatch(_tableUpdataFromResults(k, totalPage))
         }
     }
 }

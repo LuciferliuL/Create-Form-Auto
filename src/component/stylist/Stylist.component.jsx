@@ -169,6 +169,7 @@ class Stylistcomponent extends Component {
                     title="保存表单"
                     visible={this.state.visible}
                     footer={null}
+                    onCancel={this.handleCancel.bind(this)}
                 >
                     <Form onSubmit={this.handleSubmit}>
                         <FormItem>

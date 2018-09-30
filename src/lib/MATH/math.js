@@ -1,5 +1,6 @@
 import 'isomorphic-fetch'
 import $ from 'jquery'
+import {message} from 'antd'
 
 /**
  * 
@@ -148,20 +149,29 @@ export const GET$ = (URL, Callback) => {
 export const POST$ = (URL, POSTBODY, CALLBACK) => {
     POSTBODY = JSON.stringify(POSTBODY)
     let token = localStorage.getItem('token')
-    $.ajax({
-        url: URL,
-        type: "POST",
-        contentType: 'application/json;charset=utf-8',
-        data: POSTBODY,
-        dataType: "JSON",
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader("Authorization", "Bearer " + token)
-        },
-        success: function (res) {
-            CALLBACK(res)
-        }
-    })
+        $.ajax({
+            url: URL,
+            type: "POST",
+            contentType: 'application/json;charset=utf-8',
+            data: POSTBODY,
+            dataType: "JSON",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization", "Bearer " + token)
+            },
+            success: function (res) {
+                CALLBACK(res)
+            }
+        })
 }
+
+$.ajaxSetup({
+    statusCode:{
+        500:function(){
+            message.error('服务器错误。500')
+        }
+    }
+})
+
 function getTime() {
     var myDate = new Date()
     var mytime

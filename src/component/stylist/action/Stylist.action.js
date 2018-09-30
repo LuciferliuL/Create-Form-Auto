@@ -7,6 +7,7 @@ export const FORM_UPDATA_FUGAI = 'FORM_UPDATA_FUGAI'
 export const CLEAR_FORM = 'CLEAR_FORM'
 export const TABLE_UPDATA_FROM_RESULTS = 'TABLE_UPDATA_FROM_RESULTS'
 
+
 //需要编辑选中的元素
 export const stylistDataSourceGet = (InitStylistData) => {
     return {
@@ -64,9 +65,12 @@ export const _clear = (initial = [])=>{
     }
 }
 
-export const _tableUpdataFromResults = (initial) => {
+export const _tableUpdataFromResults = (initial,totalPage) => {
     return {
         type:TABLE_UPDATA_FROM_RESULTS,
-        initial:initial
+        initial:initial,
+        totalPage:totalPage
     }
 }
+
+

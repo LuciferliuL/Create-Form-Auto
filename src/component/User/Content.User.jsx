@@ -19,7 +19,7 @@ class ContentUser extends Component {
     state = {
         data: [],
         domWidth: 0,
-        page: 1,
+        totalpage: 0,
         flag: true
     }
     myRef = React.createRef()
@@ -49,22 +49,10 @@ class ContentUser extends Component {
                 }
                 break;
             case 37:
-                if (this.state.page > 1) {
-                    this.props.trReduceUp(this.props.currentAttr.tr, 10)
-                    this.setState((pre) => (
-                        {
-                            page: pre.page - 1
-                        }
-                    ))
-                }
+               
                 break
             case 39:
-                this.props.trAddDown(this.props.currentAttr.tr, 10)
-                this.setState((pre) => (
-                    {
-                        page: pre.page + 1
-                    }
-                ))
+                
                 break
             case 13:
                 this.props.shows(this.props.currentAttr)
@@ -79,13 +67,11 @@ class ContentUser extends Component {
     CLick = () => {
         const { dataSource } = this.props.currentAttr
         if (dataSource !== []) {
-            console.log(this.props.currentAttr.tr);
+            // console.log(this.props.currentAttr.tr);
             let dataSource_ = JSON.parse(JSON.stringify(dataSource[this.props.currentAttr.tr]))
             //更新lookup对应得input
             this.props.updataValues(dataSource_)
-
             window.removeEventListener('keyup', this.handleKeyDown)
-
 
             let agg = this.props.UpdataFormData.filter(e => e.type === 'INPUT' && e.isTrueInLookUp === this.props.currentAttr.id)
             agg.forEach(e => {
@@ -116,7 +102,7 @@ class ContentUser extends Component {
                 <div key={e.key}
                     style={{ position: "absolute", top: PositionTop, left: PositionLeft, width: width, height: height }}
                     onClick={this.PositionHTML.bind(this, e.type)}>
-                    <PublicComponent PublicData={e} Read={'R'} page={this.state.page} />
+                    <PublicComponent PublicData={e} Read={'R'} page={this.state.totalpage} />
                 </div>
             )
         })
