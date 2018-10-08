@@ -26,8 +26,7 @@ class TablePublicComponent extends Component {
         columns.forEach((e, i) => {
             widths += Number(e.width)
             theads.push(
-                <th key={i + e.title} style={{
-                    width: e.width + 'px', borderCollapse: "collapse",
+                <th key={i + e.title} style={{ borderCollapse: "collapse",
                     textAlign: 'left', padding: '8px 8px', wordBreak: 'break-word',
                     border: '1px solid #e8e8e8', backgroundColor: '#1890ff'
                 }}>{e.title}</th>
@@ -46,10 +45,10 @@ class TablePublicComponent extends Component {
                     o++
                     list.push(<td key={o}
                         style={{
-                            width: t.width + 'px', borderCollapse: "collapse",
+                            borderCollapse: "collapse",
                             textAlign: 'left', padding: '8px 8px', wordBreak: 'break-word',
-                            border: '1px solid #e8e8e8'
-                        }}>{e[t.dataIndex]}</td>)
+                            border: '1px solid #e8e8e8',whiteSpace: 'nowrap'
+                        }}>{e[t.data]}</td>)
                 })
                 tbodys.push(
                     <tr key={i + 121378}
@@ -80,15 +79,15 @@ class TablePublicComponent extends Component {
             // scroll={{ y: scroll}}
             // rowKey={groupname}/>
             <div>
-                <div style={type === 'LookUp' ? {
+                {/* <div style={type === 'LookUp' ? {
                     overflow: 'scroll',
                     height: '400px',
                     position: 'relative'
                 } : {
                         overflow: 'scroll',
                         position: 'relative'
-                    }}>
-                    <div style={{ position: 'relative', top: '1px', zIndex: '999' }}>
+                    }}> */}
+                    {/* <div style={{ position: 'relative', top: '1px', zIndex: '999' }}>
                         <table style={{
                             position: 'relative',
                             width: widths > w ? widths : '100%', border: '1', verticalAlign: 'middle',
@@ -107,23 +106,34 @@ class TablePublicComponent extends Component {
                                 </tr>
                             </thead>
                         </table>
-                    </div>
+                    </div> */}
                     <div >
                         <table
                             style={{
-                                position: 'relative',
+                                position:'relative',
                                 width: widths > w ? widths : '100%', border: '1', verticalAlign: 'middle',
                                 boxSizing: 'border-box',
                                 // height: '600px',
                                 borderColor: 'inherit', textAlign: 'left', borderSpacing: '2px',
-                                top: heightTable
+                               
                             }}>
-                            <tbody>
+                            <thead style={{position:'relative',top:'0'}}>
+                                <tr>
+                                    <th style={{
+                                        
+                                        width: '40px', borderCollapse: "collapse",
+                                        textAlign: 'left', padding: '8px 8px', wordBreak: 'break-word',
+                                        border: '1px solid #e8e8e8', backgroundColor: '#1890ff'
+                                    }}></th>
+                                    {theads}
+                                </tr>
+                            </thead>
+                            <tbody style={{overflow: 'scroll',height:'800px', top: heightTable,position: 'relative'}}>
                                 {tbodys.length > 0 ? tbodys : null}
                             </tbody>
                         </table>
                     </div>
-                </div>
+                {/* </div> */}
                 <Pagination
                     defaultCurrent={1}
                     total={totalPage}

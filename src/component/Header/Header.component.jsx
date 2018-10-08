@@ -8,6 +8,7 @@ import { _clear, _tableUpdataFromResults } from '../stylist/action/Stylist.actio
 
 const ButtonGroup = Button.Group;
 const { Header } = Layout
+
 class Headercomponent extends Component {
     state = {
         user: ''
@@ -24,9 +25,86 @@ class Headercomponent extends Component {
 
         }
     }
+    componentDidMount() {
+        console.log(this.props);
+    }
+    componentWillReceiveProps(pre) {
+        console.log(pre);
+        if (pre.R === 'R') {
+            document.onkeydown = function (e) {
+                // console.log(e.keyCode);
+
+                var keyCode = e.keyCode || e.which || e.charCode;
+                var altKey = e.altKey;
+                if (altKey && keyCode == 81) {
+                    pre.Loading()
+                    let valueList = {}
+                    let SQL = ''
+                    pre.data.map(e => {
+                        if (e.type !== 'Table' && e.type !== 'Group') {
+                            if (e.type === 'LookUp') {
+                                valueList[e.upKey] = e.values[e.upKey]
+                            } else if (e.type === 'Input' && e.typePoint === 0) {
+                                valueList[e.id] = e.defaultValue
+                            } else if (e.type === 'Input' && e.typePoint !== 0) {
+                                valueList[e.typePoint] = e.defaultValue
+                            } else {
+                                valueList[e.id] = e.defaultValue
+                            }
+                        } else if (e.type === 'Table') {
+                            SQL = e.SQL
+                        }
+                    })
+                    let post = new Promise((resolve, reject) => {
+                        let body = {
+                            "Sql": SQL,
+                            "Param": JSON.stringify(valueList),
+                            "PageIndex": 1,
+                            "PageSize": 200,
+                            isPage: true
+                        }
+                        POST$(API('SQL').http, body, (res) => {
+                            console.log(res);
+                            if (res.Results) {
+                                this.props._tableUpdataFromResults(res.Results, res.RecordCount)
+                                resolve(true)
+                            } else {
+                                reject(false)
+                            }
+
+                        })
+                    })
+                    let time = new Promise((resolve, reject) => {
+                        setTimeout(() => {
+                            reject(false)
+                        }, 10000);
+                    })
+
+                    Promise.race([post, time])
+                        .then((result) => {
+                            pre.Loading()
+                        })
+                        .catch((err) => {
+                            message.error('获取数据超时')
+                            pre.Loading()
+                        })
+                } else if (altKey && keyCode == 82) {
+
+                } else if (altKey && keyCode == 67) {
+                    pre.clear()
+                } else if (altKey && keyCode == 65) {
+
+                }
+                e.preventDefault();
+                return false;
+            }
+        }
+
+    }
     enter = () => {
         this.props.history.push('/')
     }
+
     SQLChecked = () => {
         this.props.Loading()
         let valueList = {}
@@ -65,21 +143,26 @@ class Headercomponent extends Component {
 
             })
         })
-        let time = new Promise((resolve, reject)=>{
+        let time = new Promise((resolve, reject) => {
             setTimeout(() => {
                 reject(false)
             }, 10000);
         })
 
         Promise.race([post, time])
-       .then((result)=>{
-           this.props.Loading()
-       })
-       .catch((err)=>{
-           message.error('获取数据超时')
-       })
+            .then((result) => {
+                this.props.Loading()
+            })
+            .catch((err) => {
+                message.error('获取数据超时')
+            })
     }
+    guanbi = () => {
+        this.props.clear()
+    }
+
     render() {
+
         const { user } = this.state
         const menu = (
             <Menu>
@@ -100,7 +183,7 @@ class Headercomponent extends Component {
                     <ButtonGroup>
                         <Button onClick={this.SQLChecked.bind(this)}><Icon type="security-scan" theme="outlined" />查询</Button>
                         <Button ><Icon type="copyright" theme="outlined" />清空</Button>
-                        <Button onClick={() => { this.props.clear() }}><Icon type="export" theme="outlined" />关闭</Button>
+                        <Button onClick={this.guanbi.bind(this)}><Icon type="export" theme="outlined" />关闭</Button>
                         <Button ><Icon type="usb" theme="outlined" />导出</Button>
                     </ButtonGroup>
                 </div> : <div style={{ float: 'left' }}>你好！设计师</div>
@@ -116,7 +199,7 @@ class Headercomponent extends Component {
     }
 }
 const mapStateToProps = (state) => {
-    console.log(state);
+    // console.log(state);
     return {
         data: state.UpdataFormData
     }

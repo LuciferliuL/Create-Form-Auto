@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
-import { Table, Button, Popconfirm ,Spin} from 'antd'
+import { Table, Button, Popconfirm, Spin } from 'antd'
 import { connect } from 'react-redux'
 import { selectkeysToHeader } from '../Slider/action/Header.action'
 import { stylistDataSourceAsync, fugai } from '../stylist/action/Stylist.action'
 import { API } from '../../lib/API/check.API.js'
-import { GET$, POST$} from '../../lib/MATH/math.js'
+import { GET$, POST$, POSTFETCH ,downloadFile} from '../../lib/MATH/math.js'
 
 class DesignTablecomponent extends Component {
   state = {
     data: [],
-    loading:true,
+    loading: true,
     columns: [{
       title: 'Name',
       dataIndex: 'Name',
@@ -36,12 +36,13 @@ class DesignTablecomponent extends Component {
         return (
           this.state.data.length >= 1
             ? (
-              <div>
+              <Button.Group>
                 <Popconfirm title="确定删除？" onConfirm={this.handleDelete.bind(this, record)}>
-                  <Button>Delete</Button>
+                  <Button type='danger'>Delete</Button>
                 </Popconfirm>
                 <Button onClick={this.CreateTable.bind(this, record)}>编辑</Button>
-              </div>
+                <Button type='primary' onClick={this.daochu.bind(this, record)}>导出配置</Button>
+              </Button.Group>
             ) : null
         )
       }
@@ -52,7 +53,7 @@ class DesignTablecomponent extends Component {
       // console.log(res);
       this.setState({
         data: res,
-        loading:false
+        loading: false
       })
     })
   }
@@ -64,36 +65,48 @@ class DesignTablecomponent extends Component {
     //   data: data.filter(item => item.key !== key)
     // })
     this.setState({
-      loading:true
+      loading: true
     })
-    POST$(API('Delete').http + record.PK + '/Delete',{},(res)=>{
+    POST$(API('Delete').http + record.PK + '/Delete', {}, (res) => {
       console.log(res);
       GET$(API('CheckFormList').http, (res) => {
         // console.log(res);
         this.setState({
           data: res,
-          loading:false
+          loading: false
         })
       })
     })
-    
+
   }
   TableHeader = () => (
     <div>
       <Button onClick={this.CreateTable.bind(this, 'new')}>新建表单</Button>
     </div>
   )
+  daochu = (record) => {
+    console.log(record);
+    let body = {
+      Bytes: record.Bytes,
+      Name: record.Name
+    }
+    // POSTFETCH(API('DOWNLOAD').http,JSON.stringify(body) , (res) => {
+    //   console.log(res);
+
+    // })
+    downloadFile(record.Name,record.Bytes)
+  }
   CreateTable = (dataSource) => {
     console.log(dataSource);
     //mock的数据 新建表单或者获取表单要覆盖原来的
     if (dataSource === 'new') {
-      localStorage.setItem('C','N')
+      localStorage.setItem('C', 'N')
       this.props.fugai([])
       this.props.update({})
       this.props.onTodoClick(['表单设计'])
       this.props.history.push('/Design/Stylist')
     } else {
-      localStorage.setItem('C',JSON.stringify(dataSource))
+      localStorage.setItem('C', JSON.stringify(dataSource))
       this.props.fugai(JSON.parse(dataSource.Bytes))
       this.props.update(dataSource)
       this.props.onTodoClick(['表单设计'])
@@ -130,7 +143,7 @@ const mapDispatchProps = (dispatch) => {
     },
     fugai: (k) => {
       dispatch(fugai(k))
-  },
+    },
   }
 }
 export default connect(mapStateToProps, mapDispatchProps)(DesignTablecomponent);

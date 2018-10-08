@@ -37,6 +37,11 @@ export const API = (key) => {
                 method: "POST",
                 http: 'http://10.3.4.177:9004/api/DataForm/'
             }
+        case 'DOWNLOAD':
+            return {
+                method:'POST',
+                http: 'http://10.2.132.215:7000/api/commonquery/Dataformas'
+            }
         default:
             break;
     }

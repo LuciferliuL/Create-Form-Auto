@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Card, Form, Button } from 'antd'
 import { connect } from 'react-redux';
-import { trAddDown, trReduceUp, shows, updataValues } from '../PublicComponent/lookup/action/lookup.action'
+import { trAddDown, trReduceUp, shows } from '../PublicComponent/lookup/action/lookup.action'
 import { formUpdataFromCurrent } from '../SliderRIght/action/Right.action'
 import PublicComponent from '../PublicComponent/Public.Component'
 import { fugai } from '../stylist/action/Stylist.action'
@@ -30,66 +30,13 @@ class ContentUser extends Component {
         })
     }
     componentDidMount() {
-
         setTimeout(() => {
             this.changeWidth()
         }, 50);
     }
-    handleKeyDown = (e) => {
-        const { dataSource, columns } = this.props.currentAttr
-        switch (e.keyCode) {
-            case 40://下
-                if (this.props.currentAttr.tr < dataSource.length - 1) {
-                    this.props.trAddDown(this.props.currentAttr.tr, 1)
-                }
-                break;
-            case 38://上
-                if (this.props.currentAttr.tr > 0) {
-                    this.props.trReduceUp(this.props.currentAttr.tr, 1)
-                }
-                break;
-            case 37:
-               
-                break
-            case 39:
-                
-                break
-            case 13:
-                this.props.shows(this.props.currentAttr)
-                this.CLick()
-                break
-            case 27:
-                this.props.shows(this.props.currentAttr)
-                this.props.upForm(this.props.currentAttr)
-                break
-        }
-    }
-    CLick = () => {
-        const { dataSource } = this.props.currentAttr
-        if (dataSource !== []) {
-            // console.log(this.props.currentAttr.tr);
-            let dataSource_ = JSON.parse(JSON.stringify(dataSource[this.props.currentAttr.tr]))
-            //更新lookup对应得input
-            this.props.updataValues(dataSource_)
-            window.removeEventListener('keyup', this.handleKeyDown)
 
-            let agg = this.props.UpdataFormData.filter(e => e.type === 'INPUT' && e.isTrueInLookUp === this.props.currentAttr.id)
-            agg.forEach(e => {
-                e.defaultValue = dataSource_.type
-            })
-            console.log(agg);
-            //更新整个form
-            this.props.upForm(this.props.currentAttr)
-
-        }
-    }
-    PositionHTML = (key) => {
-        // console.log(key);
-        if (key === 'LookUp') {
-            window.addEventListener('keyup', this.handleKeyDown)
-        }
-    }
     render() {
+        var h = (document.documentElement.clientHeight || document.body.clientHeight)*0.85
         let Dr = []
         let width_ = this.state.domWidth / 24
         let height_ = 40
@@ -100,8 +47,7 @@ class ContentUser extends Component {
                 , PositionLeft = e.GridX * width_
             Dr.push(
                 <div key={e.key}
-                    style={{ position: "absolute", top: PositionTop, left: PositionLeft, width: width, height: height }}
-                    onClick={this.PositionHTML.bind(this, e.type)}>
+                    style={{ position: "absolute", top: PositionTop, left: PositionLeft, width: width, height: height }}>
                     <PublicComponent PublicData={e} Read={'R'} page={this.state.totalpage} />
                 </div>
             )
@@ -109,9 +55,9 @@ class ContentUser extends Component {
         return (
             <Card
                 ref={this.myRef}
-                style={{ minHeight: '720px' }}>
+                style={{ minHeight: h +'px' }}>
                 <Form
-                    style={{ minHeight: '400px', padding: '5px', position: 'relative' }}>
+                    style={{ minHeight: h +'px', padding: '5px', position: 'relative' }}>
                     {this.props.UpdataFormData.length < 1 ? 'loading'
                         : Dr}
                 </Form>
@@ -125,9 +71,7 @@ const mapDispatchProps = (dispatch) => {
         upData: (k) => {
             dispatch(fugai(k))
         },
-        updataValues: (k) => {
-            dispatch(updataValues(k))
-        },
+
         trAddDown: (k, i) => {
             dispatch(trAddDown(k, i))
         },

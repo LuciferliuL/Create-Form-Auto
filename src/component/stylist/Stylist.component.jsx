@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Col, Card, Icon, Popconfirm, Form, Button, Modal, Input, message, Spin } from 'antd'
 import { connect } from 'react-redux'
-import { stylistDataSourceGet, formSourceData, currentAttr, formSourceDataUpdata, formSourceDataDelete } from './action/Stylist.action'
+import { stylistDataSourceGet, formSourceData, currentAttr, formSourceDataUpdata, formSourceDataDelete,fugai } from './action/Stylist.action'
 import './Stylist.css'
 import PublicComponent from '../PublicComponent/Public.Component'
 import SliderCard from '../SliderCard/SliderCard'
@@ -41,37 +41,6 @@ class Stylistcomponent extends Component {
     componentWillUnmount() {
         clearTimeout(this.times)
     }
-    handleKeyDown = (e) => {
-        // console.log(this.state.tr);
-        // console.log(this.state.td);
-        const { dataSource, columns } = this.props.currentAttr
-        switch (e.keyCode) {
-            case 40://下
-                if (this.props.currentAttr.tr < dataSource.length - 1) {
-                    this.props.trAddDown(this.props.currentAttr.tr)
-                }
-                break;
-            case 38://上
-                if (this.props.currentAttr.tr > 0) {
-                    this.props.trReduceUp(this.props.currentAttr.tr)
-                }
-                break;
-            case 13:
-                this.props.shows(this.props.currentAttr)
-                this.CLick()
-                break
-        }
-    }
-    CLick = () => {
-        window.removeEventListener('keyup', this.handleKeyDown)
-        const { dataSource } = this.props.currentAttr
-        if (dataSource.length > 0) {
-            console.log(this.props.currentAttr.tr);
-            this.props.updataValues(JSON.parse(JSON.stringify(dataSource[this.props.currentAttr.tr])))
-            this.props.upForm(this.props.currentAttr)
-        }
-    }
-
     allowDrop = (ev) => {
         ev.preventDefault()
     }
@@ -90,7 +59,7 @@ class Stylistcomponent extends Component {
         this.props.rightUpdata(e)
     }
     cancel = (e) => {
-        console.log(e);
+        // console.log(e);
         this.props.FormDataDelete(e)
     }
     //固定位置
@@ -109,7 +78,7 @@ class Stylistcomponent extends Component {
         }, () => { this.changeWidth() })
     }
     handleCancel = (e) => {
-        console.log(e);
+        // console.log(e);
         this.props.form.resetFields(['formname'])
         this.setState({
             visible: false,
@@ -145,8 +114,14 @@ class Stylistcomponent extends Component {
                     }
                 }
                 POST$(API('SaveForm').http, save, (res) => {
-                    console.log(res);
+                    // console.log(res);
                     res.PK === -1 ? message.error('保存失败') : message.success('保存成功')
+                    // this.props.fugai([])
+                    // localStorage.setItem('C','N')
+                    this.props.fugai([])
+                    this.props.update({})
+                    // this.props.onTodoClick(['表单设计'])
+                    // this.props.history.push('/Design/Stylist')
                 })
                 this.setState({
                     visible: false,
@@ -155,12 +130,8 @@ class Stylistcomponent extends Component {
             }
         });
     }
-    PositionHTML = (key) => {
-        if (key === 'LookUp') {
-            window.addEventListener('keyup', this.handleKeyDown)
-        }
-    }
     render() {
+        var h = (document.documentElement.clientHeight || document.body.clientHeight)*0.65
         // console.log(this.state.dataSource);
         const { getFieldDecorator } = this.props.form;
         return (
@@ -208,7 +179,7 @@ class Stylistcomponent extends Component {
                                 onDragOver={this.allowDrop.bind(this)}
                                 onDrop={this.drop.bind(this)}
                                 hideRequiredMark={true}
-                                style={{ width: '100%', minHeight: '400px', padding: '5px' }}>
+                                style={{ width: '100%', minHeight: h+'px', padding: '5px' }}>
                                 <Dragact
                                     ref={(n) => { this.dragact = n }}
                                     layout={this.props.UpdataFormData} //必填项
@@ -217,7 +188,7 @@ class Stylistcomponent extends Component {
                                     rowHeight={40} //必填项
                                     margin={[5, 5]} //必填项
                                     className="plant-layout" //必填项
-                                    style={{ border: '1px dashed black', minHeight: '300px' }} //非必填项
+                                    style={{ border: '1px dashed black', minHeight: h+'px' }} //非必填项
                                     placeholder={true}
                                     onDragEnd={this.time.bind(this)}
                                 >
@@ -235,7 +206,7 @@ class Stylistcomponent extends Component {
                                                         ...provided.props.style,
                                                         ...getblockStyle(provided.isDragging)
                                                     }}
-                                                onClick={this.PositionHTML.bind(this, item.type)}
+                                             
                                             >
                                                 <Popconfirm title="你要干什么？"
                                                     icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
@@ -306,6 +277,9 @@ const mapDispatchProps = (dispatch) => {
         upForm: (k) => {
             dispatch(formUpdataFromCurrent(k))
         },
+        fugai:(k) => {
+            dispatch(fugai(k))
+        }
     }
 }
 export default connect(mapStateToProps, mapDispatchProps)(Form.create({
