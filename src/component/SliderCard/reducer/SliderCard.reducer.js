@@ -66,20 +66,7 @@ const SData = [
         GridX: 0, GridY: 0, w: 24, h: 8, key: '0', pageSize: 200, scroll: 1200,
         icons: 'table', label: '简单表格', type: 'Table',
         SQL: 'select * where',groupname:'',
-        columns: [
-            {
-                title: '姓名',
-                data: 'name',
-                width: '120px'
-            }, {
-                title: '年龄',
-                data: 'age',
-                width: '120px'
-            }, {
-                title: '住址',
-                data: 'address',
-                width: '120px'
-            }],
+        columns: [],
         dataSource: []
     },
     {

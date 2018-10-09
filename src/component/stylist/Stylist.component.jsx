@@ -8,7 +8,7 @@ import SliderCard from '../SliderCard/SliderCard'
 import SliderRightcomponent from '../SliderRIght/SliderRight.component'
 import { Dragact } from 'dragact'
 import { formUpdataFromCurrent } from '../SliderRIght/action/Right.action'
-import { shows, updataValues } from '../PublicComponent/lookup/action/lookup.action'
+import {  updataValues } from '../PublicComponent/lookup/action/lookup.action'
 import { POST$ } from '../../lib/MATH/math'
 import { API } from '../../lib/API/check.API'
 import { selectkeysToHeader } from '../Slider/action/Header.action'
@@ -295,9 +295,6 @@ const mapDispatchProps = (dispatch) => {
         },
         onTodoClick: (k) => {
             dispatch(selectkeysToHeader(k))
-        },
-        shows: (k) => {
-            dispatch(shows(k))
         },
         updataValues: (k) => {
             dispatch(updataValues(k))

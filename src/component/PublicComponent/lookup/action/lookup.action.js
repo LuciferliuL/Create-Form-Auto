@@ -40,6 +40,8 @@ export const shows = (bool) => {
     }
 }
 
+
+
 export const updataValues = (init) => {
     return {
         type:UPDATA_VALUES,

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Form, Input, Button, Modal } from 'antd'
 import { connect } from 'react-redux'
 import './LookUp.PublicComponent.css'
-import { shows, upDataCurrentDataSource, updataValues,trAddDown, trReduceUp, } from './action/lookup.action'
+import { shows, upDataCurrentDataSource, updataValues, trAddDown, trReduceUp, } from './action/lookup.action'
 import { currentAttr } from '../../stylist/action/Stylist.action'
 import { formUpdataFromCurrent } from '../../SliderRIght/action/Right.action'
 import { POST$ } from '../../../lib/MATH/math'
@@ -39,12 +39,9 @@ class LookUpPublicComponent extends Component {
         }
     }
     ClickHandleKey = (key, page, pagesize, show) => {
+
         let obj = this.props.UpdataFormData.find(e => e.key === key)
         this.props.UpDataCurrent(obj)
-        if (show) {
-            this.props.shows(obj)
-        }
-
         let body = {
             "Sql": obj.SQL,
             "Param": JSON.stringify(abbr),
@@ -52,14 +49,19 @@ class LookUpPublicComponent extends Component {
             "PageSize": pagesize,
             isPage: true
         }
+        if (show) {
+            this.props.shows(show)
+        }
         POST$(API('SQL').http, body, (res) => {
-            console.log(res);
+            // console.log(res);
             this.props.upDataCurrentDataSource(res.Results, res.RecordCount)
+
             this.props.upForm(this.props.current)
+
         })
     }
     Cancel = () => {
-        this.props.shows(this.props.current)
+        this.props.shows(false)
         this.props.upForm(this.props.current)
     }
 
@@ -69,7 +71,7 @@ class LookUpPublicComponent extends Component {
     }
 
     OnPressEnter = (key, page, pagesize, show, e) => {
-        // console.log(e.target.value);
+        console.log(e.target.value);
         // console.log(key);
         this.ParamChange(e.target.value)
         this.ClickHandleKey(key, page, pagesize, show)
@@ -97,18 +99,23 @@ class LookUpPublicComponent extends Component {
 
                 break
             case 13:
-                this.props.shows(this.props.current)
-                this.CLick()
+                this.props.shows(false)
+                // console.log(this.props.current.show);
+
+                if (!this.props.current.show) {
+                    this.CLick()
+                }
+
                 break
             case 27:
-                this.props.shows(this.props.current)
+                this.props.shows(false)
                 this.props.upForm(this.props.current)
                 break
         }
     }
     CLick = () => {
         const { dataSource } = this.props.current
-        if (dataSource !== []) {
+        if (dataSource.length >= 1) {
             // console.log(this.props.currentAttr.tr);
             let dataSource_ = JSON.parse(JSON.stringify(dataSource[this.props.current.tr]))
             //更新lookup对应得input
@@ -122,7 +129,9 @@ class LookUpPublicComponent extends Component {
             console.log(agg);
             //更新整个form
             this.props.upForm(this.props.current)
-
+        } else {
+            this.props.upForm(this.props.current)
+            window.removeEventListener('keyup', this.handleKeyDown)
         }
     }
     render() {
@@ -136,6 +145,7 @@ class LookUpPublicComponent extends Component {
                     style={{ top: '0' }}
                     footer={null}
                     onCancel={this.Cancel.bind(this)}
+                    bodyStyle={{ overflow: 'scroll', height: '800px' }}
                 >
                     <TablePublicComponent
                         PublicData={this.props.current}
@@ -151,7 +161,9 @@ class LookUpPublicComponent extends Component {
                         rules: [{ required: { required }, message: { message } }],
                     })(
                         <Input
-                            onPressEnter={this.OnPressEnter.bind(this, this.props.PublicData.key, 1, 200, true)}></Input>
+                            onPressEnter={this.OnPressEnter.bind(this, this.props.PublicData.key, 1, 200, true)}
+                           >
+                        </Input>
                     )}
                 </FormItem>
             </div>
@@ -182,7 +194,7 @@ const mapDispatchProps = (dispatch) => {
         },
         updataValues: (k) => {
             dispatch(updataValues(k))
-        }, 
+        },
         trAddDown: (k, i) => {
             dispatch(trAddDown(k, i))
         },
