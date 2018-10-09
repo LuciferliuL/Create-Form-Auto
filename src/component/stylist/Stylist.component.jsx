@@ -1,17 +1,20 @@
 import React, { Component } from 'react';
-import { Row, Col, Card, Icon, Popconfirm, Form, Button, Modal, Input, message, Spin } from 'antd'
+import { Row, Col, Card, Icon, Popconfirm, Form, Button, Modal, Input, message, Spin, Select } from 'antd'
 import { connect } from 'react-redux'
-import { stylistDataSourceGet, formSourceData, currentAttr, formSourceDataUpdata, formSourceDataDelete,fugai } from './action/Stylist.action'
+import { stylistDataSourceGet, formSourceData, currentAttr, formSourceDataUpdata, formSourceDataDelete, fugai } from './action/Stylist.action'
 import './Stylist.css'
 import PublicComponent from '../PublicComponent/Public.Component'
 import SliderCard from '../SliderCard/SliderCard'
 import SliderRightcomponent from '../SliderRIght/SliderRight.component'
 import { Dragact } from 'dragact'
 import { formUpdataFromCurrent } from '../SliderRIght/action/Right.action'
-import { trAddDown, trReduceUp, shows, updataValues } from '../PublicComponent/lookup/action/lookup.action'
+import { shows, updataValues } from '../PublicComponent/lookup/action/lookup.action'
 import { POST$ } from '../../lib/MATH/math'
 import { API } from '../../lib/API/check.API'
+import { selectkeysToHeader } from '../Slider/action/Header.action'
 
+
+const Option = Select.Option;
 const getblockStyle = isDragging => {
 
     return {
@@ -24,7 +27,8 @@ class Stylistcomponent extends Component {
         visible: false,
         domWidth: 0,
         read: true,
-        loading: false
+        loading: false,
+        children: []
     }
     myRef = React.createRef()
     componentDidMount() {
@@ -67,9 +71,17 @@ class Stylistcomponent extends Component {
         this.props.FormDataUpata(this.dragact.getLayout())
     }
     showModal = () => {
-        this.setState({
-            visible: true,
-        });
+        POST$(API('POSTDATA').http, {}, (res) => {
+            console.log(res);
+            const children = [];
+            res.forEach(e => {
+                children.push(<Option key={e.Category}>{e.Category}</Option>);
+            })
+            this.setState({
+                visible: true,
+                children: children
+            });
+        })
     }
     read = () => {
 
@@ -87,10 +99,17 @@ class Stylistcomponent extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
+
+            console.log(values);
+            
             this.setState({
                 loading: true
             })
             if (!err) {
+                if(values.Category.length >= 1){
+                    values.Category = values.Category[0]
+                }
+
 
                 let save = {}
                 if (this.props.InitStylistData.PK) {
@@ -118,10 +137,9 @@ class Stylistcomponent extends Component {
                     res.PK === -1 ? message.error('保存失败') : message.success('保存成功')
                     // this.props.fugai([])
                     // localStorage.setItem('C','N')
+                    this.props.onTodoClick(['表单权限'])
+                    this.props.history.push('/Design/Arch')
                     this.props.fugai([])
-                    this.props.update({})
-                    // this.props.onTodoClick(['表单设计'])
-                    // this.props.history.push('/Design/Stylist')
                 })
                 this.setState({
                     visible: false,
@@ -130,10 +148,14 @@ class Stylistcomponent extends Component {
             }
         });
     }
+    handleChange = (value) => {
+        console.log(`selected ${value}`);
+    }
     render() {
-        var h = (document.documentElement.clientHeight || document.body.clientHeight)*0.65
+        var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.65
         // console.log(this.state.dataSource);
         const { getFieldDecorator } = this.props.form;
+        const { children } = this.state
         return (
             <Spin spinning={this.state.loading}>
                 <Modal
@@ -154,7 +176,16 @@ class Stylistcomponent extends Component {
                             {getFieldDecorator('Category', {
                                 rules: [{ required: true, message: 'Please input your formname!' }],
                             })(
-                                <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="表单类" />
+                                // <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="表单类" />
+                                <Select
+                                    mode="tags"
+                                    style={{ width: '100%' }}
+                                    placeholder="表单类"
+                                    onChange={this.handleChange}
+                                    maxTagCount={1}
+                                >
+                                    {children}
+                                </Select>
                             )}
                         </FormItem>
                         <Button type="primary" htmlType="submit" className="login-form-button">确定</Button>
@@ -179,7 +210,7 @@ class Stylistcomponent extends Component {
                                 onDragOver={this.allowDrop.bind(this)}
                                 onDrop={this.drop.bind(this)}
                                 hideRequiredMark={true}
-                                style={{ width: '100%', minHeight: h+'px', padding: '5px' }}>
+                                style={{ width: '100%', minHeight: h + 'px', padding: '5px' }}>
                                 <Dragact
                                     ref={(n) => { this.dragact = n }}
                                     layout={this.props.UpdataFormData} //必填项
@@ -188,7 +219,7 @@ class Stylistcomponent extends Component {
                                     rowHeight={40} //必填项
                                     margin={[5, 5]} //必填项
                                     className="plant-layout" //必填项
-                                    style={{ border: '1px dashed black', minHeight: h+'px' }} //非必填项
+                                    style={{ border: '1px dashed black', minHeight: h + 'px' }} //非必填项
                                     placeholder={true}
                                     onDragEnd={this.time.bind(this)}
                                 >
@@ -206,7 +237,7 @@ class Stylistcomponent extends Component {
                                                         ...provided.props.style,
                                                         ...getblockStyle(provided.isDragging)
                                                     }}
-                                             
+
                                             >
                                                 <Popconfirm title="你要干什么？"
                                                     icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
@@ -262,11 +293,8 @@ const mapDispatchProps = (dispatch) => {
         FormDataDelete: (k) => {
             dispatch(formSourceDataDelete(k))
         },
-        trAddDown: (k) => {
-            dispatch(trAddDown(k))
-        },
-        trReduceUp: (k) => {
-            dispatch(trReduceUp(k))
+        onTodoClick: (k) => {
+            dispatch(selectkeysToHeader(k))
         },
         shows: (k) => {
             dispatch(shows(k))
@@ -277,18 +305,18 @@ const mapDispatchProps = (dispatch) => {
         upForm: (k) => {
             dispatch(formUpdataFromCurrent(k))
         },
-        fugai:(k) => {
+        fugai: (k) => {
             dispatch(fugai(k))
         }
     }
 }
 export default connect(mapStateToProps, mapDispatchProps)(Form.create({
-    mapPropsToFields(props){
+    mapPropsToFields(props) {
         let Field = {}
         console.log(props);
-        if(Object.keys(props.InitStylistData).length > 0){
-            Field['Name'] =  Form.createFormField({value:props.InitStylistData.Name})
-            Field['Category'] = Form.createFormField({value:props.InitStylistData.Category})
+        if (Object.keys(props.InitStylistData).length > 0) {
+            Field['Name'] = Form.createFormField({ value: props.InitStylistData.Name })
+            Field['Category'] = Form.createFormField({ value: props.InitStylistData.Category })
         }
         return Field
     }

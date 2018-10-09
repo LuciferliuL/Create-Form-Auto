@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { selectkeysToHeader } from '../Slider/action/Header.action'
 import { stylistDataSourceAsync, fugai } from '../stylist/action/Stylist.action'
 import { API } from '../../lib/API/check.API.js'
-import { GET$, POST$, POSTFETCH ,downloadFile} from '../../lib/MATH/math.js'
+import { GET$, POST$, POSTFETCH, downloadFile } from '../../lib/MATH/math.js'
 
 class DesignTablecomponent extends Component {
   state = {
@@ -30,27 +30,29 @@ class DesignTablecomponent extends Component {
       width: '20%',
       dataIndex: 'PK',
       render: (text, record) => {
-        console.log(text, record);
+        // console.log(text, record);
+        if (!record.IsCategory) {
+          //增加判断
+          return (
+            this.state.data.length >= 1
+              ? (
+                <Button.Group>
+                  <Popconfirm title="确定删除？" onConfirm={this.handleDelete.bind(this, record)}>
+                    <Button type='danger'>Delete</Button>
+                  </Popconfirm>
+                  <Button onClick={this.CreateTable.bind(this, record)}>编辑</Button>
+                  <Button type='primary' onClick={this.daochu.bind(this, record)}>导出配置</Button>
+                </Button.Group>
+              ) : null
+          )
+        }
 
-        //增加判断
-        return (
-          this.state.data.length >= 1
-            ? (
-              <Button.Group>
-                <Popconfirm title="确定删除？" onConfirm={this.handleDelete.bind(this, record)}>
-                  <Button type='danger'>Delete</Button>
-                </Popconfirm>
-                <Button onClick={this.CreateTable.bind(this, record)}>编辑</Button>
-                <Button type='primary' onClick={this.daochu.bind(this, record)}>导出配置</Button>
-              </Button.Group>
-            ) : null
-        )
       }
     }]
   }
   componentDidMount() {
-    GET$(API('CheckFormList').http, (res) => {
-      // console.log(res);
+    POST$(API('POSTDATA').http, {}, (res) => {
+      console.log(res);
       this.setState({
         data: res,
         loading: false
@@ -69,8 +71,8 @@ class DesignTablecomponent extends Component {
     })
     POST$(API('Delete').http + record.PK + '/Delete', {}, (res) => {
       console.log(res);
-      GET$(API('CheckFormList').http, (res) => {
-        // console.log(res);
+      POST$(API('POSTDATA').http, {}, (res) => {
+        console.log(res);
         this.setState({
           data: res,
           loading: false
@@ -94,7 +96,7 @@ class DesignTablecomponent extends Component {
     //   console.log(res);
 
     // })
-    downloadFile(record.Name,record.Bytes)
+    downloadFile(record.Name, record.Bytes)
   }
   CreateTable = (dataSource) => {
     console.log(dataSource);

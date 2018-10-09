@@ -26,10 +26,10 @@ class Headercomponent extends Component {
         }
     }
     componentDidMount() {
-        console.log(this.props);
+        // console.log(this.props);
     }
     componentWillReceiveProps(pre) {
-        console.log(pre);
+        // console.log(pre);
         if (pre.R === 'R') {
             document.onkeydown = function (e) {
                 // console.log(e.keyCode);

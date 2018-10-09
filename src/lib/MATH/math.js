@@ -1,6 +1,6 @@
 import 'isomorphic-fetch'
 import $ from 'jquery'
-import {message} from 'antd'
+import { notification } from 'antd'
 
 /**
  * 
@@ -149,25 +149,28 @@ export const GET$ = (URL, Callback) => {
 export const POST$ = (URL, POSTBODY, CALLBACK) => {
     POSTBODY = JSON.stringify(POSTBODY)
     let token = localStorage.getItem('token')
-        $.ajax({
-            url: URL,
-            type: "POST",
-            contentType: 'application/json;charset=utf-8',
-            data: POSTBODY,
-            dataType: "JSON",
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader("Authorization", "Bearer " + token)
-            },
-            success: function (res) {
-                CALLBACK(res)
-            }
-        })
+    $.ajax({
+        url: URL,
+        type: "POST",
+        contentType: 'application/json;charset=utf-8',
+        data: POSTBODY,
+        dataType: "JSON",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("Authorization", "Bearer " + token)
+        },
+        success: function (res) {
+            CALLBACK(res)
+        }
+    })
 }
 
 $.ajaxSetup({
-    statusCode:{
-        500:function(){
-            message.error('服务器错误。500')
+    statusCode: {
+        500: function (res) {
+            notification.error({
+                message: '服务器错误 500！',
+                description: res.responseJSON[0].ShortText
+            });
         }
     }
 })
@@ -201,29 +204,29 @@ function getHours() {
 export { getHours }
 
 //下载
-function downloadFile(fileName, content){
-      // 创建隐藏的可下载链接
-      var eleLink = document.createElement('a');
-      eleLink.download = fileName;
-      eleLink.style.display = 'none';
-      // 字符内容转变成blob地址
-      var blob = new Blob([content]);
-      eleLink.href = URL.createObjectURL(blob);
-      // 触发点击
-      document.body.appendChild(eleLink);
-      eleLink.click();
-      // 然后移除
-      document.body.removeChild(eleLink);
+function downloadFile(fileName, content) {
+    // 创建隐藏的可下载链接
+    var eleLink = document.createElement('a');
+    eleLink.download = fileName;
+    eleLink.style.display = 'none';
+    // 字符内容转变成blob地址
+    var blob = new Blob([content]);
+    eleLink.href = URL.createObjectURL(blob);
+    // 触发点击
+    document.body.appendChild(eleLink);
+    eleLink.click();
+    // 然后移除
+    document.body.removeChild(eleLink);
 }
 
-export {downloadFile}
+export { downloadFile }
 
 function fileImport() {
     //获取读取我文件的File对象
     var selectedFile = document.getElementById('files').files[0];
     var name = selectedFile.name;//读取选中文件的文件名
     var size = selectedFile.size;//读取选中文件的大小
-    console.log("文件名:"+name+"大小:"+size);
+    console.log("文件名:" + name + "大小:" + size);
 
     var reader = new FileReader();//这是核心,读取操作就是由它完成.
     //reader.readAsText(selectedFile);//读取文件的内容,也可以读取文件的URL
@@ -233,4 +236,5 @@ function fileImport() {
     }
 }
 
-export {fileImport}
+export { fileImport }
+

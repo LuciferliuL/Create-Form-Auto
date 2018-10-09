@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Card, Form, Button } from 'antd'
 import { connect } from 'react-redux';
-import { trAddDown, trReduceUp, shows } from '../PublicComponent/lookup/action/lookup.action'
 import { formUpdataFromCurrent } from '../SliderRIght/action/Right.action'
 import PublicComponent from '../PublicComponent/Public.Component'
 import { fugai } from '../stylist/action/Stylist.action'
@@ -70,16 +69,6 @@ const mapDispatchProps = (dispatch) => {
     return {
         upData: (k) => {
             dispatch(fugai(k))
-        },
-
-        trAddDown: (k, i) => {
-            dispatch(trAddDown(k, i))
-        },
-        trReduceUp: (k, i) => {
-            dispatch(trReduceUp(k, i))
-        },
-        shows: (k) => {
-            dispatch(shows(k))
         },
         upForm: (k) => {
             dispatch(formUpdataFromCurrent(k))

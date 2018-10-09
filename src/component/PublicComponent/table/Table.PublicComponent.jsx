@@ -125,7 +125,7 @@ class TablePublicComponent extends Component {
                                         textAlign: 'left', padding: '8px 8px', wordBreak: 'break-word',
                                         border: '1px solid #e8e8e8', backgroundColor: '#1890ff'
                                     }}></th>
-                                    {theads}
+                                    {theads.length > 0 ? theads : null}
                                 </tr>
                             </thead>
                             <tbody style={{overflow: 'scroll',height:'800px', top: heightTable,position: 'relative'}}>

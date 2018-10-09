@@ -42,6 +42,11 @@ export const API = (key) => {
                 method:'POST',
                 http: 'http://10.2.132.215:7000/api/commonquery/Dataformas'
             }
+        case 'POSTDATA':
+            return {
+                method: "POST",
+                http: 'http://10.2.132.215:7000/api/DataForm/GetDataFormNodes'
+            }
         default:
             break;
     }

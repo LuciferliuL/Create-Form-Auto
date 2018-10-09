@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Form, Input, Button, Modal } from 'antd'
 import { connect } from 'react-redux'
 import './LookUp.PublicComponent.css'
-import { shows, upDataCurrentDataSource, updataValues } from './action/lookup.action'
+import { shows, upDataCurrentDataSource, updataValues,trAddDown, trReduceUp, } from './action/lookup.action'
 import { currentAttr } from '../../stylist/action/Stylist.action'
 import { formUpdataFromCurrent } from '../../SliderRIght/action/Right.action'
 import { POST$ } from '../../../lib/MATH/math'
@@ -81,12 +81,12 @@ class LookUpPublicComponent extends Component {
         const { dataSource, columns } = this.props.current
         switch (e.keyCode) {
             case 40://下
-                if (this.props.currentAttr.tr < dataSource.length - 1) {
+                if (this.props.current.tr < dataSource.length - 1) {
                     this.props.trAddDown(this.props.current.tr, 1)
                 }
                 break;
             case 38://上
-                if (this.props.currentAttr.tr > 0) {
+                if (this.props.current.tr > 0) {
                     this.props.trReduceUp(this.props.current.tr, 1)
                 }
                 break;
@@ -182,6 +182,12 @@ const mapDispatchProps = (dispatch) => {
         },
         updataValues: (k) => {
             dispatch(updataValues(k))
+        }, 
+        trAddDown: (k, i) => {
+            dispatch(trAddDown(k, i))
+        },
+        trReduceUp: (k, i) => {
+            dispatch(trReduceUp(k, i))
         },
     }
 }
