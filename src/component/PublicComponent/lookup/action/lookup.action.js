@@ -5,6 +5,8 @@ export const TR_REDUCE_UP = 'TR_REDUCE_UP'
 export const SHOWS = 'SHOWS'
 export const UPDATA_VALUES = 'UPDATA_VALUES'
 export const UPDATA_CURRENt_DATASOURCE = 'UPDATA_CURRENt_DATASOURCE'
+export const T_ADD_DOWN = 'T_ADD_DOWN'
+export const T_REDUCE_UP = 'T_REDUCE_UP'
 
 export const tdAddDown = (init) => {
     return {
@@ -54,5 +56,20 @@ export const upDataCurrentDataSource = (initial,totalPage) => {
         type:UPDATA_CURRENt_DATASOURCE,
         initial:initial,
         totalPage:totalPage
+    }
+}
+
+export const tAddDown = (init,step) => {
+    return {
+        type:T_ADD_DOWN,
+        current:init,
+        step:step
+    }
+}
+export const tReduceUp = (init,step) => {
+    return {
+        type:T_REDUCE_UP,
+        current:init,
+        step:step
     }
 }

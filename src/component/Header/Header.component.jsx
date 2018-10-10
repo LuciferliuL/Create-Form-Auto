@@ -31,12 +31,11 @@ class Headercomponent extends Component {
     componentWillReceiveProps(pre) {
         // console.log(pre);
         // if (pre.R === 'R') {
-        //     document.onkeydown = function (e) {
-        //         // console.log(e.keyCode);
-
-        //         var keyCode = e.keyCode || e.which || e.charCode;
-        //         var altKey = e.altKey;
-        //         if (altKey && keyCode == 81) {
+            // document.onkeydown = function (e) {
+            //     // console.log(e.keyCode);
+            //     var keyCode = e.keyCode || e.which || e.charCode;
+            //     var altKey = e.altKey;
+            //     if (altKey && keyCode == 81) {
         //             pre.Loading()
         //             let valueList = {}
         //             let SQL = ''

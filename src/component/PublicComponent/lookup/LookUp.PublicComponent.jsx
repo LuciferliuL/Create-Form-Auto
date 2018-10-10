@@ -74,9 +74,9 @@ class LookUpPublicComponent extends Component {
         // console.log(key);
         this.ParamChange(e.target.value)
         this.ClickHandleKey(key, page, pagesize, show)
-        // setTimeout(() => {
-        //     window.addEventListener('keyup', this.handleKeyDown)
-        // }, 1000);
+        setTimeout(() => {
+            window.addEventListener('keyup', this.handleKeyDown)
+        }, 1000);
     }
     handleKeyDown = (e) => {
         const { dataSource, columns } = this.props.current
@@ -172,7 +172,7 @@ class LookUpPublicComponent extends Component {
     }
 }
 const mapStateToProps = (state) => {
-    console.log(state);
+    // console.log(state);
 
     return {
         current: state.currentAttr,
@@ -207,7 +207,7 @@ const mapDispatchProps = (dispatch) => {
 
 export default LookUpPublicComponent = connect(mapStateToProps, mapDispatchProps)(Form.create({
     mapPropsToFields(props) {
-        // console.log(props);
+        console.log(props);
         let Field = {}
         let v = props.UpdataFormData.find(e => e.key === props.PublicData.key)
         let values = v.values[v.uniqueKey]

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Table } from 'antd'
 import { connect } from 'react-redux'
 import './Table.PublicComponent.css'
-import { Object } from 'core-js';
+import {  tAddDown, tReduceUp} from '../lookup/action/lookup.action'
 // import { Resizable } from 'react-resizable';
 
 
@@ -45,7 +45,7 @@ class TABLECOMPONENT extends Component {
     // };
 
     componentWillReceiveProps(pre) {
-        // console.log('tr' + this.state.tr + ';' + 'pretr' + pre.tableSource.tr)
+        console.log(pre.tableSource)
 
         let data = []
         if (pre.tableSource.tr > this.state.tr) {
@@ -103,11 +103,55 @@ class TABLECOMPONENT extends Component {
                     }
                 ))
             }
+        }else {
+            // console.log(pre);
+            
+            pre.tableSource.dataSource.map((e, i) => {
+                if ( i < (35 * this.state.x + 35)) {
+                    e.indexs = 35 * this.state.x + i + 'table'
+                    data.push(e)
+                }
+            })
+            this.setState((p) => (
+                {
+                    data: data,
+                    tr: 0,
+                    x: 1
+                }
+            ),()=>{
+                setTimeout(() => {
+                    pre.tableSource.tr = 0
+                }, 100);
+                
+            })
         }
         this.setState({
             tr: pre.tableSource.tr
         })
 
+    }
+    handleKeyDown = (e) => {
+        const { dataSource, columns } = this.props.tableSource
+        switch (e.keyCode) {
+            case 40://下
+                if (this.props.tableSource.tr < dataSource.length - 1) {
+                    // console.log(this.props.current.tr);
+                    
+                    this.props.tAddDown(this.props.tableSource.tr, 1)
+                }
+                break;
+            case 38://上
+                if (this.props.current.tr > 0) {
+                    this.props.tReduceUp(this.props.tableSource.tr, 1)
+                }
+                break;
+            case 37:
+
+                break
+            case 39:
+
+                break
+        }
     }
     render() {
         // console.log(this.props.PublicData);
@@ -121,17 +165,23 @@ class TABLECOMPONENT extends Component {
             });
         }
         // console.log(this.props.heights);
-        console.log();
         
         return (
             <div>
                 <Table
                     bordered
+                    // bodyStyle={{height:this.props.heights}}
                     // components={this.components}
                     columns={columns}
                     dataSource={this.props.tableSource.dataSource}
                     pagination={false}
-                    scroll={{ x: widths, y:  this.props.heights }}
+                    scroll={{ x: widths }}
+                    onHeaderRow={(column) => {
+                        return {
+                          onClick: () => {window.addEventListener('keyup', this.handleKeyDown)
+                          },        // 点击表头行开启键盘监听
+                        };
+                      }}
                     rowClassName={(record, index) => {
                         // console.log(record)
                         // console.log(index);
@@ -157,7 +207,12 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchProps = (dispatch) => {
     return {
-
+        tAddDown: (k, i) => {
+            dispatch(tAddDown(k, i))
+        },
+        tReduceUp: (k, i) => {
+            dispatch(tReduceUp(k, i))
+        },
     }
 }
 export default connect(mapStateToProps, mapDispatchProps)(TABLECOMPONENT);

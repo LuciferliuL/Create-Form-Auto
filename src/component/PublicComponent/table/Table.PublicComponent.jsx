@@ -61,7 +61,7 @@ class TablePublicComponent extends Component {
 
     }
     componentWillReceiveProps(pre) {
-        console.log(this.props.PublicData)
+        console.log(pre)
 
         let data = []
         if (pre.currentAttr.tr > this.state.tr) {
@@ -99,8 +99,10 @@ class TablePublicComponent extends Component {
                 ))
             }
         }else {
-            pre.PublicData.dataSource.map((e, i) => {
-                if (35 * this.state.x <= i && i < (35 * this.state.x + 35)) {
+            // console.log(pre);
+            
+            pre.currentAttr.dataSource.map((e, i) => {
+                if ( i < (35 * this.state.x + 35)) {
                     e.indexs = 35 * this.state.x + i + 'table'
                     data.push(e)
                 }
@@ -111,8 +113,15 @@ class TablePublicComponent extends Component {
                     tr: 0,
                     x: 1
                 }
-            ))
+            ),()=>{
+                setTimeout(() => {
+                    pre.currentAttr.tr = 0
+                    this.props.UpdataFormData.find(e => e.key === pre.currentAttr.key).tr = 0
+                }, 100);
+                
+            })
         }
+       
         this.setState({
             tr: pre.currentAttr.tr
         })
@@ -160,7 +169,8 @@ const mapStateToProps = (state) => {
 
     return {
         currentAttr: state.currentAttr,
-        tableSource: state.tableSource
+        tableSource: state.tableSource,
+        UpdataFormData:state.UpdataFormData
     }
 }
 const mapDispatchProps = (dispatch) => {
