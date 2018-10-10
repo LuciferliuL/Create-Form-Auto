@@ -8,11 +8,11 @@ import SliderCard from '../SliderCard/SliderCard'
 import SliderRightcomponent from '../SliderRIght/SliderRight.component'
 import { Dragact } from 'dragact'
 import { formUpdataFromCurrent } from '../SliderRIght/action/Right.action'
-import {  updataValues } from '../PublicComponent/lookup/action/lookup.action'
+import { updataValues } from '../PublicComponent/lookup/action/lookup.action'
 import { POST$ } from '../../lib/MATH/math'
 import { API } from '../../lib/API/check.API'
 import { selectkeysToHeader } from '../Slider/action/Header.action'
-
+import TABLECOMPONENT from '../PublicComponent/table/Table'
 
 const Option = Select.Option;
 const getblockStyle = isDragging => {
@@ -28,7 +28,7 @@ class Stylistcomponent extends Component {
         domWidth: 0,
         read: true,
         loading: false,
-        children: []
+        children: [],
     }
     myRef = React.createRef()
     componentDidMount() {
@@ -100,21 +100,24 @@ class Stylistcomponent extends Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
 
-            console.log(values);
-            
+            // console.log(values);
+
             this.setState({
                 loading: true
             })
             if (!err) {
-                if(values.Category.length >= 1){
+                if (values.Category.length >= 1) {
                     values.Category = values.Category[0]
                 }
 
 
                 let save = {}
+                let body = {}
+                body.FormData = this.props.UpdataFormData
+                body.TableData = this.props.tableSource
                 if (this.props.InitStylistData.PK) {
                     //编辑
-                    save = Object.assign({}, this.props.InitStylistData, values, { 'Bytes': JSON.stringify(this.props.UpdataFormData) })
+                    save = Object.assign({}, this.props.InitStylistData, values, { 'Bytes': JSON.stringify(body) })
                     // console.log(newData);
 
                 } else {
@@ -122,7 +125,7 @@ class Stylistcomponent extends Component {
                     let user = localStorage.getItem('values')
                     save = {
                         BranchId: user.BranchId,
-                        Bytes: JSON.stringify(this.props.UpdataFormData),
+                        Bytes: JSON.stringify(body),
                         Category: values.Category,
                         FK: -1,
                         Name: values.Name,
@@ -152,7 +155,7 @@ class Stylistcomponent extends Component {
         console.log(`selected ${value}`);
     }
     render() {
-        var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.65
+        var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.70
         // console.log(this.state.dataSource);
         const { getFieldDecorator } = this.props.form;
         const { children } = this.state
@@ -219,7 +222,7 @@ class Stylistcomponent extends Component {
                                     rowHeight={40} //必填项
                                     margin={[5, 5]} //必填项
                                     className="plant-layout" //必填项
-                                    style={{ border: '1px dashed black', minHeight: h + 'px' }} //非必填项
+                                    style={{ border: '1px dashed black', minHeight: '50px' }} //非必填项
                                     placeholder={true}
                                     onDragEnd={this.time.bind(this)}
                                 >
@@ -254,6 +257,20 @@ class Stylistcomponent extends Component {
                                         )
                                     }}
                                 </Dragact>
+                                <div style={{position:'relative'}}>
+                                    <Popconfirm title="你要干什么？"
+                                        icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
+                                        okText="编辑" 
+                                        onConfirm={this.confirm.bind(this, this.props.tableSource)}>
+                                        <Icon
+                                            className="Delete"
+                                            type="minus-square"
+                                            theme="filled" />
+                                    </Popconfirm>
+                                    <TABLECOMPONENT PublicData={this.props.tableSource}>
+                                    </TABLECOMPONENT>
+                                </div>
+
                             </Form>
                         </Card>
                     </Col>
@@ -273,7 +290,8 @@ const mapStateToProps = (State) => {
         InitStylistData: State.InitStylistData,
         currentTagsUpdata: State.currentTagsUpdata.InitialTags,
         UpdataFormData: State.UpdataFormData,
-        currentAttr: State.currentAttr
+        currentAttr: State.currentAttr,
+        tableSource: State.tableSource
     }
 }
 const mapDispatchProps = (dispatch) => {

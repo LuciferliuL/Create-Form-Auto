@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Menu } from 'antd';
 import { connect } from 'react-redux';
-import { fugai } from '../stylist/action/Stylist.action'
+import { fugai,tableFugai } from '../stylist/action/Stylist.action'
 import { updataValues } from '../PublicComponent/lookup/action/lookup.action'
 import { formUpdataFromCurrent } from '../SliderRIght/action/Right.action'
 import { API } from '../../lib/API/check.API'
@@ -23,15 +23,15 @@ class TreeUser extends Component {
     }
 
     onSelect = (Item) => {
-        console.log(Item);
+        // console.log(Item);
 
         let data = JSON.parse(this.state.treeList.find(e => e.PK === Number(Item.key)).Bytes)
-        data.forEach(e => {
+        data.FormData.forEach(e => {
             e.isUserMove = false
         })
         console.log(data);
-        this.props.upData(data)
-
+        this.props.upData(data.FormData)
+        this.props.tableFugai(data.TableData)
     }
     render() {
         const { treeList } = this.state
@@ -74,6 +74,9 @@ const mapDispatchProps = (dispatch) => {
         upForm: (k) => {
             dispatch(formUpdataFromCurrent(k))
         },
+        tableFugai: (k) => {
+            dispatch(tableFugai(k))
+          }
     }
 }
 export default connect(

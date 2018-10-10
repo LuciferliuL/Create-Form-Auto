@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import Slider from '../component/Slider/reducer/Header.reduce'
-import { InitStylistData, UpdataFormData, currentAttr } from '../component/stylist/reducer/Stylist.reducer'
+import { InitStylistData, UpdataFormData, currentAttr, tableSource } from '../component/stylist/reducer/Stylist.reducer'
 import { SliderCardData, currentTagsUpdata, SQL_Data } from '../component/SliderCard/reducer/SliderCard.reducer'
 import {hidenDrawer, flagChange} from '../component/SliderRIght/reducer/Right.reducer'
 
@@ -13,7 +13,8 @@ const allReducers = {
     currentAttr: currentAttr,//右边显示的属性
     SQL_Data:SQL_Data,//写好sql的lookup
     hide:hidenDrawer,//drawer是否隐藏
-    flag:flagChange
+    flag:flagChange,
+    tableSource:tableSource //表格的数据
 }
 const rootReducer = combineReducers(allReducers)
 //使用combineReducers组合reducer

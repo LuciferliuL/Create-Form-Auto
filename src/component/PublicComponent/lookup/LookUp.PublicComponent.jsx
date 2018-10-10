@@ -49,15 +49,14 @@ class LookUpPublicComponent extends Component {
             "PageSize": pagesize,
             isPage: true
         }
-        if (show) {
-            this.props.shows(show)
-        }
+        
         POST$(API('SQL').http, body, (res) => {
             // console.log(res);
             this.props.upDataCurrentDataSource(res.Results, res.RecordCount)
-
+            if (show) {
+                this.props.shows(show)
+            }
             this.props.upForm(this.props.current)
-
         })
     }
     Cancel = () => {
@@ -75,15 +74,17 @@ class LookUpPublicComponent extends Component {
         // console.log(key);
         this.ParamChange(e.target.value)
         this.ClickHandleKey(key, page, pagesize, show)
-        setTimeout(() => {
-            window.addEventListener('keyup', this.handleKeyDown)
-        }, 1000);
+        // setTimeout(() => {
+        //     window.addEventListener('keyup', this.handleKeyDown)
+        // }, 1000);
     }
     handleKeyDown = (e) => {
         const { dataSource, columns } = this.props.current
         switch (e.keyCode) {
             case 40://下
                 if (this.props.current.tr < dataSource.length - 1) {
+                    // console.log(this.props.current.tr);
+                    
                     this.props.trAddDown(this.props.current.tr, 1)
                 }
                 break;
@@ -145,7 +146,7 @@ class LookUpPublicComponent extends Component {
                     style={{ top: '0' }}
                     footer={null}
                     onCancel={this.Cancel.bind(this)}
-                    bodyStyle={{ overflow: 'scroll', height: '800px' }}
+                    // bodyStyle={{ overflow: 'scroll-y'}}
                 >
                     <TablePublicComponent
                         PublicData={this.props.current}

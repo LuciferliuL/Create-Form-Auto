@@ -108,7 +108,7 @@ class Headercomponent extends Component {
     SQLChecked = () => {
         this.props.Loading()
         let valueList = {}
-        let SQL = ''
+        let SQL = this.props.tableSource.SQL
         this.props.data.map(e => {
             if (e.type !== 'Table' && e.type !== 'Group') {
                 if (e.type === 'LookUp') {
@@ -120,8 +120,6 @@ class Headercomponent extends Component {
                 } else {
                     valueList[e.id] = e.defaultValue
                 }
-            } else if (e.type === 'Table') {
-                SQL = e.SQL
             }
         })
         let post = new Promise((resolve, reject) => {
@@ -129,7 +127,7 @@ class Headercomponent extends Component {
                 "Sql": SQL,
                 "Param": JSON.stringify(valueList),
                 "PageIndex": 1,
-                "PageSize": 200,
+                "PageSize": 350,
                 isPage: true
             }
             POST$(API('SQL').http, body, (res) => {
@@ -201,7 +199,8 @@ class Headercomponent extends Component {
 const mapStateToProps = (state) => {
     // console.log(state);
     return {
-        data: state.UpdataFormData
+        data: state.UpdataFormData,
+        tableSource: state.tableSource
     }
 }
 const mapDispatchProps = (dispatch) => {

@@ -5,6 +5,14 @@ export const GROUP_VALUE_CHANGE = 'GROUP_VALUE_CHANGE'
 export const TAG_PUSH_DATA_IN_GROUP = 'TAG_PUSH_DATA_IN_GROUP'
 export const TAG_CANCEL_DATA_IN_GROUP = 'TAG_CANCEL_DATA_IN_GROUP'
 export const INPUT_CANCEL_DATA = 'INPUT_CANCEL_DATA'
+export const TABLE_COLUMNS = 'TABLE_COLUMNS'
+
+export const tableColumns = (key) => {
+    return {
+        type:TABLE_COLUMNS,
+        key:key
+    }
+}
 
 export const tagPushDataInColumns = (key, initial) => {
     return {

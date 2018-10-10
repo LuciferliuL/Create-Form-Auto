@@ -21,7 +21,7 @@ import { Object } from 'core-js';
 // };
 
 
-class TablePublicComponent extends Component {
+class TABLECOMPONENT extends Component {
     state = {
         // page: 1,
         data: [],
@@ -43,78 +43,69 @@ class TablePublicComponent extends Component {
     //         return { columns: nextColumns };
     //     });
     // };
-    componentDidMount() {
-        // console.log(this.props.currentAttr);
-        if (Object.keys(this.props.currentAttr).length > 0) {
-            let data = []
-            this.props.currentAttr.dataSource.map((e, i) => {
-                if (i < 35) {
-                    e.indexs = i + 'table'
-                    data.push(e)
-                }
-            })
-            this.setState({
-                data: data,
-                tr: this.props.currentAttr.tr
-            })
-        }
 
-    }
     componentWillReceiveProps(pre) {
-        console.log(this.props.PublicData)
+        // console.log('tr' + this.state.tr + ';' + 'pretr' + pre.tableSource.tr)
 
         let data = []
-        if (pre.currentAttr.tr > this.state.tr) {
-            if (pre.currentAttr.tr === 35 * this.state.x && pre.currentAttr.tr < 350) {
-                    pre.PublicData.dataSource.map((e, i) => {
+        if (pre.tableSource.tr > this.state.tr) {
+            if (pre.tableSource.tr === 35 * this.state.x && pre.tableSource.tr < 350) {
+                if (pre.TABLE === 'TABLE') {
+                    pre.tableSource.dataSource.map((e, i) => {
                         if (35 * this.state.x <= i && i < (35 * this.state.x + 35)) {
                             e.indexs = 35 * this.state.x + i + 'table'
                             data.push(e)
                         }
                     })
+                } else {
+                    pre.tableSource.dataSource.map((e, i) => {
+                        if (35 * this.state.x <= i && i < (35 * this.state.x + 35)) {
+                            e.indexs = 35 * this.state.x + i + 'table'
+                            data.push(e)
+                        }
+                    })
+                }
+
+
                 this.setState((p) => (
                     {
                         data: data,
-                        tr: pre.currentAttr.tr,
+                        tr: pre.tableSource.tr,
                         x: p.x + 1
                     }
                 ))
             }
 
-        } else if (pre.currentAttr.tr < this.state.tr) {
-            if (pre.currentAttr.tr === (35 * (this.state.x - 1) - 1) && pre.currentAttr.tr > 0) {
+        } else if (pre.tableSource.tr < this.state.tr) {
+            if (pre.tableSource.tr === (35 * (this.state.x - 1) - 1) && pre.tableSource.tr > 0) {
                 // console.log(this.state.x);
-                    pre.PublicData.dataSource.map((e, i) => {
+
+                if (pre.TABLE === 'TABLE') {
+                    pre.tableSource.dataSource.map((e, i) => {
                         if (35 * this.state.x <= i && i < (35 * this.state.x + 35)) {
                             e.indexs = 35 * this.state.x + i + 'table'
                             data.push(e)
                         }
                     })
+                } else {
+                    pre.tableSource.dataSource.map((e, i) => {
+                        if (35 * this.state.x <= i && i < (35 * this.state.x + 35)) {
+                            e.indexs = 35 * this.state.x + i + 'table'
+                            data.push(e)
+                        }
+                    })
+                }
                 this.setState((p) => (
                     {
                         data: data,
-                        tr: pre.currentAttr.tr,
+                        tr: pre.tableSource.tr,
                         x: p.x - 1
                     }
                 ))
             }
-        }else {
-            pre.PublicData.dataSource.map((e, i) => {
-                if (35 * this.state.x <= i && i < (35 * this.state.x + 35)) {
-                    e.indexs = 35 * this.state.x + i + 'table'
-                    data.push(e)
-                }
-            })
-            this.setState((p) => (
-                {
-                    data: data,
-                    tr: 0,
-                    x: 1
-                }
-            ))
         }
         this.setState({
-            tr: pre.currentAttr.tr
+            tr: pre.tableSource.tr
         })
 
     }
@@ -123,30 +114,31 @@ class TablePublicComponent extends Component {
         var w = document.documentElement.clientWidth || document.body.clientWidth;
         const { columns, dataSource, pageSize, scroll, groupname, label, totalPage, type } = this.props.PublicData
         let widths = 0
-        let heightTable = this.props.currentAttr.tr * (-38) > -228 ? '0px' : (this.props.currentAttr.tr * (-38) + 228) + 'px'
+        let heightTable = this.props.tableSource.tr * (-38) > -228 ? '0px' : (this.props.tableSource.tr * (-38) + 228) + 'px'
         if (columns) {
             columns.map((e, i) => {
                 widths += Number(e.width)
             });
         }
         // console.log(this.props.heights);
-
+        console.log();
+        
         return (
             <div>
                 <Table
                     bordered
                     // components={this.components}
                     columns={columns}
-                    dataSource={this.state.data}
+                    dataSource={this.props.tableSource.dataSource}
                     pagination={false}
-                    scroll={{ x: widths, y: 800 }}
+                    scroll={{ x: widths, y:  this.props.heights }}
                     rowClassName={(record, index) => {
                         // console.log(record)
                         // console.log(index);
-                        if (this.props.currentAttr.tr > 34) {
-                            return (index === (this.props.currentAttr.tr - (35 * (this.state.x - 1))) ? 'black' : "")
+                        if (this.props.tableSource.tr > 34) {
+                            return (index === (this.props.tableSource.tr - (35 * (this.state.x - 1))) ? 'black' : "")
                         } else {
-                            return (index === this.props.currentAttr.tr ? 'black' : '')
+                            return (index === this.props.tableSource.tr ? 'black' : '')
                         }
                     }}
                     rowKey='indexs'
@@ -159,7 +151,7 @@ const mapStateToProps = (state) => {
     // console.log(state);
 
     return {
-        currentAttr: state.currentAttr,
+        tableSource: state.tableSource,
         tableSource: state.tableSource
     }
 }
@@ -168,7 +160,19 @@ const mapDispatchProps = (dispatch) => {
 
     }
 }
-export default connect(mapStateToProps, mapDispatchProps)(TablePublicComponent);
+export default connect(mapStateToProps, mapDispatchProps)(TABLECOMPONENT);
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

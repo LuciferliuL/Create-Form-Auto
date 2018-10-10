@@ -4,6 +4,7 @@ import { Drawer, Button, Input, Form, Col, Tag } from 'antd'
 import { hidenDrawer, currentAttrUpdata, formUpdataFromCurrent } from '../SliderRIght/action/Right.action'
 import { tagPushDataInColumns, inputValueChange, sqlValueChange, GroupValueChange, tagPushDataInGroup, TagCancelDataInGroup, InputCancelData } from './action/Drawer.action'
 import { upDataCurrentDataSource } from '../PublicComponent/lookup/action/lookup.action'
+import {tableFugai} from '../stylist/action/Stylist.action'
 
 
 const InputGroup = Input.Group
@@ -14,7 +15,11 @@ class Drawercomponent extends Component {
     };
     onSure = (e) => {
         //修改的结果在这里
-        this.props.upForm(this.props.currentAttr)
+        if(this.props.currentAttr.key === 'tablesKey'){
+            this.props.tableFugai(this.props.currentAttr)
+        }else{
+            this.props.upForm(this.props.currentAttr)
+        }
         this.props.hidefun(false)
     }
     //列数据方法
@@ -208,6 +213,9 @@ const mapDispatchProps = (dispatch) => {
         },
         InputCancelData: (k) => {
             dispatch(InputCancelData(k))
+        },
+        tableFugai:(k)=>{
+            dispatch(tableFugai(k))
         }
     }
 }

@@ -20,32 +20,32 @@ export const API = (key) => {
         case 'CheckId':
             return {
                 method: 'GET',
-                http: 'http://10.2.132.127:7000/api/DataSourceRole?$filter=SourceId eq'
+                http: baseAPI + '/api/DataSourceRole?$filter=SourceId eq'
             }
         case 'Role':
             return {
                 method: 'POST',
-                http: 'http://10.2.132.127:7000/api/DataSourceRole/'
+                http: baseAPI + '/api/DataSourceRole/'
             }
         case 'CheckCurrentId':
             return {
                 method: "POST",
-                http: 'http://10.2.132.127:7000/api/dataquery/GetDataBySqlName'
+                http: baseAPI + '/api/dataquery/GetDataBySqlName'
             }
         case 'Delete':
             return {
                 method: "POST",
-                http: 'http://10.3.4.177:9004/api/DataForm/'
+                http: baseAPI + '/api/DataForm/'
             }
         case 'DOWNLOAD':
             return {
                 method:'POST',
-                http: 'http://10.2.132.215:7000/api/commonquery/Dataformas'
+                http: baseAPI + '/api/commonquery/Dataformas'
             }
         case 'POSTDATA':
             return {
                 method: "POST",
-                http: 'http://10.2.132.215:7000/api/DataForm/GetDataFormNodes'
+                http: baseAPI + '/api/DataForm/GetDataFormNodes'
             }
         default:
             break;

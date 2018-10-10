@@ -15,21 +15,31 @@ function mapStateToProps(state) {
 
 class ReadForm extends Component {
     state = {
-        selectedRowKeys:[],
+        selectedRowKeys: [],
         loading: true,
         data: [],
-        rows:[],
+        rows: [],
         treeData: [],
-        keys:'',
+        keys: '',
         columns: [
             {
                 title: 'ROLEID',
                 dataIndex: 'ROLEID',
                 width: '30%',
+                render:(text)=>{
+                    return(
+                        <div style={{padding:'15px',display:'inline-block'}}>{text}</div>
+                    )
+                }
             }, {
                 title: 'ROLENAME',
                 dataIndex: 'ROLENAME',
                 width: '70%',
+                render:(text)=>{
+                    return(
+                        <div style={{padding:'15px'}}>{text}</div>
+                    )
+                }
             }
         ]
     }
@@ -41,7 +51,7 @@ class ReadForm extends Component {
             "PageSize": 20,
             "isPage": false
         }
-        POST$(API('CheckCurrentId').http , body, (res) => {
+        POST$(API('CheckCurrentId').http, body, (res) => {
             // console.log(res);
             if (res.Results) {
                 this.setState({
@@ -63,25 +73,25 @@ class ReadForm extends Component {
     rowSelectionChange = (rowKeys, rows) => {
         console.log(rowKeys, rows);
         this.setState({
-            selectedRowKeys:rowKeys,
-            rows:rows
+            selectedRowKeys: rowKeys,
+            rows: rows
         })
     }
 
-    
+
     onSelect = (keys, info) => {
         this.setState({
-            loading:true,
-            keys:keys[0]
+            loading: true,
+            keys: keys[0]
         })
         // console.log(keys , info);
-        let get = new Promise((resolve,reject) => {
+        let get = new Promise((resolve, reject) => {
             setTimeout(() => {
                 reject('500 error')
             }, 10000);
         })
         let GET = new Promise((resolve, reject) => {
-            GET$(API('CheckId').http +' '+ keys[0], (res) => {
+            GET$(API('CheckId').http + ' ' + keys[0], (res) => {
                 // console.log(res);
                 let list = []
                 res.map(e => list.push(e.RoleId))
@@ -89,27 +99,27 @@ class ReadForm extends Component {
             })
         })
         Promise.race([get, GET])
-        .then((Result)=>{
-            this.setState({
-                loading:false,
-                selectedRowKeys:Result
-            })  
-        })
-        .catch((err)=>{
-            message.error(err)
-            this.setState({
-                loading:false
+            .then((Result) => {
+                this.setState({
+                    loading: false,
+                    selectedRowKeys: Result
+                })
             })
-            console.log(err);
-            
-        })
-        
+            .catch((err) => {
+                message.error(err)
+                this.setState({
+                    loading: false
+                })
+                console.log(err);
+
+            })
+
     }
     Add = () => {
-         this.state.rows.forEach(e => e.SOURCEID = this.state.keys)
+        this.state.rows.forEach(e => e.SOURCEID = this.state.keys)
         // console.log(this.state.rows);
-        
-        POST$(API('Role').http ,this.state.rows, (res) => {
+
+        POST$(API('Role').http, this.state.rows, (res) => {
             // console.log(res);
             if (res.length > 0) {
                 this.setState({
@@ -122,14 +132,14 @@ class ReadForm extends Component {
         })
     }
     render() {
-        const { loading, data, columns,selectedRowKeys } = this.state
+        const { loading, data, columns, selectedRowKeys } = this.state
         const rowSelection = {
             onChange: this.rowSelectionChange,
             getCheckboxProps: record => ({
                 disabled: record.name,
                 name: record.name
             }),
-            selectedRowKeys:selectedRowKeys
+            selectedRowKeys: selectedRowKeys
         }
         return (
             <Spin spinning={loading}>
@@ -144,14 +154,16 @@ class ReadForm extends Component {
                         </Card>
                     </Col>
                     <Col span={20}>
-                        <Card title="选择权限" 
-                        bordered={true}
-                        extra={<Button onClick={this.Add.bind(this)}>添加权限</Button>}>
+                        <Card title="选择权限"
+                            bordered={true}
+                            extra={<Button onClick={this.Add.bind(this)}>添加权限</Button>}>
                             <Table
+                                bordered
                                 dataSource={data}
                                 columns={columns}
                                 rowSelection={rowSelection}
                                 rowKey='ROLEID'
+
                             ></Table>
                         </Card>
                     </Col>

@@ -1,9 +1,9 @@
-import { STYLIST_DATASOURCE_GET, FORM_UPDATA_FUGAI, CLEAR_FORM, TABLE_UPDATA_FROM_RESULTS } from '../action/Stylist.action'
+import { STYLIST_DATASOURCE_GET, FORM_UPDATA_FUGAI, CLEAR_FORM, TABLE_UPDATA_FROM_RESULTS, TABLE_FUGAI } from '../action/Stylist.action'
 import { FORM_SOURCE_DATA, FORM_SOURCE_DATA_UPDATA, FORM_SOURCE_DATA_DELETE } from '../action/Stylist.action'
 import { CURRENT_ATTR } from '../action/Stylist.action'
 import { CURRENT_ATTR_UPDATA, FORM_UPDATA_FROM_CURRENT } from '../../SliderRIght/action/Right.action'
 import { TR_ADD_DOWN, TR_REDUCE_UP, SHOWS, UPDATA_VALUES, UPDATA_CURRENt_DATASOURCE } from '../../PublicComponent/lookup/action/lookup.action'
-import { TAG_PUSH_DATA_IN_COLUMNS, INPUT_VALUE_CHANGE, SQL_VALUE_CHANGE, GROUP_VALUE_CHANGE, TAG_PUSH_DATA_IN_GROUP, TAG_CANCEL_DATA_IN_GROUP ,INPUT_CANCEL_DATA} from '../../Drawer/action/Drawer.action'
+import { TAG_PUSH_DATA_IN_COLUMNS, INPUT_VALUE_CHANGE, SQL_VALUE_CHANGE, GROUP_VALUE_CHANGE, TAG_PUSH_DATA_IN_GROUP, TAG_CANCEL_DATA_IN_GROUP, INPUT_CANCEL_DATA } from '../../Drawer/action/Drawer.action'
 import { INPUT_CHANGE } from '../../PublicComponent/Public.action'
 
 const initialState = []
@@ -53,15 +53,13 @@ export const UpdataFormData = (state = [], action) => {
                 : e)
         case CLEAR_FORM:
             return state = action.initial
-        case TABLE_UPDATA_FROM_RESULTS:
-            return state.map(e => e.type === 'Table' ? { ...e, dataSource: action.initial, totalPage:action.page } : e)
         default:
             return state;
     }
 }
 
 export const currentAttr = (state = {}, action) => {
-    console.log(action);
+    // console.log(action);
     switch (action.type) {
         case CURRENT_ATTR:
             return state = action.currentAttr
@@ -86,7 +84,7 @@ export const currentAttr = (state = {}, action) => {
                 if (i === keys) {
                     list.push(initial)
                 }
-               
+
             })
             return {
                 ...state, columns: list
@@ -100,7 +98,7 @@ export const currentAttr = (state = {}, action) => {
                 if (i === keys_) {
                     list_.push(initial_)
                 }
-                
+
             })
             return {
                 ...state, GroupValue: list_
@@ -143,9 +141,40 @@ export const currentAttr = (state = {}, action) => {
             }
         case UPDATA_CURRENt_DATASOURCE:
             return {
-                ...state, dataSource: action.initial,totalPage:action.totalPage
+                ...state, dataSource: action.initial, totalPage: action.totalPage
             }
         default:
             return state
     }
+}
+
+export const tableSource = (state = table, action) => {
+    switch (action.type) {
+        case TABLE_UPDATA_FROM_RESULTS:
+            return {
+                ...state, dataSource: action.initial
+            }
+        case TABLE_FUGAI:
+            return state = action.initial
+        default:
+            return state;
+    }
+}
+
+const table = {
+    GridX: 0, GridY: 0, w: 24, h: 8, key: 'tablesKey', pageSize: 200, scroll: 1200,
+    icons: 'table', label: '简单表格', type: 'Table', id: 'tables',
+    SQL: 'select * where', groupname: '',tr:0,
+    columns: [
+        {
+            title: '',
+            dataIndex: ''
+        }, {
+            title: '',
+            dataIndex: ''
+        }, {
+            title: '',
+            dataIndex: ''
+        }],
+    dataSource: []
 }

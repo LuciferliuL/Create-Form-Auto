@@ -1,0 +1,7 @@
+.black {
+    background-color: aquamarine
+}
+
+.ant-table-tbody > tr > td{
+    padding: 0 !important
+}

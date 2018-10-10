@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Table, Button, Popconfirm, Spin } from 'antd'
 import { connect } from 'react-redux'
 import { selectkeysToHeader } from '../Slider/action/Header.action'
-import { stylistDataSourceAsync, fugai } from '../stylist/action/Stylist.action'
+import { stylistDataSourceAsync, fugai, tableFugai } from '../stylist/action/Stylist.action'
 import { API } from '../../lib/API/check.API.js'
 import { GET$, POST$, POSTFETCH, downloadFile } from '../../lib/MATH/math.js'
 
@@ -13,17 +13,38 @@ class DesignTablecomponent extends Component {
     columns: [{
       title: 'Name',
       dataIndex: 'Name',
-      key: 'Name'
+      key: 'Name',
+      render(text, record) {
+        return (
+          <div style={{ padding: '10px', display: 'inline-block' }}>
+            {text}
+          </div>
+        );
+      }
     }, {
       title: 'BranchID',
       dataIndex: 'BranchId',
       width: '12%',
-      key: 'BranchId'
+      key: 'BranchId',
+      render(text, record) {
+        return (
+          <div style={{ padding: '10px' }}>
+            {text}
+          </div>
+        );
+      }
     }, {
       title: 'LastModifyTime',
       dataIndex: 'LastModifyTime',
       width: '30%',
-      key: 'LastModifyTime'
+      key: 'LastModifyTime',
+      render: (text, record) => {
+        // console.log(text);
+
+        return (
+          <div style={{ padding: '10px' }}>{text.slice(0, 19)}</div>
+        )
+      }
     }, {
       key: 'PK',
       title: '操作',
@@ -36,7 +57,7 @@ class DesignTablecomponent extends Component {
           return (
             this.state.data.length >= 1
               ? (
-                <Button.Group>
+                <Button.Group style={{ padding: '5px' }}>
                   <Popconfirm title="确定删除？" onConfirm={this.handleDelete.bind(this, record)}>
                     <Button type='danger'>Delete</Button>
                   </Popconfirm>
@@ -108,17 +129,21 @@ class DesignTablecomponent extends Component {
       this.props.onTodoClick(['表单设计'])
       this.props.history.push('/Design/Stylist')
     } else {
+      let body = JSON.parse(dataSource.Bytes)
       localStorage.setItem('C', JSON.stringify(dataSource))
-      this.props.fugai(JSON.parse(dataSource.Bytes))
-      this.props.update(dataSource)
+      this.props.fugai(body.FormData) //添加表单的
+      this.props.tableFugai(body.TableData)//添加表格的
+      this.props.update(dataSource)//用来确定是否新建
       this.props.onTodoClick(['表单设计'])
       this.props.history.push('/Design/Stylist')
     }
   }
   render() {
+    var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.85
     return (
       <Spin spinning={this.state.loading}>
         <Table
+          style={{ height: h }}
           title={this.TableHeader}
           bordered={true}
           columns={this.state.columns}
@@ -146,6 +171,9 @@ const mapDispatchProps = (dispatch) => {
     fugai: (k) => {
       dispatch(fugai(k))
     },
+    tableFugai: (k) => {
+      dispatch(tableFugai(k))
+    }
   }
 }
 export default connect(mapStateToProps, mapDispatchProps)(DesignTablecomponent);

@@ -61,7 +61,7 @@ class Desgincomponent extends Component {
                             <Route path='/Design/Arch' component={ReadForm}></Route>
                         </div>
                     </Content>
-                    <Footers></Footers>
+                    {/* <Footers></Footers> */}
                 </Layout>
             </Layout >
         );
