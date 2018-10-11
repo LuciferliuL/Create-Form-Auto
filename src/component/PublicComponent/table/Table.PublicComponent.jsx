@@ -148,7 +148,7 @@ class TablePublicComponent extends Component {
                     columns={columns}
                     dataSource={this.state.data}
                     pagination={false}
-                    scroll={{ x: widths, y: 800 }}
+                    scroll={{ x: widths , y: 800 }}
                     rowClassName={(record, index) => {
                         // console.log(record)
                         // console.log(index);

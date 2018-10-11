@@ -1,56 +1,58 @@
 import React, { Component } from 'react';
-import { Menu } from 'antd';
+import {  Tree } from 'antd';
 import { connect } from 'react-redux';
-import { fugai,tableFugai } from '../stylist/action/Stylist.action'
+import { fugai, tableFugai } from '../stylist/action/Stylist.action'
 import { updataValues } from '../PublicComponent/lookup/action/lookup.action'
 import { formUpdataFromCurrent } from '../SliderRIght/action/Right.action'
 import { API } from '../../lib/API/check.API'
-import { GET$ } from '../../lib/MATH/math'
+import { POST$,treeData } from '../../lib/MATH/math'
 
-const { SubMenu } = Menu
+
+const {DirectoryTree} = Tree
 class TreeUser extends Component {
     state = {
-        treeList: []
+        treeData: []
     }
     componentDidMount() {
-        GET$(API('CheckFormList').http, (res) => {
-            console.log(res);
-            this.setState({
-                treeList: res
-            })
+        POST$(API('POSTDATA').http, {}, (res) => {
+            // console.log(res);
+            if(res.length > 0){
+                res.forEach((e) => {
+                    treeData(e)
+                })
+                this.setState({
+                    treeData:res
+                })
+            }
         })
 
     }
 
-    onSelect = (Item) => {
-        // console.log(Item);
+    onSelect = (keys,record) => {
+        // console.log(keys,record);
 
-        let data = JSON.parse(this.state.treeList.find(e => e.PK === Number(Item.key)).Bytes)
+        let data = JSON.parse(record.node.props.Bytes)
+        
         data.FormData.forEach(e => {
             e.isUserMove = false
         })
-        console.log(data);
+        // console.log(data);
         this.props.upData(data.FormData)
         this.props.tableFugai(data.TableData)
     }
     render() {
-        const { treeList } = this.state
-        let TreeNodes = []
-        treeList.forEach((e, i) => {
-            TreeNodes.push(
-                <Menu.Item key={e.PK}>
-                    <span>{e.Name}</span>
-                </Menu.Item>
-            )
-        })
+        const { treeData } = this.state
 
         return (
-            treeList.length > 0 ?
-                <Menu theme="dark" mode="inline" onSelect={this.onSelect}>
-                    <SubMenu title='菜单'>
-                        {TreeNodes}
-                    </SubMenu>
-                </Menu>
+            treeData.length > 0 ?
+                <Tree
+                    style={{ width: 300, color:'white' }}
+                    // value={this.state.value}
+                    treeData={treeData}
+                    placeholder="Please select"
+                    // treeDefaultExpandAll
+                    onSelect={this.onSelect}
+                />
                 : 'loading tree'
         );
     }
@@ -76,7 +78,7 @@ const mapDispatchProps = (dispatch) => {
         },
         tableFugai: (k) => {
             dispatch(tableFugai(k))
-          }
+        }
     }
 }
 export default connect(

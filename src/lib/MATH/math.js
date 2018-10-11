@@ -238,3 +238,15 @@ function fileImport() {
 
 export { fileImport }
 
+export const treeData = (element) => {
+    if (element.children.length > 0) {
+        element.children.forEach((e) => {
+            treeData(e)
+        })
+    }
+    element.value = [element.PK, element.ParentFormID]
+    element.title = element.Name
+    element.key = element.PK
+    return element
+}
+

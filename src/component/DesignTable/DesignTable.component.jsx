@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Button, Popconfirm, Spin } from 'antd'
+import { Table, Button, Popconfirm, Spin, message } from 'antd'
 import { connect } from 'react-redux'
 import { selectkeysToHeader } from '../Slider/action/Header.action'
 import { stylistDataSourceAsync, fugai, tableFugai } from '../stylist/action/Stylist.action'
@@ -90,17 +90,39 @@ class DesignTablecomponent extends Component {
     this.setState({
       loading: true
     })
-    POST$(API('Delete').http + record.PK + '/Delete', {}, (res) => {
-      console.log(res);
-      POST$(API('POSTDATA').http, {}, (res) => {
-        console.log(res);
-        this.setState({
-          data: res,
-          loading: false
-        })
+    let p1 = new Promise((resolve, reject) => {
+      POST$(API('Delete').http + record.PK + '/Delete', {}, (res) => {
+        if (res.result) {
+          resolve(true)
+        } else {
+          reject('错误')
+        }
       })
     })
+    let p2 = new Promise((resolve, reject) => {
+      POST$(API('POSTDATA').http, {}, (res) => {
+        // console.log(res);
+        if (res) {
+          resolve(res)
+        } else {
+          reject('错误')
+        }
+      })
+    })   
 
+    Promise.all([p1, p2])
+      .then((res) => {
+        this.setState({
+          loading: false,
+          data: res[1]
+        })
+      })
+      .catch((r) => {
+        message.error(r)
+        this.setState({
+          loading:false
+        })
+      })
   }
   TableHeader = () => (
     <div>

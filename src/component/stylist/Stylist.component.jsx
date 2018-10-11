@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Card, Icon, Popconfirm, Form, Button, Modal, Input, message, Spin, Select } from 'antd'
+import { Row, Col, Card, Icon, Popconfirm, Form, Button, Modal, Input, message, Spin, TreeSelect } from 'antd'
 import { connect } from 'react-redux'
 import { stylistDataSourceGet, formSourceData, currentAttr, formSourceDataUpdata, formSourceDataDelete, fugai } from './action/Stylist.action'
 import './Stylist.css'
@@ -9,12 +9,11 @@ import SliderRightcomponent from '../SliderRIght/SliderRight.component'
 import { Dragact } from 'dragact'
 import { formUpdataFromCurrent } from '../SliderRIght/action/Right.action'
 import { updataValues } from '../PublicComponent/lookup/action/lookup.action'
-import { POST$ } from '../../lib/MATH/math'
+import { POST$, treeData } from '../../lib/MATH/math'
 import { API } from '../../lib/API/check.API'
 import { selectkeysToHeader } from '../Slider/action/Header.action'
 import TABLECOMPONENT from '../PublicComponent/table/Table'
 
-const Option = Select.Option;
 const getblockStyle = isDragging => {
 
     return {
@@ -28,7 +27,7 @@ class Stylistcomponent extends Component {
         domWidth: 0,
         read: true,
         loading: false,
-        children: [],
+        treeData: [],
     }
     myRef = React.createRef()
     componentDidMount() {
@@ -72,17 +71,19 @@ class Stylistcomponent extends Component {
     }
     showModal = () => {
         POST$(API('POSTDATA').http, {}, (res) => {
-            console.log(res);
-            const children = [];
-            res.forEach(e => {
-                children.push(<Option key={e.Category}>{e.Category}</Option>);
+            // console.log(res);
+            res.forEach((e) => {
+                treeData(e)
             })
             this.setState({
                 visible: true,
-                children: children
+                treeData: res
             });
         })
     }
+
+
+
     read = () => {
 
         this.setState({
@@ -101,23 +102,17 @@ class Stylistcomponent extends Component {
         this.props.form.validateFields((err, values) => {
 
             // console.log(values);
-
             this.setState({
                 loading: true
             })
             if (!err) {
-                if (values.Category.length >= 1) {
-                    values.Category = values.Category[0]
-                }
-
-
                 let save = {}
                 let body = {}
                 body.FormData = this.props.UpdataFormData
                 body.TableData = this.props.tableSource
                 if (this.props.InitStylistData.PK) {
                     //编辑
-                    save = Object.assign({}, this.props.InitStylistData, values, { 'Bytes': JSON.stringify(body) })
+                    save = Object.assign({}, this.props.InitStylistData, { 'Name': values.Name }, { 'ParentFormID': values.PK[1] }, { 'Bytes': JSON.stringify(body) })
                     // console.log(newData);
 
                 } else {
@@ -126,7 +121,8 @@ class Stylistcomponent extends Component {
                     save = {
                         BranchId: user.BranchId,
                         Bytes: JSON.stringify(body),
-                        Category: values.Category,
+                        Category: '',
+                        ParentFormID: values.PK[1],
                         FK: -1,
                         Name: values.Name,
                         PK: -1,
@@ -135,6 +131,8 @@ class Stylistcomponent extends Component {
                         PageSize: 15
                     }
                 }
+                // console.log(save);
+
                 POST$(API('SaveForm').http, save, (res) => {
                     // console.log(res);
                     res.PK === -1 ? message.error('保存失败') : message.success('保存成功')
@@ -176,19 +174,19 @@ class Stylistcomponent extends Component {
                             )}
                         </FormItem>
                         <FormItem>
-                            {getFieldDecorator('Category', {
+                            {getFieldDecorator('PK', {
                                 rules: [{ required: true, message: 'Please input your formname!' }],
                             })(
                                 // <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="表单类" />
-                                <Select
-                                    mode="tags"
-                                    style={{ width: '100%' }}
-                                    placeholder="表单类"
+                                <TreeSelect
+                                    style={{ width: 300 }}
+                                    // value={this.state.value}
+                                    dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                                    treeData={this.state.treeData}
+                                    placeholder="Please select"
+                                    // treeDefaultExpandAll
                                     onChange={this.handleChange}
-                                    maxTagCount={1}
-                                >
-                                    {children}
-                                </Select>
+                                />
                             )}
                         </FormItem>
                         <Button type="primary" htmlType="submit" className="login-form-button">确定</Button>
@@ -257,10 +255,10 @@ class Stylistcomponent extends Component {
                                         )
                                     }}
                                 </Dragact>
-                                <div style={{position:'relative'}}>
+                                <div style={{ position: 'relative' }}>
                                     <Popconfirm title="你要干什么？"
                                         icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
-                                        okText="编辑" 
+                                        okText="编辑"
                                         onConfirm={this.confirm.bind(this, this.props.tableSource)}>
                                         <Icon
                                             className="Delete"
@@ -328,10 +326,13 @@ const mapDispatchProps = (dispatch) => {
 export default connect(mapStateToProps, mapDispatchProps)(Form.create({
     mapPropsToFields(props) {
         let Field = {}
-        console.log(props);
+        // console.log(props);
         if (Object.keys(props.InitStylistData).length > 0) {
             Field['Name'] = Form.createFormField({ value: props.InitStylistData.Name })
-            Field['Category'] = Form.createFormField({ value: props.InitStylistData.Category })
+            if (props.InitStylistData.ParentFormID !== 0) {
+                Field['PK'] = Form.createFormField({ value: [props.InitStylistData.PK, props.InitStylistData.ParentFormID] })
+            }
+
         }
         return Field
     }

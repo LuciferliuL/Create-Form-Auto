@@ -1,17 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Card, Col, Row, Table, Tree, Spin, message, Button } from 'antd'
+import { Card, Col, Row, Table, Tree, Spin, message, Button, TreeSelect } from 'antd'
 import { API } from '../../lib/API/check.API.js'
-import { GET$, POST$ } from '../../lib/MATH/math.js'
+import { GET$, POST$, treeData } from '../../lib/MATH/math.js'
 
-
-const TreeNode = Tree.TreeNode
 function mapStateToProps(state) {
     return {
 
     };
 }
-
 
 class ReadForm extends Component {
     state = {
@@ -26,18 +23,18 @@ class ReadForm extends Component {
                 title: 'ROLEID',
                 dataIndex: 'ROLEID',
                 width: '30%',
-                render:(text)=>{
-                    return(
-                        <div style={{padding:'15px',display:'inline-block'}}>{text}</div>
+                render: (text) => {
+                    return (
+                        <div style={{ padding: '15px', display: 'inline-block' }}>{text}</div>
                     )
                 }
             }, {
                 title: 'ROLENAME',
                 dataIndex: 'ROLENAME',
                 width: '70%',
-                render:(text)=>{
-                    return(
-                        <div style={{padding:'15px'}}>{text}</div>
+                render: (text) => {
+                    return (
+                        <div style={{ padding: '15px' }}>{text}</div>
                     )
                 }
             }
@@ -51,23 +48,43 @@ class ReadForm extends Component {
             "PageSize": 20,
             "isPage": false
         }
-        POST$(API('CheckCurrentId').http, body, (res) => {
-            // console.log(res);
-            if (res.Results) {
-                this.setState({
-                    data: res.Results,
-                    loading: false
+        let p1 = new Promise(
+            (resolve, reject) => {
+                POST$(API('CheckCurrentId').http, body, (res) => {
+                    // console.log(res);
+                    if (res.Results) {
+                        resolve(res.Results)
+                    } else {
+                        reject(500)
+                    }
                 })
-            } else {
-                message.error('数据错误')
             }
-        })
-        GET$(API('CheckFormList').http, (res) => {
-            console.log(res);
+        )
+        let p2 = new Promise(
+            (resolve, reject) => {
+                POST$(API('POSTDATA').http, {}, (res) => {
+                    // console.log(res);
+                    if(res.length > 0){
+                        res.forEach((e) => {
+                            treeData(e)
+                        })
+                        resolve(res)
+                    }else{
+                        reject(500)
+                    }
+                })
+            }
+        )
+        Promise.all([p1, p2])
+        .then((Results) => {
             this.setState({
-                treeData: res,
-                loading: false
+                data:Results[0],
+                treeData:Results[1],
+                loading:false
             })
+        })
+        .catch((reject)=>{
+            message.error(reject)
         })
     }
     rowSelectionChange = (rowKeys, rows) => {
@@ -79,12 +96,12 @@ class ReadForm extends Component {
     }
 
 
-    onSelect = (keys, info) => {
+    handleChange = (keys, info) => {
         this.setState({
             loading: true,
             keys: keys[0]
         })
-        // console.log(keys , info);
+        console.log(keys, info);
         let get = new Promise((resolve, reject) => {
             setTimeout(() => {
                 reject('500 error')
@@ -132,6 +149,7 @@ class ReadForm extends Component {
         })
     }
     render() {
+        var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.80
         const { loading, data, columns, selectedRowKeys } = this.state
         const rowSelection = {
             onChange: this.rowSelectionChange,
@@ -145,11 +163,16 @@ class ReadForm extends Component {
             <Spin spinning={loading}>
                 <Row gutter={16}>
                     <Col span={4}>
-                        <Card title="选择表单" bordered={true}>
+                        <Card title="选择表单" bordered={true} style={{ height: h + 'px', overflow: 'auto' }}>
                             {this.state.treeData.length
                                 ? <Tree
-                                    onSelect={this.onSelect}
-                                >{this.state.treeData.map(data => <TreeNode title={data.Name} key={data.PK} />)}</Tree>
+                                    style={{ width: 300 }}
+                                    // value={this.state.value}
+                                    treeData={this.state.treeData}
+                                    placeholder="Please select"
+                                    // treeDefaultExpandAll
+                                    onSelect={this.handleChange.bind(this)}
+                                />
                                 : 'loading tree'}
                         </Card>
                     </Col>

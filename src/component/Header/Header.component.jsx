@@ -30,74 +30,75 @@ class Headercomponent extends Component {
     }
     componentWillReceiveProps(pre) {
         // console.log(pre);
-        // if (pre.R === 'R') {
-            // document.onkeydown = function (e) {
-            //     // console.log(e.keyCode);
-            //     var keyCode = e.keyCode || e.which || e.charCode;
-            //     var altKey = e.altKey;
-            //     if (altKey && keyCode == 81) {
-        //             pre.Loading()
-        //             let valueList = {}
-        //             let SQL = ''
-        //             pre.data.map(e => {
-        //                 if (e.type !== 'Table' && e.type !== 'Group') {
-        //                     if (e.type === 'LookUp') {
-        //                         valueList[e.upKey] = e.values[e.upKey]
-        //                     } else if (e.type === 'Input' && e.typePoint === 0) {
-        //                         valueList[e.id] = e.defaultValue
-        //                     } else if (e.type === 'Input' && e.typePoint !== 0) {
-        //                         valueList[e.typePoint] = e.defaultValue
-        //                     } else {
-        //                         valueList[e.id] = e.defaultValue
-        //                     }
-        //                 } else if (e.type === 'Table') {
-        //                     SQL = e.SQL
-        //                 }
-        //             })
-        //             let post = new Promise((resolve, reject) => {
-        //                 let body = {
-        //                     "Sql": SQL,
-        //                     "Param": JSON.stringify(valueList),
-        //                     "PageIndex": 1,
-        //                     "PageSize": 200,
-        //                     isPage: true
-        //                 }
-        //                 POST$(API('SQL').http, body, (res) => {
-        //                     console.log(res);
-        //                     if (res.Results) {
-        //                         this.props._tableUpdataFromResults(res.Results, res.RecordCount)
-        //                         resolve(true)
-        //                     } else {
-        //                         reject(false)
-        //                     }
+        if (pre.R === 'R') {
+            document.onkeydown = function (e) {
+                // console.log(e.keyCode);
+                var keyCode = e.keyCode || e.which || e.charCode;
+                var altKey = e.altKey;
+                if (altKey && keyCode == 81) {
+                    pre.Loading()
+                    let valueList = {}
+                    let SQL = pre.tableSource.SQL
+                    pre.data.map(e => {
+                        if (e.type !== 'Table' && e.type !== 'Group') {
+                            if (e.type === 'LookUp') {
+                                valueList[e.upKey] = e.values[e.upKey]
+                            } else if (e.type === 'Input' && e.typePoint === 0) {
+                                valueList[e.id] = e.defaultValue
+                            } else if (e.type === 'Input' && e.typePoint !== 0) {
+                                valueList[e.typePoint] = e.defaultValue
+                            } else {
+                                valueList[e.id] = e.defaultValue
+                            }
+                        } 
+                    })
+                    let post = new Promise((resolve, reject) => {
+                        let body = {
+                            "Sql": SQL,
+                            "Param": JSON.stringify(valueList),
+                            "PageIndex": 1,
+                            "PageSize": 200,
+                            isPage: true
+                        }
+                        POST$(API('SQL').http, body, (res) => {
+                            console.log(res);
+                            if (res.Results) {
+                                pre._tableUpdataFromResults(res.Results, res.RecordCount)
+                                resolve(true)
+                            } else {
+                                reject(false)
+                            }
 
-        //                 })
-        //             })
-        //             let time = new Promise((resolve, reject) => {
-        //                 setTimeout(() => {
-        //                     reject(false)
-        //                 }, 10000);
-        //             })
+                        })
+                    })
+                    let time = new Promise((resolve, reject) => {
+                        setTimeout(() => {
+                            reject(false)
+                        }, 10000);
+                    })
 
-        //             Promise.race([post, time])
-        //                 .then((result) => {
-        //                     pre.Loading()
-        //                 })
-        //                 .catch((err) => {
-        //                     message.error('获取数据超时')
-        //                     pre.Loading()
-        //                 })
-        //         } else if (altKey && keyCode == 82) {
+                    Promise.race([post, time])
+                        .then((result) => {
+                            pre.Loading()
+                        })
+                        .catch((err) => {
+                            message.error('获取数据超时')
+                            pre.Loading()
+                        })
+                } else if (altKey && keyCode == 82) {
 
-        //         } else if (altKey && keyCode == 67) {
-        //             pre.clear()
-        //         } else if (altKey && keyCode == 65) {
+                } else if (altKey && keyCode == 67) {
+                    pre.clear()
+                } else if (altKey && keyCode == 65) {
 
-        //         }
-        //         e.preventDefault();
-        //         return false;
-        //     }
-        // }
+                } else {
+                    // e.preventDefault();
+                    return true;
+                }
+                e.preventDefault();
+                return false;
+            }
+        }
 
     }
     enter = () => {
@@ -152,12 +153,12 @@ class Headercomponent extends Component {
             })
             .catch((err) => {
                 message.error('获取数据超时')
+                this.props.Loading()
             })
     }
     guanbi = () => {
         this.props.clear()
     }
-
     render() {
 
         const { user } = this.state

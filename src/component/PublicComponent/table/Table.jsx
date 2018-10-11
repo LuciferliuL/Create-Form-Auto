@@ -46,21 +46,22 @@ class TABLECOMPONENT extends Component {
 
     componentWillReceiveProps(pre) {
         console.log(pre.tableSource)
-
+        console.log(this.state.tr);
+        
         let data = []
         if (pre.tableSource.tr > this.state.tr) {
-            if (pre.tableSource.tr === 35 * this.state.x && pre.tableSource.tr < 350) {
+            if (pre.tableSource.tr === 25 * this.state.x && pre.tableSource.tr < 350) {
                 if (pre.TABLE === 'TABLE') {
                     pre.tableSource.dataSource.map((e, i) => {
-                        if (35 * this.state.x <= i && i < (35 * this.state.x + 35)) {
-                            e.indexs = 35 * this.state.x + i + 'table'
+                        if (25 * this.state.x <= i && i < (25 * this.state.x + 25)) {
+                            e.indexs = 25 * this.state.x + i + 'tables'
                             data.push(e)
                         }
                     })
                 } else {
                     pre.tableSource.dataSource.map((e, i) => {
-                        if (35 * this.state.x <= i && i < (35 * this.state.x + 35)) {
-                            e.indexs = 35 * this.state.x + i + 'table'
+                        if (25 * this.state.x <= i && i < (25 * this.state.x + 25)) {
+                            e.indexs = 25 * this.state.x + i + 'tables'
                             data.push(e)
                         }
                     })
@@ -77,20 +78,20 @@ class TABLECOMPONENT extends Component {
             }
 
         } else if (pre.tableSource.tr < this.state.tr) {
-            if (pre.tableSource.tr === (35 * (this.state.x - 1) - 1) && pre.tableSource.tr > 0) {
+            if (pre.tableSource.tr === (25 * (this.state.x - 1) - 1) && pre.tableSource.tr > 0) {
                 // console.log(this.state.x);
 
                 if (pre.TABLE === 'TABLE') {
                     pre.tableSource.dataSource.map((e, i) => {
-                        if (35 * this.state.x <= i && i < (35 * this.state.x + 35)) {
-                            e.indexs = 35 * this.state.x + i + 'table'
+                        if (25 * this.state.x <= i && i < (25 * this.state.x + 25)) {
+                            e.indexs =  i + 'tables'
                             data.push(e)
                         }
                     })
                 } else {
                     pre.tableSource.dataSource.map((e, i) => {
-                        if (35 * this.state.x <= i && i < (35 * this.state.x + 35)) {
-                            e.indexs = 35 * this.state.x + i + 'table'
+                        if (25 * this.state.x <= i && i < (25 * this.state.x + 25)) {
+                            e.indexs = 25 * this.state.x + i + 'table'
                             data.push(e)
                         }
                     })
@@ -107,11 +108,13 @@ class TABLECOMPONENT extends Component {
             // console.log(pre);
             
             pre.tableSource.dataSource.map((e, i) => {
-                if ( i < (35 * this.state.x + 35)) {
-                    e.indexs = 35 * this.state.x + i + 'table'
+                if ( i <  25) {
+                    e.indexs =  i + 'tables'
                     data.push(e)
                 }
             })
+            console.log(data);
+            
             this.setState((p) => (
                 {
                     data: data,
@@ -164,7 +167,7 @@ class TABLECOMPONENT extends Component {
                 widths += Number(e.width)
             });
         }
-        // console.log(this.props.heights);
+        console.log(this.state.data);
         
         return (
             <div>
@@ -173,7 +176,7 @@ class TABLECOMPONENT extends Component {
                     // bodyStyle={{height:this.props.heights}}
                     // components={this.components}
                     columns={columns}
-                    dataSource={this.props.tableSource.dataSource}
+                    dataSource={this.state.data}
                     pagination={false}
                     scroll={{ x: widths }}
                     onHeaderRow={(column) => {
@@ -185,8 +188,8 @@ class TABLECOMPONENT extends Component {
                     rowClassName={(record, index) => {
                         // console.log(record)
                         // console.log(index);
-                        if (this.props.tableSource.tr > 34) {
-                            return (index === (this.props.tableSource.tr - (35 * (this.state.x - 1))) ? 'black' : "")
+                        if (this.props.tableSource.tr > 24) {
+                            return (index === (this.props.tableSource.tr - (25 * (this.state.x - 1))) ? 'black' : "")
                         } else {
                             return (index === this.props.tableSource.tr ? 'black' : '')
                         }

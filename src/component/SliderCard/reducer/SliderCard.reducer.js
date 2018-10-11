@@ -1,4 +1,7 @@
 import { CURRENT_TAGS_UPDATA, SQL_DATA } from '../action/SliderCard.action'
+import React from 'react'
+import {Tooltip} from 'antd'
+import '../../../App'
 
 const SData = [
     {
@@ -16,7 +19,7 @@ const SData = [
         icons: 'copyright', id: 8, type: 'RadioGroup', required: false,
         message: "123", label: "单选框组", disabled: false,
         GroupValue: [{ value: 'Apple', name: 'Apple' }, { value: 'Pear', name: 'Pear' }],
-        groupname: 'cen',defaultValue: '',
+        groupname: 'cen', defaultValue: '',
         layout: {
             labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
             wrapperCol: { xs: { span: 24 }, sm: { span: 16 } }
@@ -65,20 +68,20 @@ const SData = [
     {
         GridX: 0, GridY: 0, w: 24, h: 8, key: '0', pageSize: 200, scroll: 1200,
         icons: 'table', label: '简单表格', type: 'Table',
-        SQL: 'select * where',groupname:'',
+        SQL: 'select * where', groupname: '',
         columns: [
             {
                 title: '姓名',
                 dataIndex: 'name',
-                width_: '120px'
+                width: '120px'
             }, {
                 title: '年龄',
                 dataIndex: 'age',
-                width_: '120px'
+                width: '120px'
             }, {
                 title: '住址',
                 dataIndex: 'address',
-                width_: '120px'
+                width: '120px'
             }],
         dataSource: []
     },
@@ -86,32 +89,32 @@ const SData = [
         GridX: 0, GridY: 0, w: 8, h: 1, key: '0',
         icons: 'diff', id: 8, type: 'LookUp', required: false,
         message: "123", label: "LookUp", disabled: false, upKey: '',
-        show:false,scroll: 1200,
+        show: false, scroll: 1200,
         layout: {
             labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
             wrapperCol: { xs: { span: 24 }, sm: { span: 16 } }
-        }, tr: 0,  values: '', uniqueKey: 'key',
+        }, tr: 0, values: '', uniqueKey: 'key',
         columns: [
             {
                 title: 'Date',
                 dataIndex: 'date',
-                width_: '20%',
+                width: '20%',
             }, {
                 title: 'Amount',
                 dataIndex: 'amount',
-                width_: '10%',
+                width: '10%',
             }, {
                 title: 'Type',
                 dataIndex: 'type',
-                width_: '10%',
+                width: '10%',
             }, {
                 title: 'Note',
                 dataIndex: 'note',
-                width_: '10%',
+                width: '10%',
             }, {
                 title: 'Action',
                 dataIndex: 'action',
-                width_: '50%'
+                width: '50%'
             }],
         SQL: 'select * where',
         dataSource: []
@@ -164,112 +167,112 @@ const SQL = [
         layout: {
             labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
             wrapperCol: { xs: { span: 24 }, sm: { span: 16 } }
-        }, tr: 0,  values: '', uniqueKey: 'key',scroll: 1200,
-        show:false,
+        }, tr: 0, values: '', uniqueKey: 'key', scroll: 1200,
+        show: false,
         columns: [{
             title: "采购员ID",
             dataIndex: "PURCHASER",
-            width_: '200',
+            width: 100,
         }, {
             title: "商品内码",
             dataIndex: "PRODID",
-            width_: '200',
+            width: 120,
         }, {
             title: "商品编码",
             dataIndex: "PRODNO",
-            width_: '200',
+            width: 150,
         }, {
             title: "商品名称",
             dataIndex: "PRODNAME",
-            width_: '200',
+            width: 300,
         }, {
             title: "包装单位",
             dataIndex: "PACKAGEUNIT",
-            width_: '200',
+            width: 80,
         }, {
             title: "大包装数量",
             dataIndex: "BIGPACKAGEQUANTITY",
-            width_: '200',
+            width: 100,
         }, {
             title: "中包装数量",
             dataIndex: "MIDPACKAGEQUANTITY",
-            width_: '200',
+            width: 100,
         }, {
             title: "生产厂家全称",
             dataIndex: "MANUFACTURE",
-            width_: '200',
+            width: 450,
         }, {
             title: "产地",
             dataIndex: "CHINESEDRUGYIELDLY",
-            width_: '200',
+            width: 100,
         }, {
             title: "税率",
             dataIndex: "TAXRATE",
-            width_: '200',
+            width: 60,
         }, {
             title: "商品助记码",
             dataIndex: "PRODMEMORYCODE",
-            width_: '200',
+            width: 150,
         }, {
             title: "供应商简码",
             dataIndex: "ARCHIVENO",
-            width_: '200',
+            width: 120,
         }, {
             title: "商品规格",
             dataIndex: "PRODSPECIFICATION",
-            width_: '200',
+            width: 100,
         }, {
             title: "商品剂型",
             dataIndex: "PRODDOSAGEFORMNOTEXT",
-            width_: '200',
+            width: 100,
         }, {
             title: "是否集采",
             dataIndex: "IS_CENTRALIZEDPURCHASING",
-            width_: '200',
+            width: 80,
         }, {
             title: "处方分类ID",
             dataIndex: "PRESCRIPTIONCLASS",
-            width_: '200',
+            width: 100,
         }, {
             title: "零售价",
             dataIndex: "RETAILPRICE",
-            width_: '200',
+            width: 80,
         }, {
             title: "最低售价",
             dataIndex: "MINSELLPRICE",
-            width_: '200',
+            width: 100,
         }, {
             title: "厂家限价",
             dataIndex: "MINSELLPRICELIMIT",
-            width_: '200',
+            width: 100,
         }, {
             title: "基准指导价",
             dataIndex: "SELLGUIDPRICE",
-            width_: '200',
+            width: 100,
         }, {
             title: "含税售价",
             dataIndex: "SELLTAXPRICE",
-            width_: '200',
+            width: 100,
         }, {
             title: "业务类型名称",
             dataIndex: "BUSITYPETEXT",
-            width_: '200',
+            width: 120,
         }, {
             title: "采购员ID",
             dataIndex: "PURCHASEID",
-            width_: '200',
+            width: 100,
         }, {
             title: "成本单价",
             dataIndex: "COSTPRICE",
-            width_: '200',
+            width: 100,
         }, {
             title: "核算成本价",
             dataIndex: "COSTACCOUNTING",
-            width_: '200',
+            width: 100,
         }, {
             title: "是否活动",
             dataIndex: "IS_ACTIVE",
-            width_: '200',
+            width: 80,
         }
         ],
         SQL: `select
@@ -303,40 +306,40 @@ const SQL = [
     }, {
         GridX: 0, GridY: 0, w: 8, h: 1, key: '0',
         icons: 'team', id: 8, type: 'LookUp', required: false,
-        message: "123", label: "人员查询", disabled: false, upKey: '',scroll: 1200,
+        message: "123", label: "人员查询", disabled: false, upKey: '', scroll: 1200,
         layout: {
             labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
             wrapperCol: { xs: { span: 24 }, sm: { span: 16 } }
         }, tr: 0, values: '', uniqueKey: 'key',
-        show:false,
+        show: false,
         columns: [{
             title: "主键",
             dataIndex: "PK",
-            width_: '200',
+            width: 150,
         }, {
             title: "助记码",
             dataIndex: "ABBR",
-            width_: '200',
+            width: 200,
         }, {
             title: "人员ID",
             dataIndex: "STAFFID",
-            width_: '200',
+            width: 150,
         }, {
             title: "人员名称",
             dataIndex: "STAFFNAME",
-            width_: '200',
+            width: 150,
         }, {
             title: "组织名称",
             dataIndex: "ORGNAME",
-            width_: '200',
+            width: 150,
         }, {
             title: "组织结构内码",
-            width_: '200',
+            width: 200,
             dataIndex: "ORGID",
         }, {
             title: "分公司ID",
             dataIndex: "BRANCHID",
-            width_: '200',
+            width: 100,
         }
         ],
         SQL: `select d.pk,d.abbr,d.staffid,d.staffname,d.orgname,d.orgid,e.branchid,e.orgname branchname/*,f.userid*/ from
@@ -352,8 +355,8 @@ const SQL = [
     }, {
         GridX: 0, GridY: 0, w: 8, h: 1, key: '0',
         icons: 'hdd', id: 8, type: 'LookUp', required: false,
-        message: "123", label: "字典检索", disabled: false, upKey: '',scroll: 1200,
-        show:false,
+        message: "123", label: "字典检索", disabled: false, upKey: '', scroll: 1200,
+        show: false,
         layout: {
             labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
             wrapperCol: { xs: { span: 24 }, sm: { span: 16 } }
@@ -361,15 +364,15 @@ const SQL = [
         columns: [{
             title: "经销代销类型",
             dataIndex: "DICTITEMCODE",
-            width_: '200',
+            width: 200,
         }, {
             title: "字典名称",
             dataIndex: "DICTITEMNAME",
-            width_: '200',
+            width: 200,
         }, {
             title: "备注",
             dataIndex: "note",
-            width_: '200',
+            width: 200,
         }
         ],
         SQL: `SELECT  dictitemcode ,trim(dictitemname) as dictitemname,note
@@ -385,7 +388,7 @@ const SQL = [
         GridX: 0, GridY: 0, w: 8, h: 1, key: '0',
         icons: 'heat-map', id: 8, type: 'LookUp', required: false,
         message: "123", label: "客户检索", disabled: false, upKey: '',
-        show:false,scroll: 1200,
+        show: false, scroll: 1200,
         layout: {
             labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
             wrapperCol: { xs: { span: 24 }, sm: { span: 16 } }
@@ -393,187 +396,183 @@ const SQL = [
         columns: [{
             title: "子公司主管部门名称",
             dataIndex: "EXECUTIVEDEPT",
-            width_: '200',
+            width: 150,
         }, {
             title: "助记码",
             dataIndex: "CUSTMEMORYCODE",
-            width_: '200',
+            width: 120,
         }, {
             title: "质管备注",
             dataIndex: "QUALIFICATIONDEADLINE",
-            width_: '200',
+            width: 200,
         }, {
             title: "客户类别ID",
             dataIndex: "CUSTTYPEID",
-            width_: '200',
+            width: 100,
         }, {
             title: "客户内码",
             dataIndex: "CUSTID",
-            width_: '200',
+            width: 100,
         }, {
             title: "客户编码",
             dataIndex: "CUSTNO",
-            width_: '200',
+            width: 100,
         }, {
             title: "客户名称",
             dataIndex: "CUSTNAME",
-            width_: '200',
+            width: 200,
         }, {
             title: "客户地址（注册地址）",
             dataIndex: "CUSTADD",
-            width_: '200',
+            width: 200,
         }, {
             title: "客户标识",
             dataIndex: "CUSTIDENTIFY",
-            width_: '200',
+            width: 120,
         }, {
             title: "联系人",
             dataIndex: "CONTACTPERSON",
-            width_: '200',
+            width: 100,
         }, {
             title: "联系人电话",
             dataIndex: "CONTACTPHONE",
-            width_: '200',
+            width: 120,
         }, {
             title: "责任业务员ID",
             dataIndex: "BUSINESSID",
-            width_: '200',
+            width: 150,
         }, {
             title: "责任业务员",
             dataIndex: "BUSINESSMAN",
-            width_: '200',
+            width: 150,
         }, {
             title: "不可经营类别",
             dataIndex: "NONBUSINESSTYPE",
-            width_: '200',
-        }, {
-            title: "经营简码ID",
-            dataIndex: "BUSINESSSCOPECODE",
-            width_: '200',
-        }, {
-            title: "不可经营简码ID",
-            dataIndex: "NONBUSINESSSCOPECODE",
-            width_: '200',
+            width: 150,
+        // }, {
+        //     title: "经营简码ID",
+        //     dataIndex: "BUSINESSSCOPECODE",
+        //     width: 100,
+        // }, {
+        //     title: "不可经营简码ID",
+        //     dataIndex: "NONBUSINESSSCOPECODE",
+        //     width: 150,
         }, {
             title: "分销客户类型",
             dataIndex: "CUSTTYPE",
-            width_: '200',
+            width: 120,
         }, {
             title: "是否转配送",
             dataIndex: "ISARTICULATED",
-            width_: '200',
+            width: 120,
         }, {
             title: "责任开票员ID",
             dataIndex: "MAINOPID",
-            width_: '200',
+            width: 150,
         }, {
             title: "责任开票员",
             dataIndex: "MAINOPNAME",
-            width_: '200',
+            width: 150,
         }, {
             title: "采购员",
             dataIndex: "PURCHASER",
-            width_: '200',
+            width: 100,
         }, {
             title: "采购员ID",
             dataIndex: "PURCHASERID",
-            width_: '200',
+            width: 120,
         }, {
             title: "付款方式",
             dataIndex: "PAYMENTNAME",
-            width_: '200',
+            width: 120,
         }, {
             title: "销售信贷期",
             dataIndex: "SALESCREDITTIME",
-            width_: '200',
+            width: 120,
         }, {
             title: "是否可进货",
             dataIndex: "ISPURCHASING",
-            width_: '200',
+            width: 120,
         }, {
             title: "关联关系ID",
             dataIndex: "RELATION",
-            width_: '200',
+            width: 120,
         }, {
             title: "是否集采",
             dataIndex: "IS_CENTRALIZEDPURCHASING",
-            width_: '200',
+            width: 100,
         }, {
             title: "是否可销售",
             dataIndex: "ISSALES",
-            width_: '200',
+            width: 152,
         }, {
             title: "开发票要求",
             dataIndex: "BILLINGNOTE",
-            width_: '200',
-        }, {
-            title: "责任开票员ID",
-            dataIndex: "MAINOPID",
-            width_: '200',
+            width: 120,
         }, {
             title: "主配送仓库ID",
             dataIndex: "STOREID",
-            width_: '200',
+            width: 120,
         }, {
             title: "区域划分名称",
             dataIndex: "TERRITORIESTEXT",
-            width_: '200',
+            width: 150,
         }, {
             title: "区域划分ID",
             dataIndex: "TERRITORIES",
-            width_: '200',
+            width: 100,
         }, {
             title: "所属大区名称",
             dataIndex: "OWNERAREATEXT",
-            width_: '200',
+            width: 120,
         }, {
             title: "大区经理ID",
             dataIndex: "AREAMGR",
-            width_: '200',
+            width: 100,
         }, {
             title: "是否活动名称",
             dataIndex: "IS_ACTIVETEXT",
-            width_: '200',
+            width: 150,
         }, {
             title: "开户银行帐号",
             dataIndex: "BANKACCOUNT",
-            width_: '200',
+            width: 300,
         }, {
             title: "开户银行",
             dataIndex: "DEPOSITBANK",
-            width_: '200',
+            width: 300,
         }, {
             title: "是否活动",
             dataIndex: "IS_ACTIVE",
-            width_: '200',
+            width: 80,
         }, {
             title: "收货地址",
             dataIndex: "CONSIGNEE",
-            width_: '200',
+            width: 100,
         }, {
             title: "收货人电话",
             dataIndex: "CONSIGNEEPHONE",
-            width_: '200',
+            width: 100,
         }, {
             title: "仓库地址",
             dataIndex: "STOREADDR",
-            width_: '200',
+            width: 300,
         }, {
             title: "客户简称",
             dataIndex: "CUSTABBREVIATION",
-            width_: '200',
+            width: 200,
         }, {
             title: "客户业务类型ID(供、销)",
             dataIndex: "PARTNERTYPE",
-            width_: '200',
+            width: 150,
         }, {
             title: "收货地址",
             dataIndex: "CONSIGNEEADD",
-            width_: '200',
+            width: 200,
         }, {
             title: "是否管理合同",
             dataIndex: "IS_MANAGECONTRACT",
-            width_: '200',
+            width: 120,
         }],
         SQL: `
         select f.executivedept,
@@ -653,196 +652,192 @@ const SQL = [
     }, {
         GridX: 0, GridY: 0, w: 8, h: 1, key: '0',
         icons: 'rise', id: 8, type: 'LookUp', required: false,
-        message: "123", label: "上游客户检索", disabled: false, upKey: '',scroll: 1200,
-        show:false,
+        message: "123", label: "上游客户检索", disabled: false, upKey: '', scroll: 1200,
+        show: false,
         layout: {
             labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
             wrapperCol: { xs: { span: 24 }, sm: { span: 16 } }
-        }, tr: 0,  values: '', uniqueKey: 'key',
+        }, tr: 0, values: '', uniqueKey: 'key',
         columns: [{
             title: "子公司主管部门名称",
             dataIndex: "EXECUTIVEDEPT",
-            width_: '200',
+            width: 200,
         }, {
             title: "助记码",
             dataIndex: "CUSTMEMORYCODE",
-            width_: '200',
+            width: 200,
         }, {
             title: "质管备注",
             dataIndex: "QUALIFICATIONDEADLINE",
-            width_: '200',
+            width: 200,
         }, {
             title: "客户类别ID",
             dataIndex: "CUSTTYPEID",
-            width_: '200',
+            width: 100,
         }, {
             title: "客户内码",
             dataIndex: "CUSTID",
-            width_: '200',
+            width: 100,
         }, {
             title: "客户编码",
             dataIndex: "CUSTNO",
-            width_: '200',
+            width: 150,
         }, {
             title: "客户名称",
             dataIndex: "CUSTNAME",
-            width_: '200',
+            width: 200,
         }, {
             title: "客户地址（注册地址）",
             dataIndex: "CUSTADD",
-            width_: '200',
+            width: 200,
         }, {
             title: "客户标识",
             dataIndex: "CUSTIDENTIFY",
-            width_: '200',
+            width: 250,
         }, {
             title: "联系人",
             dataIndex: "CONTACTPERSON",
-            width_: '200',
+            width: 100,
         }, {
             title: "联系人电话",
             dataIndex: "CONTACTPHONE",
-            width_: '200',
+            width: 100,
         }, {
             title: "责任业务员ID",
             dataIndex: "BUSINESSID",
-            width_: '200',
+            width: 120,
         }, {
             title: "责任业务员",
             dataIndex: "BUSINESSMAN",
-            width_: '200',
+            width: 120,
         }, {
             title: "不可经营类别",
             dataIndex: "NONBUSINESSTYPE",
-            width_: '200',
+            width: 150,
         }, {
             title: "经营简码ID",
             dataIndex: "BUSINESSSCOPECODE",
-            width_: '200',
+            width: 120,
         }, {
             title: "不可经营简码ID",
             dataIndex: "NONBUSINESSSCOPECODE",
-            width_: '200',
+            width: 150,
         }, {
             title: "分销客户类型",
             dataIndex: "CUSTTYPE",
-            width_: '200',
+            width: 100,
         }, {
             title: "是否转配送",
             dataIndex: "ISARTICULATED",
-            width_: '200',
-        }, {
-            title: "责任开票员ID",
-            dataIndex: "MAINOPID",
-            width_: '200',
+            width: 120,
         }, {
             title: "责任开票员",
             dataIndex: "MAINOPNAME",
-            width_: '200',
+            width: 100,
         }, {
             title: "采购员",
             dataIndex: "PURCHASER",
-            width_: '200',
+            width: 100,
         }, {
             title: "采购员ID",
             dataIndex: "PURCHASERID",
-            width_: '200',
+            width: 100,
         }, {
             title: "付款方式",
             dataIndex: "PAYMENTNAME",
-            width_: '200',
+            width: 100,
         }, {
             title: "销售信贷期",
             dataIndex: "SALESCREDITTIME",
-            width_: '200',
+            width: 100,
         }, {
             title: "是否可进货",
             dataIndex: "ISPURCHASING",
-            width_: '200',
+            width: 100,
         }, {
             title: "关联关系ID",
             dataIndex: "RELATION",
-            width_: '200',
+            width: 100,
         }, {
             title: "是否集采",
             dataIndex: "IS_CENTRALIZEDPURCHASING",
-            width_: '200',
+            width: 100,
         }, {
             title: "是否可销售",
             dataIndex: "ISSALES",
-            width_: '200',
+            width: 100,
         }, {
             title: "开发票要求",
             dataIndex: "BILLINGNOTE",
-            width_: '200',
+            width: 100,
         }, {
             title: "责任开票员ID",
             dataIndex: "MAINOPID",
-            width_: '200',
+            width: 120,
         }, {
             title: "主配送仓库ID",
             dataIndex: "STOREID",
-            width_: '200',
+            width: 120,
         }, {
             title: "区域划分名称",
             dataIndex: "TERRITORIESTEXT",
-            width_: '200',
+            width: 120,
         }, {
             title: "区域划分ID",
             dataIndex: "TERRITORIES",
-            width_: '200',
+            width: 100,
         }, {
             title: "所属大区名称",
             dataIndex: "OWNERAREATEXT",
-            width_: '200',
+            width: 120,
         }, {
             title: "大区经理ID",
             dataIndex: "AREAMGR",
-            width_: '200',
+            width: 100,
         }, {
             title: "是否活动名称",
             dataIndex: "IS_ACTIVETEXT",
-            width_: '200',
+            width: 150,
         }, {
             title: "开户银行帐号",
             dataIndex: "BANKACCOUNT",
-            width_: '200',
+            width: 200,
         }, {
             title: "开户银行",
             dataIndex: "DEPOSITBANK",
-            width_: '200',
+            width: 200,
         }, {
             title: "是否活动",
             dataIndex: "IS_ACTIVE",
-            width_: '200',
+            width: 100,
         }, {
             title: "收货地址",
             dataIndex: "CONSIGNEE",
-            width_: '200',
+            width: 200,
         }, {
             title: "收货人电话",
             dataIndex: "CONSIGNEEPHONE",
-            width_: '200',
+            width: 120,
         }, {
             title: "仓库地址",
             dataIndex: "STOREADDR",
-            width_: '200',
+            width: 150,
         }, {
             title: "客户简称",
             dataIndex: "CUSTABBREVIATION",
-            width_: '200',
+            width: 100,
         }, {
-            title: "客户业务类型ID(供、销)",
+            title: "客户业务类型(供、销)",
             dataIndex: "PARTNERTYPE",
-            width_: '200',
+            width: 150,
         }, {
             title: "收货地址",
             dataIndex: "CONSIGNEEADD",
-            width_: '200',
+            width: 200,
         }, {
             title: "是否管理合同",
             dataIndex: "IS_MANAGECONTRACT",
-            width_: '200',
+            width: 120,
         }
         ],
         SQL: `select f.executivedept,
