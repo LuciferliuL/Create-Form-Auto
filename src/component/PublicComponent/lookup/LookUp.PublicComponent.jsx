@@ -49,7 +49,7 @@ class LookUpPublicComponent extends Component {
             "PageSize": pagesize,
             isPage: true
         }
-        
+
         POST$(API('SQL').http, body, (res) => {
             // console.log(res);
             this.props.upDataCurrentDataSource(res.Results, res.RecordCount)
@@ -84,7 +84,7 @@ class LookUpPublicComponent extends Component {
             case 40://下
                 if (this.props.current.tr < dataSource.length - 1) {
                     // console.log(this.props.current.tr);
-                    
+
                     this.props.trAddDown(this.props.current.tr, 1)
                 }
                 break;
@@ -111,6 +111,7 @@ class LookUpPublicComponent extends Component {
             case 27:
                 this.props.shows(false)
                 this.props.upForm(this.props.current)
+                this.props.form.resetFields()
                 break
         }
     }
@@ -135,6 +136,11 @@ class LookUpPublicComponent extends Component {
             window.removeEventListener('keyup', this.handleKeyDown)
         }
     }
+    LookUpChange = (e) => {
+        if(e.target.value.length === 0){
+            this.props.form.resetFields()
+        }
+    }
     render() {
         const { getFieldDecorator } = this.props.form
         const { dataSource, label, id, required, message, layout, columns, show, scroll } = this.props.PublicData
@@ -146,7 +152,7 @@ class LookUpPublicComponent extends Component {
                     style={{ top: '0' }}
                     footer={null}
                     onCancel={this.Cancel.bind(this)}
-                    // bodyStyle={{ overflow: 'scroll-y'}}
+                // bodyStyle={{ overflow: 'scroll-y'}}
                 >
                     <TablePublicComponent
                         PublicData={this.props.current}
@@ -162,8 +168,9 @@ class LookUpPublicComponent extends Component {
                         rules: [{ required: { required }, message: { message } }],
                     })(
                         <Input
+                            onChange={this.LookUpChange.bind(this)}
                             onPressEnter={this.OnPressEnter.bind(this, this.props.PublicData.key, 1, 200, true)}
-                           >
+                        >
                         </Input>
                     )}
                 </FormItem>

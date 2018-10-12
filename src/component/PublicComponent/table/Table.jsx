@@ -139,12 +139,11 @@ class TABLECOMPONENT extends Component {
             case 40://下
                 if (this.props.tableSource.tr < dataSource.length - 1) {
                     // console.log(this.props.current.tr);
-                    
                     this.props.tAddDown(this.props.tableSource.tr, 1)
                 }
                 break;
             case 38://上
-                if (this.props.current.tr > 0) {
+                if (this.props.tableSource.tr > 0) {
                     this.props.tReduceUp(this.props.tableSource.tr, 1)
                 }
                 break;

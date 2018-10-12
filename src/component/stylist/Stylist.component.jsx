@@ -36,7 +36,7 @@ class Stylistcomponent extends Component {
         }, 10)
     }
     changeWidth = () => {
-        const dom = (this.myRef.current.container.clientWidth) - 64
+        const dom = (this.myRef.current.container.clientWidth) -20
         this.setState({
             domWidth: dom
         })
@@ -101,18 +101,24 @@ class Stylistcomponent extends Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
 
-            // console.log(values);
+            console.log(values);
             this.setState({
                 loading: true
             })
             if (!err) {
+                if(!values.ParentFormID){
+                    values.ParentFormID = 0
+                }else if(values.ParentFormID.length > 0){
+                    values.ParentFormID = values.ParentFormID[0]
+                }
+
                 let save = {}
                 let body = {}
                 body.FormData = this.props.UpdataFormData
                 body.TableData = this.props.tableSource
                 if (this.props.InitStylistData.PK) {
                     //编辑
-                    save = Object.assign({}, this.props.InitStylistData, { 'Name': values.Name }, { 'ParentFormID': values.PK[1] }, { 'Bytes': JSON.stringify(body) })
+                    save = Object.assign({}, this.props.InitStylistData, { 'Name': values.Name }, { 'ParentFormID': values.ParentFormID }, { 'Bytes': JSON.stringify(body) })
                     // console.log(newData);
 
                 } else {
@@ -122,7 +128,7 @@ class Stylistcomponent extends Component {
                         BranchId: user.BranchId,
                         Bytes: JSON.stringify(body),
                         Category: '',
-                        ParentFormID: values.PK[1],
+                        ParentFormID: values.ParentFormID,
                         FK: -1,
                         Name: values.Name,
                         PK: -1,
@@ -131,7 +137,7 @@ class Stylistcomponent extends Component {
                         PageSize: 15
                     }
                 }
-                // console.log(save);
+                console.log(save);
 
                 POST$(API('SaveForm').http, save, (res) => {
                     // console.log(res);
@@ -174,8 +180,8 @@ class Stylistcomponent extends Component {
                             )}
                         </FormItem>
                         <FormItem>
-                            {getFieldDecorator('PK', {
-                                rules: [{ required: true, message: 'Please input your formname!' }],
+                            {getFieldDecorator('ParentFormID', {
+                                rules: [{ required: false, message: 'Please input your formname!' }],
                             })(
                                 // <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="表单类" />
                                 <TreeSelect
@@ -198,7 +204,9 @@ class Stylistcomponent extends Component {
                         <SliderCard></SliderCard>
                     </Col>
                     <Col span={this.state.read ? 14 : 24}>
-                        <Card title="表单预览"
+                        <Card 
+                        title="表单预览"
+                        bodyStyle={{padding:'0px'}}
                             extra={
                                 <div>
                                     <Button onClick={this.read.bind(this)}>预览</Button>
@@ -330,7 +338,9 @@ export default connect(mapStateToProps, mapDispatchProps)(Form.create({
         if (Object.keys(props.InitStylistData).length > 0) {
             Field['Name'] = Form.createFormField({ value: props.InitStylistData.Name })
             if (props.InitStylistData.ParentFormID !== 0) {
-                Field['PK'] = Form.createFormField({ value: [props.InitStylistData.PK, props.InitStylistData.ParentFormID] })
+                Field['ParentFormID'] = Form.createFormField({ value: props.InitStylistData.PK })
+            }else {
+                Field['ParentFormID'] = Form.createFormField({ value: props.InitStylistData.ParentFormID })
             }
 
         }

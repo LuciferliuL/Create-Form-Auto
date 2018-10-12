@@ -14,6 +14,8 @@ class Drawercomponent extends Component {
         this.props.hidefun(false)
     };
     onSure = (e) => {
+        console.log(e);
+        
         //修改的结果在这里
         if(this.props.currentAttr.key === 'tablesKey'){
             this.props.tableFugai(this.props.currentAttr)
@@ -45,10 +47,10 @@ class Drawercomponent extends Component {
         this.props.TagCancelDataInGroup(i)
     }
     InputChange = (i, title, e) => {
-        this.props.inputValueChange(i, title, e.target.value)
+        this.props.inputValueChange(i, title, e.target.value.toUpperCase())
     }
     GroupChange = (i, title, e) => {
-        this.props.GroupValueChange(i, title, e.target.value)
+        this.props.GroupValueChange(i, title, e.target.value.toUpperCase())
     }
     SQLChange = (e) => {
         console.log(e.target.value);
