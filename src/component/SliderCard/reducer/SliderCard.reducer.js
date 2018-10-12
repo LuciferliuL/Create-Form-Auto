@@ -1,6 +1,6 @@
 import { CURRENT_TAGS_UPDATA, SQL_DATA } from '../action/SliderCard.action'
 import React from 'react'
-import {Tooltip} from 'antd'
+import {Tooltip, Divider} from 'antd'
 import '../../../App'
 
 const SData = [
@@ -190,15 +190,15 @@ const SQL = [
             dataIndex: "PACKAGEUNIT",
             width: 80,
         }, {
-            title: "大包装数量",
+            title: "大包装量",
             dataIndex: "BIGPACKAGEQUANTITY",
             width: 100,
         }, {
-            title: "中包装数量",
+            title: "中包装量",
             dataIndex: "MIDPACKAGEQUANTITY",
             width: 100,
         }, {
-            title: "生产厂家全称",
+            title: "生产厂家",
             dataIndex: "MANUFACTURE",
             width: 450,
         }, {
@@ -254,7 +254,7 @@ const SQL = [
             dataIndex: "SELLTAXPRICE",
             width: 100,
         }, {
-            title: "业务类型名称",
+            title: "业务类型",
             dataIndex: "BUSITYPETEXT",
             width: 120,
         }, {
@@ -394,7 +394,7 @@ const SQL = [
             wrapperCol: { xs: { span: 24 }, sm: { span: 16 } }
         }, tr: 0, values: '', uniqueKey: 'key',
         columns: [{
-            title: "子公司主管部门名称",
+            title: "主管部门名称",
             dataIndex: "EXECUTIVEDEPT",
             width: 150,
         }, {
@@ -422,7 +422,7 @@ const SQL = [
             dataIndex: "CUSTNAME",
             width: 200,
         }, {
-            title: "客户地址（注册地址）",
+            title: "客户地址",
             dataIndex: "CUSTADD",
             width: 200,
         }, {
@@ -434,29 +434,29 @@ const SQL = [
             dataIndex: "CONTACTPERSON",
             width: 100,
         }, {
-            title: "联系人电话",
+            title: "联系电话",
             dataIndex: "CONTACTPHONE",
             width: 120,
         }, {
-            title: "责任业务员ID",
+            title: "业务员ID",
             dataIndex: "BUSINESSID",
             width: 150,
         }, {
-            title: "责任业务员",
+            title: "业务员",
             dataIndex: "BUSINESSMAN",
             width: 150,
         }, {
             title: "不可经营类别",
             dataIndex: "NONBUSINESSTYPE",
             width: 150,
-        // }, {
-        //     title: "经营简码ID",
-        //     dataIndex: "BUSINESSSCOPECODE",
-        //     width: 100,
-        // }, {
-        //     title: "不可经营简码ID",
-        //     dataIndex: "NONBUSINESSSCOPECODE",
-        //     width: 150,
+        }, {
+            title: "经营简码",
+            dataIndex: "BUSINESSSCOPECODE",
+            width: 100,
+        }, {
+            title: "不可经营简码",
+            dataIndex: "NONBUSINESSSCOPECODE",
+            width: 150,
         }, {
             title: "分销客户类型",
             dataIndex: "CUSTTYPE",
@@ -514,7 +514,7 @@ const SQL = [
             dataIndex: "STOREID",
             width: 120,
         }, {
-            title: "区域划分名称",
+            title: "区域划分",
             dataIndex: "TERRITORIESTEXT",
             width: 150,
         }, {
@@ -522,7 +522,7 @@ const SQL = [
             dataIndex: "TERRITORIES",
             width: 100,
         }, {
-            title: "所属大区名称",
+            title: "所属大区",
             dataIndex: "OWNERAREATEXT",
             width: 120,
         }, {
@@ -530,15 +530,15 @@ const SQL = [
             dataIndex: "AREAMGR",
             width: 100,
         }, {
-            title: "是否活动名称",
+            title: "是否活动",
             dataIndex: "IS_ACTIVETEXT",
             width: 150,
         }, {
-            title: "开户银行帐号",
+            title: "开户行帐号",
             dataIndex: "BANKACCOUNT",
             width: 300,
         }, {
-            title: "开户银行",
+            title: "开户行",
             dataIndex: "DEPOSITBANK",
             width: 300,
         }, {
@@ -562,7 +562,7 @@ const SQL = [
             dataIndex: "CUSTABBREVIATION",
             width: 200,
         }, {
-            title: "客户业务类型ID(供、销)",
+            title: "客户业务类型ID",
             dataIndex: "PARTNERTYPE",
             width: 150,
         }, {
@@ -570,7 +570,7 @@ const SQL = [
             dataIndex: "CONSIGNEEADD",
             width: 200,
         }, {
-            title: "是否管理合同",
+            title: "管理合同",
             dataIndex: "IS_MANAGECONTRACT",
             width: 120,
         }],
@@ -659,7 +659,7 @@ const SQL = [
             wrapperCol: { xs: { span: 24 }, sm: { span: 16 } }
         }, tr: 0, values: '', uniqueKey: 'key',
         columns: [{
-            title: "子公司主管部门名称",
+            title: "主管部门名称",
             dataIndex: "EXECUTIVEDEPT",
             width: 200,
         }, {
@@ -687,7 +687,7 @@ const SQL = [
             dataIndex: "CUSTNAME",
             width: 200,
         }, {
-            title: "客户地址（注册地址）",
+            title: "客户地址",
             dataIndex: "CUSTADD",
             width: 200,
         }, {
@@ -703,11 +703,11 @@ const SQL = [
             dataIndex: "CONTACTPHONE",
             width: 100,
         }, {
-            title: "责任业务员ID",
+            title: "业务员ID",
             dataIndex: "BUSINESSID",
             width: 120,
         }, {
-            title: "责任业务员",
+            title: "业务员",
             dataIndex: "BUSINESSMAN",
             width: 120,
         }, {
@@ -715,15 +715,15 @@ const SQL = [
             dataIndex: "NONBUSINESSTYPE",
             width: 150,
         }, {
-            title: "经营简码ID",
+            title: "经营简码",
             dataIndex: "BUSINESSSCOPECODE",
             width: 120,
         }, {
-            title: "不可经营简码ID",
+            title: "不可经营简码",
             dataIndex: "NONBUSINESSSCOPECODE",
             width: 150,
         }, {
-            title: "分销客户类型",
+            title: "分销客户",
             dataIndex: "CUSTTYPE",
             width: 100,
         }, {
@@ -771,11 +771,11 @@ const SQL = [
             dataIndex: "BILLINGNOTE",
             width: 100,
         }, {
-            title: "责任开票员ID",
+            title: "责任开票员",
             dataIndex: "MAINOPID",
             width: 120,
         }, {
-            title: "主配送仓库ID",
+            title: "主配送仓库",
             dataIndex: "STOREID",
             width: 120,
         }, {
@@ -795,11 +795,11 @@ const SQL = [
             dataIndex: "AREAMGR",
             width: 100,
         }, {
-            title: "是否活动名称",
+            title: "活动名称",
             dataIndex: "IS_ACTIVETEXT",
             width: 150,
         }, {
-            title: "开户银行帐号",
+            title: "开户行帐号",
             dataIndex: "BANKACCOUNT",
             width: 200,
         }, {
@@ -827,7 +827,7 @@ const SQL = [
             dataIndex: "CUSTABBREVIATION",
             width: 100,
         }, {
-            title: "客户业务类型(供、销)",
+            title: "客户业务类型",
             dataIndex: "PARTNERTYPE",
             width: 150,
         }, {

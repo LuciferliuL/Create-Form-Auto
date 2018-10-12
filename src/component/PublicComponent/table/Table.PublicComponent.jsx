@@ -26,7 +26,8 @@ class TablePublicComponent extends Component {
         // page: 1,
         data: [],
         x: 1,
-        tr: 0
+        tr: 0,
+        heightTr: 0
     }
     // components = {
     //     header: {
@@ -44,16 +45,38 @@ class TablePublicComponent extends Component {
     //     });
     // };
     componentDidMount() {
+        // console.log(this.props.h);
+
         // console.log(this.props.currentAttr);
-        if (Object.keys(this.props.currentAttr).length > 0) {
-            let data = []
-            this.props.currentAttr.dataSource.map((e, i) => {
-                if (i < 35) {
-                    e.indexs = i + 'table'
-                    data.push(e)
-                }
-            })
+
+        let data = []
+        if (this.props.h > 900) {
+            if (Object.keys(this.props.currentAttr).length > 0) {
+                this.props.currentAttr.dataSource.map((e, i) => {
+                    if (i < 33) {
+                        e.indexs = i + 'table'
+                        data.push(e)
+                    }
+                })
+
+            }
             this.setState({
+                heightTr: 33,
+                data: data,
+                tr: this.props.currentAttr.tr
+            })
+        } else {
+            if (Object.keys(this.props.currentAttr).length > 0) {
+                this.props.currentAttr.dataSource.map((e, i) => {
+                    if (i < 28) {
+                        e.indexs = i + 'table'
+                        data.push(e)
+                    }
+                })
+
+            }
+            this.setState({
+                heightTr: 28,
                 data: data,
                 tr: this.props.currentAttr.tr
             })
@@ -61,17 +84,17 @@ class TablePublicComponent extends Component {
 
     }
     componentWillReceiveProps(pre) {
-        console.log(pre)
+        // console.log(pre)
 
         let data = []
         if (pre.currentAttr.tr > this.state.tr) {
-            if (pre.currentAttr.tr === 35 * this.state.x && pre.currentAttr.tr < 350) {
-                    pre.PublicData.dataSource.map((e, i) => {
-                        if (35 * this.state.x <= i && i < (35 * this.state.x + 35)) {
-                            e.indexs = 35 * this.state.x + i + 'table'
-                            data.push(e)
-                        }
-                    })
+            if (pre.currentAttr.tr === this.state.heightTr * this.state.x && pre.currentAttr.tr < 350) {
+                pre.PublicData.dataSource.map((e, i) => {
+                    if (this.state.heightTr * this.state.x <= i && i < (this.state.heightTr * this.state.x + this.state.heightTr)) {
+                        e.indexs = this.state.heightTr * this.state.x + i + 'table'
+                        data.push(e)
+                    }
+                })
                 this.setState((p) => (
                     {
                         data: data,
@@ -82,14 +105,14 @@ class TablePublicComponent extends Component {
             }
 
         } else if (pre.currentAttr.tr < this.state.tr) {
-            if (pre.currentAttr.tr === (35 * (this.state.x - 1) - 1) && pre.currentAttr.tr > 0) {
+            if (pre.currentAttr.tr === (this.state.heightTr * (this.state.x - 1) - 1) && pre.currentAttr.tr > 0) {
                 // console.log(this.state.x);
-                    pre.PublicData.dataSource.map((e, i) => {
-                        if (35 * this.state.x <= i && i < (35 * this.state.x + 35)) {
-                            e.indexs = 35 * this.state.x + i + 'table'
-                            data.push(e)
-                        }
-                    })
+                pre.PublicData.dataSource.map((e, i) => {
+                    if (this.state.heightTr * this.state.x <= i && i < (this.state.heightTr * this.state.x + this.state.heightTr)) {
+                        e.indexs = this.state.heightTr * this.state.x + i + 'table'
+                        data.push(e)
+                    }
+                })
                 this.setState((p) => (
                     {
                         data: data,
@@ -98,12 +121,12 @@ class TablePublicComponent extends Component {
                     }
                 ))
             }
-        }else {
+        } else {
             // console.log(pre);
-            
+
             pre.currentAttr.dataSource.map((e, i) => {
-                if ( i < (35 * this.state.x + 35)) {
-                    e.indexs = 35 * this.state.x + i + 'table'
+                if (i < (this.state.heightTr * this.state.x + this.state.heightTr)) {
+                    e.indexs = this.state.heightTr * this.state.x + i + 'table'
                     data.push(e)
                 }
             })
@@ -113,32 +136,32 @@ class TablePublicComponent extends Component {
                     tr: 0,
                     x: 1
                 }
-            ),()=>{
+            ), () => {
                 setTimeout(() => {
                     pre.currentAttr.tr = 0
                     this.props.UpdataFormData.find(e => e.key === pre.currentAttr.key).tr = 0
                 }, 100);
-                
+
             })
         }
-       
+
         this.setState({
             tr: pre.currentAttr.tr
         })
 
     }
     render() {
-        // console.log(this.props.PublicData);
         var w = document.documentElement.clientWidth || document.body.clientWidth;
-        const { columns, dataSource, pageSize, scroll, groupname, label, totalPage, type } = this.props.PublicData
+        const { columns} = this.props.PublicData
+        const {heightTr} = this.state
         let widths = 0
         let heightTable = this.props.currentAttr.tr * (-38) > -228 ? '0px' : (this.props.currentAttr.tr * (-38) + 228) + 'px'
         if (columns) {
             columns.map((e, i) => {
+                // console.log(e);
                 widths += Number(e.width)
             });
         }
-        // console.log(this.props.heights);
 
         return (
             <div>
@@ -148,14 +171,14 @@ class TablePublicComponent extends Component {
                     columns={columns}
                     dataSource={this.state.data}
                     pagination={false}
-                    scroll={{ x: widths , y: 800 }}
+                    // scroll={{ x: widths , y: 800 }}
                     rowClassName={(record, index) => {
                         // console.log(record)
                         // console.log(index);
-                        if (this.props.currentAttr.tr > 34) {
-                            return (index === (this.props.currentAttr.tr - (35 * (this.state.x - 1))) ? 'black' : "")
+                        if (this.props.currentAttr.tr > (heightTr - 1)) {
+                            return (index === (this.props.currentAttr.tr - (heightTr * (this.state.x - 1))) ? 'black wi' : "wi")
                         } else {
-                            return (index === this.props.currentAttr.tr ? 'black' : '')
+                            return (index === this.props.currentAttr.tr ? 'black wi' : 'wi')
                         }
                     }}
                     rowKey='indexs'
@@ -170,7 +193,7 @@ const mapStateToProps = (state) => {
     return {
         currentAttr: state.currentAttr,
         tableSource: state.tableSource,
-        UpdataFormData:state.UpdataFormData
+        UpdataFormData: state.UpdataFormData
     }
 }
 const mapDispatchProps = (dispatch) => {

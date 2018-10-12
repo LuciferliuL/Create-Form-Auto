@@ -8,16 +8,21 @@ import { formUpdataFromCurrent } from '../../SliderRIght/action/Right.action'
 import { POST$ } from '../../../lib/MATH/math'
 import { API } from '../../../lib/API/check.API'
 import TablePublicComponent from '../table/Table.PublicComponent'
-import keydown from 'react-keydown'
 
 const FormItem = Form.Item
 let abbr = {}
 
 class LookUpPublicComponent extends Component {
     state = {
-        totalPage: 0
+        totalPage: 0,
+        h:0
     }
     componentDidMount() {
+        var h = document.documentElement.clientHeight
+        // console.log(h);
+        this.setState({
+            h:h
+        })
         // console.log(res);
         let res = this.props.UpdataFormData[this.props.UpdataFormData.length - 1] //每次获取新加入的
         if (res.label !== 'LookUp') {
@@ -41,7 +46,7 @@ class LookUpPublicComponent extends Component {
     ClickHandleKey = (key, page, pagesize, show) => {
 
         let obj = this.props.UpdataFormData.find(e => e.key === key)
-        this.props.UpDataCurrent(obj)
+
         let body = {
             "Sql": obj.SQL,
             "Param": JSON.stringify(abbr),
@@ -52,11 +57,13 @@ class LookUpPublicComponent extends Component {
 
         POST$(API('SQL').http, body, (res) => {
             // console.log(res);
+            this.props.UpDataCurrent(obj)
             this.props.upDataCurrentDataSource(res.Results, res.RecordCount)
             if (show) {
                 this.props.shows(show)
             }
             this.props.upForm(this.props.current)
+            window.addEventListener('keyup', this.handleKeyDown)
         })
     }
     Cancel = () => {
@@ -74,9 +81,6 @@ class LookUpPublicComponent extends Component {
         // console.log(key);
         this.ParamChange(e.target.value)
         this.ClickHandleKey(key, page, pagesize, show)
-        setTimeout(() => {
-            window.addEventListener('keyup', this.handleKeyDown)
-        }, 1000);
     }
     handleKeyDown = (e) => {
         const { dataSource, columns } = this.props.current
@@ -137,7 +141,7 @@ class LookUpPublicComponent extends Component {
         }
     }
     LookUpChange = (e) => {
-        if(e.target.value.length === 0){
+        if (e.target.value.length === 0) {
             this.props.form.resetFields()
         }
     }
@@ -152,12 +156,13 @@ class LookUpPublicComponent extends Component {
                     style={{ top: '0' }}
                     footer={null}
                     onCancel={this.Cancel.bind(this)}
-                // bodyStyle={{ overflow: 'scroll-y'}}
+                    bodyStyle={{ overflow: 'scroll' }}
+                    destroyOnClose={true}
                 >
                     <TablePublicComponent
                         PublicData={this.props.current}
                         ClickHandleKey={this.ClickHandleKey.bind(this)}
-                        totalPage={this.state.totalPage}>
+                        h={this.state.h}>
                     </TablePublicComponent>
                 </Modal>
                 <FormItem

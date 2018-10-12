@@ -3,20 +3,22 @@ import { Form, Icon, Input, Button, Card, Cascader, Radio, message, Spin } from 
 import './login.component.css'
 import { API } from '../../lib/API/login.API'
 import { GETFetch, TreeMath, POSTFETCHNOBODY } from '../../lib/MATH/math'
+import ReactCanvasNest from 'react-canvas-nest'
 
 const FormItem = Form.Item;
+
 
 class NormalLoginForm extends React.Component {
     state = {
         listObj: [],
-        loading:true
+        loading: true
     }
     componentDidMount() {
         GETFetch(API('login').http, (res) => {
             let SystemConnectList = res.SystemConnectList
             this.setState({
                 listObj: TreeMath(SystemConnectList),
-                loading:false
+                loading: false
             })
         })
     }
@@ -36,7 +38,7 @@ class NormalLoginForm extends React.Component {
                         message.error(token.error_description)
                     } else {
                         localStorage.setItem('token', token.access_token) //保存token
-                        localStorage.setItem('values',values)
+                        localStorage.setItem('values', values)
                         let path = {}
                         if (values.use === 'a') {
                             path = {
@@ -71,9 +73,17 @@ class NormalLoginForm extends React.Component {
                 sm: { span: 20 },
             },
         };
+        const config = {
+            // pointColor: ' 255, 255, 255 ' ,
+            count:120,
+            // pointOpacity:0.5,
+            // lineColor:'red',
+            // lineWidth:3
+        }
         return (
             <Spin size='large' spinning={this.state.loading}>
-                <Card className="width-40 margin-auto center">
+                <ReactCanvasNest config={config}></ReactCanvasNest>
+                <Card className="width-40 margin-auto center" style={{background:'transparent'}}>
                     <Form onSubmit={this.handleSubmit} className="center">
                         <FormItem
                             {...formItemLayout}

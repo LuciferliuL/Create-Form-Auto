@@ -1,7 +1,17 @@
 .black {
-    background-color: aquamarine
+    background-color: aquamarine;
 }
 
-.ant-table-tbody > tr > td{
+.ant-table-tbody  tr  td{
     padding: 0 !important;
+}
+
+.wi  td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.ant-table-thead  > tr th{
+    padding: 0 !important
 }

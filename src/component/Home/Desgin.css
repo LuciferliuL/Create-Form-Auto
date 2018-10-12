@@ -12,7 +12,8 @@
     overflow: hidden; 
     height: 42px;
     line-height:42px;
-    left:40%;
     float: left;
+    padding-right: 50px;
     position: relative;
+    top: -5px
 }
