@@ -8,7 +8,6 @@ import { API } from '../../lib/API/check.API'
 import { POST$,treeData } from '../../lib/MATH/math'
 
 
-const {DirectoryTree} = Tree
 class TreeUser extends Component {
     state = {
         treeData: []

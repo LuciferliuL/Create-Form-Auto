@@ -77,7 +77,7 @@ class LookUpPublicComponent extends Component {
     }
 
     OnPressEnter = (key, page, pagesize, show, e) => {
-        console.log(e.target.value);
+        // console.log(e.target.value);
         // console.log(key);
         this.ParamChange(e.target.value)
         this.ClickHandleKey(key, page, pagesize, show)
@@ -132,7 +132,7 @@ class LookUpPublicComponent extends Component {
             agg.forEach(e => {
                 e.defaultValue = dataSource_.type
             })
-            console.log(agg);
+            // console.log(agg);
             //更新整个form
             this.props.upForm(this.props.current)
         } else {
@@ -219,7 +219,7 @@ const mapDispatchProps = (dispatch) => {
 
 export default LookUpPublicComponent = connect(mapStateToProps, mapDispatchProps)(Form.create({
     mapPropsToFields(props) {
-        console.log(props);
+        // console.log(props);
         let Field = {}
         let v = props.UpdataFormData.find(e => e.key === props.PublicData.key)
         let values = v.values[v.uniqueKey]

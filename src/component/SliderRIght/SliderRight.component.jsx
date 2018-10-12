@@ -31,7 +31,7 @@ class SliderRightcomponent extends Component {
                 sm: { span: 16 },
             },
         };
-        const { flag } = this.state
+        // const { flag } = this.state
         let uniqueList = []
         Object.keys(pre.currentAttr).forEach((e, i) => {
             switch (e) {
@@ -166,21 +166,21 @@ class SliderRightcomponent extends Component {
                         </div>
                     )
                     break;
-                case 'GroupValue':
-                    uniqueList.push(
-                        <div key={pre.currentAttr.key + 'GroupValue'}>
-                            <Drawercomponent></Drawercomponent>
-                            <FormItem
-                                label='列数据'
-                                {...formItemLayout}
-                            >
-                                {getFieldDecorator('GroupValue')(
-                                    <Input addonAfter={<Icon type="setting" onClick={this.click.bind(this, 'GroupValue')} />}></Input>
-                                )}GroupValue
-                            </FormItem>
-                        </div>
-                    )
-                    break;
+                // case 'GroupValue':
+                //     uniqueList.push(
+                //         <div key={pre.currentAttr.key + 'GroupValue'}>
+                //             <Drawercomponent></Drawercomponent>
+                //             <FormItem
+                //                 label='列数据'
+                //                 {...formItemLayout}
+                //             >
+                //                 {getFieldDecorator('GroupValue')(
+                //                     <Input addonAfter={<Icon type="setting" onClick={this.click.bind(this, 'GroupValue')} />}></Input>
+                //                 )}GroupValue
+                //             </FormItem>
+                //         </div>
+                //     )
+                //     break;
                 case 'orientation':
                     uniqueList.push(
                         <FormItem

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Form, Button } from 'antd'
+import { Card, Form } from 'antd'
 import { connect } from 'react-redux';
 import { formUpdataFromCurrent } from '../SliderRIght/action/Right.action'
 import PublicComponent from '../PublicComponent/Public.Component'

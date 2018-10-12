@@ -3,7 +3,7 @@ import { Divider } from 'antd'
 
 class GroupPublicComponent extends Component {
     render() {
-        const {  label, orientation, id } = this.props.PublicData 
+        const {  label, orientation} = this.props.PublicData 
         return (
             <Divider orientation={orientation}>{label}</Divider>
         )

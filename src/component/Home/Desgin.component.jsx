@@ -9,7 +9,7 @@ import Stylistcomponent from '../stylist/Stylist.component'
 import ReadForm from '../readForm/ReadForm'
 
 
-const { Content, Footer, Sider } = Layout;
+const { Content, Sider } = Layout;
 
 
 class Desgincomponent extends Component {
@@ -59,10 +59,10 @@ class Desgincomponent extends Component {
     }
 }
 
-const Footers = () => (
-    <Footer style={{ textAlign: 'center' }}>
-        DEV Design ©2018 Created by LEO
-    </Footer>)
+// const Footers = () => (
+//     <Footer style={{ textAlign: 'center' }}>
+//         DEV Design ©2018 Created by LEO
+//     </Footer>)
 
 
 

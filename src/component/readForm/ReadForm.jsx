@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Card, Col, Row, Table, Tree, Spin, message, Button, TreeSelect } from 'antd'
+import { Card, Col, Row, Table, Tree, Spin, message, Button} from 'antd'
 import { API } from '../../lib/API/check.API.js'
 import { GET$, POST$, treeData } from '../../lib/MATH/math.js'
 

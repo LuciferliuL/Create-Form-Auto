@@ -35,7 +35,7 @@ class Headercomponent extends Component {
                 // console.log(e.keyCode);
                 var keyCode = e.keyCode || e.which || e.charCode;
                 var altKey = e.altKey;
-                if (altKey && keyCode == 81) {
+                if (altKey && keyCode === 81) {
                     pre.Loading()
                     let valueList = {}
                     let SQL = pre.tableSource.SQL
@@ -85,11 +85,11 @@ class Headercomponent extends Component {
                             message.error('获取数据超时')
                             pre.Loading()
                         })
-                } else if (altKey && keyCode == 82) {
+                } else if (altKey && keyCode === 82) {
 
-                } else if (altKey && keyCode == 67) {
+                } else if (altKey && keyCode === 67) {
                     pre.clear()
-                } else if (altKey && keyCode == 65) {
+                } else if (altKey && keyCode === 65) {
 
                 } else {
                     // e.preventDefault();
@@ -121,6 +121,7 @@ class Headercomponent extends Component {
                     valueList[e.id] = e.defaultValue
                 }
             }
+            return true
         })
         let post = new Promise((resolve, reject) => {
             let body = {

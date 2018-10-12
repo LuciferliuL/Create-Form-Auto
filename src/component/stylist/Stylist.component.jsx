@@ -162,7 +162,6 @@ class Stylistcomponent extends Component {
         var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.70
         // console.log(this.state.dataSource);
         const { getFieldDecorator } = this.props.form;
-        const { children } = this.state
         return (
             <Spin spinning={this.state.loading}>
                 <Modal

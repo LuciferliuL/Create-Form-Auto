@@ -1,6 +1,4 @@
 import { CURRENT_TAGS_UPDATA, SQL_DATA } from '../action/SliderCard.action'
-import React from 'react'
-import {Tooltip, Divider} from 'antd'
 import '../../../App'
 
 const SData = [

@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { selectkeysToHeader } from '../Slider/action/Header.action'
 import { stylistDataSourceAsync, fugai, tableFugai } from '../stylist/action/Stylist.action'
 import { API } from '../../lib/API/check.API.js'
-import { GET$, POST$, POSTFETCH, downloadFile } from '../../lib/MATH/math.js'
+import { POST$, downloadFile } from '../../lib/MATH/math.js'
 
 class DesignTablecomponent extends Component {
   state = {
@@ -131,10 +131,10 @@ class DesignTablecomponent extends Component {
   )
   daochu = (record) => {
     console.log(record);
-    let body = {
-      Bytes: record.Bytes,
-      Name: record.Name
-    }
+    // let body = {
+    //   Bytes: record.Bytes,
+    //   Name: record.Name
+    // }
     // POSTFETCH(API('DOWNLOAD').http,JSON.stringify(body) , (res) => {
     //   console.log(res);
 
