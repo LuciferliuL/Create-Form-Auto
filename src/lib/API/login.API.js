@@ -10,6 +10,10 @@ export const API = (k) => {
                 method: 'GET',
                 http: `http://10.3.4.233:20296/token?`
             }
+        case 'test'
+            return {
+                
+            }
         default:
             break;
     }
