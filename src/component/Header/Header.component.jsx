@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { API } from '../../lib/API/check.API'
 import { POST$ } from '../../lib/MATH/math'
-import { _clear, _tableUpdataFromResults } from '../stylist/action/Stylist.action'
+import { _clear, _tableUpdataFromResults, tableTr0 } from '../stylist/action/Stylist.action'
 
 const ButtonGroup = Button.Group;
 const { Header } = Layout
@@ -61,9 +61,10 @@ class Headercomponent extends Component {
                             isPage: true
                         }
                         POST$(API('SQL').http, body, (res) => {
-                            console.log(res);
+                            // console.log(res);
                             if (res.Results) {
                                 pre._tableUpdataFromResults(res.Results, res.RecordCount)
+                                pre.tableTr0(0)
                                 resolve(true)
                             } else {
                                 reject(false)
@@ -194,17 +195,17 @@ class Headercomponent extends Component {
                             <Icon type="security-scan" theme="outlined" />
                             查询 ALT+Q
                         </Button>
-                        <Button >
+                        {/* <Button >
                             <Icon type="copyright" theme="outlined" />
-                            清空
-                            </Button>
+                            清空 ALT+R
+                            </Button> */}
                         <Button onClick={this.guanbi.bind(this)}>
                             <Icon type="export" theme="outlined" />
-                            关闭
+                            关闭 ALT+C
                         </Button>
                         <Button >
                             <Icon type="usb" theme="outlined" />
-                            导出
+                            导出 ALT+A
                             </Button>
                     </ButtonGroup>
                 </div> : <div style={{ float: 'left' }}>你好！设计师</div>
@@ -233,6 +234,9 @@ const mapDispatchProps = (dispatch) => {
         },
         _tableUpdataFromResults: (k, totalPage) => {
             dispatch(_tableUpdataFromResults(k, totalPage))
+        },
+        tableTr0: (k) => {
+            dispatch(tableTr0(k))
         }
     }
 }

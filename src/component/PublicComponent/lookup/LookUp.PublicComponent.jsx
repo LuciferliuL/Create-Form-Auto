@@ -15,13 +15,14 @@ let abbr = {}
 class LookUpPublicComponent extends Component {
     state = {
         totalPage: 0,
-        h:0
+        h: 0,
+        isEnter:true
     }
     componentDidMount() {
         var h = document.documentElement.clientHeight
         // console.log(h);
         this.setState({
-            h:h
+            h: h
         })
         // console.log(res);
         let res = this.props.UpdataFormData[this.props.UpdataFormData.length - 1] //每次获取新加入的
@@ -79,6 +80,10 @@ class LookUpPublicComponent extends Component {
     OnPressEnter = (key, page, pagesize, show, e) => {
         // console.log(e.target.value);
         // console.log(key);
+        console.log(1);
+        this.setState({
+            isEnter:true
+        })
         this.ParamChange(e.target.value)
         this.ClickHandleKey(key, page, pagesize, show)
     }
@@ -144,6 +149,24 @@ class LookUpPublicComponent extends Component {
         if (e.target.value.length === 0) {
             this.props.form.resetFields()
         }
+        this.setState({
+            isEnter:false
+        })
+    }
+    //失去焦点
+    Blur = (e) => {
+        // console.log(this.props.current);
+        if(!this.state.isEnter){
+            let Field = {}
+            let v = this.props.current
+            let values = v.values[v.uniqueKey]
+            // console.log(v);
+            let id = v.id
+            Field[id] = values 
+            if(values !== ''){
+                this.props.form.setFieldsValue(Field)
+            }
+        }
     }
     render() {
         const { getFieldDecorator } = this.props.form
@@ -175,6 +198,7 @@ class LookUpPublicComponent extends Component {
                         <Input
                             onChange={this.LookUpChange.bind(this)}
                             onPressEnter={this.OnPressEnter.bind(this, this.props.PublicData.key, 1, 200, true)}
+                            onBlur={this.Blur.bind(this)}
                         >
                         </Input>
                     )}

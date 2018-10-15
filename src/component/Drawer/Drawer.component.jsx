@@ -4,7 +4,9 @@ import { Drawer, Button, Input, Form, Col, Tag } from 'antd'
 import { hidenDrawer, currentAttrUpdata, formUpdataFromCurrent } from '../SliderRIght/action/Right.action'
 import { tagPushDataInColumns, inputValueChange, sqlValueChange, GroupValueChange, tagPushDataInGroup, TagCancelDataInGroup, InputCancelData } from './action/Drawer.action'
 import { upDataCurrentDataSource } from '../PublicComponent/lookup/action/lookup.action'
-import {tableFugai} from '../stylist/action/Stylist.action'
+import { tableFugai } from '../stylist/action/Stylist.action'
+import { API } from '../../lib/API/check.API'
+import { POST$ } from '../../lib/MATH/math'
 
 
 const InputGroup = Input.Group
@@ -14,12 +16,26 @@ class Drawercomponent extends Component {
         this.props.hidefun(false)
     };
     onSure = (e) => {
-        console.log(e);
-        
+        // console.log(e);
+
         //修改的结果在这里
-        if(this.props.currentAttr.key === 'tablesKey'){
+        if (this.props.currentAttr.type === 'tablesKey') {
             this.props.tableFugai(this.props.currentAttr)
-        }else{
+        } else if (this.props.currentAttr.type === 'LookUp' && this.props.currentAttr.dataSource.length === 0) {
+            let abbr = {}
+            let body = {
+                "Sql": this.props.currentAttr.SQL,
+                "Param": JSON.stringify(abbr),
+                "PageIndex": 1,
+                "PageSize": 100,
+                isPage: true
+            }
+            POST$(API('SQL').http, body, (res) => {
+                // console.log(res);
+                this.props.upDataCurrentDataSource(res.Results, res.RecordCount)
+                this.props.upForm(this.props.currentAttr)
+            })
+        } else {
             this.props.upForm(this.props.currentAttr)
         }
         this.props.hidefun(false)
@@ -27,7 +43,7 @@ class Drawercomponent extends Component {
     //列数据方法
     TagAdd = (i) => {
         console.log(i);
-        
+
         this.props.tagPushDataInColumns(i, {
             title: '',
             dataIndex: '',
@@ -55,6 +71,8 @@ class Drawercomponent extends Component {
     SQLChange = (e) => {
         console.log(e.target.value);
         this.props.sqlValueChange(e.target.value)
+        console.log(this.props.currentAttr);
+
     }
     render() {
         let content = []
@@ -216,7 +234,7 @@ const mapDispatchProps = (dispatch) => {
         InputCancelData: (k) => {
             dispatch(InputCancelData(k))
         },
-        tableFugai:(k)=>{
+        tableFugai: (k) => {
             dispatch(tableFugai(k))
         }
     }

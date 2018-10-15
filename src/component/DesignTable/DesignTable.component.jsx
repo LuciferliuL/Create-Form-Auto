@@ -70,7 +70,7 @@ class DesignTablecomponent extends Component {
   }
   componentDidMount() {
     POST$(API('POSTDATA').http, {}, (res) => {
-      console.log(res);
+      // console.log(res);
       res.forEach(e => {
         DesignDataTree(e)
       })
