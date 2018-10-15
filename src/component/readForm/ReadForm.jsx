@@ -20,7 +20,7 @@ class ReadForm extends Component {
         keys: '',
         columns: [
             {
-                title: 'ROLEID',
+                title: '角色ID',
                 dataIndex: 'ROLEID',
                 width: '30%',
                 render: (text) => {
@@ -29,7 +29,7 @@ class ReadForm extends Component {
                     )
                 }
             }, {
-                title: 'ROLENAME',
+                title: '角色名称',
                 dataIndex: 'ROLENAME',
                 width: '70%',
                 render: (text) => {

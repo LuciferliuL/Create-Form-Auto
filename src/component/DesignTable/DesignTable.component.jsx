@@ -16,7 +16,7 @@ class DesignTablecomponent extends Component {
     CreateMenu: true,
     PKMenu: true,
     columns: [{
-      title: 'Name',
+      title: '表格名称',
       dataIndex: 'Name',
       key: 'Name',
       render(text, record) {
@@ -27,7 +27,7 @@ class DesignTablecomponent extends Component {
         );
       }
     }, {
-      title: 'BranchID',
+      title: '所属分公司',
       dataIndex: 'BranchId',
       width: '12%',
       key: 'BranchId',
@@ -39,7 +39,7 @@ class DesignTablecomponent extends Component {
         );
       }
     }, {
-      title: 'LastModifyTime',
+      title: '最后修改时间',
       dataIndex: 'LastModifyTime',
       width: '30%',
       key: 'LastModifyTime',
