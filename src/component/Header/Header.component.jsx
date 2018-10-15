@@ -32,7 +32,7 @@ class Headercomponent extends Component {
         // console.log(pre);
         if (pre.R === 'R') {
             document.onkeydown = function (e) {
-                console.log(e.keyCode);
+                // console.log(e.keyCode);
                 var keyCode = e.keyCode || e.which || e.charCode;
                 var altKey = e.altKey;
                 if (altKey && keyCode === 81) {
@@ -91,27 +91,40 @@ class Headercomponent extends Component {
                 } else if (altKey && keyCode === 67) {
                     pre.clear()
                 } else if (altKey && keyCode === 69) {
-                    let ss = {
-                        "Abbr": ""
-                    };
-                    let cols = {
-                        "BILLID": "序号",
-                        "CUSTNO": "客户编码",
-                        "CUSTNAME": "客户名称"
-                    }
+                    // console.log(pre);
+                    let valueList = {}
+                    let SQL = pre.tableSource.SQL
+                    pre.data.map(e => {
+                        if (e.type !== 'Table' && e.type !== 'Group') {
+                            if (e.type === 'LookUp') {
+                                valueList[e.upKey] = e.values[e.upKey]
+                            } else if (e.type === 'Input' && e.typePoint === 0) {
+                                valueList[e.id] = e.defaultValue
+                            } else if (e.type === 'Input' && e.typePoint !== 0) {
+                                valueList[e.typePoint] = e.defaultValue
+                            } else {
+                                valueList[e.id] = e.defaultValue
+                            }
+                        }
+                        return true
+                    })
+                    let cols = {}
+                    pre.tableSource.columns.forEach(e=>{
+                        cols[e.dataIndex] = e.title
+                    })
                     let param = {
-                        Param: JSON.stringify(ss),
+                        Param: JSON.stringify(valueList),
                         Columns: JSON.stringify(cols),
-                        Sql: "select BILLID,CUSTOMERID,CUSTNO,CUSTNAME,CUSTTYPE,CUSTTYPENAME,BILLINGDATE,REMARKS,ORDERTYPE, SHIPPINGPAYMENT,SALESCONTRACTNO,BUSITYPE, TOTALAMOUNT,EQUIVALENTNUM,BILLSTATE,REMARK,RATE,STAMPSSTATE,ISSETTLEMENT from tb_gos_sale_saleordersum where   PK<=400091"
+                        Sql: SQL
                     };
-
+            
                     var params = getrequestparam('exportsqldata', JSON.stringify(param));
                     httprequest(params, (result) => {
-                        var url = window.URL.createObjectURL(result);
-                        var a = document.createElement('a');
-                        a.href = url;
-                        a.download = "数据.xls";
-                        a.click();
+                        var url = window.URL.createObjectURL(result)
+                        var a = document.createElement('a')
+                        a.href = url
+                        a.download = "数据.xls"
+                        a.click()
                     });
                 } else {
                     // e.preventDefault();

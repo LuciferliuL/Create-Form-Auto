@@ -4,14 +4,17 @@
 
 .ant-table-tbody  tr  td{
     padding: 0 !important;
+    min-width: 100px;
 }
 
 .wi  td {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    min-width: 100px;
 }
 
 .ant-table-thead  > tr th{
-    padding: 0 !important
+    padding: 0 !important;
+    min-width: 100px;
 }

@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { selectkeysToHeader } from '../Slider/action/Header.action'
 import { stylistDataSourceAsync, fugai, tableFugai } from '../stylist/action/Stylist.action'
 import { API } from '../../lib/API/check.API.js'
-import { POST$, downloadFile ,DesignDataTree} from '../../lib/MATH/math.js'
+import { POST$, downloadFile, DesignDataTree } from '../../lib/MATH/math.js'
 
 const FormItem = Form.Item
 class DesignTablecomponent extends Component {
@@ -14,6 +14,7 @@ class DesignTablecomponent extends Component {
     visible: false,
     selectData: 0,
     CreateMenu: true,
+    PKMenu: true,
     columns: [{
       title: 'Name',
       dataIndex: 'Name',
@@ -97,7 +98,7 @@ class DesignTablecomponent extends Component {
             })
           }
         })
-      } 
+      }
     })
   }
   TableHeader = () => (
@@ -116,11 +117,14 @@ class DesignTablecomponent extends Component {
     downloadFile(record.Name, record.Bytes)
   }
   CreateMenu = (e) => {
+    this.props.form.resetFields()
     this.setState({
       visible: true,
-      CreateMenu: e === 'level1' ? true : false
+      CreateMenu: e === 'level1' ? true : false,
+      PKMenu:true
     })
   }
+  //新曾
   handleSubmit = (e) => {
     this.setState({
       loading: true
@@ -138,7 +142,7 @@ class DesignTablecomponent extends Component {
           ParentFormID: this.state.CreateMenu ? 0 : this.state.selectData.PK,
           FK: -1,
           Name: values.userName,
-          PK: -1,
+          PK: this.state.PKMenu ? -1 : this.state.selectData.PK,
           Role: "",
           TelantId: "",
         }
@@ -184,6 +188,22 @@ class DesignTablecomponent extends Component {
       } else {
         if (selectData.IsCategory) {
           //文件夹
+          if (this.state.selectData.ParentFormID === 0) {
+            this.setState({
+              visible: true,
+              CreateMenu: true,
+              PKMenu: false
+            })
+          } else {
+            this.setState({
+              visible: true,
+              CreateMenu: false,
+              PKMenu: false
+            })
+          }
+
+          console.log(this.state.selectData);
+          this.props.form.setFieldsValue({ 'userName': this.state.selectData.Name })
         } else {
           //表单
           let body = JSON.parse(this.state.selectData.Bytes)
