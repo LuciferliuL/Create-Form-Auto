@@ -20,8 +20,8 @@ class Headercomponent extends Component {
                 user: this.props.user
             })
         } else {
-            // this.props.history.push('/')
-            console.log(this.props.history);
+            this.props.history.push('/')
+            // console.log(this.props.history);
 
         }
     }

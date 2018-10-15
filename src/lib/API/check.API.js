@@ -47,6 +47,11 @@ export const API = (key) => {
                 method: "POST",
                 http: baseAPI + '/api/DataForm/GetDataFormNodes'
             }
+        case 'GetCategory':
+            return {
+                method: 'POST',
+                http: baseAPI + '/api/DataForm/GetCategory'
+            }
         default:
             break;
     }

@@ -36,7 +36,7 @@ class Stylistcomponent extends Component {
         }, 10)
     }
     changeWidth = () => {
-        const dom = (this.myRef.current.container.clientWidth) -20
+        const dom = (this.myRef.current.container.clientWidth) - 20
         this.setState({
             domWidth: dom
         })
@@ -70,7 +70,7 @@ class Stylistcomponent extends Component {
         this.props.FormDataUpata(this.dragact.getLayout())
     }
     showModal = () => {
-        POST$(API('POSTDATA').http, {}, (res) => {
+        POST$(API('GetCategory').http, {}, (res) => {
             // console.log(res);
             res.forEach((e) => {
                 treeData(e)
@@ -105,54 +105,47 @@ class Stylistcomponent extends Component {
             this.setState({
                 loading: true
             })
-            if (!err) {
-                if(!values.ParentFormID){
-                    values.ParentFormID = 0
-                }else if(values.ParentFormID.length > 0){
-                    values.ParentFormID = values.ParentFormID[0]
+            let save = {}
+            let body = {}
+            body.FormData = this.props.UpdataFormData
+            body.TableData = this.props.tableSource
+            if (this.props.InitStylistData.PK) {
+                //编辑
+                save = Object.assign({}, this.props.InitStylistData, { 'Name': values.Name }, { 'ParentFormID': values.ParentFormID }, { 'Bytes': JSON.stringify(body) })
+                // console.log(newData);
+
+            } else {
+                //新建
+                let user = localStorage.getItem('values')
+                save = {
+                    BranchId: user.BranchId,
+                    Bytes: JSON.stringify(body),
+                    Category: '',
+                    ParentFormID: values.ParentFormID,
+                    FK: -1,
+                    Name: values.Name,
+                    PK: -1,
+                    Role: "",
+                    TelantId: "",
+                    PageSize: 15
                 }
-
-                let save = {}
-                let body = {}
-                body.FormData = this.props.UpdataFormData
-                body.TableData = this.props.tableSource
-                if (this.props.InitStylistData.PK) {
-                    //编辑
-                    save = Object.assign({}, this.props.InitStylistData, { 'Name': values.Name }, { 'ParentFormID': values.ParentFormID }, { 'Bytes': JSON.stringify(body) })
-                    // console.log(newData);
-
-                } else {
-                    //新建
-                    let user = localStorage.getItem('values')
-                    save = {
-                        BranchId: user.BranchId,
-                        Bytes: JSON.stringify(body),
-                        Category: '',
-                        ParentFormID: values.ParentFormID,
-                        FK: -1,
-                        Name: values.Name,
-                        PK: -1,
-                        Role: "",
-                        TelantId: "",
-                        PageSize: 15
-                    }
-                }
-                console.log(save);
-
-                POST$(API('SaveForm').http, save, (res) => {
-                    // console.log(res);
-                    res.PK === -1 ? message.error('保存失败') : message.success('保存成功')
-                    // this.props.fugai([])
-                    // localStorage.setItem('C','N')
-                    this.props.onTodoClick(['表单权限'])
-                    this.props.history.push('/Design/Arch')
-                    this.props.fugai([])
-                })
-                this.setState({
-                    visible: false,
-                    loading: false
-                });
             }
+            console.log(save);
+
+            POST$(API('SaveForm').http, save, (res) => {
+                // console.log(res);
+                res.PK === -1 ? message.error('保存失败') : message.success('保存成功')
+                // this.props.fugai([])
+                // localStorage.setItem('C','N')
+                this.props.onTodoClick(['表单权限'])
+                this.props.history.push('/Design/Arch')
+                this.props.fugai([])
+            })
+            this.setState({
+                visible: false,
+                loading: false
+            });
+
         });
     }
     handleChange = (value) => {
@@ -173,14 +166,14 @@ class Stylistcomponent extends Component {
                     <Form onSubmit={this.handleSubmit}>
                         <FormItem>
                             {getFieldDecorator('Name', {
-                                rules: [{ required: true, message: 'Please input your formname!' }],
+                                rules: [{ required: true, message: '请输入表单名称!' }],
                             })(
                                 <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="表单名称" />
                             )}
                         </FormItem>
                         <FormItem>
                             {getFieldDecorator('ParentFormID', {
-                                rules: [{ required: false, message: 'Please input your formname!' }],
+                                rules: [{ required: true, message: '请选择存放菜单!' }],
                             })(
                                 // <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="表单类" />
                                 <TreeSelect
@@ -203,9 +196,9 @@ class Stylistcomponent extends Component {
                         <SliderCard></SliderCard>
                     </Col>
                     <Col span={this.state.read ? 14 : 24}>
-                        <Card 
-                        title="表单预览"
-                        bodyStyle={{padding:'0px'}}
+                        <Card
+                            title="表单预览"
+                            bodyStyle={{ padding: '0px' }}
                             extra={
                                 <div>
                                     <Button onClick={this.read.bind(this)}>预览</Button>
@@ -334,14 +327,10 @@ export default connect(mapStateToProps, mapDispatchProps)(Form.create({
     mapPropsToFields(props) {
         let Field = {}
         // console.log(props);
+        //length是否大于0  显示为 是否新建或编辑
         if (Object.keys(props.InitStylistData).length > 0) {
             Field['Name'] = Form.createFormField({ value: props.InitStylistData.Name })
-            if (props.InitStylistData.ParentFormID !== 0) {
-                Field['ParentFormID'] = Form.createFormField({ value: props.InitStylistData.PK })
-            }else {
-                Field['ParentFormID'] = Form.createFormField({ value: props.InitStylistData.ParentFormID })
-            }
-
+            Field['ParentFormID'] = Form.createFormField({ value: props.InitStylistData.ParentFormID })
         }
         return Field
     }

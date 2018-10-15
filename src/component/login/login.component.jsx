@@ -75,7 +75,7 @@ class NormalLoginForm extends React.Component {
         };
         const config = {
             // pointColor: ' 255, 255, 255 ' ,
-            count:120,
+            count:88,
             // pointOpacity:0.5,
             // lineColor:'red',
             // lineWidth:3

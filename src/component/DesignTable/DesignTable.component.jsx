@@ -1,15 +1,19 @@
 import React, { Component } from 'react';
-import { Table, Button, Popconfirm, Spin, message } from 'antd'
+import { Table, Button, Popconfirm, Spin, message, Modal, Input, Form, Icon } from 'antd'
 import { connect } from 'react-redux'
 import { selectkeysToHeader } from '../Slider/action/Header.action'
 import { stylistDataSourceAsync, fugai, tableFugai } from '../stylist/action/Stylist.action'
 import { API } from '../../lib/API/check.API.js'
-import { POST$, downloadFile } from '../../lib/MATH/math.js'
+import { POST$, downloadFile ,DesignDataTree} from '../../lib/MATH/math.js'
 
+const FormItem = Form.Item
 class DesignTablecomponent extends Component {
   state = {
     data: [],
     loading: true,
+    visible: false,
+    selectData: 0,
+    CreateMenu: true,
     columns: [{
       title: 'Name',
       dataIndex: 'Name',
@@ -51,29 +55,25 @@ class DesignTablecomponent extends Component {
       width: '20%',
       dataIndex: 'PK',
       render: (text, record) => {
-        // console.log(text, record);
-        if (!record.IsCategory) {
-          //增加判断
-          return (
-            this.state.data.length >= 1
-              ? (
-                <Button.Group style={{ padding: '5px' }}>
-                  <Popconfirm title="确定删除？" onConfirm={this.handleDelete.bind(this, record)}>
-                    <Button type='danger'>Delete</Button>
-                  </Popconfirm>
-                  <Button onClick={this.CreateTable.bind(this, record)}>编辑</Button>
-                  <Button type='primary' onClick={this.daochu.bind(this, record)}>导出配置</Button>
-                </Button.Group>
-              ) : null
-          )
-        }
-
+        // console.log(record);
+        //增加判断
+        return (
+          !record.IsCategory
+            ? (
+              <Button.Group style={{ padding: '5px' }}>
+                <Button type='primary' onClick={this.daochu.bind(this, record)}>导出配置</Button>
+              </Button.Group>
+            ) : null
+        )
       }
     }]
   }
   componentDidMount() {
     POST$(API('POSTDATA').http, {}, (res) => {
       console.log(res);
+      res.forEach(e => {
+        DesignDataTree(e)
+      })
       this.setState({
         data: res,
         loading: false
@@ -81,65 +81,92 @@ class DesignTablecomponent extends Component {
     })
   }
   //delete
-  handleDelete = (record) => {
+  handleDelete = () => {
     //只是队列得删除  没有实际删除
     // const data = [...this.state.data]
     // this.setState({
     //   data: data.filter(item => item.key !== key)
     // })
-    this.setState({
-      loading: true
-    })
-    let p1 = new Promise((resolve, reject) => {
-      POST$(API('Delete').http + record.PK + '/Delete', {}, (res) => {
-        if (res.result) {
-          resolve(true)
-        } else {
-          reject('错误')
-        }
-      })
-    })
-    let p2 = new Promise((resolve, reject) => {
-      POST$(API('POSTDATA').http, {}, (res) => {
-        // console.log(res);
-        if (res) {
-          resolve(res)
-        } else {
-          reject('错误')
-        }
-      })
-    })   
-
-    Promise.all([p1, p2])
-      .then((res) => {
-        this.setState({
-          loading: false,
-          data: res[1]
+    POST$(API('Delete').http + this.state.selectData.PK + '/Delete', {}, (e) => {
+      if (e.result) {
+        POST$(API('POSTDATA').http, {}, (res) => {
+          // console.log(res);
+          if (res) {
+            this.setState({
+              data: res,
+            })
+          }
         })
-      })
-      .catch((r) => {
-        message.error(r)
-        this.setState({
-          loading:false
-        })
-      })
+      } 
+    })
   }
   TableHeader = () => (
-    <div>
+    <Button.Group>
       <Button onClick={this.CreateTable.bind(this, 'new')}>新建表单</Button>
-    </div>
+      <Button onClick={this.CreateMenu.bind(this, 'level1')}>新建根菜单</Button>
+      <Button onClick={this.CreateMenu.bind(this, 'level2')}>添加下级菜单</Button>
+      <Button onClick={this.CreateTable.bind(this, 'Edit')}>编辑</Button>
+      <Popconfirm title="确定删除？" onConfirm={this.handleDelete.bind(this)}>
+        <Button type='danger'>删除</Button>
+      </Popconfirm>
+    </Button.Group>
   )
   daochu = (record) => {
     console.log(record);
-    // let body = {
-    //   Bytes: record.Bytes,
-    //   Name: record.Name
-    // }
-    // POSTFETCH(API('DOWNLOAD').http,JSON.stringify(body) , (res) => {
-    //   console.log(res);
-
-    // })
     downloadFile(record.Name, record.Bytes)
+  }
+  CreateMenu = (e) => {
+    this.setState({
+      visible: true,
+      CreateMenu: e === 'level1' ? true : false
+    })
+  }
+  handleSubmit = (e) => {
+    this.setState({
+      loading: true
+    })
+    // console.log(e);
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        console.log('Received values of form: ', values);
+        let save = {}
+        save = {
+          BranchId: '',
+          Bytes: '',
+          Category: '',
+          ParentFormID: this.state.CreateMenu ? 0 : this.state.selectData.PK,
+          FK: -1,
+          Name: values.userName,
+          PK: -1,
+          Role: "",
+          TelantId: "",
+        }
+
+
+        //新建菜单
+        POST$(API('SaveForm').http, save, (res) => {
+          console.log(res);
+          if (res.PK) {
+            POST$(API('POSTDATA').http, {}, (res) => {
+              console.log(res);
+              this.setState({
+                data: res,
+                loading: false,
+                visible: false,
+              })
+            })
+          }
+        })
+      }
+    })
+  }
+
+  handleCancel = (e) => {
+    // console.log(e);
+    this.setState({
+      visible: false,
+    });
   }
   CreateTable = (dataSource) => {
     console.log(dataSource);
@@ -150,20 +177,58 @@ class DesignTablecomponent extends Component {
       this.props.update({})
       this.props.onTodoClick(['表单设计'])
       this.props.history.push('/Design/Stylist')
-    } else {
-      let body = JSON.parse(dataSource.Bytes)
-      localStorage.setItem('C', JSON.stringify(dataSource))
-      this.props.fugai(body.FormData) //添加表单的
-      this.props.tableFugai(body.TableData)//添加表格的
-      this.props.update(dataSource)//用来确定是否新建
-      this.props.onTodoClick(['表单设计'])
-      this.props.history.push('/Design/Stylist')
+    } else if (dataSource === 'Edit') {
+      let selectData = this.state.selectData
+      if (selectData === 0) {
+        message.warning('请选中一个菜单或表单')
+      } else {
+        if (selectData.IsCategory) {
+          //文件夹
+        } else {
+          //表单
+          let body = JSON.parse(this.state.selectData.Bytes)
+          localStorage.setItem('C', JSON.stringify(this.state.selectData))
+          this.props.fugai(body.FormData) //添加表单的
+          this.props.tableFugai(body.TableData)//添加表格的
+          this.props.update(this.state.selectData)//用来确定是否新建
+          this.props.onTodoClick(['表单设计'])
+          this.props.history.push('/Design/Stylist')
+        }
+      }
     }
   }
+  rowSelection = {
+    onSelect: (record) => {
+      console.log(record);
+      this.setState({
+        selectData: record
+      })
+    },
+    type: 'radio'
+  };
   render() {
     var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.85
+    const { getFieldDecorator } = this.props.form;
     return (
       <Spin spinning={this.state.loading}>
+        <Modal
+          title="新建菜单"
+          footer={false}
+          visible={this.state.visible}>
+          <Form onSubmit={this.handleSubmit} className="login-form">
+            <FormItem>
+              {getFieldDecorator('userName', {
+                rules: [{ required: true, message: 'Please input your username!' }],
+              })(
+                <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />
+              )}
+            </FormItem>
+            <FormItem style={{ textAlign: 'center' }}>
+              <Button htmlType='submit'>确定</Button>
+              <Button type='danger' onClick={this.handleCancel}>取消</Button>
+            </FormItem>
+          </Form>
+        </Modal>
         <Table
           style={{ height: h }}
           title={this.TableHeader}
@@ -198,4 +263,4 @@ const mapDispatchProps = (dispatch) => {
     }
   }
 }
-export default connect(mapStateToProps, mapDispatchProps)(DesignTablecomponent);
+export default connect(mapStateToProps, mapDispatchProps)(Form.create()(DesignTablecomponent));

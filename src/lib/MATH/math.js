@@ -244,9 +244,20 @@ export const treeData = (element) => {
             treeData(e)
         })
     }
-    element.value = [element.PK, element.ParentFormID]
+    element.value = element.PK
     element.title = element.Name
     element.key = element.PK
+    return element
+}
+
+export const DesignDataTree = (element) => {
+    if (element.children.length > 0) {
+        element.children.forEach((e) => {
+            DesignDataTree(e)
+        })
+    }else{
+        delete element.children
+    }
     return element
 }
 
