@@ -3,8 +3,8 @@ import { Layout, Menu, Dropdown, Button, Tag, Icon, message } from "antd";
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { API } from '../../lib/API/check.API'
-import { POST$ } from '../../lib/MATH/math'
-import { _clear, _tableUpdataFromResults } from '../stylist/action/Stylist.action'
+import { POST$, httprequest, getrequestparam } from '../../lib/MATH/math'
+import { _clear, _tableUpdataFromResults, tableTr0 } from '../stylist/action/Stylist.action'
 
 const ButtonGroup = Button.Group;
 const { Header } = Layout
@@ -32,7 +32,7 @@ class Headercomponent extends Component {
         // console.log(pre);
         if (pre.R === 'R') {
             document.onkeydown = function (e) {
-                // console.log(e.keyCode);
+                console.log(e.keyCode);
                 var keyCode = e.keyCode || e.which || e.charCode;
                 var altKey = e.altKey;
                 if (altKey && keyCode === 81) {
@@ -61,9 +61,10 @@ class Headercomponent extends Component {
                             isPage: true
                         }
                         POST$(API('SQL').http, body, (res) => {
-                            console.log(res);
+                            // console.log(res);
                             if (res.Results) {
                                 pre._tableUpdataFromResults(res.Results, res.RecordCount)
+                                pre.tableTr0(0)
                                 resolve(true)
                             } else {
                                 reject(false)
@@ -89,8 +90,29 @@ class Headercomponent extends Component {
 
                 } else if (altKey && keyCode === 67) {
                     pre.clear()
-                } else if (altKey && keyCode === 65) {
+                } else if (altKey && keyCode === 69) {
+                    let ss = {
+                        "Abbr": ""
+                    };
+                    let cols = {
+                        "BILLID": "序号",
+                        "CUSTNO": "客户编码",
+                        "CUSTNAME": "客户名称"
+                    }
+                    let param = {
+                        Param: JSON.stringify(ss),
+                        Columns: JSON.stringify(cols),
+                        Sql: "select BILLID,CUSTOMERID,CUSTNO,CUSTNAME,CUSTTYPE,CUSTTYPENAME,BILLINGDATE,REMARKS,ORDERTYPE, SHIPPINGPAYMENT,SALESCONTRACTNO,BUSITYPE, TOTALAMOUNT,EQUIVALENTNUM,BILLSTATE,REMARK,RATE,STAMPSSTATE,ISSETTLEMENT from tb_gos_sale_saleordersum where   PK<=400091"
+                    };
 
+                    var params = getrequestparam('exportsqldata', JSON.stringify(param));
+                    httprequest(params, (result) => {
+                        var url = window.URL.createObjectURL(result);
+                        var a = document.createElement('a');
+                        a.href = url;
+                        a.download = "数据.xls";
+                        a.click();
+                    });
                 } else {
                     // e.preventDefault();
                     return true;
@@ -104,7 +126,30 @@ class Headercomponent extends Component {
     enter = () => {
         this.props.history.push('/')
     }
+    DAOCHU = () => {
+        let ss = {
+            "Abbr": ""
+        };
+        let cols = {
+            "BILLID": "序号",
+            "CUSTNO": "客户编码",
+            "CUSTNAME": "客户名称"
+        }
+        let param = {
+            Param: JSON.stringify(ss),
+            Columns: JSON.stringify(cols),
+            Sql: "select BILLID,CUSTOMERID,CUSTNO,CUSTNAME,CUSTTYPE,CUSTTYPENAME,BILLINGDATE,REMARKS,ORDERTYPE, SHIPPINGPAYMENT,SALESCONTRACTNO,BUSITYPE, TOTALAMOUNT,EQUIVALENTNUM,BILLSTATE,REMARK,RATE,STAMPSSTATE,ISSETTLEMENT from tb_gos_sale_saleordersum where   PK<=400091"
+        };
 
+        var params = getrequestparam('exportsqldata', JSON.stringify(param));
+        httprequest(params, (result) => {
+            var url = window.URL.createObjectURL(result);
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = "数据.xls";
+            a.click();
+        });
+    }
     SQLChecked = () => {
         this.props.Loading()
         let valueList = {}
@@ -194,17 +239,17 @@ class Headercomponent extends Component {
                             <Icon type="security-scan" theme="outlined" />
                             查询 ALT+Q
                         </Button>
-                        <Button >
+                        {/* <Button >
                             <Icon type="copyright" theme="outlined" />
-                            清空
-                            </Button>
+                            清空 ALT+R
+                            </Button> */}
                         <Button onClick={this.guanbi.bind(this)}>
                             <Icon type="export" theme="outlined" />
-                            关闭
+                            关闭 ALT+C
                         </Button>
-                        <Button >
+                        <Button onClick={this.DAOCHU.bind(this)}>
                             <Icon type="usb" theme="outlined" />
-                            导出
+                            导出 ALT+E
                             </Button>
                     </ButtonGroup>
                 </div> : <div style={{ float: 'left' }}>你好！设计师</div>
@@ -233,6 +278,9 @@ const mapDispatchProps = (dispatch) => {
         },
         _tableUpdataFromResults: (k, totalPage) => {
             dispatch(_tableUpdataFromResults(k, totalPage))
+        },
+        tableTr0: (k) => {
+            dispatch(tableTr0(k))
         }
     }
 }

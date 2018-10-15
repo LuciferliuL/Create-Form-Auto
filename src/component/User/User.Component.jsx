@@ -31,7 +31,7 @@ class USER extends Component {
     render() {
         const { user , loading} = this.state
         return (
-            <Spin spinning={loading}>
+            <Spin spinning={loading} size='large'>
                 <Layout>
                     <Sider style={{ overflow: 'auto', height: '100vh', left: 0, backgroundColor:'#1f381257' }}>
                         <TreeUser></TreeUser>

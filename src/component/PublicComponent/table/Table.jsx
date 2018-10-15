@@ -45,8 +45,8 @@ class TABLECOMPONENT extends Component {
     // };
 
     componentWillReceiveProps(pre) {
-        console.log(pre.tableSource)
-        console.log(this.state.tr);
+        // console.log(pre.tableSource)
+        console.log(this.state.tr + '-----' + pre.tableSource.tr);
         
         let data = []
         if (pre.tableSource.tr > this.state.tr) {
@@ -166,7 +166,7 @@ class TABLECOMPONENT extends Component {
                 widths += Number(e.width)
             });
         }
-        console.log(this.state.data);
+        // console.log(this.state.data);
         
         return (
             <div>

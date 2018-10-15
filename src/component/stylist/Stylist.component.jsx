@@ -58,7 +58,9 @@ class Stylistcomponent extends Component {
         }
     }
     confirm = (e) => {
+        //记录组件位置
         this.props.FormDataUpata(this.dragact.getLayout())
+        //更新右边栏
         this.props.rightUpdata(e)
     }
     cancel = (e) => {
@@ -82,14 +84,13 @@ class Stylistcomponent extends Component {
         })
     }
 
-
-
     read = () => {
 
         this.setState({
             read: !this.state.read
         }, () => { this.changeWidth() })
     }
+    //取消
     handleCancel = (e) => {
         // console.log(e);
         this.props.form.resetFields(['formname'])
@@ -97,6 +98,7 @@ class Stylistcomponent extends Component {
             visible: false,
         });
     }
+    //保存
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {

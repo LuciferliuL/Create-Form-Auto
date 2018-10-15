@@ -1,9 +1,11 @@
 import { STYLIST_DATASOURCE_GET, FORM_UPDATA_FUGAI, CLEAR_FORM, TABLE_UPDATA_FROM_RESULTS, TABLE_FUGAI } from '../action/Stylist.action'
-import { FORM_SOURCE_DATA, FORM_SOURCE_DATA_UPDATA, FORM_SOURCE_DATA_DELETE } from '../action/Stylist.action'
+import { FORM_SOURCE_DATA, FORM_SOURCE_DATA_UPDATA, FORM_SOURCE_DATA_DELETE, TABLE_TR_0 } from '../action/Stylist.action'
 import { CURRENT_ATTR } from '../action/Stylist.action'
 import { CURRENT_ATTR_UPDATA, FORM_UPDATA_FROM_CURRENT } from '../../SliderRIght/action/Right.action'
-import { TR_ADD_DOWN, TR_REDUCE_UP, SHOWS, UPDATA_VALUES, UPDATA_CURRENt_DATASOURCE ,T_ADD_DOWN
-   , T_REDUCE_UP} from '../../PublicComponent/lookup/action/lookup.action'
+import {
+    TR_ADD_DOWN, TR_REDUCE_UP, SHOWS, UPDATA_VALUES, UPDATA_CURRENt_DATASOURCE, T_ADD_DOWN
+    , T_REDUCE_UP
+} from '../../PublicComponent/lookup/action/lookup.action'
 import { TAG_PUSH_DATA_IN_COLUMNS, INPUT_VALUE_CHANGE, SQL_VALUE_CHANGE, GROUP_VALUE_CHANGE, TAG_PUSH_DATA_IN_GROUP, TAG_CANCEL_DATA_IN_GROUP, INPUT_CANCEL_DATA } from '../../Drawer/action/Drawer.action'
 import { INPUT_CHANGE } from '../../PublicComponent/Public.action'
 
@@ -161,6 +163,8 @@ export const tableSource = (state = table, action) => {
             return { ...state, tr: action.current + action.step }
         case T_REDUCE_UP:
             return { ...state, tr: action.current - action.step }
+        case TABLE_TR_0:
+            return { ...state, tr: action.initial }
         default:
             return state;
     }

@@ -7,6 +7,7 @@ export const FORM_UPDATA_FUGAI = 'FORM_UPDATA_FUGAI'
 export const CLEAR_FORM = 'CLEAR_FORM'
 export const TABLE_UPDATA_FROM_RESULTS = 'TABLE_UPDATA_FROM_RESULTS'
 export const TABLE_FUGAI = 'TABLE_FUGAI'
+export const TABLE_TR_0 = 'TABLE_TR_0'
 
 //需要编辑选中的元素
 export const stylistDataSourceGet = (InitStylistData) => {
@@ -75,6 +76,13 @@ export const _tableUpdataFromResults = (initial) => {
 export const tableFugai = (initial) => {
     return {
         type:TABLE_FUGAI,
+        initial:initial
+    }
+}
+
+export const tableTr0 = (initial) => {
+    return {
+        type:TABLE_TR_0,
         initial:initial
     }
 }
