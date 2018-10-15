@@ -12,7 +12,6 @@ export const API = (k) => {
             }
         case 'test':
             return {
-
             }
         default:
             break;
