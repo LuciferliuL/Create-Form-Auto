@@ -155,11 +155,11 @@ class Headercomponent extends Component {
 
         var params = getrequestparam('exportsqldata', JSON.stringify(param));
         httprequest(params, (result) => {
-            var url = window.URL.createObjectURL(result);
-            var a = document.createElement('a');
-            a.href = url;
-            a.download = "数据.xls";
-            a.click();
+            var url = window.URL.createObjectURL(result)
+            var a = document.createElement('a')
+            a.href = url
+            a.download = "数据.xls"
+            a.click()
         });
     }
     SQLChecked = () => {
