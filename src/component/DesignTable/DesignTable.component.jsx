@@ -92,6 +92,9 @@ class DesignTablecomponent extends Component {
       if (e.result) {
         POST$(API('POSTDATA').http, {}, (res) => {
           // console.log(res);
+          res.forEach(e => {
+            DesignDataTree(e)
+          })
           if (res) {
             this.setState({
               data: res,
