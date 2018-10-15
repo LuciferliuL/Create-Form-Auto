@@ -1,7 +1,7 @@
 import 'isomorphic-fetch'
 import $ from 'jquery'
 import { notification } from 'antd'
-
+import {baseAPI} from '../API/check.API'
 /**
  * 
  * @param {链接} URL 
@@ -261,3 +261,63 @@ export const DesignDataTree = (element) => {
     return element
 }
 
+
+export const getrequestparam =(k, body) =>{
+    
+    const httpurl = baseAPI;
+
+    switch(k){
+        case "exportsqldata":
+            return {
+                response:'blob',
+                method: 'POST', 
+                auth: false,
+                body: body,
+                contenttype: 'application/json;charset=UTF-8', 
+                httpurl:  httpurl + "/api/dataquery/ExportData"
+            }
+        default:
+            break;
+    }
+}
+
+export const httprequest =(param, callback)=>{
+    let token = localStorage.getItem('token');
+    let headers = new Headers();
+    headers.append('Content-Type', param.contenttype);
+    
+    if(param.auth)
+        headers.append("Authorization", "Bearer " + token);
+
+    let request = new Request(param.httpurl, {
+        method: param.method, 
+        headers: headers
+    });
+
+    if(param.method ==='POST'){
+        request = new Request(param.httpurl, {
+            method : param.method, 
+            body : param.body,
+            headers : headers
+        });
+    }
+
+    if(param.response==='json')
+    {
+        fetch(request)
+        .then(response => response.json())
+        .then(result => {
+            callback(result);
+        })
+        .catch(res => {
+            console.log(res);
+        })
+    }
+    else{
+        fetch(request)
+        .then(response => response.blob())
+        .then(blob => {
+            callback(blob);
+        });
+    }
+}
