@@ -282,7 +282,7 @@ class Headercomponent extends Component {
                 <div style={{ float: 'right' }}>
                     <Child user={user}></Child>
                     <Dropdown overlay={menu} placement="bottomCenter">
-                        <Tag style={{ float: 'left', marginTop: '5px' }}>用户名：{user.username}</Tag>
+                        <Tag style={{ float: 'left', marginTop: '5px' }}>人员名称：{user.username}</Tag>
                     </Dropdown>
                 </div>
             </Header>
@@ -314,7 +314,7 @@ export default connect(mapStateToProps, mapDispatchProps)(withRouter(Headercompo
 const Child = (props) => {
     return (
         <Tag color='blue' style={{ float: 'left', marginTop: '5px' }}>
-            公司代码： {props.user.scope}
+            公司名称： {props.user.scope}
         </Tag>
     )
 }

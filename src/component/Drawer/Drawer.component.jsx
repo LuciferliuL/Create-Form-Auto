@@ -93,7 +93,10 @@ class Drawercomponent extends Component {
             content.push(
                 <div key={'SQL12138'}>
                     <Tag>SQL:</Tag>
-                    <TextArea autosize={{ minRows: 25 }} value={this.props.currentAttr.SQL} onChange={this.SQLChange.bind(this)}></TextArea>
+                    <TextArea 
+                    autosize={{ minRows: 25 }} 
+                    value={this.props.currentAttr.SQL} 
+                    onChange={this.SQLChange.bind(this)}></TextArea>
                 </div>
             )
         } else if (this.props.flag === 'columns') {

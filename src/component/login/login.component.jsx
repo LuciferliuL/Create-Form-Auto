@@ -82,7 +82,7 @@ class NormalLoginForm extends React.Component {
         }
         return (
             <Spin size='large' spinning={this.state.loading}>
-                <ReactCanvasNest config={config}></ReactCanvasNest>
+                {/* <ReactCanvasNest config={config}></ReactCanvasNest> */}
                 <Card className="width-40 margin-auto center" style={{background:'transparent'}}>
                     <Form onSubmit={this.handleSubmit} className="center">
                         <FormItem
