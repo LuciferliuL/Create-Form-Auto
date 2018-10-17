@@ -180,11 +180,11 @@ class Stylistcomponent extends Component {
                             })(
                                 // <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="表单类" />
                                 <TreeSelect
-                                    style={{ width: 300 }}
+                                    // style={{ width: 300 }}
                                     // value={this.state.value}
                                     dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
                                     treeData={this.state.treeData}
-                                    placeholder="Please select"
+                                    placeholder="请选择存放菜单"
                                     // treeDefaultExpandAll
                                     onChange={this.handleChange}
                                 />
