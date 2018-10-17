@@ -39,13 +39,23 @@ class DesignTablecomponent extends Component {
         );
       }
     }, {
+      title: '排序',
+      dataIndex: 'Sort',
+      width: '12%',
+      key: 'Sort',
+      render(text, record) {
+        return (
+          <div style={{ padding: '5px' }}>
+            {text}
+          </div>
+        );
+      }
+    }, {
       title: '最后修改时间',
       dataIndex: 'LastModifyTime',
       width: '30%',
       key: 'LastModifyTime',
       render: (text, record) => {
-        // console.log(text);
-
         return (
           <div style={{ padding: '10px' }}>{text.slice(0, 19)}</div>
         )
@@ -145,6 +155,7 @@ class DesignTablecomponent extends Component {
           ParentFormID: this.state.CreateMenu ? 0 : this.state.selectData.PK,
           FK: -1,
           Name: values.userName,
+          Sort: values.Sort,
           PK: this.state.PKMenu ? -1 : this.state.selectData.PK,
           Role: "",
           TelantId: "",
@@ -209,7 +220,8 @@ class DesignTablecomponent extends Component {
           }
 
           console.log(this.state.selectData);
-          this.props.form.setFieldsValue({ 'userName': this.state.selectData.Name })
+          this.props.form.setFieldsValue({ 'userName': this.state.selectData.Name });
+          this.props.form.setFieldsValue({ 'Sort': this.state.selectData.Sort });
         } else {
           //表单
           let body = JSON.parse(this.state.selectData.Bytes)
@@ -244,9 +256,16 @@ class DesignTablecomponent extends Component {
           <Form onSubmit={this.handleSubmit} className="login-form">
             <FormItem>
               {getFieldDecorator('userName', {
-                rules: [{ required: true, message: 'Please input your username!' }],
+                rules: [{ required: true, message: '请输入菜单名称!' }],
               })(
-                <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />
+                <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="菜单名称" />
+              )}
+            </FormItem>
+            <FormItem>
+              {getFieldDecorator('Sort', {
+                rules: [{ required: true, message: '请输入菜单排序!' }],
+              })(
+                <Input  placeholder="序号" />
               )}
             </FormItem>
             <FormItem style={{ textAlign: 'center' }}>
