@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Row, Col, Card, Icon, Avatar, Layout } from 'antd'
+import { withRouter } from 'react-router-dom'
 
 const { Meta } = Card;
 const { Header, Footer, Content } = Layout;
@@ -56,7 +57,32 @@ class loginLeader extends Component {
         const { h, data } = this.state
         let dataList = []
         data.forEach((e, i) => {
-            return dataList.push(<CardChild props={e} key={i}></CardChild>)
+            return dataList.push(
+                <Col span={4} key={i}>
+                    <Card
+                        style={{ width: '85%' }}
+                        // cover={<img alt="example" src={data.CoverSrc} style={{height:'160px',width:'100%'}}/>}
+                        actions={[<Icon type={e.IconType}
+                            onClick={() => {
+                                // window.location.href='localhost:3000/Design'
+                                if (e.MetaTitle === 'DESGIN') {
+                                    // var tempwindow = window.open('_blank')
+                                    this.props.history.push('/Design/er')
+                                } else {
+                                    // var tempwindow = window.open('_blank')
+                                    // tempwindow.location = e.href
+                                    window.location.href = e.href
+                                }
+                            }} />]}
+                    >
+                        <Meta
+                            avatar={<Avatar src={e.AvatarSrc} />}
+                            title={e.MetaTitle}
+                            description={e.MetaDescription}
+                        />
+                    </Card>
+                </Col>
+            )
         })
         return (
             <Layout>
@@ -75,39 +101,10 @@ class loginLeader extends Component {
                     ERP Design ©2018 Created by LEO
                 </Footer>
             </Layout>
-
-
-
         );
     }
 }
 
 export default connect(
     mapStateToProps,
-)(loginLeader);
-
-const CardChild = (props) => {
-    const data = props.props
-
-    return (
-        <Col span={4}>
-            <Card
-                style={{ width: '85%' }}
-                // cover={<img alt="example" src={data.CoverSrc} style={{height:'160px',width:'100%'}}/>}
-                actions={[<Icon type={data.IconType}
-                    onClick={() => {
-                            var tempwindow = window.open('_blank')
-                            tempwindow.location = data.href
-                            // window.location.href='localhost:3000/Design'
-                    }} />]}
-            >
-                <Meta
-                    avatar={<Avatar src={data.AvatarSrc} />}
-                    title={data.MetaTitle}
-                    description={data.MetaDescription}
-                />
-            </Card>
-        </Col>
-    )
-
-}
+)(withRouter(loginLeader));
