@@ -49,7 +49,7 @@ export { GETFetch }
  * @param {是否是正常格式}boolean
  */
 function POSTFETCH(URL, postBody, Callback) {
-    let token = localStorage.getItem('token')
+    let token = sessionStorage.getItem('token')
     let myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/x-www-form-urlencoded');
     myHeaders.append("Authorization", "Bearer " + token)
@@ -132,7 +132,7 @@ export const TreeMath = (data) => {
 
 
 export const GET$ = (URL, Callback) => {
-    let token = localStorage.getItem('token')
+    let token = sessionStorage.getItem('token')
     $.ajax({
         url: URL,
         type: "GET",
@@ -148,7 +148,7 @@ export const GET$ = (URL, Callback) => {
 
 export const POST$ = (URL, POSTBODY, CALLBACK) => {
     POSTBODY = JSON.stringify(POSTBODY)
-    let token = localStorage.getItem('token')
+    let token = sessionStorage.getItem('token')
     $.ajax({
         url: URL,
         type: "POST",
@@ -282,7 +282,7 @@ export const getrequestparam =(k, body) =>{
 }
 
 export const httprequest =(param, callback)=>{
-    let token = localStorage.getItem('token');
+    let token = sessionStorage.getItem('token');
     let headers = new Headers();
     headers.append('Content-Type', param.contenttype);
     

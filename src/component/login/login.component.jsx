@@ -37,22 +37,16 @@ class NormalLoginForm extends React.Component {
                     if (token.error_description) {
                         message.error(token.error_description)
                     } else {
-                        localStorage.setItem('token', token.access_token) //保存token
-                        localStorage.setItem('values', values)
+                        sessionStorage.setItem('token', token.access_token) //保存token
+                        sessionStorage.setItem('values', JSON.stringify(values))//保存登入信息
                         let path = {}
                         if (values.use === 'a') {
-                            path = {
-                                pathname: '/Design/er',
-                                state: values
-                            }
+                            this.props.history.push('/loginLeader')
                         } else {
-                            path = {
-                                pathname: '/USER',
-                                state: values
-                            }
+                            this.props.history.push('/USER')
                         }
 
-                        this.props.history.push(path)
+
                     }
                 })
             }
@@ -75,7 +69,7 @@ class NormalLoginForm extends React.Component {
         };
         const config = {
             // pointColor: ' 255, 255, 255 ' ,
-            count:88,
+            count: 88,
             // pointOpacity:0.5,
             // lineColor:'red',
             // lineWidth:3
@@ -83,7 +77,7 @@ class NormalLoginForm extends React.Component {
         return (
             <Spin size='large' spinning={this.state.loading}>
                 {/* <ReactCanvasNest config={config}></ReactCanvasNest> */}
-                <Card className="width-40 margin-auto center" style={{background:'transparent'}}>
+                <Card className="width-40 margin-auto center" style={{ background: 'transparent' }}>
                     <Form onSubmit={this.handleSubmit} className="center">
                         <FormItem
                             {...formItemLayout}
