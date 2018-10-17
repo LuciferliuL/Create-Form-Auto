@@ -15,38 +15,33 @@ class loginLeader extends Component {
     state = {
         h: 0,
         data: [{
-            CoverSrc: "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png",//图像
             IconType: "setting",//图标
             AvatarSrc: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",//人物头像
             MetaTitle: "CONFIGUI",//卡片抬头
             MetaDescription: "配置管理",//卡片描述
             href: 'http://10.3.4.177:9003/ConfigUI'//跳转地址
         }, {
-            CoverSrc: "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png",//图像
-            IconType: "setting",//图标
+            IconType: "zoom-in",//图标
             AvatarSrc: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",//人物头像
             MetaTitle: "BPMADMIN",//卡片抬头
             MetaDescription: "流程管理",//卡片描述
             href: 'http://10.3.4.177:9003/bpm-admin'//跳转地址
         }, {
-            CoverSrc: "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png",//图像
-            IconType: "setting",//图标
+            IconType: "radius-setting",//图标
             AvatarSrc: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",//人物头像
             MetaTitle: "DESGIN",//卡片抬头
-            MetaDescription: "表单设计",//卡片描述
-            href: 'http://10.3.4.177:9003/Design/er'//跳转地址
+            MetaDescription: "表单设计",//卡片描述<Icon type="" theme="outlined" />
+            href: 'http://10.3.4.177:9003/Design'//跳转地址
         }, {
-            CoverSrc: "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png",//图像
-            IconType: "setting",//图标
+            IconType: "rocket",//图标
             AvatarSrc: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",//人物头像
             MetaTitle: "DEVTOOL",//卡片抬头
-            MetaDescription: "DEVTOOL",//卡片描述
+            MetaDescription: "DEVTOOL",//卡片描述<Icon type="" theme="outlined" />
             href: 'http://10.3.2.22:50003/index.html'//跳转地址
         }, {
-            CoverSrc: "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png",//图像
-            IconType: "setting",//图标
+            IconType: "bulb",//图标
             AvatarSrc: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",//人物头像
-            MetaTitle: "Card title",//卡片抬头
+            MetaTitle: "Card title",//卡片抬头<Icon type="" theme="outlined" />
             MetaDescription: "This is the description",//卡片描述
             href: 'www.baidu.com'//跳转地址
         }]
@@ -98,12 +93,12 @@ const CardChild = (props) => {
         <Col span={4}>
             <Card
                 style={{ width: '85%' }}
-                cover={<img alt="example" src={data.CoverSrc} />}
+                // cover={<img alt="example" src={data.CoverSrc} style={{height:'160px',width:'100%'}}/>}
                 actions={[<Icon type={data.IconType}
                     onClick={() => {
-                            // var tempwindow = window.open('_blank')
-                            // tempwindow.location = data.href
-                            window.location.href='localhost:3000/Design'
+                            var tempwindow = window.open('_blank')
+                            tempwindow.location = data.href
+                            // window.location.href='localhost:3000/Design'
                     }} />]}
             >
                 <Meta
