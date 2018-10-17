@@ -33,18 +33,18 @@ class loginLeader extends Component {
             MetaTitle: "DESGIN",//卡片抬头
             MetaDescription: "表单设计",//卡片描述<Icon type="" theme="outlined" />
             href: 'http://10.3.4.177:9003/Design'//跳转地址
-        }, {
-            IconType: "rocket",//图标
-            AvatarSrc: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",//人物头像
-            MetaTitle: "DEVTOOL",//卡片抬头
-            MetaDescription: "DEVTOOL",//卡片描述<Icon type="" theme="outlined" />
-            href: 'http://10.3.2.22:50003/index.html'//跳转地址
-        }, {
-            IconType: "bulb",//图标
-            AvatarSrc: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",//人物头像
-            MetaTitle: "Card title",//卡片抬头<Icon type="" theme="outlined" />
-            MetaDescription: "This is the description",//卡片描述
-            href: 'www.baidu.com'//跳转地址
+        // }, {
+        //     IconType: "rocket",//图标
+        //     AvatarSrc: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",//人物头像
+        //     MetaTitle: "DEVTOOL",//卡片抬头
+        //     MetaDescription: "DEVTOOL",//卡片描述<Icon type="" theme="outlined" />
+        //     href: 'http://10.3.2.22:50003/index.html'//跳转地址
+        // }, {
+        //     IconType: "bulb",//图标
+        //     AvatarSrc: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",//人物头像
+        //     MetaTitle: "Card title",//卡片抬头<Icon type="" theme="outlined" />
+        //     MetaDescription: "This is the description",//卡片描述
+        //     href: 'www.baidu.com'//跳转地址
         }]
     }
     componentDidMount() {
@@ -56,9 +56,23 @@ class loginLeader extends Component {
     render() {
         const { h, data } = this.state
         let dataList = []
+        let colwidth = 0
+        switch (data.length) {
+            case 3:
+                colwidth = 6
+                break;
+            case 4:
+                colwidth = 5
+                break;
+            case 5:
+                colwidth = 4
+            default:
+                break;
+        }
+        
         data.forEach((e, i) => {
             return dataList.push(
-                <Col span={4} key={i}>
+                <Col span={colwidth} key={i}>
                     <Card
                         style={{ width: '85%' }}
                         // cover={<img alt="example" src={data.CoverSrc} style={{height:'160px',width:'100%'}}/>}

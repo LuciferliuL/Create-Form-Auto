@@ -137,7 +137,7 @@ class LookUpPublicComponent extends Component {
             agg.forEach(e => {
                 e.defaultValue = dataSource_.type
             })
-            console.log(agg);
+            // console.log(agg);
             //更新整个form
             this.props.upForm(this.props.current)
         } else {

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Table } from 'antd'
+import { Table, Tooltip } from 'antd'
 import { connect } from 'react-redux'
 import './Table.PublicComponent.css'
-import { Object } from 'core-js';
+import { isChinese } from '../../../lib/MATH/math'
 // import { Resizable } from 'react-resizable';
 
 
@@ -150,38 +150,113 @@ class TablePublicComponent extends Component {
         })
 
     }
+
     render() {
         var w = document.documentElement.clientWidth || document.body.clientWidth;
-        const { columns} = this.props.PublicData
-        const {heightTr} = this.state
+        const { columns } = this.props.PublicData
+        const { heightTr } = this.state
         let widths = 0
         let heightTable = this.props.currentAttr.tr * (-38) > -228 ? '0px' : (this.props.currentAttr.tr * (-38) + 228) + 'px'
         if (columns) {
             columns.map((e, i) => {
                 // console.log(e);
-                if(e.width > 0){
-                    widths += Number(e.width)
-                }else{
+
+                if (i < this.props.currentAttr.float) {
+                    e['fixed'] = 'left'
                     widths += 200
                     e.width = 200
-                }
-                if(i < this.props.currentAttr.float){
-                    e['fixed'] = 'left'
+                } else {
+                    widths += 200
+                    e.width = 200
+                    e.render = (text) => {
+                        if (text) {
+                            if (/^[\u4e00-\u9fa5]/.test(text)) {//中文
+                                if (text.length > 15) {
+                                    // 大于10
+                                    return (
+                                        <Tooltip title={text}>
+                                            <span style={{ width: '200px' }}>{text.slice(0, 15)} </span>
+                                        </Tooltip>
+                                    )
+                                } else {
+                                    //小于10
+                                    return (
+                                        <span style={{ width: '200px' }}>{text}</span>
+                                    )
+                                }
+                            } else {//EN or NUM
+                                if (text.length > 20) {
+                                    return (
+                                        <span style={{ width: '200px' }}>{text.slice(0, 20)}</span>
+                                    )
+                                } else {
+                                    return (
+                                        <span style={{ width: '200px' }}>{text}</span>
+                                    )
+                                }
+                            }
+
+
+
+
+
+                            // if (text.length < 10 || (!isChinese(text)&&text.length < 20)) {
+                            //     //字数小于10 或者  不是中文并且小于20
+                            //     // return (
+                            //     //     <div style={{ width: '200px' }}>{text}</div>
+                            //     // )
+                            // } else if (text.length > 10 && isChinese(text)) {//字数大于20 并且是中文
+                            //     // let t = text.slice(0, 10)
+                            //     // return (
+                            //     //     <Tooltip title={text}>
+                            //     //         <span style={{ width: '400px' }}>{t} </span>
+                            //     //     </Tooltip>
+                            //     // )
+                            // } else {
+                            //     // return (<div>{text}</div>)
+                            // }
+                        }
+                        // }
+                    }
+                    // else {
+                    //     e.render = (text) => {
+                    //         if (text) {
+                    //             if (text.length < 20) {
+                    //                 e.width = 200
+                    //                 widths += 200
+                    //                 return (
+                    //                     <div>{text}</div>
+                    //                 )
+                    //             } else if(text.length > 20){
+                    //                 e.width = 400
+                    //                 widths += 400
+                    //                 let t = text.slice(0,20)
+                    //                 return (
+                    //                     <Tooltip title={text}>
+                    //                         <span>{t} </span>
+                    //                     </Tooltip>
+                    //                 )
+                    //             }else{
+                    //                 return (<div>{text}</div>)
+                    //             }
+                    //         }
+                    //     }
+                    // }
                 }
             });
         }
         console.log(widths);
-        
+
         return (
             <div>
                 <Table
                     bordered
                     // components={this.components}
-                    bodyStyle={{tableLayout:'fixed'}}
+                    bodyStyle={{ tableLayout: 'fixed' }}
                     columns={columns}
                     dataSource={this.state.data}
                     pagination={false}
-                    scroll={{ x: widths*2 , y: 800 }}
+                    scroll={{ x: widths * 1.1, y: 800 }}
                     rowClassName={(record, index) => {
                         // console.log(record)
                         // console.log(index);

@@ -321,3 +321,9 @@ export const httprequest =(param, callback)=>{
         });
     }
 }
+
+export function isChinese(temp){
+    // var re=/[^/u4e00-/u9fa5]/;
+    if (/^[\u4e00-\u9fa5]/.test(temp)) return false ;
+    return true ;
+  }
