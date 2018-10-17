@@ -36,7 +36,7 @@ class Headercomponent extends Component {
                             } else if (e.type === 'Input' && e.typePoint !== 0) {
                                 valueList[e.typePoint] = e.defaultValue==undefined?'': e.defaultValue;
                             }else if(e.type==="Range"){
-                                valueList[e.id] = e.defaultValue==''?[]: e.defaultValue;
+                                valueList[e.id] = e.defaultValue==''?['','']: e.defaultValue;
                             } else {
                                 valueList[e.id] = e.defaultValue==undefined?'': e.defaultValue;
                             }
@@ -93,7 +93,7 @@ class Headercomponent extends Component {
                             } else if (e.type === 'Input' && e.typePoint !== 0) {
                                 valueList[e.typePoint] = e.defaultValue==undefined?'': e.defaultValue;
                             }else if(e.type==="Range"){
-                                valueList[e.id] = e.defaultValue==''?[]: e.defaultValue;
+                                valueList[e.id] = e.defaultValue==''?['','']: e.defaultValue;
                             } else {
                                 valueList[e.id] = e.defaultValue==undefined?'': e.defaultValue;
                             }
@@ -144,7 +144,7 @@ class Headercomponent extends Component {
                     valueList[e.typePoint] = e.defaultValue==undefined?'': e.defaultValue;
                 }
                 else if(e.type==="Range"){
-                    valueList[e.id] = e.defaultValue==''?[]: e.defaultValue;
+                    valueList[e.id] = e.defaultValue==''?['','']: e.defaultValue;
                 } else {
                     valueList[e.id] = e.defaultValue==undefined?'': e.defaultValue;
                 }
@@ -185,7 +185,7 @@ class Headercomponent extends Component {
                 } else if (e.type === 'Input' && e.typePoint !== 0) {
                     valueList[e.typePoint] = e.defaultValue==undefined?'': e.defaultValue;
                 } else if(e.type==="Range"){
-                    valueList[e.id] = e.defaultValue==''?[]: e.defaultValue;
+                    valueList[e.id] = e.defaultValue==''?['','']: e.defaultValue;
                 } else {
                     valueList[e.id] = e.defaultValue==undefined?'': e.defaultValue;
                 }
