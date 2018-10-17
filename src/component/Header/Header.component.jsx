@@ -23,9 +23,6 @@ class Headercomponent extends Component {
 
         // }
     }
-    componentDidMount() {
-        // console.log(this.props);
-    }
     componentWillReceiveProps(pre) {
         // console.log(pre);
         if (pre.R === 'R') {

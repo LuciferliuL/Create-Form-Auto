@@ -165,7 +165,9 @@ class TablePublicComponent extends Component {
                     widths += 150
                     e.width = 150
                 }
-               
+                if(i < this.props.currentAttr.float){
+                    e['fixed'] = 'left'
+                }
             });
         }
 

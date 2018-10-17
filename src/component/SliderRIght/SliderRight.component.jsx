@@ -123,6 +123,19 @@ class SliderRightcomponent extends Component {
                         </FormItem>
                     )
                     break;
+                    case 'float':
+                    uniqueList.push(
+                        <FormItem
+                            label='左侧固定列'
+                            {...formItemLayout}
+                            key={pre.currentAttr.key + 'float'}
+                        >
+                            {getFieldDecorator('float')(
+                                <InputNumber min={0} max={4} />
+                            )}
+                        </FormItem>
+                    )
+                    break;
                 case 'scroll':
                     uniqueList.push(
                         <FormItem
@@ -166,21 +179,6 @@ class SliderRightcomponent extends Component {
                         </div>
                     )
                     break;
-                // case 'GroupValue':
-                //     uniqueList.push(
-                //         <div key={pre.currentAttr.key + 'GroupValue'}>
-                //             <Drawercomponent></Drawercomponent>
-                //             <FormItem
-                //                 label='列数据'
-                //                 {...formItemLayout}
-                //             >
-                //                 {getFieldDecorator('GroupValue')(
-                //                     <Input addonAfter={<Icon type="setting" onClick={this.click.bind(this, 'GroupValue')} />}></Input>
-                //                 )}GroupValue
-                //             </FormItem>
-                //         </div>
-                //     )
-                //     break;
                 case 'orientation':
                     uniqueList.push(
                         <FormItem

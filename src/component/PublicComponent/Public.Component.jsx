@@ -65,7 +65,8 @@ class PublicComponent extends Component {
                     <TablePublicComponent 
                     PublicData={PublicData} 
                     Read={this.props.Read}
-                    ClickHandleKey={this.ClickHandleKey.bind(this)}>
+                    // ClickHandleKey={this.ClickHandleKey.bind(this)}
+                    >
                     </TablePublicComponent>
                 )
             case 'LookUp':

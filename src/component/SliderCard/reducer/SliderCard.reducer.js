@@ -114,7 +114,7 @@ const SData = [
                 dataIndex: 'action',
                 width: '50%'
             }],
-        SQL: 'select * where',
+        SQL: '',
         dataSource: []
     }, {
         GridX: 0, GridY: 0, w: 24, h: 1, key: '0',
@@ -159,7 +159,7 @@ export const currentTagsUpdata = (state = {}, action) => {
 
 const SQL = [
     {
-        GridX: 0, GridY: 0, w: 8, h: 1, key: '0',
+        GridX: 0, GridY: 0, w: 8, h: 1, key: '0',float:0,
         icons: 'gift', id: 8, type: 'LookUp', required: false,
         message: "123", label: "商品检索", disabled: false, upKey: '',
         layout: {
@@ -391,7 +391,8 @@ const SQL = [
             labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
             wrapperCol: { xs: { span: 24 }, sm: { span: 16 } }
         }, tr: 0, values: '', uniqueKey: 'key',
-        columns: [{
+        columns: [
+            {
             title: "主管部门名称",
             dataIndex: "EXECUTIVEDEPT",
             width: 150,
@@ -911,6 +912,448 @@ and (f.custno like upper('%' || :Abbr || '%') or
       f.custid = upper(:Abbr)  or f.custname like '%' || :Abbr || '%' or
       f.custmemorycode like upper('%' || :Abbr || '%') or
       f.custidentify like upper('%' || :Abbr || '%'))`,
+        dataSource: []
+    },{
+        GridX: 0, GridY: 0, w: 8, h: 1, key: '0',
+        icons: 'bulb', id: 8, type: 'LookUp', required: false,
+        message: "123", label: "全部客户检索", disabled: false, upKey: '', scroll: 1200,
+        show: false,
+        layout: {
+            labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
+            wrapperCol: { xs: { span: 24 }, sm: { span: 16 } }
+        }, tr: 0, values: '', uniqueKey: 'key',
+        columns: [{
+            header: "子公司主管部门名称",
+            column: "EXECUTIVEDEPT",
+          }, {
+            header: "助记码",
+            column: "CUSTMEMORYCODE",
+          }, {
+            header: "质管备注",
+            column: "QUALIFICATIONDEADLINE",
+          }, {
+            header: "客户类别ID",
+            column: "CUSTTYPEID",
+          }, {
+            header: "客户内码",
+            column: "CUSTID",
+          }, {
+            header: "客户编码",
+            column: "CUSTNO",
+          }, {
+            header: "客户名称",
+            column: "CUSTNAME",
+          }, {
+            header: "客户地址（注册地址）",
+            column: "CUSTADD",
+          }, {
+            header: "客户标识",
+            column: "CUSTIDENTIFY",
+          }, {
+            header: "联系人",
+            column: "CONTACTPERSON",
+          }, {
+            header: "联系人电话",
+            column: "CONTACTPHONE",
+          }, {
+            header: "责任业务员ID",
+            column: "BUSINESSID",
+          }, {
+            header: "责任业务员",
+            column: "BUSINESSMAN",
+          }, {
+            header: "不可经营类别",
+            column: "NONBUSINESSTYPE",
+          }, {
+            header: "经营简码ID",
+            column: "BUSINESSSCOPECODE",
+          }, {
+            header: "不可经营简码ID",
+            column: "NONBUSINESSSCOPECODE",
+          }, {
+            header: "分销客户类型",
+            column: "CUSTTYPE",
+          }, {
+            header: "是否转配送",
+            column: "ISARTICULATED",
+          }, {
+            header: "责任开票员ID",
+            column: "MAINOPID",
+          }, {
+            header: "责任开票员",
+            column: "MAINOPNAME",
+          }, {
+            header: "采购员",
+            column: "PURCHASER",
+          }, {
+            header: "采购员ID",
+            column: "PURCHASERID",
+          }, {
+            header: "付款方式",
+            column: "PAYMENTNAME",
+          }, {
+            header: "销售信贷期",
+            column: "SALESCREDITTIME",
+          }, {
+            header: "是否可进货",
+            column: "ISPURCHASING",
+          }, {
+            header: "关联关系ID",
+            column: "RELATION",
+          }, {
+            header: "是否集采",
+            column: "IS_CENTRALIZEDPURCHASING",
+          }, {
+            header: "是否可销售",
+            column: "ISSALES",
+          }, {
+            header: "开发票要求",
+            column: "BILLINGNOTE",
+          }, {
+            header: "责任开票员ID",
+            column: "MAINOPID",
+          }, {
+            header: "主配送仓库ID",
+            column: "STOREID",
+          }, {
+            header: "区域划分名称",
+            column: "TERRITORIESTEXT",
+          }, {
+            header: "区域划分ID",
+            column: "TERRITORIES",
+          }, {
+            header: "所属大区名称",
+            column: "OWNERAREATEXT",
+          }, {
+            header: "大区经理ID",
+            column: "AREAMGR",
+          }, {
+            header: "是否活动名称",
+            column: "IS_ACTIVETEXT",
+          }, {
+            header: "开户银行帐号",
+            column: "BANKACCOUNT",
+          }, {
+            header: "开户银行",
+            column: "DEPOSITBANK",
+          }, {
+            header: "是否活动",
+            column: "IS_ACTIVE",
+          }, {
+            header: "收货地址",
+            column: "CONSIGNEE",
+          }, {
+            header: "收货人电话",
+            column: "CONSIGNEEPHONE",
+          }, {
+            header: "仓库地址",
+            column: "STOREADDR",
+          }, {
+            header: "客户简称",
+            column: "CUSTABBREVIATION",
+          }, {
+            header: "客户业务类型ID(供、销)",
+            column: "PARTNERTYPE",
+          }, {
+            header: "收货地址",
+            column: "CONSIGNEEADD",
+          }, {
+            header: "是否管理合同",
+            column: "IS_MANAGECONTRACT",
+          }],
+        SQL: `select f.executivedept,
+        f.custmemorycode,
+        f.qualificationdeadline,
+        f.custtypeid,
+        f.custid,
+        f.custno,
+     f.custname,
+     f.custadd,
+     f.custidentify,
+     f.CONTACTPERSON,
+     f.CONTACTPHONE,
+     f.BUSINESSID,
+     f.BUSINESSMAN,
+     f.nonbusinesstype,
+     f.businessscopecode,
+     f.nonbusinessscopecode,
+     f.CUSTTYPE,
+     f.ISARTICULATED,
+     f.MAINOPID,
+     f.MAINOPNAME,
+     f.purchaser,
+     f.purchaserid,
+     f.paymentname,
+     f.salescreditvolume,
+     f.salescredittime,
+     nvl(f.ISPURCHASING, 0) ISPURCHASING,
+     decode(f.ISPURCHASING, 1, '是', '否') IsPurchasingText,
+     f.relation,
+     f.is_centralizedpurchasing,
+     case
+       when f.issales = 0 then
+        '否'
+       else
+        '是'
+     end issales,
+     f.billingnote,
+     nvl(f.mainstoreid, '') storeid,
+     nvl(f.mainstorename, '') storename,
+     f.territoriestext,
+     f.territories,
+     f.ownerareatext,
+     f.AREAMGR,
+     f.is_activetext,
+     f.bankaccount,
+     f.depositbank,
+     f.is_active,
+     f.consignee,
+     f.consigneephone,
+     f.storeaddr,
+     f.custabbreviation,
+     f.is_activetext ISACTIVETEXT,
+     f.partnertype,
+     f.CONSIGNEEADD,
+     nvl(f.is_managecontract, 0) is_managecontract,
+     (select accountreceivable
+        From tb_gos_account_o_customer a
+       where a.customerid = f.custid
+         and a.branchid = f.branchid) accountreceivable
+from vw_common_cust f
+where   f.branchid=:currentBranchId
+and (f.is_active='01' or '01' is null)
+and (0 in(0,1,2)
+or (0=100 and f.custtypeid=7/*生产企业*/  )
+or (0=101 and f.custtypeid=7/*生产企业*/ )
+or (0=200 and is_activetext='潜'/*潜在客户*/ )
+or (0=201 and is_activetext='潜'/*潜在客户*/ )
+or (nvl(0, ' ') = ' ')
+) and f.deleteflag = 0 and rownum<=500
+and (f.custno like upper('%' || :Abbr || '%') or
+      f.custid = upper(:Abbr)  or f.custname like '%' || :Abbr || '%' or
+      f.custmemorycode like upper('%' || :Abbr || '%') or
+      f.custidentify like upper('%' || :Abbr || '%'))`,
+        dataSource: []
+    },{
+        GridX: 0, GridY: 0, w: 8, h: 1, key: '0',
+        icons: 'fall', id: 8, type: 'LookUp', required: false,
+        message: "123", label: "下游客户检索", disabled: false, upKey: '', scroll: 1200,
+        show: false,
+        layout: {
+            labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
+            wrapperCol: { xs: { span: 24 }, sm: { span: 16 } }
+        }, tr: 0, values: '', uniqueKey: 'key',
+        columns: [{
+            header: "子公司主管部门名称",
+            column: "EXECUTIVEDEPT",
+          }, {
+            header: "助记码",
+            column: "CUSTMEMORYCODE",
+          }, {
+            header: "质管备注",
+            column: "QUALIFICATIONDEADLINE",
+          }, {
+            header: "客户类别ID",
+            column: "CUSTTYPEID",
+          }, {
+            header: "客户内码",
+            column: "CUSTID",
+          }, {
+            header: "客户编码",
+            column: "CUSTNO",
+          }, {
+            header: "客户名称",
+            column: "CUSTNAME",
+          }, {
+            header: "客户地址（注册地址）",
+            column: "CUSTADD",
+          }, {
+            header: "客户标识",
+            column: "CUSTIDENTIFY",
+          }, {
+            header: "联系人",
+            column: "CONTACTPERSON",
+          }, {
+            header: "联系人电话",
+            column: "CONTACTPHONE",
+          }, {
+            header: "责任业务员ID",
+            column: "BUSINESSID",
+          }, {
+            header: "责任业务员",
+            column: "BUSINESSMAN",
+          }, {
+            header: "不可经营类别",
+            column: "NONBUSINESSTYPE",
+          }, {
+            header: "经营简码ID",
+            column: "BUSINESSSCOPECODE",
+          }, {
+            header: "不可经营简码ID",
+            column: "NONBUSINESSSCOPECODE",
+          }, {
+            header: "分销客户类型",
+            column: "CUSTTYPE",
+          }, {
+            header: "是否转配送",
+            column: "ISARTICULATED",
+          }, {
+            header: "责任开票员ID",
+            column: "MAINOPID",
+          }, {
+            header: "责任开票员",
+            column: "MAINOPNAME",
+          }, {
+            header: "采购员",
+            column: "PURCHASER",
+          }, {
+            header: "采购员ID",
+            column: "PURCHASERID",
+          }, {
+            header: "付款方式",
+            column: "PAYMENTNAME",
+          }, {
+            header: "销售信贷期",
+            column: "SALESCREDITTIME",
+          }, {
+            header: "是否可进货",
+            column: "ISPURCHASING",
+          }, {
+            header: "关联关系ID",
+            column: "RELATION",
+          }, {
+            header: "是否集采",
+            column: "IS_CENTRALIZEDPURCHASING",
+          }, {
+            header: "是否可销售",
+            column: "ISSALES",
+          }, {
+            header: "开发票要求",
+            column: "BILLINGNOTE",
+          }, {
+            header: "责任开票员ID",
+            column: "MAINOPID",
+          }, {
+            header: "主配送仓库ID",
+            column: "STOREID",
+          }, {
+            header: "区域划分名称",
+            column: "TERRITORIESTEXT",
+          }, {
+            header: "区域划分ID",
+            column: "TERRITORIES",
+          }, {
+            header: "所属大区名称",
+            column: "OWNERAREATEXT",
+          }, {
+            header: "大区经理ID",
+            column: "AREAMGR",
+          }, {
+            header: "是否活动名称",
+            column: "IS_ACTIVETEXT",
+          }, {
+            header: "开户银行帐号",
+            column: "BANKACCOUNT",
+          }, {
+            header: "开户银行",
+            column: "DEPOSITBANK",
+          }, {
+            header: "是否活动",
+            column: "IS_ACTIVE",
+          }, {
+            header: "收货地址",
+            column: "CONSIGNEE",
+          }, {
+            header: "收货人电话",
+            column: "CONSIGNEEPHONE",
+          }, {
+            header: "仓库地址",
+            column: "STOREADDR",
+          }, {
+            header: "客户简称",
+            column: "CUSTABBREVIATION",
+          }, {
+            header: "客户业务类型ID(供、销)",
+            column: "PARTNERTYPE",
+          }, {
+            header: "收货地址",
+            column: "CONSIGNEEADD",
+          }, {
+            header: "是否管理合同",
+            column: "IS_MANAGECONTRACT",
+          }],
+        SQL: `select f.executivedept,
+        f.custmemorycode,
+        f.qualificationdeadline,
+        f.custtypeid,
+        f.custid,
+        f.custno,
+     f.custname,
+     f.custadd,
+     f.custidentify,
+     f.CONTACTPERSON,
+     f.CONTACTPHONE,
+     f.BUSINESSID,
+     f.BUSINESSMAN,
+     f.nonbusinesstype,
+     f.businessscopecode,
+     f.nonbusinessscopecode,
+     f.CUSTTYPE,
+     f.ISARTICULATED,
+     f.MAINOPID,
+     f.MAINOPNAME,
+     f.purchaser,
+     f.purchaserid,
+     f.paymentname,
+     f.salescreditvolume,
+     f.salescredittime,
+     nvl(f.ISPURCHASING, 0) ISPURCHASING,
+     decode(f.ISPURCHASING, 1, '是', '否') IsPurchasingText,
+     f.relation,
+     f.is_centralizedpurchasing,
+     case
+       when f.issales = 0 then
+        '否'
+       else
+        '是'
+     end issales,
+     f.billingnote,
+     nvl(f.mainstoreid, '') storeid,
+     nvl(f.mainstorename, '') storename,
+     f.territoriestext,
+     f.territories,
+     f.ownerareatext,
+     f.AREAMGR,
+     f.is_activetext,
+     f.bankaccount,
+     f.depositbank,
+     f.is_active,
+     f.consignee,
+     f.consigneephone,
+     f.storeaddr,
+     f.custabbreviation,
+     f.is_activetext ISACTIVETEXT,
+     f.partnertype,
+     f.CONSIGNEEADD,
+     nvl(f.is_managecontract, 0) is_managecontract,
+     (select accountreceivable
+        From tb_gos_account_o_customer a
+       where a.customerid = f.custid
+         and a.branchid = f.branchid) accountreceivable
+from vw_common_cust f
+where   f.branchid=:currentBranchId
+and  (f.partnertypeid='2')
+and (f.is_active='01' or '01' is null)
+and (0 in(0,1,2)
+or (0=100 and f.custtypeid=7/*生产企业*/  )
+or (0=101 and f.custtypeid=7/*生产企业*/ )
+or (0=200 and is_activetext='潜'/*潜在客户*/ )
+or (0=201 and is_activetext='潜'/*潜在客户*/ )
+or (nvl(0, ' ') = ' ')
+) and f.deleteflag = 0 and rownum<=500
+and (f.custno like upper('%' || :Abbr || '%') or
+      f.custid = upper(:Abbr)  or f.custname like '%' || :Abbr || '%' or
+      f.custmemorycode like upper('%' || :Abbr || '%') or`,
         dataSource: []
     }]
 

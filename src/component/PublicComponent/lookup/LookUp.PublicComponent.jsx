@@ -26,7 +26,7 @@ class LookUpPublicComponent extends Component {
         })
         // console.log(res);
         let res = this.props.UpdataFormData[this.props.UpdataFormData.length - 1] //每次获取新加入的
-        if (res.label !== 'LookUp') {
+        if (res.SQL && res.SQL.length > 0) {
             let obj = this.props.UpdataFormData.find(e => e.key === res.key)
             this.props.UpDataCurrent(obj)
             let body = {
