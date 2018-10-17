@@ -45,7 +45,7 @@ class DesignTablecomponent extends Component {
       key: 'Sort',
       render(text, record) {
         return (
-          <div style={{ padding: '5px' }}>
+          <div style={{ padding: '10px' }}>
             {text}
           </div>
         );
@@ -93,11 +93,7 @@ class DesignTablecomponent extends Component {
   }
   //delete
   handleDelete = () => {
-    //只是队列得删除  没有实际删除
-    // const data = [...this.state.data]
-    // this.setState({
-    //   data: data.filter(item => item.key !== key)
-    // })
+
     POST$(API('Delete').http + this.state.selectData.PK + '/Delete', {}, (e) => {
       if (e.result) {
         POST$(API('POSTDATA').http, {}, (res) => {
@@ -130,7 +126,19 @@ class DesignTablecomponent extends Component {
     downloadFile(record.Name, record.Bytes)
   }
   CreateMenu = (e) => {
-    this.props.form.resetFields()
+    if(e==='level2'){
+      let selectData = this.state.selectData;
+      console.log(selectData);
+      if (selectData === 0) {
+          message.warning('请选中一个菜单');
+          return;
+      } else  if (!selectData.IsCategory) {
+          message.warning('请选中一个菜单');
+          return;
+      }
+    }
+
+    this.props.form.resetFields();
     this.setState({
       visible: true,
       CreateMenu: e === 'level1' ? true : false,
@@ -152,7 +160,7 @@ class DesignTablecomponent extends Component {
           BranchId: '',
           Bytes: '',
           Category: '',
-          ParentFormID: this.state.CreateMenu ? 0 : this.state.selectData.PK,
+          ParentFormID: this.state.CreateMenu ? 0 : this.state.selectData.ParentFormID,
           FK: -1,
           Name: values.userName,
           Sort: values.Sort,
@@ -234,6 +242,7 @@ class DesignTablecomponent extends Component {
         }
       }
     }
+    
   }
   rowSelection = {
     onSelect: (record) => {
@@ -250,9 +259,9 @@ class DesignTablecomponent extends Component {
     return (
       <Spin spinning={this.state.loading}>
         <Modal
-          title="新建菜单"
+          title="保存菜单"
           footer={false}
-          visible={this.state.visible}>
+          visible={this.state.visible} onCancel={this.handleCancel.bind(this)}> 
           <Form onSubmit={this.handleSubmit} className="login-form">
             <FormItem>
               {getFieldDecorator('userName', {
@@ -265,7 +274,7 @@ class DesignTablecomponent extends Component {
               {getFieldDecorator('Sort', {
                 rules: [{ required: true, message: '请输入菜单排序!' }],
               })(
-                <Input  placeholder="序号" />
+                <Input  placeholder="排序" />
               )}
             </FormItem>
             <FormItem style={{ textAlign: 'center' }}>

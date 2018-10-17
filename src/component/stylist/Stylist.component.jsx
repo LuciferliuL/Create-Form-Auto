@@ -106,14 +106,14 @@ class Stylistcomponent extends Component {
             console.log(values);
             this.setState({
                 loading: true
-            })
-            let save = {}
-            let body = {}
-            body.FormData = this.props.UpdataFormData
-            body.TableData = this.props.tableSource
+            });
+            let save = {};
+            let body = {};
+            body.FormData = this.props.UpdataFormData;
+            body.TableData = this.props.tableSource;
             if (this.props.InitStylistData.PK) {
                 //编辑
-                save = Object.assign({}, this.props.InitStylistData, { 'Name': values.Name }, { 'ParentFormID': values.ParentFormID }, { 'Bytes': JSON.stringify(body) })
+                save = Object.assign({}, this.props.InitStylistData, { 'Name': values.Name }, { 'Sort': values.Sort },{ 'ParentFormID': values.ParentFormID }, { 'Bytes': JSON.stringify(body) })
                 // console.log(newData);
 
             } else {
@@ -125,6 +125,7 @@ class Stylistcomponent extends Component {
                     Category: '',
                     ParentFormID: values.ParentFormID,
                     FK: -1,
+                    Sort:values.Sort,
                     Name: values.Name,
                     PK: -1,
                     Role: "",
@@ -187,6 +188,13 @@ class Stylistcomponent extends Component {
                                     // treeDefaultExpandAll
                                     onChange={this.handleChange}
                                 />
+                            )}
+                        </FormItem>
+                        <FormItem>
+                            {getFieldDecorator('Sort', {
+                                rules: [{ required: true, message: '请输入菜单排序!' }],
+                            })(
+                                <Input  placeholder="排序" />
                             )}
                         </FormItem>
                         <Button type="primary" htmlType="submit" className="login-form-button">确定</Button>
@@ -331,8 +339,9 @@ export default connect(mapStateToProps, mapDispatchProps)(Form.create({
         // console.log(props);
         //length是否大于0  显示为 是否新建或编辑
         if (Object.keys(props.InitStylistData).length > 0) {
-            Field['Name'] = Form.createFormField({ value: props.InitStylistData.Name })
-            Field['ParentFormID'] = Form.createFormField({ value: props.InitStylistData.ParentFormID })
+            Field['Name'] = Form.createFormField({ value: props.InitStylistData.Name });
+            Field['Sort'] = Form.createFormField({ value: props.InitStylistData.Sort });
+            Field['ParentFormID'] = Form.createFormField({ value: props.InitStylistData.ParentFormID });
         }
         return Field
     }
