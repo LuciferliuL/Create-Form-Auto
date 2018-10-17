@@ -159,7 +159,13 @@ class TablePublicComponent extends Component {
         if (columns) {
             columns.map((e, i) => {
                 // console.log(e);
-                widths += Number(e.width)
+                if(e.width > 0){
+                    widths += Number(e.width)
+                }else{
+                    widths += 150
+                    e.width = 150
+                }
+               
             });
         }
 

@@ -118,7 +118,7 @@ const SData = [
         dataSource: []
     }, {
         GridX: 0, GridY: 0, w: 24, h: 1, key: '0',
-        icons: 'copy', id: 8, type: 'Group', label: "组别", orientation: 'left'
+        icons: 'copy', id: 8, type: 'Group', label: "说明", orientation: 'left'
     }
     // , {
     //     GridX: 0, GridY: 0, w: 4, h: 1, key: '0',

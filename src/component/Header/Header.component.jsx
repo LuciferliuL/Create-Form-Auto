@@ -11,19 +11,17 @@ const { Header } = Layout
 
 class Headercomponent extends Component {
     state = {
-        user: ''
+        user: JSON.parse(sessionStorage.getItem('values')) 
     }
-    componentWillMount() {
+    componentDidMount() {
 
-        if (this.props.user) {
-            this.setState({
-                user: this.props.user
-            })
-        } else {
-            this.props.history.push('/')
-            // console.log(this.props.history);
+        // if (this.props.user) {
+        
+        // } else {
+        //     this.props.history.push('/')
+        //     // console.log(this.props.history);
 
-        }
+        // }
     }
     componentDidMount() {
         // console.log(this.props);
@@ -109,7 +107,7 @@ class Headercomponent extends Component {
                         return true
                     })
                     let cols = {}
-                    pre.tableSource.columns.forEach(e=>{
+                    pre.tableSource.columns.forEach(e => {
                         cols[e.dataIndex] = e.title
                     })
                     let param = {
@@ -117,7 +115,7 @@ class Headercomponent extends Component {
                         Columns: JSON.stringify(cols),
                         Sql: SQL
                     };
-            
+
                     var params = getrequestparam('exportsqldata', JSON.stringify(param));
                     httprequest(params, (result) => {
                         var url = window.URL.createObjectURL(result)
@@ -157,7 +155,7 @@ class Headercomponent extends Component {
             return true
         })
         let cols = {}
-        this.props.tableSource.columns.forEach(e=>{
+        this.props.tableSource.columns.forEach(e => {
             cols[e.dataIndex] = e.title
         })
         let param = {

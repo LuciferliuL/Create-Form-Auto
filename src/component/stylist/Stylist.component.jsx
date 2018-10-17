@@ -118,7 +118,7 @@ class Stylistcomponent extends Component {
 
             } else {
                 //新建
-                let user = localStorage.getItem('values')
+                let user = sessionStorage.getItem('values')
                 save = {
                     BranchId: user.BranchId,
                     Bytes: JSON.stringify(body),
@@ -138,7 +138,7 @@ class Stylistcomponent extends Component {
                 // console.log(res);
                 res.PK === -1 ? message.error('保存失败') : message.success('保存成功')
                 // this.props.fugai([])
-                // localStorage.setItem('C','N')
+                // sessionStorage.setItem('C','N')
                 this.props.onTodoClick(['表单权限'])
                 this.props.history.push('/Design/Arch')
                 this.props.fugai([])

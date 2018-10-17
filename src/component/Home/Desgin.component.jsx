@@ -15,7 +15,7 @@ const { Content, Sider } = Layout;
 class Desgincomponent extends Component {
     state = {
         collapsed: false,
-        user: this.props.location.state
+        user: ''
     };
     componentWillMount() {
         // if (this.props.location.state) {
@@ -23,6 +23,11 @@ class Desgincomponent extends Component {
         // } else {
         //     this.props.history.push('/')
         // }
+        var values = sessionStorage.getItem('values')
+        this.setState({
+            user: values
+        })
+
     }
     onCollapse = (collapsed) => {
         // console.log(collapsed);
@@ -40,7 +45,7 @@ class Desgincomponent extends Component {
                     collapsed={this.state.collapsed}
                     onCollapse={this.onCollapse}
                 >
-                    
+
                     <SliderMenucomponent></SliderMenucomponent>
                 </Sider>
                 <Layout>

@@ -1,0 +1,118 @@
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Row, Col, Card, Icon, Avatar, Layout } from 'antd'
+
+const { Meta } = Card;
+const { Header, Footer, Content } = Layout;
+
+function mapStateToProps(state) {
+    return {
+
+    };
+}
+
+class loginLeader extends Component {
+    state = {
+        h: 0,
+        data: [{
+            CoverSrc: "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png",//图像
+            IconType: "setting",//图标
+            AvatarSrc: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",//人物头像
+            MetaTitle: "CONFIGUI",//卡片抬头
+            MetaDescription: "配置管理",//卡片描述
+            href: 'http://10.3.4.177:9003/ConfigUI'//跳转地址
+        }, {
+            CoverSrc: "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png",//图像
+            IconType: "setting",//图标
+            AvatarSrc: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",//人物头像
+            MetaTitle: "BPMADMIN",//卡片抬头
+            MetaDescription: "流程管理",//卡片描述
+            href: 'http://10.3.4.177:9003/bpm-admin'//跳转地址
+        }, {
+            CoverSrc: "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png",//图像
+            IconType: "setting",//图标
+            AvatarSrc: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",//人物头像
+            MetaTitle: "DESGIN",//卡片抬头
+            MetaDescription: "表单设计",//卡片描述
+            href: 'http://10.3.4.177:9003/Design/er'//跳转地址
+        }, {
+            CoverSrc: "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png",//图像
+            IconType: "setting",//图标
+            AvatarSrc: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",//人物头像
+            MetaTitle: "DEVTOOL",//卡片抬头
+            MetaDescription: "DEVTOOL",//卡片描述
+            href: 'http://10.3.2.22:50003/index.html'//跳转地址
+        }, {
+            CoverSrc: "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png",//图像
+            IconType: "setting",//图标
+            AvatarSrc: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",//人物头像
+            MetaTitle: "Card title",//卡片抬头
+            MetaDescription: "This is the description",//卡片描述
+            href: 'www.baidu.com'//跳转地址
+        }]
+    }
+    componentDidMount() {
+        var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.85
+        this.setState({
+            h: h
+        })
+    }
+    render() {
+        const { h, data } = this.state
+        let dataList = []
+        data.forEach((e, i) => {
+            return dataList.push(<CardChild props={e} key={i}></CardChild>)
+        })
+        return (
+            <Layout>
+                <Header>Header</Header>
+                <Content>
+                    <Card style={{ height: h }}>
+                        <Row align='middle' justify='start' style={{ marginTop: '5%' }}>
+                            <Col span={2}></Col>
+                            {dataList}
+                            <Col span={2}></Col>
+                        </Row>
+                    </Card>
+
+                </Content>
+                <Footer style={{ textAlign: 'center' }}>
+                    ERP Design ©2018 Created by LEO
+                </Footer>
+            </Layout>
+
+
+
+        );
+    }
+}
+
+export default connect(
+    mapStateToProps,
+)(loginLeader);
+
+const CardChild = (props) => {
+    const data = props.props
+
+    return (
+        <Col span={4}>
+            <Card
+                style={{ width: '85%' }}
+                cover={<img alt="example" src={data.CoverSrc} />}
+                actions={[<Icon type={data.IconType}
+                    onClick={() => {
+                            // var tempwindow = window.open('_blank')
+                            // tempwindow.location = data.href
+                            window.location.href='localhost:3000/Design'
+                    }} />]}
+            >
+                <Meta
+                    avatar={<Avatar src={data.AvatarSrc} />}
+                    title={data.MetaTitle}
+                    description={data.MetaDescription}
+                />
+            </Card>
+        </Col>
+    )
+
+}

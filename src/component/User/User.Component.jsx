@@ -9,17 +9,21 @@ const { Sider, Content } = Layout;
 class USER extends Component {
     state = {
         loading: true,
-        user: this.props.location.state
+        user: ''
     };
     componentWillMount() {
-        if (this.props.location.state) {
+       
+        if (sessionStorage.getItem('token')) {
 
         } else {
             this.props.history.push('/')
         }
+        var values = sessionStorage.getItem('values')
+        console.log(values);
         setTimeout(() => {
             this.setState((pre)=>({
-                loading:!pre.loading
+                loading:!pre.loading,
+                user: JSON.parse(values) 
             }))
         }, 1000);
     }

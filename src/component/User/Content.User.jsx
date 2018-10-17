@@ -7,6 +7,8 @@ import { fugai } from '../stylist/action/Stylist.action'
 import TABLECOMPONENT from '../PublicComponent/table/Table'
 
 function mapStateToProps(State) {
+    // console.log(State);
+    
     return {
         InitStylistData: State.InitStylistData.InitStylistData,
         currentTagsUpdata: State.currentTagsUpdata.InitialTags,
@@ -24,6 +26,8 @@ class ContentUser extends Component {
     }
     myRef = React.createRef()
     changeWidth = () => {
+        console.log(this.myRef);
+        
         const dom = (this.myRef.current.container.clientWidth) - 64
         this.setState({
             domWidth: dom
