@@ -29,8 +29,7 @@ class TreeUser extends Component {
     }
 
     onSelect = (keys, record) => {
-        // console.log(record.node.props.children.length);
-        if (record.node.props.children.length === 0) {
+        if (!record.node.props.IsCategory) {
             let data = JSON.parse(record.node.props.Bytes)
 
             data.FormData.forEach(e => {
@@ -51,7 +50,6 @@ class TreeUser extends Component {
                     style={{ width: 300, color: 'white' }}
                     // value={this.state.value}
                     treeData={treeData}
-                    placeholder="Please select"
                     // expandedKeys={expandedKeys}
                     // treeDefaultExpandAll
                     onSelect={this.onSelect}
