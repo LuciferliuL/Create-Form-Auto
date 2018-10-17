@@ -16,7 +16,7 @@ class LookUpPublicComponent extends Component {
     state = {
         totalPage: 0,
         h: 0,
-        isEnter:true
+        isEnter: true
     }
     componentDidMount() {
         var h = document.documentElement.clientHeight
@@ -81,7 +81,7 @@ class LookUpPublicComponent extends Component {
         // console.log(e.target.value);
         // console.log(key);
         this.setState({
-            isEnter:true
+            isEnter: true
         })
         this.ParamChange(e.target.value)
         this.ClickHandleKey(key, page, pagesize, show)
@@ -127,19 +127,20 @@ class LookUpPublicComponent extends Component {
         const { dataSource } = this.props.current
         if (dataSource.length >= 1) {
             // console.log(this.props.current.tr);
-            let dataSource_ = JSON.parse(JSON.stringify(dataSource[this.props.current.tr]))
+            let dataSource_ = JSON.parse(JSON.stringify(dataSource[this.props.current.tr]));
+
             //更新lookup对应得input
-            this.props.updataValues(dataSource_)
-            window.removeEventListener('keyup', this.handleKeyDown)
-            console.log(this.props.current);
-            
+            this.props.updataValues(dataSource_);
+            window.removeEventListener('keyup', this.handleKeyDown);
+
             let agg = this.props.UpdataFormData.filter(e => e.type === 'INPUT' && e.isTrueInLookUp === this.props.current.id)
             agg.forEach(e => {
-                e.defaultValue = dataSource_.type
+                e.defaultValue = dataSource_[e.typePoint];
             })
             console.log(agg);
             //更新整个form
-            this.props.upForm(this.props.current)
+            this.props.upForm(this.props.current);
+
         } else {
             this.props.upForm(this.props.current)
             window.removeEventListener('keyup', this.handleKeyDown)
@@ -150,20 +151,21 @@ class LookUpPublicComponent extends Component {
             this.props.form.resetFields()
         }
         this.setState({
-            isEnter:false
+            isEnter: false
         })
     }
     //失去焦点
     Blur = (e) => {
-        // console.log(this.props.current);
-        if(!this.state.isEnter){
+        //debugger;
+
+        if (!this.state.isEnter) {
             let Field = {}
             let v = this.props.current
             let values = v.values[v.uniqueKey]
             // console.log(v);
             let id = v.id
-            Field[id] = values 
-            if(values !== ''){
+            Field[id] = values
+            if (values !== '') {
                 this.props.form.setFieldsValue(Field)
             }
         }
@@ -243,14 +245,14 @@ const mapDispatchProps = (dispatch) => {
 
 export default LookUpPublicComponent = connect(mapStateToProps, mapDispatchProps)(Form.create({
     mapPropsToFields(props) {
-        console.log(props);
+        //console.log(props);
         let Field = {}
         let v = props.UpdataFormData.find(e => e.key === props.PublicData.key)
         let values = v.values[v.uniqueKey]
         // console.log(v);
         let id = v.id
         Field[id] = Form.createFormField({ value: values })
-        console.log(Field);
+        //console.log(Field);
         return Field
 
     },
