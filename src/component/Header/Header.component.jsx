@@ -13,15 +13,12 @@ class Headercomponent extends Component {
     state = {
         user: JSON.parse(sessionStorage.getItem('values')) 
     }
-    componentDidMount() {
-
-        // if (this.props.user) {
+    componentWillMount() {
         
-        // } else {
-        //     this.props.history.push('/')
-        //     // console.log(this.props.history);
-
-        // }
+        console.log(sessionStorage.getItem('values'));
+        if (sessionStorage.getItem('values') == null) {
+            this.props.history.push('/')
+        }
     }
     componentWillReceiveProps(pre) {
         // console.log(pre);
@@ -37,15 +34,16 @@ class Headercomponent extends Component {
                     pre.data.map(e => {
                         if (e.type !== 'Table' && e.type !== 'Group') {
                             if (e.type === 'LookUp') {
-                                valueList[e.upKey] = e.values[e.upKey]==undefined?'': e.values[e.upKey];
+                                valueList[e.upKey] = e.values[e.upKey]===undefined?'': e.values[e.upKey];
                             } else if (e.type === 'Input' && e.typePoint === 0) {
-                                valueList[e.id] = e.defaultValue==undefined?'': e.defaultValue;
+                                valueList[e.id] = e.defaultValue===undefined?'': e.defaultValue;
                             } else if (e.type === 'Input' && e.typePoint !== 0) {
-                                valueList[e.typePoint] = e.defaultValue==undefined?'': e.defaultValue;
+                                valueList[e.typePoint] = e.defaultValue===undefined?'': e.defaultValue;
                             } else {
-                                valueList[e.id] = e.defaultValue==undefined?'': e.defaultValue;
+                                valueList[e.id] = e.defaultValue===undefined?'': e.defaultValue;
                             }
                         }
+                        return true
                     })
                     let post = new Promise((resolve, reject) => {
                         let body = {
@@ -140,13 +138,13 @@ class Headercomponent extends Component {
         this.props.data.map(e => {
             if (e.type !== 'Table' && e.type !== 'Group') {
                 if (e.type === 'LookUp') {
-                    valueList[e.upKey] = e.values[e.upKey]==undefined?'': e.values[e.upKey];
+                    valueList[e.upKey] = e.values[e.upKey]===undefined?'': e.values[e.upKey];
                 } else if (e.type === 'Input' && e.typePoint === 0) {
-                    valueList[e.id] = e.defaultValue==undefined?'': e.defaultValue;
+                    valueList[e.id] = e.defaultValue===undefined?'': e.defaultValue;
                 } else if (e.type === 'Input' && e.typePoint !== 0) {
-                    valueList[e.typePoint] = e.defaultValue==undefined?'': e.defaultValue;
+                    valueList[e.typePoint] = e.defaultValue===undefined?'': e.defaultValue;
                 } else {
-                    valueList[e.id] = e.defaultValue==undefined?'': e.defaultValue;
+                    valueList[e.id] = e.defaultValue===undefined?'': e.defaultValue;
                 }
             }
             return true
@@ -179,13 +177,13 @@ class Headercomponent extends Component {
         this.props.data.map(e => {
             if (e.type !== 'Table' && e.type !== 'Group') {
                 if (e.type === 'LookUp') {
-                    valueList[e.upKey] = e.values[e.upKey]==undefined?'': e.values[e.upKey];
+                    valueList[e.upKey] = e.values[e.upKey]===undefined?'': e.values[e.upKey];
                 } else if (e.type === 'Input' && e.typePoint === 0) {
-                    valueList[e.id] = e.defaultValue==undefined?'': e.defaultValue;
+                    valueList[e.id] = e.defaultValue===undefined?'': e.defaultValue;
                 } else if (e.type === 'Input' && e.typePoint !== 0) {
-                    valueList[e.typePoint] = e.defaultValue==undefined?'': e.defaultValue;
+                    valueList[e.typePoint] = e.defaultValue===undefined?'': e.defaultValue;
                 } else {
-                    valueList[e.id] = e.defaultValue==undefined?'': e.defaultValue;
+                    valueList[e.id] = e.defaultValue===undefined?'': e.defaultValue;
                 }
             }
             return true
@@ -228,7 +226,7 @@ class Headercomponent extends Component {
         this.props.clear()
     }
     render() {
-
+        
         const { user } = this.state
         const menu = (
             <Menu>

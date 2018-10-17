@@ -8,6 +8,8 @@ export const CLEAR_FORM = 'CLEAR_FORM'
 export const TABLE_UPDATA_FROM_RESULTS = 'TABLE_UPDATA_FROM_RESULTS'
 export const TABLE_FUGAI = 'TABLE_FUGAI'
 export const TABLE_TR_0 = 'TABLE_TR_0'
+export const TABLE_RESET = 'TABLE_RESET'
+
 
 //需要编辑选中的元素
 export const stylistDataSourceGet = (InitStylistData) => {
@@ -84,6 +86,13 @@ export const tableTr0 = (initial) => {
     return {
         type:TABLE_TR_0,
         initial:initial
+    }
+}
+
+export const tableReset = (init) => {
+    return {
+        type:TABLE_RESET,
+        init:init
     }
 }
 

@@ -1,4 +1,4 @@
-import { STYLIST_DATASOURCE_GET, FORM_UPDATA_FUGAI, CLEAR_FORM, TABLE_UPDATA_FROM_RESULTS, TABLE_FUGAI } from '../action/Stylist.action'
+import { STYLIST_DATASOURCE_GET, FORM_UPDATA_FUGAI, CLEAR_FORM, TABLE_UPDATA_FROM_RESULTS, TABLE_FUGAI, TABLE_RESET } from '../action/Stylist.action'
 import { FORM_SOURCE_DATA, FORM_SOURCE_DATA_UPDATA, FORM_SOURCE_DATA_DELETE, TABLE_TR_0 } from '../action/Stylist.action'
 import { CURRENT_ATTR } from '../action/Stylist.action'
 import { CURRENT_ATTR_UPDATA, FORM_UPDATA_FROM_CURRENT } from '../../SliderRIght/action/Right.action'
@@ -165,6 +165,8 @@ export const tableSource = (state = table, action) => {
             return { ...state, tr: action.current - action.step }
         case TABLE_TR_0:
             return { ...state, tr: action.initial }
+        case TABLE_RESET:
+            return {...state, ...table}
         default:
             return state;
     }

@@ -302,7 +302,7 @@ const SQL = [
         and a.deleteflag=0`,
         dataSource: []
     }, {
-        GridX: 0, GridY: 0, w: 8, h: 1, key: '0',
+        GridX: 0, GridY: 0, w: 8, h: 1, key: '0',float:0,
         icons: 'team', id: 8, type: 'LookUp', required: false,
         message: "123", label: "人员查询", disabled: false, upKey: '', scroll: 1200,
         layout: {
@@ -351,7 +351,7 @@ const SQL = [
         where e.branchid =:currentBranchId and (upper(d.abbr) like ('%'||Upper(:Abbr)||'%')  or d.staffname like '%'||:Abbr||'%' or d.staffid like '%'|| :Abbr)`,
         dataSource: []
     }, {
-        GridX: 0, GridY: 0, w: 8, h: 1, key: '0',
+        GridX: 0, GridY: 0, w: 8, h: 1, key: '0',float:0,
         icons: 'hdd', id: 8, type: 'LookUp', required: false,
         message: "123", label: "字典检索", disabled: false, upKey: '', scroll: 1200,
         show: false,
@@ -383,7 +383,7 @@ const SQL = [
         order by lineid`,
         dataSource: []
     }, {
-        GridX: 0, GridY: 0, w: 8, h: 1, key: '0',
+        GridX: 0, GridY: 0, w: 8, h: 1, key: '0',float:0,
         icons: 'heat-map', id: 8, type: 'LookUp', required: false,
         message: "123", label: "客户检索", disabled: false, upKey: '',
         show: false, scroll: 1200,
@@ -649,7 +649,7 @@ const SQL = [
         `,
         dataSource: []
     }, {
-        GridX: 0, GridY: 0, w: 8, h: 1, key: '0',
+        GridX: 0, GridY: 0, w: 8, h: 1, key: '0',float:0,
         icons: 'rise', id: 8, type: 'LookUp', required: false,
         message: "123", label: "上游客户检索", disabled: false, upKey: '', scroll: 1200,
         show: false,
@@ -914,7 +914,7 @@ and (f.custno like upper('%' || :Abbr || '%') or
       f.custidentify like upper('%' || :Abbr || '%'))`,
         dataSource: []
     },{
-        GridX: 0, GridY: 0, w: 8, h: 1, key: '0',
+        GridX: 0, GridY: 0, w: 8, h: 1, key: '0',float:0,
         icons: 'bulb', id: 8, type: 'LookUp', required: false,
         message: "123", label: "全部客户检索", disabled: false, upKey: '', scroll: 1200,
         show: false,
@@ -1135,7 +1135,7 @@ and (f.custno like upper('%' || :Abbr || '%') or
       f.custidentify like upper('%' || :Abbr || '%'))`,
         dataSource: []
     },{
-        GridX: 0, GridY: 0, w: 8, h: 1, key: '0',
+        GridX: 0, GridY: 0, w: 8, h: 1, key: '0',float:0,
         icons: 'fall', id: 8, type: 'LookUp', required: false,
         message: "123", label: "下游客户检索", disabled: false, upKey: '', scroll: 1200,
         show: false,

@@ -162,24 +162,26 @@ class TablePublicComponent extends Component {
                 if(e.width > 0){
                     widths += Number(e.width)
                 }else{
-                    widths += 150
-                    e.width = 150
+                    widths += 200
+                    e.width = 200
                 }
                 if(i < this.props.currentAttr.float){
                     e['fixed'] = 'left'
                 }
             });
         }
-
+        console.log(widths);
+        
         return (
             <div>
                 <Table
                     bordered
                     // components={this.components}
+                    bodyStyle={{tableLayout:'fixed'}}
                     columns={columns}
                     dataSource={this.state.data}
                     pagination={false}
-                    // scroll={{ x: widths , y: 800 }}
+                    scroll={{ x: widths*2 , y: 800 }}
                     rowClassName={(record, index) => {
                         // console.log(record)
                         // console.log(index);

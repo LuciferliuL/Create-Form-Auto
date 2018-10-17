@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Table, Button, Popconfirm, Spin, message, Modal, Input, Form, Icon } from 'antd'
 import { connect } from 'react-redux'
 import { selectkeysToHeader } from '../Slider/action/Header.action'
-import { stylistDataSourceAsync, fugai, tableFugai } from '../stylist/action/Stylist.action'
+import { stylistDataSourceAsync, fugai, tableFugai ,tableReset} from '../stylist/action/Stylist.action'
 import { API } from '../../lib/API/check.API.js'
 import { POST$, downloadFile, DesignDataTree } from '../../lib/MATH/math.js'
 
@@ -205,6 +205,7 @@ class DesignTablecomponent extends Component {
       this.props.fugai([])
       this.props.update({})
       this.props.onTodoClick(['表单设计'])
+      this.props.tableReset()
       this.props.history.push('/Design/Stylist')
     } else if (dataSource === 'Edit') {
       let selectData = this.state.selectData
@@ -314,6 +315,9 @@ const mapDispatchProps = (dispatch) => {
     },
     tableFugai: (k) => {
       dispatch(tableFugai(k))
+    },
+    tableReset:()=>{
+      dispatch(tableReset())
     }
   }
 }

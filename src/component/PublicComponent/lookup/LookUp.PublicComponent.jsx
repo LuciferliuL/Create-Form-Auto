@@ -80,7 +80,6 @@ class LookUpPublicComponent extends Component {
     OnPressEnter = (key, page, pagesize, show, e) => {
         // console.log(e.target.value);
         // console.log(key);
-        console.log(1);
         this.setState({
             isEnter:true
         })
@@ -110,7 +109,7 @@ class LookUpPublicComponent extends Component {
                 break
             case 13:
                 this.props.shows(false)
-                // console.log(this.props.current.show);
+                console.log(this.props.current.show);
 
                 if (!this.props.current.show) {
                     this.CLick()
@@ -127,17 +126,18 @@ class LookUpPublicComponent extends Component {
     CLick = () => {
         const { dataSource } = this.props.current
         if (dataSource.length >= 1) {
-            // console.log(this.props.currentAttr.tr);
+            // console.log(this.props.current.tr);
             let dataSource_ = JSON.parse(JSON.stringify(dataSource[this.props.current.tr]))
             //更新lookup对应得input
             this.props.updataValues(dataSource_)
             window.removeEventListener('keyup', this.handleKeyDown)
-
+            console.log(this.props.current);
+            
             let agg = this.props.UpdataFormData.filter(e => e.type === 'INPUT' && e.isTrueInLookUp === this.props.current.id)
             agg.forEach(e => {
                 e.defaultValue = dataSource_.type
             })
-            // console.log(agg);
+            console.log(agg);
             //更新整个form
             this.props.upForm(this.props.current)
         } else {
@@ -243,14 +243,14 @@ const mapDispatchProps = (dispatch) => {
 
 export default LookUpPublicComponent = connect(mapStateToProps, mapDispatchProps)(Form.create({
     mapPropsToFields(props) {
-        // console.log(props);
+        console.log(props);
         let Field = {}
         let v = props.UpdataFormData.find(e => e.key === props.PublicData.key)
         let values = v.values[v.uniqueKey]
         // console.log(v);
         let id = v.id
         Field[id] = Form.createFormField({ value: values })
-        // console.log(Field);
+        console.log(Field);
         return Field
 
     },
