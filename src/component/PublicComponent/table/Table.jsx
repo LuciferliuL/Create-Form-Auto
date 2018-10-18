@@ -47,64 +47,65 @@ class TABLECOMPONENT extends Component {
 
     componentWillReceiveProps(pre) {
         // console.log(pre.tableSource)
-        console.log(this.state.tr + '-----' + pre.tableSource.tr);
+        // console.log(this.state.tr + '-----' + pre.tableSource.tr);
         // const {colHeight} = this.state
         // console.log(pre);
         let colHeight = Math.floor(pre.heights / 22)
-
         let data = []
         if (pre.tableSource.tr > this.state.tr) {
             if (pre.tableSource.tr === colHeight * this.state.x && pre.tableSource.tr < 350) {
-                if (pre.TABLE === 'TABLE') {
+                // if (pre.TABLE === 'TABLE') {
                     pre.tableSource.dataSource.map((e, i) => {
                         if (colHeight * this.state.x <= i && i < (colHeight * this.state.x + colHeight)) {
                             e.indexs = colHeight * this.state.x + i + 'tables'
                             data.push(e)
                         }
                     })
-                } else {
-                    pre.tableSource.dataSource.map((e, i) => {
-                        if (colHeight * this.state.x <= i && i < (colHeight * this.state.x + colHeight)) {
-                            e.indexs = colHeight * this.state.x + i + 'tables'
-                            data.push(e)
-                        }
-                    })
-                }
+                // } else {
+                //     pre.tableSource.dataSource.map((e, i) => {
+                //         if (colHeight * this.state.x <= i && i < (colHeight * this.state.x + colHeight)) {
+                //             e.indexs = colHeight * this.state.x + i + 'tables'
+                //             data.push(e)
+                //         }
+                //     })
+                // }
 
 
                 this.setState((p) => (
                     {
                         data: data,
                         tr: pre.tableSource.tr,
-                        x: p.x + 1
+                        x: p.x + 1,
+                        colHeight:colHeight
                     }
                 ))
             }
 
         } else if (pre.tableSource.tr < this.state.tr) {
             if (pre.tableSource.tr === (colHeight * (this.state.x - 1) - 1) && pre.tableSource.tr > 0) {
-                // console.log(this.state.x);
+                console.log(this.state.x);
 
-                if (pre.TABLE === 'TABLE') {
+                // if (pre.TABLE === 'TABLE') {
                     pre.tableSource.dataSource.map((e, i) => {
                         if (colHeight * this.state.x <= i && i < (colHeight * this.state.x + colHeight)) {
                             e.indexs = i + 'tables'
                             data.push(e)
                         }
                     })
-                } else {
-                    pre.tableSource.dataSource.map((e, i) => {
-                        if (colHeight * this.state.x <= i && i < (colHeight * this.state.x + colHeight)) {
-                            e.indexs = colHeight * this.state.x + i + 'table'
-                            data.push(e)
-                        }
-                    })
-                }
+                // } else {
+                //     pre.tableSource.dataSource.map((e, i) => {
+                //         if (colHeight * this.state.x <= i && i < (colHeight * this.state.x + colHeight)) {
+                //             e.indexs = colHeight * this.state.x + i + 'table'
+                //             data.push(e)
+                //         }
+                //     })
+                // }
                 this.setState((p) => (
                     {
                         data: data,
                         tr: pre.tableSource.tr,
-                        x: p.x - 1
+                        x: p.x - 1,
+                        colHeight:colHeight
                     }
                 ))
             }
@@ -123,18 +124,19 @@ class TABLECOMPONENT extends Component {
                 {
                     data: data,
                     tr: 0,
-                    x: 1
+                    x: 1,
+                    colHeight:colHeight
                 }
             ), () => {
                 setTimeout(() => {
                     pre.tableSource.tr = 0
+                    // console.log(pre.tableSource.tr);
                 }, 100);
-
             })
         }
-        this.setState({
-            tr: pre.tableSource.tr
-        })
+        // this.setState({
+        //     tr: pre.tableSource.tr
+        // })
 
     }
     handleKeyDown = (e) => {
@@ -163,7 +165,7 @@ class TABLECOMPONENT extends Component {
         // console.log(this.props.PublicData);
         var w = document.documentElement.clientWidth || document.body.clientWidth;
         const { colHeight } = this.state
-        const { columns, dataSource, pageSize, scroll, groupname, label, totalPage, type } = this.props.PublicData
+        const { columns } = this.props.PublicData
         let widths = 0
         let heightTable = this.props.tableSource.tr * (-38) > -228 ? '0px' : (this.props.tableSource.tr * (-38) + 228) + 'px'
         if (columns) {
@@ -198,6 +200,11 @@ class TABLECOMPONENT extends Component {
                     rowClassName={(record, index) => {
                         // console.log(record)
                         // console.log(index);
+                        // console.log(this.state.x);
+                        // console.log(this.props.tableSource.tr);
+                        
+                        // console.log(colHeight);
+                        
                         if (this.props.tableSource.tr > (colHeight - 1)) {
                             return (index === (this.props.tableSource.tr - (colHeight * (this.state.x - 1))) ? 'black' : "")
                         } else {

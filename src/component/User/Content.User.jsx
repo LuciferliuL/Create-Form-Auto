@@ -72,8 +72,8 @@ class ContentUser extends Component {
                 >
                 <Form
                     style={{ padding: '5px', position: 'relative' }}>{Dr}</Form>
-                <div style={{ position: 'relative', top: tableOffsetHeight + hflag + 'px', height: (h - tableOffsetHeight) * 0.85 + 'px' }}>
-                    <TABLECOMPONENT PublicData={this.props.tableSource}  heights={(h - tableOffsetHeight) * 0.85}>
+                <div style={{ position: 'relative', top: tableOffsetHeight + hflag + 'px', height: (h - hflag) * 0.85 + 'px' }}>
+                    <TABLECOMPONENT PublicData={this.props.tableSource}  heights={(h - hflag) * 0.85}>
                     </TABLECOMPONENT>
                 </div>
             </Card>
