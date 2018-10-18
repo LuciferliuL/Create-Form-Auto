@@ -31,7 +31,7 @@ const result = (o1, o2) => {
 }
 
 export const UpdataFormData = (state = [], action) => {
-    console.log(action);
+    // console.log(action);
     
     switch (action.type) {
         case FORM_SOURCE_DATA:

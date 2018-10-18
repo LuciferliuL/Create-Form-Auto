@@ -26,7 +26,8 @@ class TABLECOMPONENT extends Component {
         // page: 1,
         data: [],
         x: 1,
-        tr: 0
+        tr: 0,
+        colHeight:0
     }
     // components = {
     //     header: {
@@ -46,22 +47,25 @@ class TABLECOMPONENT extends Component {
 
     componentWillReceiveProps(pre) {
         // console.log(pre.tableSource)
-        console.log(this.state.tr + '-----' + pre.tableSource.tr);
+        // console.log(this.state.tr + '-----' + pre.tableSource.tr);
+        // const {colHeight} = this.state
+        // console.log(pre);
+        let colHeight = Math.floor(pre.heights/22)
 
         let data = []
         if (pre.tableSource.tr > this.state.tr) {
-            if (pre.tableSource.tr === 25 * this.state.x && pre.tableSource.tr < 350) {
+            if (pre.tableSource.tr === colHeight * this.state.x && pre.tableSource.tr < 350) {
                 if (pre.TABLE === 'TABLE') {
                     pre.tableSource.dataSource.map((e, i) => {
-                        if (25 * this.state.x <= i && i < (25 * this.state.x + 25)) {
-                            e.indexs = 25 * this.state.x + i + 'tables'
+                        if (colHeight * this.state.x <= i && i < (colHeight * this.state.x + colHeight)) {
+                            e.indexs = colHeight * this.state.x + i + 'tables'
                             data.push(e)
                         }
                     })
                 } else {
                     pre.tableSource.dataSource.map((e, i) => {
-                        if (25 * this.state.x <= i && i < (25 * this.state.x + 25)) {
-                            e.indexs = 25 * this.state.x + i + 'tables'
+                        if (colHeight * this.state.x <= i && i < (colHeight * this.state.x + colHeight)) {
+                            e.indexs = colHeight * this.state.x + i + 'tables'
                             data.push(e)
                         }
                     })
@@ -78,20 +82,20 @@ class TABLECOMPONENT extends Component {
             }
 
         } else if (pre.tableSource.tr < this.state.tr) {
-            if (pre.tableSource.tr === (25 * (this.state.x - 1) - 1) && pre.tableSource.tr > 0) {
+            if (pre.tableSource.tr === (colHeight * (this.state.x - 1) - 1) && pre.tableSource.tr > 0) {
                 // console.log(this.state.x);
 
                 if (pre.TABLE === 'TABLE') {
                     pre.tableSource.dataSource.map((e, i) => {
-                        if (25 * this.state.x <= i && i < (25 * this.state.x + 25)) {
+                        if (colHeight * this.state.x <= i && i < (colHeight * this.state.x + colHeight)) {
                             e.indexs = i + 'tables'
                             data.push(e)
                         }
                     })
                 } else {
                     pre.tableSource.dataSource.map((e, i) => {
-                        if (25 * this.state.x <= i && i < (25 * this.state.x + 25)) {
-                            e.indexs = 25 * this.state.x + i + 'table'
+                        if (colHeight * this.state.x <= i && i < (colHeight * this.state.x + colHeight)) {
+                            e.indexs = colHeight * this.state.x + i + 'table'
                             data.push(e)
                         }
                     })
@@ -108,12 +112,12 @@ class TABLECOMPONENT extends Component {
             // console.log(pre);
 
             pre.tableSource.dataSource.map((e, i) => {
-                if (i < 25) {
+                if (i < colHeight) {
                     e.indexs = i + 'tables'
                     data.push(e)
                 }
             })
-            console.log(data);
+            // console.log(data);
 
             this.setState((p) => (
                 {
@@ -158,6 +162,7 @@ class TABLECOMPONENT extends Component {
     render() {
         // console.log(this.props.PublicData);
         var w = document.documentElement.clientWidth || document.body.clientWidth;
+        const {colHeight} = this.state
         const { columns, dataSource, pageSize, scroll, groupname, label, totalPage, type } = this.props.PublicData
         let widths = 0
         let heightTable = this.props.tableSource.tr * (-38) > -228 ? '0px' : (this.props.tableSource.tr * (-38) + 228) + 'px'
@@ -171,7 +176,7 @@ class TABLECOMPONENT extends Component {
                 
             });
         }
-        console.log(this.props.tableSource);
+        // console.log(this.props.tableSource);
 
         return (
             <div>
@@ -194,7 +199,7 @@ class TABLECOMPONENT extends Component {
                         // console.log(record)
                         // console.log(index);
                         if (this.props.tableSource.tr > 24) {
-                            return (index === (this.props.tableSource.tr - (25 * (this.state.x - 1))) ? 'black' : "")
+                            return (index === (this.props.tableSource.tr - (colHeight * (this.state.x - 1))) ? 'black' : "")
                         } else {
                             return (index === this.props.tableSource.tr ? 'black' : '')
                         }

@@ -11,11 +11,11 @@ const { Header } = Layout
 
 class Headercomponent extends Component {
     state = {
-        user: JSON.parse(sessionStorage.getItem('values')) 
+        user: JSON.parse(sessionStorage.getItem('values'))
     }
     componentWillMount() {
-        
-        console.log(sessionStorage.getItem('values'));
+
+        // console.log(sessionStorage.getItem('values'));
         if (sessionStorage.getItem('values') == null) {
             this.props.history.push('/')
         }
@@ -34,15 +34,15 @@ class Headercomponent extends Component {
                     pre.data.map(e => {
                         if (e.type !== 'Table' && e.type !== 'Group') {
                             if (e.type === 'LookUp') {
-                                valueList[e.upKey] = e.values[e.upKey]===undefined?'': e.values[e.upKey];
+                                valueList[e.upKey] = e.values[e.upKey] === undefined ? '' : e.values[e.upKey];
                             } else if (e.type === 'Input' && e.typePoint === 0) {
-                                valueList[e.id] = e.defaultValue===undefined?'': e.defaultValue;
+                                valueList[e.id] = e.defaultValue === undefined ? '' : e.defaultValue;
                             } else if (e.type === 'Input' && e.typePoint !== 0) {
-                                valueList[e.typePoint] = e.defaultValue==undefined?'': e.defaultValue;
-                            }else if(e.type==="Range"){
-                                valueList[e.id] = e.defaultValue==''?['','']: e.defaultValue;
+                                valueList[e.typePoint] = e.defaultValue == undefined ? '' : e.defaultValue;
+                            } else if (e.type === "Range") {
+                                valueList[e.id] = e.defaultValue == '' ? ['', ''] : e.defaultValue;
                             } else {
-                                valueList[e.id] = e.defaultValue===undefined?'': e.defaultValue;
+                                valueList[e.id] = e.defaultValue === undefined ? '' : e.defaultValue;
                             }
                         }
                         return true
@@ -86,21 +86,21 @@ class Headercomponent extends Component {
                 } else if (altKey && keyCode === 67) {
                     pre.clear()
                 } else if (altKey && keyCode === 69) {
-   
+
                     let valueList = {}
                     let SQL = pre.tableSource.SQL
                     pre.data.map(e => {
                         if (e.type !== 'Table' && e.type !== 'Group') {
                             if (e.type === 'LookUp') {
-                                valueList[e.upKey] = e.values[e.upKey]==undefined?'': e.values[e.upKey];
+                                valueList[e.upKey] = e.values[e.upKey] == undefined ? '' : e.values[e.upKey];
                             } else if (e.type === 'Input' && e.typePoint === 0) {
-                                valueList[e.id] = e.defaultValue==undefined?'': e.defaultValue;
+                                valueList[e.id] = e.defaultValue == undefined ? '' : e.defaultValue;
                             } else if (e.type === 'Input' && e.typePoint !== 0) {
-                                valueList[e.typePoint] = e.defaultValue==undefined?'': e.defaultValue;
-                            }else if(e.type==="Range"){
-                                valueList[e.id] = e.defaultValue==''?['','']: e.defaultValue;
+                                valueList[e.typePoint] = e.defaultValue == undefined ? '' : e.defaultValue;
+                            } else if (e.type === "Range") {
+                                valueList[e.id] = e.defaultValue == '' ? ['', ''] : e.defaultValue;
                             } else {
-                                valueList[e.id] = e.defaultValue==undefined?'': e.defaultValue;
+                                valueList[e.id] = e.defaultValue == undefined ? '' : e.defaultValue;
                             }
                         }
                         return true
@@ -142,16 +142,16 @@ class Headercomponent extends Component {
         this.props.data.map(e => {
             if (e.type !== 'Table' && e.type !== 'Group') {
                 if (e.type === 'LookUp') {
-                    valueList[e.upKey] = e.values[e.upKey]===undefined?'': e.values[e.upKey];
+                    valueList[e.upKey] = e.values[e.upKey] === undefined ? '' : e.values[e.upKey];
                 } else if (e.type === 'Input' && e.typePoint === 0) {
-                    valueList[e.id] = e.defaultValue===undefined?'': e.defaultValue;
+                    valueList[e.id] = e.defaultValue === undefined ? '' : e.defaultValue;
                 } else if (e.type === 'Input' && e.typePoint !== 0) {
-                    valueList[e.typePoint] = e.defaultValue==undefined?'': e.defaultValue;
+                    valueList[e.typePoint] = e.defaultValue == undefined ? '' : e.defaultValue;
                 }
-                else if(e.type==="Range"){
-                    valueList[e.id] = e.defaultValue==''?['','']: e.defaultValue;
+                else if (e.type === "Range") {
+                    valueList[e.id] = e.defaultValue == '' ? ['', ''] : e.defaultValue;
                 } else {
-                    valueList[e.id] = e.defaultValue===undefined?'': e.defaultValue;
+                    valueList[e.id] = e.defaultValue === undefined ? '' : e.defaultValue;
                 }
             }
             return true
@@ -179,20 +179,20 @@ class Headercomponent extends Component {
         this.props.Loading()
         let valueList = {}
         let SQL = this.props.tableSource.SQL;
- 
+
         debugger;
         this.props.data.map(e => {
             if (e.type !== 'Table' && e.type !== 'Group') {
                 if (e.type === 'LookUp') {
-                    valueList[e.upKey] = e.values[e.upKey]===undefined?'': e.values[e.upKey];
+                    valueList[e.upKey] = e.values[e.upKey] === undefined ? '' : e.values[e.upKey];
                 } else if (e.type === 'Input' && e.typePoint === 0) {
-                    valueList[e.id] = e.defaultValue===undefined?'': e.defaultValue;
+                    valueList[e.id] = e.defaultValue === undefined ? '' : e.defaultValue;
                 } else if (e.type === 'Input' && e.typePoint !== 0) {
-                    valueList[e.typePoint] = e.defaultValue==undefined?'': e.defaultValue;
-                } else if(e.type==="Range"){
-                    valueList[e.id] = e.defaultValue==''?['','']: e.defaultValue;
+                    valueList[e.typePoint] = e.defaultValue == undefined ? '' : e.defaultValue;
+                } else if (e.type === "Range") {
+                    valueList[e.id] = e.defaultValue == '' ? ['', ''] : e.defaultValue;
                 } else {
-                    valueList[e.id] = e.defaultValue===undefined?'': e.defaultValue;
+                    valueList[e.id] = e.defaultValue === undefined ? '' : e.defaultValue;
                 }
             }
             return true
@@ -206,7 +206,7 @@ class Headercomponent extends Component {
                 isPage: true
             }
             POST$(API('SQL').http, body, (res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.Results) {
                     this.props._tableUpdataFromResults(res.Results, res.RecordCount)
                     resolve(true)
@@ -235,7 +235,6 @@ class Headercomponent extends Component {
         this.props.clear()
     }
     render() {
-        
         const { user } = this.state
         const menu = (
             <Menu>
@@ -251,7 +250,8 @@ class Headercomponent extends Component {
             </Menu>
         );
         return (
-            <Header style={{ background: '#fff', padding: '15px 35px' }}>
+            <Header
+                style={{ background: '#fff', lineHeight: 'inherit', height: 'auto', padding: '0' }}>
                 <div className='slidertitle'>
                     <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" style={{ width: '32px', height: '32px', verticalAlign: 'middle' }}>
                         <defs>
@@ -262,26 +262,7 @@ class Headercomponent extends Component {
                     </svg>
                     <h2 className='title'>九州通</h2>
                 </div>
-                {this.props.R === 'R' ? <div style={{ float: 'left' }}>
-                    <ButtonGroup style={{ top: '-15px' }}>
-                        <Button onClick={this.SQLChecked.bind(this)}>
-                            <Icon type="security-scan" theme="outlined" />
-                            查询 ALT+Q
-                        </Button>
-                        {/* <Button >
-                            <Icon type="copyright" theme="outlined" />
-                            清空 ALT+R
-                            </Button> */}
-                        <Button onClick={this.guanbi.bind(this)}>
-                            <Icon type="export" theme="outlined" />
-                            关闭 ALT+C
-                        </Button>
-                        <Button onClick={this.DAOCHU.bind(this)}>
-                            <Icon type="usb" theme="outlined" />
-                            导出 ALT+E
-                            </Button>
-                    </ButtonGroup>
-                </div> : <div style={{ float: 'left' }}>你好！设计师</div>
+                {this.props.R === 'R' ? null : <div style={{ float: 'left' }}>你好！设计师</div>
                 }
                 <div style={{ float: 'right' }}>
                     <Child user={user}></Child>
@@ -289,6 +270,27 @@ class Headercomponent extends Component {
                         <Tag style={{ float: 'left', marginTop: '5px' }}>人员名称：{user.username}</Tag>
                     </Dropdown>
                 </div>
+                {this.props.R === 'R' ?
+                    <div style={{ float: 'left', width: '100%', borderTop: '2px solid #1a1a1d14' }}>
+                        <ButtonGroup>
+                            <Button onClick={this.SQLChecked.bind(this)}>
+                                <Icon type="security-scan" theme="outlined" />
+                                查询 ALT+Q
+                        </Button>
+                            {/* <Button >
+                            <Icon type="copyright" theme="outlined" />
+                            清空 ALT+R
+                            </Button> */}
+                            <Button onClick={this.guanbi.bind(this)}>
+                                <Icon type="export" theme="outlined" />
+                                关闭 ALT+C
+                        </Button>
+                            <Button onClick={this.DAOCHU.bind(this)}>
+                                <Icon type="usb" theme="outlined" />
+                                导出 ALT+E
+                            </Button>
+                        </ButtonGroup>
+                    </div> : null}
             </Header>
         );
     }

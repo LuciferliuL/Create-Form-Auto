@@ -9,8 +9,10 @@ const { Sider, Content } = Layout;
 class USER extends Component {
     state = {
         loading: true,
-        user: ''
+        user: '',
+        collapsed:false
     };
+   
     componentWillMount() {
        
         if (sessionStorage.getItem('token')) {
@@ -32,17 +34,28 @@ class USER extends Component {
             loading:!pre.loading
         }))
     }
+    toggle = () => {
+        this.setState({
+          collapsed: !this.state.collapsed,
+        });
+      }
     render() {
         const { user , loading} = this.state
         return (
             <Spin spinning={loading} size='large'>
                 <Layout>
-                    <Sider style={{ overflow: 'auto', height: '100vh', left: 0, backgroundColor:'#1f381257' }}>
+                    <Sider 
+                    style={{ overflow: 'auto', height: '100vh', left: 0, backgroundColor:'#1f381257' }}
+                    // trigger={null}
+                    // collapsible
+                    // collapsed={this.state.collapsed}
+                    // onCollapse={this.toggle}
+                    >
                         <TreeUser></TreeUser>
                     </Sider>
                     <Layout >
                         <Headercomponent user={user} R={'R'} Loading={this.Loading.bind(this)}></Headercomponent>
-                        <Content style={{ margin: '24px 16px 0', overflow: 'initial' }} >
+                        <Content style={{  overflow: 'initial' }} >
                             <ContentUser></ContentUser>
                         </Content>
                     </Layout>

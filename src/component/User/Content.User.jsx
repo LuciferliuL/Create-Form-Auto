@@ -40,7 +40,7 @@ class ContentUser extends Component {
     }
 
     render() {
-        var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.85
+        var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.9
         let Dr = []
         let width_ = this.state.domWidth / 24
         let height_ = 40
@@ -68,7 +68,8 @@ class ContentUser extends Component {
         return (
             <Card
                 ref={this.myRef}
-                style={{ minHeight: h + 'px' }}>
+                style={{ minHeight: h + 'px',borderTop:'none' }}
+                >
                 <Form
                     style={{ padding: '5px', position: 'relative' }}>{Dr}</Form>
                 <div style={{ position: 'relative', top: tableOffsetHeight + 'px', height: (h - tableOffsetHeight) * 0.85 + 'px' }}>
@@ -80,7 +81,7 @@ class ContentUser extends Component {
             return (
                 <Card
                 ref={this.myRef}
-                style={{ minHeight: h + 'px' }}>
+                style={{ minHeight: h + 'px' ,borderTop:'none'}}>
                     {'loading'}
                 </Card>
             )
