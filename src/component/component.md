@@ -16,9 +16,9 @@ id: 8  ID
 type: 'INPUT' 判断类型
 width: 4  宽度
 required: true 是否必须
-message: "123" 错误提示信息
+message: "" 错误提示信息
 label: "输入框" 标题
-defaultValue: "123" 默认值提示
+defaultValue: "" 默认值提示
 disabled: false 是否可选
 content: true 是否是直接组件  group为false
 RadioValue: {value:'',name:''} 单选框组的组员

@@ -5,7 +5,7 @@ const SData = [
     {
         GridX: 0, GridY: 0, w: 8, h: 1, key: '0',
         icons: 'edit', id: 8, type: 'INPUT', required: false,
-        message: "123", label: "输入框", placeholder: "123", disabled: false,
+        message: "", label: "输入框", placeholder: "", disabled: false,
         isTrueInLookUp: 0, defaultValue: '', typePoint: 'type',
         layout: {
             labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
@@ -15,7 +15,7 @@ const SData = [
     {
         GridX: 0, GridY: 0, w: 8, h: 2, key: '0',
         icons: 'copyright', id: 8, type: 'RadioGroup', required: false,
-        message: "123", label: "单选框组", disabled: false,
+        message: "", label: "单选框组", disabled: false,
         GroupValue: [{ value: 'Apple', name: 'Apple' }, { value: 'Pear', name: 'Pear' }],
         groupname: 'cen', defaultValue: '',
         layout: {
@@ -26,7 +26,7 @@ const SData = [
     {
         GridX: 0, GridY: 0, w: 4, h: 1, key: '0',
         icons: 'border', id: 8, type: 'CheckBox', required: false,
-        message: "123", label: "多选框", checked: false, disabled: false,
+        message: "", label: "多选框", checked: false, disabled: false,
         defaultValue: '',
         layout: {
             labelCol: { xs: { span: 24 }, sm: { span: 16 }, },
@@ -46,7 +46,7 @@ const SData = [
     {
         GridX: 0, GridY: 0, w: 8, h: 1, key: '0',
         icons: 'calendar', id: 8, type: 'Date', required: false,
-        message: "123", label: "日期选择", disabled: false, placeholder: "123",
+        message: "", label: "日期选择", disabled: false, placeholder: "",
         defaultValue: '',
         layout: {
             labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
@@ -56,7 +56,7 @@ const SData = [
     {
         GridX: 0, GridY: 0, w: 16, h: 1, key: '0',
         icons: 'contacts', id: 8, type: 'Range', required: false,
-        message: "123", label: "时段选择", disabled: false,
+        message: "", label: "时段选择", disabled: false,
         defaultValue: '',
         layout: {
             labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
@@ -68,25 +68,13 @@ const SData = [
         icons: 'table', label: '简单表格', type: 'Table',
         SQL: 'select * where', groupname: '',
         columns: [
-            {
-                title: '姓名',
-                dataIndex: 'name',
-                width: '120px'
-            }, {
-                title: '年龄',
-                dataIndex: 'age',
-                width: '120px'
-            }, {
-                title: '住址',
-                dataIndex: 'address',
-                width: '120px'
-            }],
+        ],
         dataSource: []
     },
     {
         GridX: 0, GridY: 0, w: 8, h: 1, key: '0',
         icons: 'diff', id: 8, type: 'LookUp', required: false,
-        message: "123", label: "LookUp", disabled: false, upKey: '',
+        message: "", label: "LookUp", disabled: false, upKey: '',
         show: false, scroll: 1200,
         layout: {
             labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
@@ -161,7 +149,7 @@ const SQL = [
     {
         GridX: 0, GridY: 0, w: 8, h: 1, key: '0', float: 0,
         icons: 'gift', id: 8, type: 'LookUp', required: false,
-        message: "123", label: "商品检索", disabled: false, upKey: '',
+        message: "", label: "商品检索", disabled: false, upKey: '',
         layout: {
             labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
             wrapperCol: { xs: { span: 24 }, sm: { span: 16 } }
@@ -304,7 +292,7 @@ const SQL = [
     }, {
         GridX: 0, GridY: 0, w: 8, h: 1, key: '0', float: 0,
         icons: 'team', id: 8, type: 'LookUp', required: false,
-        message: "123", label: "人员查询", disabled: false, upKey: '', scroll: 1200,
+        message: "", label: "人员查询", disabled: false, upKey: '', scroll: 1200,
         layout: {
             labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
             wrapperCol: { xs: { span: 24 }, sm: { span: 16 } }
@@ -353,7 +341,7 @@ const SQL = [
     }, {
         GridX: 0, GridY: 0, w: 8, h: 1, key: '0', float: 0,
         icons: 'hdd', id: 8, type: 'LookUp', required: false,
-        message: "123", label: "字典检索", disabled: false, upKey: '', scroll: 1200,
+        message: "", label: "字典检索", disabled: false, upKey: '', scroll: 1200,
         show: false,
         layout: {
             labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
@@ -385,7 +373,7 @@ const SQL = [
     }, {
         GridX: 0, GridY: 0, w: 8, h: 1, key: '0', float: 0,
         icons: 'heat-map', id: 8, type: 'LookUp', required: false,
-        message: "123", label: "客户检索", disabled: false, upKey: '',
+        message: "", label: "客户检索", disabled: false, upKey: '',
         show: false, scroll: 1200,
         layout: {
             labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
@@ -651,7 +639,7 @@ const SQL = [
     }, {
         GridX: 0, GridY: 0, w: 8, h: 1, key: '0', float: 0,
         icons: 'rise', id: 8, type: 'LookUp', required: false,
-        message: "123", label: "上游客户检索", disabled: false, upKey: '', scroll: 1200,
+        message: "", label: "上游客户检索", disabled: false, upKey: '', scroll: 1200,
         show: false,
         layout: {
             labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
@@ -916,7 +904,7 @@ and (f.custno like upper('%' || :Abbr || '%') or
     }, {
         GridX: 0, GridY: 0, w: 8, h: 1, key: '0', float: 0,
         icons: 'bulb', id: 8, type: 'LookUp', required: false,
-        message: "123", label: "全部客户检索", disabled: false, upKey: '', scroll: 1200,
+        message: "", label: "全部客户检索", disabled: false, upKey: '', scroll: 1200,
         show: false,
         layout: {
             labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
@@ -1009,9 +997,6 @@ and (f.custno like upper('%' || :Abbr || '%') or
         }, {
             title: "开发票要求",
             dataIndex: "BILLINGNOTE",
-        }, {
-            title: "责任开票员ID",
-            dataIndex: "MAINOPID",
         }, {
             title: "主配送仓库ID",
             dataIndex: "STOREID",
@@ -1137,7 +1122,7 @@ and (f.custno like upper('%' || :Abbr || '%') or
     }, {
         GridX: 0, GridY: 0, w: 8, h: 1, key: '0', float: 0,
         icons: 'fall', id: 8, type: 'LookUp', required: false,
-        message: "123", label: "下游客户检索", disabled: false, upKey: '', scroll: 1200,
+        message: "", label: "下游客户检索", disabled: false, upKey: '', scroll: 1200,
         show: false,
         layout: {
             labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
@@ -1230,9 +1215,6 @@ and (f.custno like upper('%' || :Abbr || '%') or
         }, {
             title: "开发票要求",
             dataIndex: "BILLINGNOTE",
-        }, {
-            title: "责任开票员ID",
-            dataIndex: "MAINOPID",
         }, {
             title: "主配送仓库ID",
             dataIndex: "STOREID",
@@ -1353,7 +1335,8 @@ or (nvl(0, ' ') = ' ')
 ) and f.deleteflag = 0 and rownum<=500
 and (f.custno like upper('%' || :Abbr || '%') or
       f.custid = upper(:Abbr)  or f.custname like '%' || :Abbr || '%' or
-      f.custmemorycode like upper('%' || :Abbr || '%') or`,
+      f.custmemorycode like upper('%' || :Abbr || '%') or
+      f.custidentify like upper('%' || :Abbr || '%'))`,
         dataSource: []
     }]
 
