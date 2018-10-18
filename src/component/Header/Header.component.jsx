@@ -176,6 +176,10 @@ class Headercomponent extends Component {
         });
     }
     SQLChecked = () => {
+        var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.85
+        let hflag = 0
+        let height_ = 40
+
         this.props.Loading()
         let valueList = {}
         let SQL = this.props.tableSource.SQL;
@@ -195,8 +199,15 @@ class Headercomponent extends Component {
                     valueList[e.id] = e.defaultValue === undefined ? '' : e.defaultValue;
                 }
             }
+            let PositionTop = e.GridY * height_
+            if (PositionTop > hflag) {
+                hflag = PositionTop
+            } 
             return true
         })
+
+        //table行数
+        let cols =   (h - hflag) * 0.8
         let post = new Promise((resolve, reject) => {
             let body = {
                 "Sql": SQL,
@@ -206,7 +217,22 @@ class Headercomponent extends Component {
                 isPage: true
             }
             POST$(API('SQL').http, body, (res) => {
-                // console.log(res);
+                // console.log(res.Results);
+                let Res = res.Results
+                let arr = []
+                for (let i = 0; i < Res.length; i++) {
+                    let x = 0
+                    if(i === cols*(x+1)){
+                        arr[x].push(Res[i])
+                        x++
+                        arr[x] = []
+                    }else if(i < cols*(x + 1) && i > cols*x){
+                        arr[x].push(Res[i])
+                    }
+                }
+
+                console.log(arr);
+                
                 if (res.Results) {
                     this.props._tableUpdataFromResults(res.Results, res.RecordCount)
                     resolve(true)
