@@ -180,7 +180,7 @@ class Headercomponent extends Component {
         let valueList = {}
         let SQL = this.props.tableSource.SQL;
 
-        debugger;
+        //debugger;
         this.props.data.map(e => {
             if (e.type !== 'Table' && e.type !== 'Group') {
                 if (e.type === 'LookUp') {
@@ -188,9 +188,9 @@ class Headercomponent extends Component {
                 } else if (e.type === 'Input' && e.typePoint === 0) {
                     valueList[e.id] = e.defaultValue === undefined ? '' : e.defaultValue;
                 } else if (e.type === 'Input' && e.typePoint !== 0) {
-                    valueList[e.typePoint] = e.defaultValue == undefined ? '' : e.defaultValue;
+                    valueList[e.typePoint] = e.defaultValue === undefined ? '' : e.defaultValue;
                 } else if (e.type === "Range") {
-                    valueList[e.id] = e.defaultValue == '' ? ['', ''] : e.defaultValue;
+                    valueList[e.id] = e.defaultValue === '' ? ['', ''] : e.defaultValue;
                 } else {
                     valueList[e.id] = e.defaultValue === undefined ? '' : e.defaultValue;
                 }
