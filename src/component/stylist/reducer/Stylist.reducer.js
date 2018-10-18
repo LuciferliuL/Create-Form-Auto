@@ -31,6 +31,8 @@ const result = (o1, o2) => {
 }
 
 export const UpdataFormData = (state = [], action) => {
+    console.log(action);
+    
     switch (action.type) {
         case FORM_SOURCE_DATA:
             return [...state, action.FormSourceData]
@@ -46,7 +48,7 @@ export const UpdataFormData = (state = [], action) => {
             } return state
         case FORM_UPDATA_FROM_CURRENT:
             return state.map(e => e.key === action.currentAttr.key
-                ? Object.assign(e, action.currentAttr)
+                ? {...e, ...action.currentAttr}
                 : e)
         case FORM_UPDATA_FUGAI:
             return state = action.init

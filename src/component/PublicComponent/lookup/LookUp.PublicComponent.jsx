@@ -135,11 +135,15 @@ class LookUpPublicComponent extends Component {
 
             let agg = this.props.UpdataFormData.filter(e => e.type === 'INPUT' && e.isTrueInLookUp === this.props.current.id)
             agg.forEach(e => {
-                e.defaultValue = dataSource_[e.typePoint];
+                e.defaultValue= dataSource_[e.typePoint]
+                this.props.upForm(e)
             })
             // console.log(agg);
+           
             //更新整个form
             this.props.upForm(this.props.current);
+            console.log(this.props.UpdataFormData);
+            
 
         } else {
             this.props.upForm(this.props.current)
