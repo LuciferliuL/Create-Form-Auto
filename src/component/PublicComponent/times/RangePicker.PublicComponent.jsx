@@ -15,13 +15,13 @@ class RangePickerPublicComponent extends Component {
     }
     render() {
         const { getFieldDecorator } = this.props.form
-        const { disabled, label, id, required, message, layout } = this.props.PublicData
+        const { disabled, label, key, required, message, layout } = this.props.PublicData
         return (
             <FormItem
                 label={label}
                 {...layout}
             >
-                {getFieldDecorator(id, {
+                {getFieldDecorator(key, {
                     rules: [{ required: { required }, message: { message } }],
                 })(
                     <RangePicker onChange={this.TimesChange.bind(this)} disabled={disabled} format={dateFormat} />

@@ -13,13 +13,13 @@ class DatePublicComponent extends Component {
     }
     render() {
         const { getFieldDecorator } = this.props.form
-        const { disabled, label, id, required, message, layout, placeholder } = this.props.PublicData
+        const { disabled, label, key, required, message, layout, placeholder } = this.props.PublicData
         return (
             <FormItem
                 label={label}
                 {...layout}
             >
-                {getFieldDecorator(id, {
+                {getFieldDecorator(key, {
                     rules: [{ required: { required }, message: { message } }],
                 })(
                     <DatePicker onChange={this.TimesChange.bind(this)} disabled={disabled} placeholder={placeholder} format={dateFormat} />

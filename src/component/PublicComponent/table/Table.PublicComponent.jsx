@@ -245,7 +245,7 @@ class TablePublicComponent extends Component {
                 }
             });
         }
-        console.log(widths);
+        // console.log(widths);
 
         return (
             <div>

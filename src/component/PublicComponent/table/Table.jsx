@@ -27,7 +27,7 @@ class TABLECOMPONENT extends Component {
         data: [],
         x: 1,
         tr: 0,
-        colHeight:0
+        colHeight: 0
     }
     // components = {
     //     header: {
@@ -47,10 +47,10 @@ class TABLECOMPONENT extends Component {
 
     componentWillReceiveProps(pre) {
         // console.log(pre.tableSource)
-        // console.log(this.state.tr + '-----' + pre.tableSource.tr);
+        console.log(this.state.tr + '-----' + pre.tableSource.tr);
         // const {colHeight} = this.state
         // console.log(pre);
-        let colHeight = Math.floor(pre.heights/22)
+        let colHeight = Math.floor(pre.heights / 22)
 
         let data = []
         if (pre.tableSource.tr > this.state.tr) {
@@ -162,18 +162,18 @@ class TABLECOMPONENT extends Component {
     render() {
         // console.log(this.props.PublicData);
         var w = document.documentElement.clientWidth || document.body.clientWidth;
-        const {colHeight} = this.state
+        const { colHeight } = this.state
         const { columns, dataSource, pageSize, scroll, groupname, label, totalPage, type } = this.props.PublicData
         let widths = 0
         let heightTable = this.props.tableSource.tr * (-38) > -228 ? '0px' : (this.props.tableSource.tr * (-38) + 228) + 'px'
         if (columns) {
             columns.map((e, i) => {
-                if(e.width > 0){
+                if (e.width > 0) {
                     widths += Number(e.width)
-                }else{
+                } else {
                     widths += 200
                 }
-                
+
             });
         }
         // console.log(this.props.tableSource);
@@ -198,7 +198,7 @@ class TABLECOMPONENT extends Component {
                     rowClassName={(record, index) => {
                         // console.log(record)
                         // console.log(index);
-                        if (this.props.tableSource.tr > 24) {
+                        if (this.props.tableSource.tr > (colHeight - 1)) {
                             return (index === (this.props.tableSource.tr - (colHeight * (this.state.x - 1))) ? 'black' : "")
                         } else {
                             return (index === this.props.tableSource.tr ? 'black' : '')

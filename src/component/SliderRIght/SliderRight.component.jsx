@@ -323,7 +323,6 @@ class SliderRightcomponent extends Component {
                             <FormItem
                                 label='必填'
                                 {...formItemLayout}
-
                             >
                                 {getFieldDecorator('required')(
                                     <Switch checked={currentAttr.required}></Switch>

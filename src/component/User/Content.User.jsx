@@ -51,9 +51,9 @@ class ContentUser extends Component {
                 , height = e.h * height_
                 , PositionTop = e.GridY * height_
                 , PositionLeft = e.GridX * width_
-            if (e.GridY > hflag) {
-                tableOffsetHeight += 40
-                hflag = e.GridY
+            if (PositionTop > hflag) {
+                // tableOffsetHeight += 40
+                hflag = PositionTop
             }
 
             Dr.push(
@@ -72,7 +72,7 @@ class ContentUser extends Component {
                 >
                 <Form
                     style={{ padding: '5px', position: 'relative' }}>{Dr}</Form>
-                <div style={{ position: 'relative', top: tableOffsetHeight + 'px', height: (h - tableOffsetHeight) * 0.85 + 'px' }}>
+                <div style={{ position: 'relative', top: tableOffsetHeight + hflag + 'px', height: (h - tableOffsetHeight) * 0.85 + 'px' }}>
                     <TABLECOMPONENT PublicData={this.props.tableSource}  heights={(h - tableOffsetHeight) * 0.85}>
                     </TABLECOMPONENT>
                 </div>

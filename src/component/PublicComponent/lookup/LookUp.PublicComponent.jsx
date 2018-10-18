@@ -133,17 +133,17 @@ class LookUpPublicComponent extends Component {
             this.props.updataValues(dataSource_);
             window.removeEventListener('keyup', this.handleKeyDown);
 
-            let agg = this.props.UpdataFormData.filter(e => e.type === 'INPUT' && e.isTrueInLookUp === this.props.current.id)
+            let agg = this.props.UpdataFormData.filter(e => e.type === 'INPUT' && e.isTrueInLookUp === this.props.current.key)
             agg.forEach(e => {
-                e.defaultValue= dataSource_[e.typePoint]
+                e.defaultValue = dataSource_[e.typePoint]
                 this.props.upForm(e)
             })
             // console.log(agg);
-           
+
             //更新整个form
             this.props.upForm(this.props.current);
             console.log(this.props.UpdataFormData);
-            
+
 
         } else {
             this.props.upForm(this.props.current)
@@ -151,32 +151,48 @@ class LookUpPublicComponent extends Component {
         }
     }
     LookUpChange = (e) => {
-        if (e.target.value.length === 0) {
-            this.props.form.resetFields()
+        if (e.target.value === '') {
+            // console.log(e.target.value);
+            let key =  this.props.current.key
+            this.props.UpdataFormData.find(e => e.key === key).values = ''
+            // let Field = {}
+            // let key =  this.props.current.key
+            // Field[key] = ' '
+            // this.props.form.setFieldsValue(Field)
+            this.setState({
+                isEnter: true
+            })
+        } else {
+            this.setState({
+                isEnter: false
+            })
         }
-        this.setState({
-            isEnter: false
-        })
+
     }
     //失去焦点
     Blur = (e) => {
         //debugger;
-
+        console.log(this.state.isEnter);
+        
         if (!this.state.isEnter) {
             let Field = {}
             let v = this.props.current
             let values = v.values[v.uniqueKey]
             // console.log(v);
-            let id = v.id
-            Field[id] = values
+            let key = v.key
             if (values !== '') {
+                Field[key] = values
+                this.props.form.setFieldsValue(Field)
+            } else {
+                Field[key] = ' '
                 this.props.form.setFieldsValue(Field)
             }
         }
+
     }
     render() {
         const { getFieldDecorator } = this.props.form
-        const { dataSource, label, id, required, message, layout, columns, show, scroll } = this.props.PublicData
+        const { dataSource, label, key, required, message, layout, columns, show, scroll } = this.props.PublicData
         return (
             <div className="certain-category-search-wrapper" style={{ width: '100%' }}>
                 <Modal
@@ -198,8 +214,8 @@ class LookUpPublicComponent extends Component {
                     label={label}
                     {...layout}
                 >
-                    {getFieldDecorator(id, {
-                        rules: [{ required: { required }, message: { message } }],
+                    {getFieldDecorator(key, {
+                        rules: [{ required: { required }, message: message === ''?'必填':message }],
                     })(
                         <Input
                             onChange={this.LookUpChange.bind(this)}
@@ -254,8 +270,8 @@ export default LookUpPublicComponent = connect(mapStateToProps, mapDispatchProps
         let v = props.UpdataFormData.find(e => e.key === props.PublicData.key)
         let values = v.values[v.uniqueKey]
         // console.log(v);
-        let id = v.id
-        Field[id] = Form.createFormField({ value: values })
+        let key = v.key
+        Field[key] = Form.createFormField({ value: values })
         //console.log(Field);
         return Field
 

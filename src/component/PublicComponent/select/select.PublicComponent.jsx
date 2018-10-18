@@ -11,7 +11,7 @@ class SelectPublicComponent extends Component {
 
     render() {
         const { getFieldDecorator } = this.props.form
-        const { disabled, label, id, required, message, GroupValue, layout } = this.props.PublicData
+        const { disabled, label, key, required, message, GroupValue, layout } = this.props.PublicData
         const SelectGroup = []
         GroupValue.forEach((e, i) => {
             SelectGroup.push(<Option value={e.value} key={i + e.value}>{e.name}</Option>)
@@ -21,7 +21,7 @@ class SelectPublicComponent extends Component {
                 label={label}
                 {...layout}
             >
-                {getFieldDecorator(id, {
+                {getFieldDecorator(key, {
                     rules: [{ required: { required }, message: { message } }],
                 })(
                     <Select onChange={(e) => this.handleChange.bind(this, e)}
