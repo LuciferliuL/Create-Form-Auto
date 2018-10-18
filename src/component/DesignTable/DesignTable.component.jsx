@@ -156,6 +156,8 @@ class DesignTablecomponent extends Component {
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 console.log('Received values of form: ', values);
+                let seldata = this.state.selectData;
+
                 let save = {}
                 save = {
                     BranchId: '',
@@ -176,6 +178,9 @@ class DesignTablecomponent extends Component {
                 if (this.state.CreateMenu)
                     save.ParentFormID = this.state.selectData.PK;
 
+                seldata.Name = save.Name;
+                seldata.Sort = save.Sort;
+
                 //新建菜单
                 POST$(API('SaveForm').http, save, (res) => {
                     console.log(res);
@@ -189,6 +194,7 @@ class DesignTablecomponent extends Component {
                             })
                             this.setState({
                                 data: res,
+                                selectData: seldata,
                                 loading: false,
                                 visible: false,
                             })
