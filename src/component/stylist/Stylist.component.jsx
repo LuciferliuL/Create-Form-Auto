@@ -113,7 +113,7 @@ class Stylistcomponent extends Component {
             body.TableData = this.props.tableSource;
             if (this.props.InitStylistData.PK) {
                 //编辑
-                save = Object.assign({}, this.props.InitStylistData, { 'Name': values.Name }, { 'Sort': values.Sort },{ 'ParentFormID': values.ParentFormID }, { 'Bytes': JSON.stringify(body) })
+                save = Object.assign({}, this.props.InitStylistData, { 'Name': values.Name }, { 'Sort': values.Sort }, { 'ParentFormID': values.ParentFormID }, { 'Bytes': JSON.stringify(body) })
                 // console.log(newData);
 
             } else {
@@ -125,7 +125,7 @@ class Stylistcomponent extends Component {
                     Category: '',
                     ParentFormID: values.ParentFormID,
                     FK: -1,
-                    Sort:values.Sort,
+                    Sort: values.Sort,
                     Name: values.Name,
                     PK: -1,
                     Role: "",
@@ -194,7 +194,7 @@ class Stylistcomponent extends Component {
                             {getFieldDecorator('Sort', {
                                 rules: [{ required: true, message: '请输入菜单排序!' }],
                             })(
-                                <Input  placeholder="排序" />
+                                <Input placeholder="排序" />
                             )}
                         </FormItem>
                         <Button type="primary" htmlType="submit" className="login-form-button">确定</Button>
@@ -212,7 +212,7 @@ class Stylistcomponent extends Component {
                             extra={
                                 <div>
                                     <Button onClick={this.read.bind(this)}>预览</Button>
-                                    <Button onClick={this.showModal.bind(this)}>保存</Button>
+                                    <Button style={this.state.read ? { display: 'unset' } : { display: 'none' }} onClick={this.showModal.bind(this)}>保存</Button>
                                 </div>
 
                             }
