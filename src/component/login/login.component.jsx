@@ -14,12 +14,16 @@ class NormalLoginForm extends React.Component {
         loading: true
     }
     componentDidMount() {
+      
         GETFetch(API('login').http, (res) => {
             let SystemConnectList = res.SystemConnectList
             this.setState({
                 listObj: TreeMath(SystemConnectList),
                 loading: false
             })
+            if(localStorage.getItem('company')){
+                this.props.form.setFieldsValue({'scope':JSON.parse(localStorage.getItem('company'))})
+            }
         })
     }
 
@@ -39,6 +43,7 @@ class NormalLoginForm extends React.Component {
                     } else {
                         sessionStorage.setItem('token', token.access_token) //保存token
                         sessionStorage.setItem('values', JSON.stringify(values))//保存登入信息
+                        
                         let path = {}
                         if (values.use === 'a') {
                             this.props.history.push('/loginLeader')
@@ -54,6 +59,9 @@ class NormalLoginForm extends React.Component {
     }
     onChange = (value) => {
         console.log(value)
+        // 长期保存公司
+        let company = value
+        localStorage.setItem('company',JSON.stringify(company))
     }
     render() {
         const { getFieldDecorator } = this.props.form;

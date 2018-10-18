@@ -12,7 +12,7 @@ class RadioPublicComponent extends Component {
     }
     render() {
         const { getFieldDecorator } = this.props.form
-        const {  disabled, label, id, required, message, GroupValue, groupname, layout } = this.props.PublicData
+        const {  disabled, label, key, required, message, GroupValue, groupname, layout } = this.props.PublicData
         const radiolist = []
         GroupValue.forEach((e, i) => {
             radiolist.push(<Radio value={e.value} key={i + e.value}>{e.name}</Radio>)
@@ -22,7 +22,7 @@ class RadioPublicComponent extends Component {
                 label={label}
                 {...layout}
             >
-                {getFieldDecorator(id, {
+                {getFieldDecorator(key, {
                     rules: [{ required: { required }, message: { message } }],
                 })(
                     <RadioGroup name={groupname} disabled={disabled} onChange={this.radioChange.bind(this)}>

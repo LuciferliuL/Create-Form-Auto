@@ -13,14 +13,14 @@ class CheckboxPublicComponent extends Component {
     }
     render() {
         const { getFieldDecorator } = this.props.form
-        const { checked, disabled, label, id, required, message, layout } = this.props.PublicData
+        const { checked, disabled, label, key, required, message, layout } = this.props.PublicData
 
         return (
             <FormItem
                 label={label}
                 {...layout}
             >
-                {getFieldDecorator(id, {
+                {getFieldDecorator(key, {
                     rules: [{ required: { required }, message: { message } }],
                 })(
                     <Checkbox disabled={disabled} defaultChecked={checked} onChange={this.CheckboxChange.bind(this)}/>
