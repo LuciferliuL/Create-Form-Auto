@@ -11,7 +11,8 @@ const { Header } = Layout
 
 class Headercomponent extends Component {
     state = {
-        user: JSON.parse(sessionStorage.getItem('values'))
+        user: JSON.parse(sessionStorage.getItem('values')),
+        userdata: JSON.parse(sessionStorage.getItem('udata'))
     }
     componentWillMount() {
 
@@ -112,6 +113,8 @@ class Headercomponent extends Component {
                     let param = {
                         Param: JSON.stringify(valueList),
                         Columns: JSON.stringify(cols),
+                        IsPage: true,
+                        PageSize: 350,
                         Sql: SQL
                     };
 
@@ -163,6 +166,8 @@ class Headercomponent extends Component {
         let param = {
             Param: JSON.stringify(valueList),
             Columns: JSON.stringify(cols),
+            IsPage: true,
+            PageSize: 350,
             Sql: SQL
         };
 
@@ -202,12 +207,12 @@ class Headercomponent extends Component {
             let PositionTop = e.GridY * height_
             if (PositionTop > hflag) {
                 hflag = PositionTop
-            } 
+            }
             return true
         })
 
         //table行数
-        let cols =   (h - hflag) * 0.8
+        let cols = (h - hflag) * 0.8
         let post = new Promise((resolve, reject) => {
             let body = {
                 "Sql": SQL,
@@ -222,17 +227,17 @@ class Headercomponent extends Component {
                 let arr = []
                 for (let i = 0; i < Res.length; i++) {
                     let x = 0
-                    if(i === cols*(x+1)){
+                    if (i === cols * (x + 1)) {
                         arr[x].push(Res[i])
                         x++
                         arr[x] = []
-                    }else if(i < cols*(x + 1) && i > cols*x){
+                    } else if (i < cols * (x + 1) && i > cols * x) {
                         arr[x].push(Res[i])
                     }
                 }
 
                 console.log(arr);
-                
+
                 if (res.Results) {
                     this.props._tableUpdataFromResults(res.Results, res.RecordCount)
                     resolve(true)
@@ -261,7 +266,7 @@ class Headercomponent extends Component {
         this.props.clear()
     }
     render() {
-        const { user } = this.state
+        const { user, userdata } = this.state
         const menu = (
             <Menu>
                 <Menu.Item>
@@ -291,9 +296,9 @@ class Headercomponent extends Component {
                 {this.props.R === 'R' ? null : <div style={{ float: 'left' }}>你好！设计师</div>
                 }
                 <div style={{ float: 'right' }}>
-                    <Child user={user}></Child>
+                    <Child userdata={userdata} user={user}></Child>
                     <Dropdown overlay={menu} placement="bottomCenter">
-                        <Tag style={{ float: 'left', marginTop: '5px' }}>人员名称：{user.username}</Tag>
+                        <Tag style={{ float: 'left', marginTop: '5px' }}>人员名称：{userdata.UserName}</Tag>
                     </Dropdown>
                 </div>
                 {this.props.R === 'R' ?
@@ -346,7 +351,7 @@ export default connect(mapStateToProps, mapDispatchProps)(withRouter(Headercompo
 const Child = (props) => {
     return (
         <Tag color='blue' style={{ float: 'left', marginTop: '5px' }}>
-            公司名称： {props.user.scope}
+            公司名称： {props.userdata.Organization.OrganizationName}
         </Tag>
     )
 }

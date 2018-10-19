@@ -98,7 +98,6 @@ class DesignTablecomponent extends Component {
         POST$(API('Delete').http + this.state.selectData.PK + '/Delete', {}, (e) => {
             if (e.result) {
                 POST$(API('POSTDATA').http, {}, (res) => {
-                    // console.log(res);
                     res.forEach(e => {
                         DesignDataTree(e)
                     })
@@ -123,7 +122,6 @@ class DesignTablecomponent extends Component {
         </Button.Group>
     )
     daochu = (record) => {
-        //console.log(record);
         downloadFile(record.Name, record.Bytes)
     }
     CreateMenu = (e) => {
@@ -178,8 +176,10 @@ class DesignTablecomponent extends Component {
                 if (this.state.CreateMenu)
                     save.ParentFormID = this.state.selectData.PK;
 
-                seldata.Name = save.Name;
-                seldata.Sort = save.Sort;
+                if (seldata != 0) {
+                    seldata.Name = save.Name;
+                    seldata.Sort = save.Sort;
+                }
 
                 //新建菜单
                 POST$(API('SaveForm').http, save, (res) => {
@@ -212,7 +212,6 @@ class DesignTablecomponent extends Component {
         });
     }
     CreateTable = (dataSource) => {
-        //console.log(dataSource);
         //mock的数据 新建表单或者获取表单要覆盖原来的
         if (dataSource === 'new') {
             sessionStorage.setItem('C', 'N')
@@ -223,9 +222,6 @@ class DesignTablecomponent extends Component {
             this.props.history.push('/Design/Stylist')
         } else if (dataSource === 'Edit') {
             let selectData = this.state.selectData;
-            //console.log('edit');
-            //console.log(selectData);
-
             if (selectData === 0) {
                 message.warning('请选中一个菜单或表单')
             } else {
@@ -247,8 +243,6 @@ class DesignTablecomponent extends Component {
                         })
                     }
 
-                    //console.log(this.state.selectData);
-
                     this.props.form.setFieldsValue({ 'userName': this.state.selectData.Name });
                     this.props.form.setFieldsValue({ 'Sort': this.state.selectData.Sort });
                 } else {
@@ -267,7 +261,7 @@ class DesignTablecomponent extends Component {
     }
     rowSelection = {
         onSelect: (record) => {
-            console.log(record);
+            //console.log(record);
             this.setState({
                 selectData: record
             })
@@ -283,7 +277,7 @@ class DesignTablecomponent extends Component {
                     title="保存菜单"
                     footer={false}
                     visible={this.state.visible} onCancel={this.handleCancel.bind(this)}>
-                    <Form onSubmit={this.handleSubmit} className="login-form">
+                    <Form onSubmit={this.handleSubmit.bind(this)} className="login-form">
                         <FormItem>
                             {getFieldDecorator('userName', {
                                 rules: [{ required: true, message: '请输入菜单名称!' }],
