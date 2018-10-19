@@ -47,14 +47,12 @@ class NormalLoginForm extends React.Component {
                             UseId: values.username,
                             OrganId: values.scope
                         };
+                        sessionStorage.setItem('token', token.access_token) //保存token
+                        sessionStorage.setItem('values', JSON.stringify(values))//保存登入信息
 
                         POST$(API('getuserdata').http, uparam, (u) => {
                             console.log(u);
-
                             sessionStorage.setItem('udata', JSON.stringify(u));
-                            sessionStorage.setItem('token', token.access_token) //保存token
-                            sessionStorage.setItem('values', JSON.stringify(values))//保存登入信息
-
                             let path = {}
                             if (values.use === 'a') {
                                 this.props.history.push('/loginLeader')
