@@ -35,6 +35,7 @@ class Desgincomponent extends Component {
     }
 
     render() {
+        var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.92
         const { user } = this.state
         return (
             <Layout style={{ minHeight: '100vh' }}>
@@ -50,8 +51,8 @@ class Desgincomponent extends Component {
                 </Sider>
                 <Layout>
                     <Headercomponent user={user}></Headercomponent>
-                    <Content style={{ margin: '10px 16px' }}>
-                        <div style={{ padding: 24, background: '#fff', minHeight: 660 }}>
+                    <Content style={{ margin: '5px' }}>
+                        <div style={{ padding: 10, background: '#fff', minHeight:h }}>
                             <Route path='/Design/er' component={DesignTablecomponent}></Route>
                             <Route path='/Design/Stylist' component={Stylistcomponent}></Route>
                             <Route path='/Design/Arch' component={ReadForm}></Route>

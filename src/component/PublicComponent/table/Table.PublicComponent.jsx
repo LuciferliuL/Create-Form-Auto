@@ -195,53 +195,8 @@ class TablePublicComponent extends Component {
                                     )
                                 }
                             }
-
-
-
-
-
-                            // if (text.length < 10 || (!isChinese(text)&&text.length < 20)) {
-                            //     //字数小于10 或者  不是中文并且小于20
-                            //     // return (
-                            //     //     <div style={{ width: '200px' }}>{text}</div>
-                            //     // )
-                            // } else if (text.length > 10 && isChinese(text)) {//字数大于20 并且是中文
-                            //     // let t = text.slice(0, 10)
-                            //     // return (
-                            //     //     <Tooltip title={text}>
-                            //     //         <span style={{ width: '400px' }}>{t} </span>
-                            //     //     </Tooltip>
-                            //     // )
-                            // } else {
-                            //     // return (<div>{text}</div>)
-                            // }
-                        }
-                        // }
-                    }
-                    // else {
-                    //     e.render = (text) => {
-                    //         if (text) {
-                    //             if (text.length < 20) {
-                    //                 e.width = 200
-                    //                 widths += 200
-                    //                 return (
-                    //                     <div>{text}</div>
-                    //                 )
-                    //             } else if(text.length > 20){
-                    //                 e.width = 400
-                    //                 widths += 400
-                    //                 let t = text.slice(0,20)
-                    //                 return (
-                    //                     <Tooltip title={text}>
-                    //                         <span>{t} </span>
-                    //                     </Tooltip>
-                    //                 )
-                    //             }else{
-                    //                 return (<div>{text}</div>)
-                    //             }
-                    //         }
-                    //     }
-                    // }
+                        }                       
+                    }               
                 }
             });
         }
@@ -267,7 +222,8 @@ class TablePublicComponent extends Component {
                         }
                     }}
                     rowKey='indexs'
-                    size='small' />
+                    // size='small'
+                     />
             </div>
         )
     }

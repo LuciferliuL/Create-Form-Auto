@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table } from 'antd'
+import { Table, Tooltip } from 'antd'
 import { connect } from 'react-redux'
 import './Table.PublicComponent.css'
 import { tAddDown, tReduceUp } from '../lookup/action/lookup.action'
@@ -46,7 +46,7 @@ class TABLECOMPONENT extends Component {
     // };
 
     componentWillReceiveProps(pre) {
-        // console.log(pre.tableSource)
+        console.log(pre.tableSource)
         // console.log(this.state.tr + '-----' + pre.tableSource.tr);
         // const {colHeight} = this.state
         // console.log(pre);
@@ -55,12 +55,12 @@ class TABLECOMPONENT extends Component {
         if (pre.tableSource.tr > this.state.tr) {
             if (pre.tableSource.tr === colHeight * this.state.x && pre.tableSource.tr < 350) {
                 // if (pre.TABLE === 'TABLE') {
-                    pre.tableSource.dataSource.map((e, i) => {
-                        if (colHeight * this.state.x <= i && i < (colHeight * this.state.x + colHeight)) {
-                            e.indexs = colHeight * this.state.x + i + 'tables'
-                            data.push(e)
-                        }
-                    })
+                pre.tableSource.dataSource.map((e, i) => {
+                    if (colHeight * this.state.x <= i && i < (colHeight * this.state.x + colHeight)) {
+                        e.indexs = colHeight * this.state.x + i + 'tables'
+                        data.push(e)
+                    }
+                })
                 // } else {
                 //     pre.tableSource.dataSource.map((e, i) => {
                 //         if (colHeight * this.state.x <= i && i < (colHeight * this.state.x + colHeight)) {
@@ -76,7 +76,7 @@ class TABLECOMPONENT extends Component {
                         data: data,
                         tr: pre.tableSource.tr,
                         x: p.x + 1,
-                        colHeight:colHeight
+                        colHeight: colHeight
                     }
                 ))
             }
@@ -86,12 +86,12 @@ class TABLECOMPONENT extends Component {
                 console.log(this.state.x);
 
                 // if (pre.TABLE === 'TABLE') {
-                    pre.tableSource.dataSource.map((e, i) => {
-                        if (colHeight * this.state.x <= i && i < (colHeight * this.state.x + colHeight)) {
-                            e.indexs = i + 'tables'
-                            data.push(e)
-                        }
-                    })
+                pre.tableSource.dataSource.map((e, i) => {
+                    if (colHeight * this.state.x <= i && i < (colHeight * this.state.x + colHeight)) {
+                        e.indexs = i + 'tables'
+                        data.push(e)
+                    }
+                })
                 // } else {
                 //     pre.tableSource.dataSource.map((e, i) => {
                 //         if (colHeight * this.state.x <= i && i < (colHeight * this.state.x + colHeight)) {
@@ -105,27 +105,62 @@ class TABLECOMPONENT extends Component {
                         data: data,
                         tr: pre.tableSource.tr,
                         x: p.x - 1,
-                        colHeight:colHeight
+                        colHeight: colHeight
                     }
                 ))
             }
-        } else {
+        } else if (pre.tableSource.dataSource.length > 0) {
             // console.log(pre);
+            let Source = pre.tableSource.dataSource
+            if (Source.length > colHeight) {
+                Source.map((e, i) => {
+                    if (i < colHeight) {
+                        e.indexs = i + 'tables'
+                        data.push(e)
+                    }
+                })
+            } else {
 
-            pre.tableSource.dataSource.map((e, i) => {
-                if (i < colHeight) {
-                    e.indexs = i + 'tables'
-                    data.push(e)
+                for (let i = 0; i < colHeight; i++) {
+                    if (i > (Source.length - 1)) {
+                        let objs = {}
+                        Object.keys(Source[0]).map(e => {
+                            objs[e] = '无'
+                        })
+                        objs.indexs = i + 'tables'
+                        data.push(objs)
+                    } else {
+                        Source[i].indexs = i + 'tables'
+                        data.push(Source[i])
+                    }
+
                 }
-            })
+                console.log(data);
+
+            }
+
             // console.log(data);
 
-            this.setState((p) => (
+            this.setState(() => (
                 {
                     data: data,
                     tr: 0,
                     x: 1,
-                    colHeight:colHeight
+                    colHeight: colHeight
+                }
+            ), () => {
+                setTimeout(() => {
+                    pre.tableSource.tr = 0
+                    // console.log(pre.tableSource.tr);
+                }, 100);
+            })
+        } else {
+            this.setState(() => (
+                {
+                    data: data,
+                    tr: 0,
+                    x: 1,
+                    colHeight: colHeight
                 }
             ), () => {
                 setTimeout(() => {
@@ -170,10 +205,42 @@ class TABLECOMPONENT extends Component {
         let heightTable = this.props.tableSource.tr * (-38) > -228 ? '0px' : (this.props.tableSource.tr * (-38) + 228) + 'px'
         if (columns) {
             columns.map((e, i) => {
-                if (e.width > 0) {
-                    widths += Number(e.width)
+                if (i < this.props.PublicData.float) {
+                    e['fixed'] = 'left'
+                    widths += 200
+                    e.width = 200
                 } else {
                     widths += 200
+                    e.width = 200
+                    e.render = (text) => {
+                        if (text) {
+                            if (/^[\u4e00-\u9fa5]/.test(text)) {//中文
+                                if (text.length > 15) {
+                                    // 大于10
+                                    return (
+                                        <Tooltip title={text}>
+                                            <span style={{ width: '200px' }}>{text.slice(0, 15)} </span>
+                                        </Tooltip>
+                                    )
+                                } else {
+                                    //小于10
+                                    return (
+                                        <span style={{ width: '200px' }}>{text}</span>
+                                    )
+                                }
+                            } else {//EN or NUM
+                                if (text.length > 20) {
+                                    return (
+                                        <span style={{ width: '200px' }}>{text.slice(0, 20)}</span>
+                                    )
+                                } else {
+                                    return (
+                                        <span style={{ width: '200px' }}>{text}</span>
+                                    )
+                                }
+                            }
+                        }
+                    }
                 }
 
             });
@@ -191,10 +258,12 @@ class TABLECOMPONENT extends Component {
                     pagination={false}
                     scroll={{ x: widths }}
                     onHeaderRow={(column) => {
+                        // console.log(column);
+
                         return {
                             onClick: () => {
                                 window.addEventListener('keyup', this.handleKeyDown)
-                            },        // 点击表头行开启键盘监听
+                            },       // 点击表头行开启键盘监听
                         };
                     }}
                     rowClassName={(record, index) => {
@@ -202,9 +271,9 @@ class TABLECOMPONENT extends Component {
                         // console.log(index);
                         // console.log(this.state.x);
                         // console.log(this.props.tableSource.tr);
-                        
+
                         // console.log(colHeight);
-                        
+
                         if (this.props.tableSource.tr > (colHeight - 1)) {
                             return (index === (this.props.tableSource.tr - (colHeight * (this.state.x - 1))) ? 'black' : "")
                         } else {
@@ -212,7 +281,8 @@ class TABLECOMPONENT extends Component {
                         }
                     }}
                     rowKey='indexs'
-                    size='small' />
+                // size='small' 
+                />
             </div>
         )
     }

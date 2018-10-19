@@ -51,7 +51,7 @@ class ReadForm extends Component {
         let p1 = new Promise(
             (resolve, reject) => {
                 POST$(API('CheckCurrentId').http, body, (res) => {
-                    // console.log(res);
+                    console.log(res);
                     if (res.Results) {
                         resolve(res.Results)
                     } else {
@@ -88,7 +88,7 @@ class ReadForm extends Component {
         })
     }
     rowSelectionChange = (rowKeys, rows) => {
-        console.log(rowKeys, rows);
+        // console.log(rowKeys, rows);
         this.setState({
             selectedRowKeys: rowKeys,
             rows: rows
@@ -127,7 +127,7 @@ class ReadForm extends Component {
                 this.setState({
                     loading: false
                 })
-                console.log(err);
+                // console.log(err);
 
             })
 
@@ -149,7 +149,7 @@ class ReadForm extends Component {
         })
     }
     render() {
-        var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.80
+        var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.9
         const { loading, data, columns, selectedRowKeys } = this.state
         const rowSelection = {
             onChange: this.rowSelectionChange,
@@ -179,6 +179,7 @@ class ReadForm extends Component {
                     <Col span={20}>
                         <Card title="选择权限"
                             bordered={true}
+                            bodyStyle={{padding:'5px'}}                            
                             extra={<Button onClick={this.Add.bind(this)}>添加权限</Button>}>
                             <Table
                                 bordered
@@ -186,7 +187,8 @@ class ReadForm extends Component {
                                 columns={columns}
                                 rowSelection={rowSelection}
                                 rowKey='ROLEID'
-
+                                pagination={{defaultPageSize:15}}
+                                scroll={{y:h*0.8}}
                             ></Table>
                         </Card>
                     </Col>

@@ -11,14 +11,16 @@ const { Header } = Layout
 
 class Headercomponent extends Component {
     state = {
-        user: JSON.parse(sessionStorage.getItem('values')),
+        user: JSON.parse(sessionStorage.getItem('values')) ,
         userdata: JSON.parse(sessionStorage.getItem('udata'))
     }
     componentWillMount() {
 
-        // console.log(sessionStorage.getItem('values'));
-        if (sessionStorage.getItem('values') == null) {
-            this.props.history.push('/')
+        // console.log(typeof sessionStorage.getItem('values'));
+        if (typeof sessionStorage.getItem('values') === 'string') {
+            
+        }else{
+            window.location.href = 'http://localhost:3000/'
         }
     }
     componentWillReceiveProps(pre) {
@@ -222,21 +224,21 @@ class Headercomponent extends Component {
                 isPage: true
             }
             POST$(API('SQL').http, body, (res) => {
-                // console.log(res.Results);
-                let Res = res.Results
-                let arr = []
-                for (let i = 0; i < Res.length; i++) {
-                    let x = 0
-                    if (i === cols * (x + 1)) {
-                        arr[x].push(Res[i])
-                        x++
-                        arr[x] = []
-                    } else if (i < cols * (x + 1) && i > cols * x) {
-                        arr[x].push(Res[i])
-                    }
-                }
+                console.log(res.Results);
+                // let Res = res.Results
+                // let arr = []
+                // for (let i = 0; i < Res.length; i++) {
+                //     let x = 0
+                //     if (i === cols * (x + 1)) {
+                //         arr[x].push(Res[i])
+                //         x++
+                //         arr[x] = []
+                //     } else if (i < cols * (x + 1) && i > cols * x) {
+                //         arr[x].push(Res[i])
+                //     }
+                // }
 
-                console.log(arr);
+                // console.log(arr);
 
                 if (res.Results) {
                     this.props._tableUpdataFromResults(res.Results, res.RecordCount)
