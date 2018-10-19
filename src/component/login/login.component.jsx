@@ -1,9 +1,10 @@
 import React from 'react';
 import { Form, Icon, Input, Button, Card, Cascader, Radio, message, Spin } from 'antd';
 import './login.component.css'
-import { API } from '../../lib/API/login.API'
-import { GETFetch, TreeMath, POSTFETCHNOBODY } from '../../lib/MATH/math'
+import { API, userAPI, getuserparam } from '../../lib/API/login.API'
+import { GETFetch, TreeMath, POSTFETCHNOBODY, POST$ } from '../../lib/MATH/math'
 import ReactCanvasNest from 'react-canvas-nest'
+
 
 const FormItem = Form.Item;
 
@@ -14,15 +15,15 @@ class NormalLoginForm extends React.Component {
         loading: true
     }
     componentDidMount() {
-      
+
         GETFetch(API('login').http, (res) => {
             let SystemConnectList = res.SystemConnectList
             this.setState({
                 listObj: TreeMath(SystemConnectList),
                 loading: false
             })
-            if(localStorage.getItem('company')){
-                this.props.form.setFieldsValue({'scope':JSON.parse(localStorage.getItem('company'))})
+            if (localStorage.getItem('company')) {
+                this.props.form.setFieldsValue({ 'scope': JSON.parse(localStorage.getItem('company')) })
             }
         })
     }
@@ -35,21 +36,34 @@ class NormalLoginForm extends React.Component {
             if (!err) {
                 // console.log('Received values of form: ', values);
                 values.scope = values.scope[values.scope.length - 1]
-                // console.log(values);
+                //console.log(values);
                 let http = `grant_type=password&username=${values.username}&password=${values.password}&client_id=JZT&scope=${values.scope}`
                 POSTFETCHNOBODY(API('checkLoginID').http, http, (token) => {
                     if (token.error_description) {
                         message.error(token.error_description)
                     } else {
-                        sessionStorage.setItem('token', token.access_token) //保存token
-                        sessionStorage.setItem('values', JSON.stringify(values))//保存登入信息
-                        
-                        let path = {}
-                        if (values.use === 'a') {
-                            this.props.history.push('/loginLeader')
-                        } else {
-                            this.props.history.push('/USER')
-                        }
+                        //得到用户信息；
+                        let uparam = {
+                            UseId: values.username,
+                            OrganId: values.scope
+                        };
+
+                        POST$(API('getuserdata').http, uparam, (u) => {
+                            console.log(u);
+
+                            sessionStorage.setItem('udata', JSON.stringify(u));
+                            sessionStorage.setItem('token', token.access_token) //保存token
+                            sessionStorage.setItem('values', JSON.stringify(values))//保存登入信息
+
+                            let path = {}
+                            if (values.use === 'a') {
+                                this.props.history.push('/loginLeader')
+                            } else {
+                                this.props.history.push('/USER')
+                            }
+                        })
+
+
 
 
                     }
@@ -61,7 +75,7 @@ class NormalLoginForm extends React.Component {
         console.log(value)
         // 长期保存公司
         let company = value
-        localStorage.setItem('company',JSON.stringify(company))
+        localStorage.setItem('company', JSON.stringify(company))
     }
     render() {
         const { getFieldDecorator } = this.props.form;

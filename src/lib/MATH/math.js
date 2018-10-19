@@ -1,7 +1,7 @@
 import 'isomorphic-fetch'
 import $ from 'jquery'
 import { notification } from 'antd'
-import {baseAPI} from '../API/check.API'
+import { baseAPI } from '../API/check.API'
 /**
  * 
  * @param {链接} URL 
@@ -255,75 +255,73 @@ export const DesignDataTree = (element) => {
         element.children.forEach((e) => {
             DesignDataTree(e)
         })
-    }else{
+    } else {
         delete element.children
     }
     return element
 }
 
 
-export const getrequestparam =(k, body) =>{
-    
-    const httpurl = baseAPI;
+export const getrequestparam = (k, body) => {
 
-    switch(k){
+    const httpurl = baseAPI;
+    switch (k) {
         case "exportsqldata":
             return {
-                response:'blob',
-                method: 'POST', 
+                response: 'blob',
+                method: 'POST',
                 auth: false,
                 body: body,
-                contenttype: 'application/json;charset=UTF-8', 
-                httpurl:  httpurl + "/api/dataquery/ExportData"
+                contenttype: 'application/json;charset=UTF-8',
+                httpurl: httpurl + "/api/dataquery/ExportData"
             }
         default:
             break;
     }
 }
 
-export const httprequest =(param, callback)=>{
+export const httprequest = (param, callback) => {
     let token = sessionStorage.getItem('token');
     let headers = new Headers();
     headers.append('Content-Type', param.contenttype);
-    
-    if(param.auth)
+
+    if (param.auth)
         headers.append("Authorization", "Bearer " + token);
 
     let request = new Request(param.httpurl, {
-        method: param.method, 
+        method: param.method,
         headers: headers
     });
 
-    if(param.method ==='POST'){
+    if (param.method === 'POST') {
         request = new Request(param.httpurl, {
-            method : param.method, 
-            body : param.body,
-            headers : headers
+            method: param.method,
+            body: param.body,
+            headers: headers
         });
     }
 
-    if(param.response==='json')
-    {
+    if (param.response === 'json') {
         fetch(request)
-        .then(response => response.json())
-        .then(result => {
-            callback(result);
-        })
-        .catch(res => {
-            console.log(res);
-        })
+            .then(response => response.json())
+            .then(result => {
+                callback(result);
+            })
+            .catch(res => {
+                console.log(res);
+            })
     }
-    else{
+    else {
         fetch(request)
-        .then(response => response.blob())
-        .then(blob => {
-            callback(blob);
-        });
+            .then(response => response.blob())
+            .then(blob => {
+                callback(blob);
+            });
     }
 }
 
-export function isChinese(temp){
+export function isChinese(temp) {
     // var re=/[^/u4e00-/u9fa5]/;
-    if (/^[\u4e00-\u9fa5]/.test(temp)) return false ;
-    return true ;
-  }
+    if (/^[\u4e00-\u9fa5]/.test(temp)) return false;
+    return true;
+}
