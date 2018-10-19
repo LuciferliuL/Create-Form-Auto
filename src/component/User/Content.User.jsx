@@ -44,7 +44,6 @@ class ContentUser extends Component {
         let Dr = []
         let width_ = this.state.domWidth / 24
         let height_ = 40
-        let tableOffsetHeight = 40
         let hflag = 0
         this.props.UpdataFormData.forEach(e => {
             let width = e.w * width_
@@ -52,7 +51,6 @@ class ContentUser extends Component {
                 , PositionTop = e.GridY * height_
                 , PositionLeft = e.GridX * width_
             if (PositionTop > hflag) {
-                // tableOffsetHeight += 40
                 hflag = PositionTop
             }
 
@@ -72,8 +70,8 @@ class ContentUser extends Component {
                 >
                 <Form
                     style={{ padding: '5px', position: 'relative' }}>{Dr}</Form>
-                <div style={{ position: 'relative', top: tableOffsetHeight + hflag + 'px', height: (h - hflag) * 0.85 + 'px' }}>
-                    <TABLECOMPONENT PublicData={this.props.tableSource}  heights={(h - hflag) * 0.85}>
+                <div style={{ position: 'relative', top:  (hflag + 40)+'px', height: (h - hflag) * 0.8 + 'px' }}>
+                    <TABLECOMPONENT PublicData={this.props.tableSource}  heights={(h - hflag) * 0.8}>
                     </TABLECOMPONENT>
                 </div>
             </Card>

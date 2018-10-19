@@ -254,7 +254,7 @@ class DesignTablecomponent extends Component {
                 } else {
                     //表单
                     let body = JSON.parse(this.state.selectData.Bytes)
-                    sessionStorage.setItem('C', JSON.stringify(this.state.selectData))
+                    // sessionStorage.setItem('C', JSON.stringify(this.state.selectData))
                     this.props.fugai(body.FormData) //添加表单的
                     this.props.tableFugai(body.TableData)//添加表格的
                     this.props.update(this.state.selectData)//用来确定是否新建
