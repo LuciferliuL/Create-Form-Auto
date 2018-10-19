@@ -178,8 +178,8 @@ class DesignTablecomponent extends Component {
                 if (this.state.CreateMenu)
                     save.ParentFormID = this.state.selectData.PK;
 
-                seldata.Name = save.Name;
-                seldata.Sort = save.Sort;
+                // seldata.Name = save.Name;
+                // seldata.Sort = save.Sort;
 
                 //新建菜单
                 POST$(API('SaveForm').http, save, (res) => {
