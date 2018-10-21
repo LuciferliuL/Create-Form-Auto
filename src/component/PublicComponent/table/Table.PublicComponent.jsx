@@ -154,43 +154,15 @@ class TablePublicComponent extends Component {
     onRow = (record, index) => {
         return {
             onClick: () => {
-                console.log(index);
-                this.props.onClickTr(index)
-                this.props.shows(false)
+                // console.log(index);
                 this.props.lookupCLick(index)
                 // this.CLick()
             }
         }
     }
-    CLick = () => {
-        const { dataSource } = this.props.currentAttr  
-        if (dataSource.length >= 1) {
-            // console.log(this.props.currentAttr  .tr);
-            let dataSource_ = JSON.parse(JSON.stringify(dataSource[this.props.currentAttr.tr]));
-
-            //更新lookup对应得input
-            this.props.updataValues(dataSource_);
-            window.removeEventListener('keyup', this.handleKeyDown);
-
-            let agg = this.props.UpdataFormData.filter(e => e.type === 'INPUT' && e.isTrueInLookUp === this.props.currentAttr  .key)
-            agg.forEach(e => {
-                e.defaultValue = dataSource_[e.typePoint]
-                this.props.upForm(e)
-            })
-            // console.log(agg);
-
-            //更新整个form
-            this.props.upForm(this.props.currentAttr  );
-            console.log(this.props.UpdataFormData);
-
-
-        } else {
-            this.props.upForm(this.props.currentAttr  )
-            window.removeEventListener('keyup', this.handleKeyDown)
-        }
-    }
     render() {
         var w = document.documentElement.clientWidth || document.body.clientWidth;
+        var h = document.documentElement.clientHeight || document.body.clientHeight;
         const { columns } = this.props.PublicData
         const { heightTr } = this.state
         let widths = 0
@@ -250,7 +222,7 @@ class TablePublicComponent extends Component {
                     columns={columns}
                     dataSource={this.state.data}
                     pagination={false}
-                    scroll={{ x: widths * 1.1, y: 800 }}
+                    scroll={{ x: widths * 1.1, y: h*0.8 }}
                     rowClassName={(record, index) => {
                         // console.log(record)
                         // console.log(index);
