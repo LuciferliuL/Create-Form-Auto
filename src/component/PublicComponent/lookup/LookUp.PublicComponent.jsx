@@ -132,6 +132,8 @@ class LookUpPublicComponent extends Component {
         const { dataSource } = this.props.current
         if(key){
             console.log(key);
+            this.props.shows(false)
+            console.log(this.props.current);
             
             if (dataSource.length >= 1) {
                 // console.log(this.props.current.tr);
@@ -148,6 +150,7 @@ class LookUpPublicComponent extends Component {
                 })
                 // console.log(agg);
                 this.props.onClickTr(key)
+                
                 //更新整个form
                 this.props.upForm(this.props.current);
                 console.log(this.props.UpdataFormData);
