@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Form, Input, Button, Modal } from 'antd'
 import { connect } from 'react-redux'
 import './LookUp.PublicComponent.css'
-import { shows, upDataCurrentDataSource, updataValues, trAddDown, trReduceUp,onClickTr } from './action/lookup.action'
+import { shows, upDataCurrentDataSource, updataValues, trAddDown, trReduceUp, onClickTr } from './action/lookup.action'
 import { currentAttr } from '../../stylist/action/Stylist.action'
 import { formUpdataFromCurrent } from '../../SliderRIght/action/Right.action'
 import { POST$ } from '../../../lib/MATH/math'
@@ -128,22 +128,23 @@ class LookUpPublicComponent extends Component {
     }
     CLick = (key) => {
         console.log(key);
-        
+
         const { dataSource } = this.props.current
-        if(key){
+        if (key) {
             console.log(key);
             this.props.shows(false)
             console.log(this.props.current);
             
+
             if (dataSource.length >= 1) {
                 // console.log(this.props.current.tr);
                 let dataSource_ = JSON.parse(JSON.stringify(dataSource[key]));
-    
+
                 //更新lookup对应得input
                 this.props.updataValues(dataSource_);
                 window.removeEventListener('keyup', this.handleKeyDown);
-    
-                let agg = this.props.UpdataFormData.filter(e => e.type === 'INPUT' && e.isTrueInLookUp === this.props.current.key)
+
+                let agg = this.props.UpdataFormData.filter(e => e.type === 'INPUT' && e.isTrueInLookUp === this.props.current.id)
                 agg.forEach(e => {
                     e.defaultValue = dataSource_[e.typePoint]
                     this.props.upForm(e)
@@ -154,39 +155,39 @@ class LookUpPublicComponent extends Component {
                 //更新整个form
                 this.props.upForm(this.props.current);
                 console.log(this.props.UpdataFormData);
-    
-    
+
+
             } else {
                 this.props.upForm(this.props.current)
                 window.removeEventListener('keyup', this.handleKeyDown)
             }
-        }else{
+        } else {
             if (dataSource.length >= 1) {
                 // console.log(this.props.current.tr);
                 let dataSource_ = JSON.parse(JSON.stringify(dataSource[this.props.current.tr]));
-    
+
                 //更新lookup对应得input
                 this.props.updataValues(dataSource_);
                 window.removeEventListener('keyup', this.handleKeyDown);
-    
+
                 let agg = this.props.UpdataFormData.filter(e => e.type === 'INPUT' && e.isTrueInLookUp === this.props.current.key)
                 agg.forEach(e => {
                     e.defaultValue = dataSource_[e.typePoint]
                     this.props.upForm(e)
                 })
                 // console.log(agg);
-    
+
                 //更新整个form
                 this.props.upForm(this.props.current);
                 console.log(this.props.UpdataFormData);
-    
-    
+
+
             } else {
                 this.props.upForm(this.props.current)
                 window.removeEventListener('keyup', this.handleKeyDown)
             }
         }
-       
+
     }
     LookUpChange = (e) => {
         if (e.target.value === '') {
@@ -247,7 +248,7 @@ class LookUpPublicComponent extends Component {
                         ClickHandleKey={this.ClickHandleKey.bind(this)}
                         h={this.state.h}
                         lookupCLick={this.CLick}>
-                       
+
                     </TablePublicComponent>
                 </Modal>
                 <FormItem
