@@ -133,17 +133,17 @@ class LookUpPublicComponent extends Component {
             this.props.updataValues(dataSource_);
             window.removeEventListener('keyup', this.handleKeyDown);
 
-            let agg = this.props.UpdataFormData.filter(e => e.type === 'INPUT' && e.isTrueInLookUp === this.props.current.key)
+            //debugger
+            let agg = this.props.UpdataFormData.filter(e => e.type === 'INPUT' && e.isTrueInLookUp === this.props.current.id)
             agg.forEach(e => {
                 e.defaultValue = dataSource_[e.typePoint]
                 this.props.upForm(e)
             })
-            // console.log(agg);
+            //console.log(agg);
 
             //更新整个form
             this.props.upForm(this.props.current);
-            console.log(this.props.UpdataFormData);
-
+            //console.log(this.props.UpdataFormData);
 
         } else {
             this.props.upForm(this.props.current)
@@ -153,7 +153,7 @@ class LookUpPublicComponent extends Component {
     LookUpChange = (e) => {
         if (e.target.value === '') {
             // console.log(e.target.value);
-            let key =  this.props.current.key
+            let key = this.props.current.key
             this.props.UpdataFormData.find(e => e.key === key).values = ''
             // let Field = {}
             // let key =  this.props.current.key
@@ -173,7 +173,7 @@ class LookUpPublicComponent extends Component {
     Blur = (e) => {
         //debugger;
         console.log(this.state.isEnter);
-        
+
         if (!this.state.isEnter) {
             let Field = {}
             let v = this.props.current
@@ -215,7 +215,7 @@ class LookUpPublicComponent extends Component {
                     {...layout}
                 >
                     {getFieldDecorator(key, {
-                        rules: [{ required: { required }, message: message === ''?'必填':message }],
+                        rules: [{ required: { required }, message: message === '' ? '必填' : message }],
                     })(
                         <Input
                             onChange={this.LookUpChange.bind(this)}
