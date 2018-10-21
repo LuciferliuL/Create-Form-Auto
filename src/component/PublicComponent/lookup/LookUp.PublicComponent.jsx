@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Form, Input, Button, Modal } from 'antd'
 import { connect } from 'react-redux'
 import './LookUp.PublicComponent.css'
-import { shows, upDataCurrentDataSource, updataValues, trAddDown, trReduceUp, onClickTr } from './action/lookup.action'
+import { shows, upDataCurrentDataSource, updataValues, trAddDown, trReduceUp, } from './action/lookup.action'
 import { currentAttr } from '../../stylist/action/Stylist.action'
 import { formUpdataFromCurrent } from '../../SliderRIght/action/Right.action'
 import { POST$ } from '../../../lib/MATH/math'
@@ -64,10 +64,7 @@ class LookUpPublicComponent extends Component {
                 this.props.shows(show)
             }
             this.props.upForm(this.props.current)
-            setTimeout(() => {
-                window.addEventListener('keyup', this.handleKeyDown)
-            }, 1000);
-
+            window.addEventListener('keyup', this.handleKeyDown)
         })
     }
     Cancel = () => {
@@ -115,7 +112,7 @@ class LookUpPublicComponent extends Component {
                 console.log(this.props.current.show);
 
                 if (!this.props.current.show) {
-                    this.CLick(false)
+                    this.CLick()
                 }
 
                 break
@@ -126,9 +123,7 @@ class LookUpPublicComponent extends Component {
                 break
         }
     }
-    CLick = (key) => {
-        console.log(key);
-
+    CLick = () => {
         const { dataSource } = this.props.current
         if (dataSource.length >= 1) {
             // console.log(this.props.current.tr);
@@ -138,208 +133,150 @@ class LookUpPublicComponent extends Component {
             this.props.updataValues(dataSource_);
             window.removeEventListener('keyup', this.handleKeyDown);
 
-            //debugger
             let agg = this.props.UpdataFormData.filter(e => e.type === 'INPUT' && e.isTrueInLookUp === this.props.current.id)
             agg.forEach(e => {
                 e.defaultValue = dataSource_[e.typePoint]
                 this.props.upForm(e)
             })
-            //console.log(agg);
+            // console.log(agg);
 
             //更新整个form
             this.props.upForm(this.props.current);
-            //console.log(this.props.UpdataFormData);
+            console.log(this.props.UpdataFormData);
+
 
         } else {
             this.props.upForm(this.props.current)
             window.removeEventListener('keyup', this.handleKeyDown)
-            if (key) {
-                console.log(key);
-
-                if (dataSource.length >= 1) {
-                    // console.log(this.props.current.tr);
-                    let dataSource_ = JSON.parse(JSON.stringify(dataSource[key]));
-
-                    //更新lookup对应得input
-                    this.props.updataValues(dataSource_);
-                    window.removeEventListener('keyup', this.handleKeyDown);
-
-                    let agg = this.props.UpdataFormData.filter(e => e.type === 'INPUT' && e.isTrueInLookUp === this.props.current.key)
-                    agg.forEach(e => {
-                        e.defaultValue = dataSource_[e.typePoint]
-                        this.props.upForm(e)
-                    })
-                    // console.log(agg);
-                    this.props.onClickTr(key)
-                    //更新整个form
-                    this.props.upForm(this.props.current);
-                    console.log(this.props.UpdataFormData);
-
-
-                } else {
-                    this.props.upForm(this.props.current)
-                    window.removeEventListener('keyup', this.handleKeyDown)
-                }
-            } else {
-                if (dataSource.length >= 1) {
-                    // console.log(this.props.current.tr);
-                    let dataSource_ = JSON.parse(JSON.stringify(dataSource[this.props.current.tr]));
-
-                    //更新lookup对应得input
-                    this.props.updataValues(dataSource_);
-                    window.removeEventListener('keyup', this.handleKeyDown);
-
-                    let agg = this.props.UpdataFormData.filter(e => e.type === 'INPUT' && e.isTrueInLookUp === this.props.current.key)
-                    agg.forEach(e => {
-                        e.defaultValue = dataSource_[e.typePoint]
-                        this.props.upForm(e)
-                    })
-                    // console.log(agg);
-
-                    //更新整个form
-                    this.props.upForm(this.props.current);
-                    console.log(this.props.UpdataFormData);
-
-
-                } else {
-                    this.props.upForm(this.props.current)
-                    window.removeEventListener('keyup', this.handleKeyDown)
-                }
-            }
-
-        }
-        LookUpChange = (e) => {
-            if (e.target.value === '') {
-                // console.log(e.target.value);
-                let key = this.props.current.key
-                this.props.UpdataFormData.find(e => e.key === key).values = ''
-                // let Field = {}
-                // let key =  this.props.current.key
-                // Field[key] = ' '
-                // this.props.form.setFieldsValue(Field)
-                this.setState({
-                    isEnter: true
-                })
-            } else {
-                this.setState({
-                    isEnter: false
-                })
-            }
-
-        }
-        //失去焦点
-        Blur = (e) => {
-            //debugger;
-            console.log(this.state.isEnter);
-
-            if (!this.state.isEnter) {
-                let Field = {}
-                let v = this.props.current
-                let values = v.values[v.uniqueKey]
-                // console.log(v);
-                let key = v.key
-                if (values !== '') {
-                    Field[key] = values
-                    this.props.form.setFieldsValue(Field)
-                } else {
-                    Field[key] = ' '
-                    this.props.form.setFieldsValue(Field)
-                }
-            }
-
-        }
-        render() {
-            const { getFieldDecorator } = this.props.form
-            const { dataSource, label, key, required, message, layout, columns, show, scroll } = this.props.PublicData
-            return (
-                <div className="certain-category-search-wrapper" style={{ width: '100%' }}>
-                    <Modal
-                        visible={show}
-                        width='100%'
-                        style={{ top: '0' }}
-                        footer={null}
-                        onCancel={this.Cancel.bind(this)}
-                        bodyStyle={{ overflow: 'scroll' }}
-                        destroyOnClose={true}
-                    >
-                        <TablePublicComponent
-                            PublicData={this.props.current}
-                            ClickHandleKey={this.ClickHandleKey.bind(this)}
-                            h={this.state.h}
-                            lookupCLick={this.CLick}>
-
-                        </TablePublicComponent>
-                    </Modal>
-                    <FormItem
-                        label={label}
-                        {...layout}
-                    >
-                        {getFieldDecorator(key, {
-                            rules: [{ required: { required }, message: message === '' ? '必填' : message }],
-                        })(
-                            <Input
-                                onChange={this.LookUpChange.bind(this)}
-                                onPressEnter={this.OnPressEnter.bind(this, this.props.PublicData.key, 1, 200, true)}
-                                onBlur={this.Blur.bind(this)}
-                            >
-                            </Input>
-                        )}
-                    </FormItem>
-                </div>
-            )
         }
     }
-    const mapStateToProps = (state) => {
-        // console.log(state);
-
-        return {
-            current: state.currentAttr,
-            UpdataFormData: state.UpdataFormData
+    LookUpChange = (e) => {
+        if (e.target.value === '') {
+            // console.log(e.target.value);
+            let key = this.props.current.key
+            this.props.UpdataFormData.find(e => e.key === key).values = ''
+            // let Field = {}
+            // let key =  this.props.current.key
+            // Field[key] = ' '
+            // this.props.form.setFieldsValue(Field)
+            this.setState({
+                isEnter: true
+            })
+        } else {
+            this.setState({
+                isEnter: false
+            })
         }
-    }
-    const mapDispatchProps = (dispatch) => {
-        return {
-            shows: (k) => {
-                dispatch(shows(k))
-            },
-            UpDataCurrent: (k) => {
-                dispatch(currentAttr(k))
-            },
-            upDataCurrentDataSource: (k, totalPage) => {
-                dispatch(upDataCurrentDataSource(k, totalPage))
-            },
-            upForm: (k) => {
-                dispatch(formUpdataFromCurrent(k))
-            },
-            updataValues: (k) => {
-                dispatch(updataValues(k))
-            },
-            trAddDown: (k, i) => {
-                dispatch(trAddDown(k, i))
-            },
-            trReduceUp: (k, i) => {
-                dispatch(trReduceUp(k, i))
-            },
-            onClickTr: (k) => {
-                dispatch(onClickTr(k))
-            }
-        }
-    }
 
-    export default LookUpPublicComponent = connect(mapStateToProps, mapDispatchProps)(Form.create({
-        mapPropsToFields(props) {
-            console.log(props);
+    }
+    //失去焦点
+    Blur = (e) => {
+        //debugger;
+        console.log(this.state.isEnter);
+
+        if (!this.state.isEnter) {
             let Field = {}
-            let v = props.UpdataFormData.find(e => e.key === props.PublicData.key)
+            let v = this.props.current
             let values = v.values[v.uniqueKey]
             // console.log(v);
             let key = v.key
-            Field[key] = Form.createFormField({ value: values })
-            //console.log(Field);
-            return Field
+            if (values !== '') {
+                Field[key] = values
+                this.props.form.setFieldsValue(Field)
+            } else {
+                Field[key] = ' '
+                this.props.form.setFieldsValue(Field)
+            }
+        }
 
+    }
+    render() {
+        const { getFieldDecorator } = this.props.form
+        const { dataSource, label, key, required, message, layout, columns, show, scroll } = this.props.PublicData
+        return (
+            <div className="certain-category-search-wrapper" style={{ width: '100%' }}>
+                <Modal
+                    visible={show}
+                    width='100%'
+                    style={{ top: '0' }}
+                    footer={null}
+                    onCancel={this.Cancel.bind(this)}
+                    bodyStyle={{ overflow: 'scroll' }}
+                    destroyOnClose={true}
+                >
+                    <TablePublicComponent
+                        PublicData={this.props.current}
+                        ClickHandleKey={this.ClickHandleKey.bind(this)}
+                        h={this.state.h}>
+                    </TablePublicComponent>
+                </Modal>
+                <FormItem
+                    label={label}
+                    {...layout}
+                >
+                    {getFieldDecorator(key, {
+                        rules: [{ required: { required }, message: message === '' ? '必填' : message }],
+                    })(
+                        <Input
+                            onChange={this.LookUpChange.bind(this)}
+                            onPressEnter={this.OnPressEnter.bind(this, this.props.PublicData.key, 1, 200, true)}
+                            onBlur={this.Blur.bind(this)}
+                        >
+                        </Input>
+                    )}
+                </FormItem>
+            </div>
+        )
+    }
+}
+const mapStateToProps = (state) => {
+    // console.log(state);
+
+    return {
+        current: state.currentAttr,
+        UpdataFormData: state.UpdataFormData
+    }
+}
+const mapDispatchProps = (dispatch) => {
+    return {
+        shows: (k) => {
+            dispatch(shows(k))
         },
-    })(LookUpPublicComponent));
+        UpDataCurrent: (k) => {
+            dispatch(currentAttr(k))
+        },
+        upDataCurrentDataSource: (k, totalPage) => {
+            dispatch(upDataCurrentDataSource(k, totalPage))
+        },
+        upForm: (k) => {
+            dispatch(formUpdataFromCurrent(k))
+        },
+        updataValues: (k) => {
+            dispatch(updataValues(k))
+        },
+        trAddDown: (k, i) => {
+            dispatch(trAddDown(k, i))
+        },
+        trReduceUp: (k, i) => {
+            dispatch(trReduceUp(k, i))
+        },
+    }
+}
+
+export default LookUpPublicComponent = connect(mapStateToProps, mapDispatchProps)(Form.create({
+    mapPropsToFields(props) {
+        //console.log(props);
+        let Field = {}
+        let v = props.UpdataFormData.find(e => e.key === props.PublicData.key)
+        let values = v.values[v.uniqueKey]
+        // console.log(v);
+        let key = v.key
+        Field[key] = Form.createFormField({ value: values })
+        //console.log(Field);
+        return Field
+
+    },
+})(LookUpPublicComponent));
 
 
 
