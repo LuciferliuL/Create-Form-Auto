@@ -21,7 +21,7 @@ class Drawercomponent extends Component {
         //修改的结果在这里
         if (this.props.currentAttr.key === 'tablesKey') {
             // console.log(1111);
-            
+
             this.props.tableFugai(this.props.currentAttr)
         } else if (this.props.currentAttr.type === 'LookUp' && this.props.currentAttr.dataSource.length === 0) {
             let abbr = {}
@@ -37,7 +37,7 @@ class Drawercomponent extends Component {
                 this.props.upDataCurrentDataSource(res.Results, res.RecordCount)
                 this.props.upForm(this.props.currentAttr)
             })
-        } 
+        }
         else {
             this.props.upForm(this.props.currentAttr)
         }
@@ -66,20 +66,20 @@ class Drawercomponent extends Component {
         this.props.TagCancelDataInGroup(i)
     }
     InputChange = (i, title, e) => {
-        if(title === 'dataIndex'){
+        if (title === 'dataIndex') {
             this.props.inputValueChange(i, title, e.target.value.toUpperCase())
-        }else{
+        } else {
             this.props.inputValueChange(i, title, e.target.value)
         }
-        
+
     }
     GroupChange = (i, title, e) => {
-        if(title === 'dataIndex'){
+        if (title === 'dataIndex') {
             this.props.GroupValueChange(i, title, e.target.value.toUpperCase())
-        }else{
+        } else {
             this.props.GroupValueChange(i, title, e.target.value)
         }
-        
+
     }
     SQLChange = (e) => {
         console.log(e.target.value);
@@ -93,10 +93,10 @@ class Drawercomponent extends Component {
             content.push(
                 <div key={'SQL12138'}>
                     <Tag>SQL:</Tag>
-                    <TextArea 
-                    autosize={{ minRows: 25 }} 
-                    value={this.props.currentAttr.SQL} 
-                    onChange={this.SQLChange.bind(this)}></TextArea>
+                    <TextArea
+                        autosize={{ minRows: 25 }}
+                        value={this.props.currentAttr.SQL}
+                        onChange={this.SQLChange.bind(this)}></TextArea>
                 </div>
             )
         } else if (this.props.flag === 'columns') {
@@ -139,6 +139,9 @@ class Drawercomponent extends Component {
                 )
             });
         } else if (this.props.flag === 'GroupValue') {
+            if (this.props.currentAttr.GroupValue == undefined)
+                return;
+
             content.push(
                 <div key={132313182}>
                     <Col span={6}>
@@ -149,6 +152,7 @@ class Drawercomponent extends Component {
                     </Col>
                 </div>
             )
+
             this.props.currentAttr.GroupValue.forEach((e, i) => {
                 content.push(
                     <div key={i}>
@@ -209,12 +213,12 @@ class Drawercomponent extends Component {
 }
 const mapStateToProps = (state) => {
     console.log(state);
-    
+
     return {
         hide: state.hide,
         currentAttr: state.currentAttr,
         flag: state.flag,
-        tableSource:state.tableSource
+        tableSource: state.tableSource
     };
 }
 const mapDispatchProps = (dispatch) => {

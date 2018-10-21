@@ -164,7 +164,7 @@ class LookUpPublicComponent extends Component {
                 this.props.updataValues(dataSource_);
                 window.removeEventListener('keyup', this.handleKeyDown);
 
-                let agg = this.props.UpdataFormData.filter(e => e.type === 'INPUT' && e.isTrueInLookUp === this.props.current.key)
+                let agg = this.props.UpdataFormData.filter(e => e.type === 'INPUT' && e.isTrueInLookUp === this.props.current.id)
                 agg.forEach(e => {
                     e.defaultValue = dataSource_[e.typePoint]
                     this.props.upForm(e)
