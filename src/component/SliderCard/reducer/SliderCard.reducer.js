@@ -913,138 +913,183 @@ and (f.custno like upper('%' || :Abbr || '%') or
         columns: [{
             title: "子公司主管部门名称",
             dataIndex: "EXECUTIVEDEPT",
+            width: 150,
         }, {
             title: "助记码",
             dataIndex: "CUSTMEMORYCODE",
+            width: 150,
         }, {
             title: "质管备注",
             dataIndex: "QUALIFICATIONDEADLINE",
+            width: 150,
         }, {
             title: "客户类别ID",
             dataIndex: "CUSTTYPEID",
+            width: 150,
         }, {
             title: "客户内码",
             dataIndex: "CUSTID",
+            width: 150,
         }, {
             title: "客户编码",
             dataIndex: "CUSTNO",
+            width: 150,
         }, {
             title: "客户名称",
             dataIndex: "CUSTNAME",
+            width: 150,
         }, {
             title: "客户地址（注册地址）",
             dataIndex: "CUSTADD",
+            width: 150,
         }, {
             title: "客户标识",
             dataIndex: "CUSTIDENTIFY",
+            width: 150,
         }, {
             title: "联系人",
             dataIndex: "CONTACTPERSON",
+            width: 150,
         }, {
             title: "联系人电话",
             dataIndex: "CONTACTPHONE",
+            width: 150,
         }, {
             title: "责任业务员ID",
             dataIndex: "BUSINESSID",
+            width: 150,
         }, {
             title: "责任业务员",
             dataIndex: "BUSINESSMAN",
+            width: 150,
         }, {
             title: "不可经营类别",
             dataIndex: "NONBUSINESSTYPE",
+            width: 150,
         }, {
             title: "经营简码ID",
             dataIndex: "BUSINESSSCOPECODE",
+            width: 150,
         }, {
             title: "不可经营简码ID",
             dataIndex: "NONBUSINESSSCOPECODE",
+            width: 150,
         }, {
             title: "分销客户类型",
             dataIndex: "CUSTTYPE",
+            width: 150,
         }, {
             title: "是否转配送",
             dataIndex: "ISARTICULATED",
+            width: 150,
         }, {
             title: "责任开票员ID",
             dataIndex: "MAINOPID",
+            width: 150,
         }, {
             title: "责任开票员",
             dataIndex: "MAINOPNAME",
+            width: 150,
         }, {
             title: "采购员",
             dataIndex: "PURCHASER",
+            width: 150,
         }, {
             title: "采购员ID",
             dataIndex: "PURCHASERID",
+            width: 150,
         }, {
             title: "付款方式",
             dataIndex: "PAYMENTNAME",
+            width: 150,
         }, {
             title: "销售信贷期",
             dataIndex: "SALESCREDITTIME",
+            width: 150,
         }, {
             title: "是否可进货",
             dataIndex: "ISPURCHASING",
+            width: 150,
         }, {
             title: "关联关系ID",
             dataIndex: "RELATION",
+            width: 150,
         }, {
             title: "是否集采",
             dataIndex: "IS_CENTRALIZEDPURCHASING",
+            width: 150,
         }, {
             title: "是否可销售",
             dataIndex: "ISSALES",
+            width: 150,
         }, {
             title: "开发票要求",
             dataIndex: "BILLINGNOTE",
+            width: 150,
         }, {
             title: "主配送仓库ID",
             dataIndex: "STOREID",
+            width: 150,
         }, {
             title: "区域划分名称",
             dataIndex: "TERRITORIESTEXT",
+            width: 150,
         }, {
             title: "区域划分ID",
             dataIndex: "TERRITORIES",
+            width: 150,
         }, {
             title: "所属大区名称",
             dataIndex: "OWNERAREATEXT",
+            width: 150,
         }, {
             title: "大区经理ID",
             dataIndex: "AREAMGR",
+            width: 150,
         }, {
             title: "是否活动名称",
             dataIndex: "IS_ACTIVETEXT",
+            width: 150,
         }, {
             title: "开户银行帐号",
             dataIndex: "BANKACCOUNT",
+            width: 150,
         }, {
             title: "开户银行",
             dataIndex: "DEPOSITBANK",
+            width: 150,
         }, {
             title: "是否活动",
             dataIndex: "IS_ACTIVE",
+            width: 150,
         }, {
             title: "收货地址",
             dataIndex: "CONSIGNEE",
+            width: 150,
         }, {
             title: "收货人电话",
             dataIndex: "CONSIGNEEPHONE",
+            width: 150,
         }, {
             title: "仓库地址",
             dataIndex: "STOREADDR",
+            width: 150,
         }, {
             title: "客户简称",
             dataIndex: "CUSTABBREVIATION",
+            width: 150,
         }, {
             title: "客户业务类型ID(供、销)",
             dataIndex: "PARTNERTYPE",
+            width: 150,
         }, {
             title: "收货地址",
             dataIndex: "CONSIGNEEADD",
+            width: 150,
         }, {
             title: "是否管理合同",
             dataIndex: "IS_MANAGECONTRACT",
+            width: 150,
         }],
         SQL: `select f.executivedept,
         f.custmemorycode,
@@ -1131,138 +1176,183 @@ and (f.custno like upper('%' || :Abbr || '%') or
         columns: [{
             title: "子公司主管部门名称",
             dataIndex: "EXECUTIVEDEPT",
+            width: 150,
         }, {
             title: "助记码",
             dataIndex: "CUSTMEMORYCODE",
+            width: 150,
         }, {
             title: "质管备注",
             dataIndex: "QUALIFICATIONDEADLINE",
+            width: 150,
         }, {
             title: "客户类别ID",
             dataIndex: "CUSTTYPEID",
+            width: 150,
         }, {
             title: "客户内码",
             dataIndex: "CUSTID",
+            width: 150,
         }, {
             title: "客户编码",
             dataIndex: "CUSTNO",
+            width: 150,
         }, {
             title: "客户名称",
             dataIndex: "CUSTNAME",
+            width: 150,
         }, {
             title: "客户地址（注册地址）",
             dataIndex: "CUSTADD",
+            width: 150,
         }, {
             title: "客户标识",
             dataIndex: "CUSTIDENTIFY",
+            width: 150,
         }, {
             title: "联系人",
             dataIndex: "CONTACTPERSON",
+            width: 150,
         }, {
             title: "联系人电话",
             dataIndex: "CONTACTPHONE",
+            width: 150,
         }, {
             title: "责任业务员ID",
             dataIndex: "BUSINESSID",
+            width: 150,
         }, {
             title: "责任业务员",
             dataIndex: "BUSINESSMAN",
+            width: 150,
         }, {
             title: "不可经营类别",
             dataIndex: "NONBUSINESSTYPE",
+            width: 150,
         }, {
             title: "经营简码ID",
             dataIndex: "BUSINESSSCOPECODE",
+            width: 150,
         }, {
             title: "不可经营简码ID",
             dataIndex: "NONBUSINESSSCOPECODE",
+            width: 150,
         }, {
             title: "分销客户类型",
             dataIndex: "CUSTTYPE",
+            width: 150,
         }, {
             title: "是否转配送",
             dataIndex: "ISARTICULATED",
+            width: 150,
         }, {
             title: "责任开票员ID",
             dataIndex: "MAINOPID",
+            width: 150,
         }, {
             title: "责任开票员",
             dataIndex: "MAINOPNAME",
+            width: 150,
         }, {
             title: "采购员",
             dataIndex: "PURCHASER",
+            width: 150,
         }, {
             title: "采购员ID",
             dataIndex: "PURCHASERID",
+            width: 150,
         }, {
             title: "付款方式",
             dataIndex: "PAYMENTNAME",
+            width: 150,
         }, {
             title: "销售信贷期",
             dataIndex: "SALESCREDITTIME",
+            width: 150,
         }, {
             title: "是否可进货",
             dataIndex: "ISPURCHASING",
+            width: 150,
         }, {
             title: "关联关系ID",
             dataIndex: "RELATION",
+            width: 150,
         }, {
             title: "是否集采",
             dataIndex: "IS_CENTRALIZEDPURCHASING",
+            width: 150,
         }, {
             title: "是否可销售",
             dataIndex: "ISSALES",
+            width: 150,
         }, {
             title: "开发票要求",
             dataIndex: "BILLINGNOTE",
+            width: 150,
         }, {
             title: "主配送仓库ID",
             dataIndex: "STOREID",
+            width: 150,
         }, {
             title: "区域划分名称",
             dataIndex: "TERRITORIESTEXT",
+            width: 150,
         }, {
             title: "区域划分ID",
             dataIndex: "TERRITORIES",
+            width: 150,
         }, {
             title: "所属大区名称",
             dataIndex: "OWNERAREATEXT",
+            width: 150,
         }, {
             title: "大区经理ID",
             dataIndex: "AREAMGR",
+            width: 150,
         }, {
             title: "是否活动名称",
             dataIndex: "IS_ACTIVETEXT",
+            width: 150,
         }, {
             title: "开户银行帐号",
-            column: "BANKACCOUNT",
+            dataIndex: "BANKACCOUNT",
+            width: 150,
         }, {
             title: "开户银行",
             dataIndex: "DEPOSITBANK",
+            width: 150,
         }, {
             title: "是否活动",
             dataIndex: "IS_ACTIVE",
+            width: 150,
         }, {
             title: "收货地址",
             dataIndex: "CONSIGNEE",
+            width: 150,
         }, {
             title: "收货人电话",
             dataIndex: "CONSIGNEEPHONE",
+            width: 150,
         }, {
             title: "仓库地址",
             dataIndex: "STOREADDR",
+            width: 150,
         }, {
             title: "客户简称",
             dataIndex: "CUSTABBREVIATION",
+            width: 150,
         }, {
             title: "客户业务类型ID(供、销)",
             dataIndex: "PARTNERTYPE",
+            width: 150,
         }, {
             title: "收货地址",
             dataIndex: "CONSIGNEEADD",
+            width: 150,
         }, {
             title: "是否管理合同",
             dataIndex: "IS_MANAGECONTRACT",
+            width: 150,
         }],
         SQL: `select f.executivedept,
         f.custmemorycode,
