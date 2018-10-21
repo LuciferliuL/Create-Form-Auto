@@ -112,7 +112,7 @@ class LookUpPublicComponent extends Component {
                 break
             case 13:
                 this.props.shows(false)
-                console.log(this.props.current.show);
+                // console.log(this.props.current.show);
 
                 if (!this.props.current.show) {
                     this.CLick(false)
@@ -127,15 +127,11 @@ class LookUpPublicComponent extends Component {
         }
     }
     CLick = (key) => {
-        console.log(key);
-
         const { dataSource } = this.props.current
         if (key) {
-            console.log(key);
-            this.props.shows(false)
-            console.log(this.props.current);
-            
+            // this.props.shows(false)
 
+            // console.log(key);
             if (dataSource.length >= 1) {
                 // console.log(this.props.current.tr);
                 let dataSource_ = JSON.parse(JSON.stringify(dataSource[key]));
@@ -149,14 +145,12 @@ class LookUpPublicComponent extends Component {
                     e.defaultValue = dataSource_[e.typePoint]
                     this.props.upForm(e)
                 })
+
                 // console.log(agg);
                 this.props.onClickTr(key)
-                
                 //更新整个form
                 this.props.upForm(this.props.current);
-                console.log(this.props.UpdataFormData);
-
-
+                // console.log(this.props.UpdataFormData);
             } else {
                 this.props.upForm(this.props.current)
                 window.removeEventListener('keyup', this.handleKeyDown)
@@ -211,7 +205,7 @@ class LookUpPublicComponent extends Component {
     //失去焦点
     Blur = (e) => {
         //debugger;
-        console.log(this.state.isEnter);
+        // console.log(this.state.isEnter);
 
         if (!this.state.isEnter) {
             let Field = {}

@@ -25,6 +25,7 @@ import { formUpdataFromCurrent } from '../../SliderRIght/action/Right.action'
 class TablePublicComponent extends Component {
     state = {
         // page: 1,
+        loading:false,
         data: [],
         x: 1,
         tr: 0,
@@ -122,7 +123,7 @@ class TablePublicComponent extends Component {
                     }
                 ))
             }
-        } else {
+        } else if(pre.currentAttr.tr = this.state.tr){
             // console.log(pre);
 
             pre.currentAttr.dataSource.map((e, i) => {
@@ -154,9 +155,14 @@ class TablePublicComponent extends Component {
     onRow = (record, index) => {
         return {
             onClick: () => {
-                // console.log(index);
-                this.props.lookupCLick(index)
-                // this.CLick()
+                this.props.onClickTr(index)
+                // this.props.lookupCLick({keyCode:13})
+            },
+            onDoubleClick:()=>{
+                this.props.shows(false)
+                setTimeout(() => {
+                    this.props.lookupCLick(index)
+                }, 5);
             }
         }
     }
@@ -213,7 +219,7 @@ class TablePublicComponent extends Component {
         // console.log(widths);
 
         return (
-            <div>
+            <Spin spinning={this.state.loading}>
                 <Table
                     bordered
                     // components={this.components}
@@ -235,7 +241,7 @@ class TablePublicComponent extends Component {
                     rowKey='indexs'
                 // size='small'
                 />
-            </div>
+            </Spin>
         )
     }
 }
