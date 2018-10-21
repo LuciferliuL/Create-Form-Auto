@@ -7,6 +7,8 @@ export const UPDATA_VALUES = 'UPDATA_VALUES'
 export const UPDATA_CURRENt_DATASOURCE = 'UPDATA_CURRENt_DATASOURCE'
 export const T_ADD_DOWN = 'T_ADD_DOWN'
 export const T_REDUCE_UP = 'T_REDUCE_UP'
+export const ON_CLICK_TR = 'ON_CLICK_TR' 
+
 
 export const tdAddDown = (init) => {
     return {
@@ -71,5 +73,12 @@ export const tReduceUp = (init,step) => {
         type:T_REDUCE_UP,
         current:init,
         step:step
+    }
+}
+
+export const onClickTr = (tr) => {
+    return{
+        type:ON_CLICK_TR,
+        tr:tr
     }
 }

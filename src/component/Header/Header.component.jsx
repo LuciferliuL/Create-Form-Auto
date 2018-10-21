@@ -195,7 +195,7 @@ class Headercomponent extends Component {
         this.props.data.map(e => {
             if (e.type !== 'Table' && e.type !== 'Group') {
                 if (e.type === 'LookUp') {
-                    valueList[e.upKey] = e.values[e.upKey] === undefined ? '' : e.values[e.upKey];
+                    valueList[e.id] = e.values[e.upKey] === undefined ? '' : e.values[e.upKey];
                 } else if (e.type === 'Input' && e.typePoint === 0) {
                     valueList[e.id] = e.defaultValue === undefined ? '' : e.defaultValue;
                 } else if (e.type === 'Input' && e.typePoint !== 0) {

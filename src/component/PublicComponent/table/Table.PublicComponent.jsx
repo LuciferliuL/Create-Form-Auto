@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Table, Tooltip } from 'antd'
 import { connect } from 'react-redux'
 import './Table.PublicComponent.css'
-import { isChinese } from '../../../lib/MATH/math'
+import { onClickTr ,shows,updataValues} from '../lookup/action/lookup.action'
+import { formUpdataFromCurrent } from '../../SliderRIght/action/Right.action'
 // import { Resizable } from 'react-resizable';
 
 
@@ -27,7 +28,7 @@ class TablePublicComponent extends Component {
         data: [],
         x: 1,
         tr: 0,
-        heightTr: 0
+        heightTr: 300
     }
     // components = {
     //     header: {
@@ -53,7 +54,7 @@ class TablePublicComponent extends Component {
         if (this.props.h > 900) {
             if (Object.keys(this.props.currentAttr).length > 0) {
                 this.props.currentAttr.dataSource.map((e, i) => {
-                    if (i < 33) {
+                    if (i < 300) {
                         e.indexs = i + 'table'
                         data.push(e)
                     }
@@ -61,14 +62,14 @@ class TablePublicComponent extends Component {
 
             }
             this.setState({
-                heightTr: 33,
+                heightTr: 300,
                 data: data,
                 tr: this.props.currentAttr.tr
             })
         } else {
             if (Object.keys(this.props.currentAttr).length > 0) {
                 this.props.currentAttr.dataSource.map((e, i) => {
-                    if (i < 28) {
+                    if (i < 300) {
                         e.indexs = i + 'table'
                         data.push(e)
                     }
@@ -84,7 +85,7 @@ class TablePublicComponent extends Component {
 
     }
     componentWillReceiveProps(pre) {
-        // console.log(pre)
+        console.log(pre)
 
         let data = []
         if (pre.currentAttr.tr > this.state.tr) {
@@ -150,7 +151,44 @@ class TablePublicComponent extends Component {
         })
 
     }
+    onRow = (record, index) => {
+        return {
+            onClick: () => {
+                console.log(index);
+                this.props.onClickTr(index)
+                this.props.shows(false)
+                this.props.lookupCLick(index)
+                // this.CLick()
+            }
+        }
+    }
+    CLick = () => {
+        const { dataSource } = this.props.currentAttr  
+        if (dataSource.length >= 1) {
+            // console.log(this.props.currentAttr  .tr);
+            let dataSource_ = JSON.parse(JSON.stringify(dataSource[this.props.currentAttr.tr]));
 
+            //更新lookup对应得input
+            this.props.updataValues(dataSource_);
+            window.removeEventListener('keyup', this.handleKeyDown);
+
+            let agg = this.props.UpdataFormData.filter(e => e.type === 'INPUT' && e.isTrueInLookUp === this.props.currentAttr  .key)
+            agg.forEach(e => {
+                e.defaultValue = dataSource_[e.typePoint]
+                this.props.upForm(e)
+            })
+            // console.log(agg);
+
+            //更新整个form
+            this.props.upForm(this.props.currentAttr  );
+            console.log(this.props.UpdataFormData);
+
+
+        } else {
+            this.props.upForm(this.props.currentAttr  )
+            window.removeEventListener('keyup', this.handleKeyDown)
+        }
+    }
     render() {
         var w = document.documentElement.clientWidth || document.body.clientWidth;
         const { columns } = this.props.PublicData
@@ -195,8 +233,8 @@ class TablePublicComponent extends Component {
                                     )
                                 }
                             }
-                        }                       
-                    }               
+                        }
+                    }
                 }
             });
         }
@@ -207,6 +245,7 @@ class TablePublicComponent extends Component {
                 <Table
                     bordered
                     // components={this.components}
+                    onRow={this.onRow.bind(this)}
                     bodyStyle={{ tableLayout: 'fixed' }}
                     columns={columns}
                     dataSource={this.state.data}
@@ -222,8 +261,8 @@ class TablePublicComponent extends Component {
                         }
                     }}
                     rowKey='indexs'
-                    // size='small'
-                     />
+                // size='small'
+                />
             </div>
         )
     }
@@ -239,7 +278,18 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchProps = (dispatch) => {
     return {
-
+        onClickTr: (k) => {
+            dispatch(onClickTr(k))
+        },
+        shows: (k)=>{
+            dispatch(shows(k))
+        },
+        upForm: (k) => {
+            dispatch(formUpdataFromCurrent(k))
+        },
+        updataValues: (k) => {
+            dispatch(updataValues(k))
+        }
     }
 }
 export default connect(mapStateToProps, mapDispatchProps)(TablePublicComponent);
