@@ -215,11 +215,11 @@ class TABLECOMPONENT extends Component {
                     e.render = (text) => {
                         if (text) {
                             if (/^[\u4e00-\u9fa5]/.test(text)) {//中文
-                                if (text.length > 15) {
+                                if (text.length > 10) {
                                     // 大于10
                                     return (
                                         <Tooltip title={text}>
-                                            <span style={{ width: '200px' }}>{text.slice(0, 15)} </span>
+                                            <span style={{ width: '200px' }}>{text.slice(0, 10)} </span>
                                         </Tooltip>
                                     )
                                 } else {
@@ -229,9 +229,9 @@ class TABLECOMPONENT extends Component {
                                     )
                                 }
                             } else {//EN or NUM
-                                if (text.length > 20) {
+                                if (text.length > 15) {
                                     return (
-                                        <span style={{ width: '200px' }}>{text.slice(0, 20)}</span>
+                                        <span style={{ width: '200px' }}>{text.slice(0, 15)}</span>
                                     )
                                 } else {
                                     return (

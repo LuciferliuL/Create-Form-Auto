@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Tooltip } from 'antd'
+import { Table, Tooltip, Spin } from 'antd'
 import { connect } from 'react-redux'
 import './Table.PublicComponent.css'
 import { onClickTr ,shows,updataValues} from '../lookup/action/lookup.action'

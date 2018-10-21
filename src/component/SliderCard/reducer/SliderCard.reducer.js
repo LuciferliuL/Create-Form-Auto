@@ -17,7 +17,7 @@ const SData = [
         icons: 'copyright', id: 8, type: 'RadioGroup', required: false,
         message: "", label: "单选框组", disabled: false,
         GroupValue: [{ value: '0', name: 'Apple' }, { value: '1', name: 'Pear' }],
-        groupname: 'cen', defaultValue: '',
+        groupname: 'cen', defaultValue: '0',
         layout: {
             labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
             wrapperCol: { xs: { span: 24 }, sm: { span: 16 } }
