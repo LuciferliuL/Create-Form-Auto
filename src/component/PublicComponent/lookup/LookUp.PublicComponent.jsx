@@ -134,7 +134,7 @@ class LookUpPublicComponent extends Component {
             console.log(key);
             this.props.shows(false)
             console.log(this.props.current);
-            
+
 
             if (dataSource.length >= 1) {
                 // console.log(this.props.current.tr);
@@ -149,9 +149,9 @@ class LookUpPublicComponent extends Component {
                     e.defaultValue = dataSource_[e.typePoint]
                     this.props.upForm(e)
                 })
-                // console.log(agg);
+                //debugger
                 this.props.onClickTr(key)
-                
+
                 //更新整个form
                 this.props.upForm(this.props.current);
                 console.log(this.props.UpdataFormData);
@@ -170,7 +170,7 @@ class LookUpPublicComponent extends Component {
                 this.props.updataValues(dataSource_);
                 window.removeEventListener('keyup', this.handleKeyDown);
 
-                let agg = this.props.UpdataFormData.filter(e => e.type === 'INPUT' && e.isTrueInLookUp === this.props.current.key)
+                let agg = this.props.UpdataFormData.filter(e => e.type === 'INPUT' && e.isTrueInLookUp === this.props.current.id)
                 agg.forEach(e => {
                     e.defaultValue = dataSource_[e.typePoint]
                     this.props.upForm(e)
