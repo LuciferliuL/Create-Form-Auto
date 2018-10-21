@@ -45,7 +45,7 @@ class USER extends Component {
             <Spin spinning={loading} size='large'>
                 <Layout>
                     <Sider 
-                    style={{ overflow: 'auto', height: '100vh', left: 0, backgroundColor:'#1f381257' }}
+                    style={{ overflow: 'auto', height: '100vh', left: 0, backgroundColor:'#fafafa' }}
                     // trigger={null}
                     // collapsible
                     // collapsed={this.state.collapsed}
