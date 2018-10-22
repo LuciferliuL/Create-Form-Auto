@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Table, Tooltip, Spin } from 'antd'
 import { connect } from 'react-redux'
 import './Table.PublicComponent.css'
-import { onClickTr ,shows,updataValues} from '../lookup/action/lookup.action'
+import { onClickTr, shows, updataValues } from '../lookup/action/lookup.action'
 import { formUpdataFromCurrent } from '../../SliderRIght/action/Right.action'
 // import { Resizable } from 'react-resizable';
 
@@ -25,7 +25,7 @@ import { formUpdataFromCurrent } from '../../SliderRIght/action/Right.action'
 class TablePublicComponent extends Component {
     state = {
         // page: 1,
-        loading:false,
+        loading: false,
         data: [],
         x: 1,
         tr: 0,
@@ -123,7 +123,7 @@ class TablePublicComponent extends Component {
                     }
                 ))
             }
-        } else if(pre.currentAttr.tr = this.state.tr){
+        } else if (pre.currentAttr.tr = this.state.tr) {
             // console.log(pre);
 
             pre.currentAttr.dataSource.map((e, i) => {
@@ -155,15 +155,16 @@ class TablePublicComponent extends Component {
     onRow = (record, index) => {
         return {
             onClick: () => {
-                this.props.onClickTr(index)
+                // this.props.onClickTr(index)
+                this.props.lookupCLick(index)
                 // this.props.lookupCLick({keyCode:13})
             },
-            onDoubleClick:()=>{
-                this.props.shows(false)
-                setTimeout(() => {
-                    this.props.lookupCLick(index)
-                }, 5);
-            }
+            // onDoubleClick: () => {
+            //     // this.props.shows(false)
+            //     // setTimeout(() => {
+            //     this.props.lookupCLick(index)
+            //     // }, 5);
+            // }
         }
     }
     render() {
@@ -228,7 +229,7 @@ class TablePublicComponent extends Component {
                     columns={columns}
                     dataSource={this.state.data}
                     pagination={false}
-                    scroll={{ x: widths * 1.1, y: h*0.8 }}
+                    scroll={{ x: widths * 1.1, y: h * 0.8 }}
                     rowClassName={(record, index) => {
                         // console.log(record)
                         // console.log(index);
@@ -259,7 +260,7 @@ const mapDispatchProps = (dispatch) => {
         onClickTr: (k) => {
             dispatch(onClickTr(k))
         },
-        shows: (k)=>{
+        shows: (k) => {
             dispatch(shows(k))
         },
         upForm: (k) => {

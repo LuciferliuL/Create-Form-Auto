@@ -262,7 +262,7 @@ class ContentUser extends Component {
     }
 
     render() {
-        var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.9
+        var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.93
         let Dr = []
         let width_ = this.state.domWidth / 24
         let height_ = 40

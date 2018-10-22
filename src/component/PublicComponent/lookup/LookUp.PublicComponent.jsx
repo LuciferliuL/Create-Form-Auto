@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Input, Button, Modal } from 'antd'
+import { Form, Input, Button, Modal, Spin } from 'antd'
 import { connect } from 'react-redux'
 import './LookUp.PublicComponent.css'
 import { shows, upDataCurrentDataSource, updataValues, trAddDown, trReduceUp, onClickTr } from './action/lookup.action'
@@ -17,7 +17,8 @@ class LookUpPublicComponent extends Component {
         totalPage: 0,
         h: 0,
         shows: false,
-        value: ' '
+        value: ' ',
+        loading:false
     }
     componentDidMount() {
         var h = document.documentElement.clientHeight
@@ -29,7 +30,7 @@ class LookUpPublicComponent extends Component {
         let res = this.props.UpdataFormData[this.props.UpdataFormData.length - 1] //每次获取新加入的
         if (res.SQL && res.SQL.length > 0) {
             let obj = this.props.UpdataFormData.find(e => e.key === res.key)
-            this.props.UpDataCurrent(obj)
+            // this.props.UpDataCurrent(obj)
             let body = {
                 "Sql": obj.SQL,
                 "Param": JSON.stringify(abbr),
@@ -39,22 +40,22 @@ class LookUpPublicComponent extends Component {
             }
             POST$(API('SQL').http, body, (res) => {
                 // console.log(res);
-                this.props.upDataCurrentDataSource(res.Results, res.RecordCount)
-                this.props.upForm(this.props.current)
+                // this.props.upDataCurrentDataSource(res.Results, res.RecordCount)
+                obj.dataSource = res.Results
+                obj.totalPage = res.RecordCount
+                this.props.upForm(obj)
 
             })
         }
     }
     componentWillReceiveProps(pre) {
-        console.log(pre);
+        // console.log(pre);
         this.setState({
             value: pre.PublicData.values[pre.PublicData.upKey] ? pre.PublicData.values[pre.PublicData.upKey] : ''
         })
     }
     ClickHandleKey = (key, page, pagesize, show) => {
-
         let obj = this.props.UpdataFormData.find(e => e.key === key)
-
         let body = {
             "Sql": obj.SQL,
             "Param": JSON.stringify(abbr),
@@ -67,21 +68,21 @@ class LookUpPublicComponent extends Component {
             // console.log(res);
             this.props.UpDataCurrent(obj)
             this.props.upDataCurrentDataSource(res.Results, res.RecordCount)
-            // if (show) {
-            //     this.props.shows(show)
-            // }
             this.props.upForm(this.props.current)
-            setTimeout(() => {
-                window.addEventListener('keyup', this.handleKeyDown)
-            }, 1000);
             this.setState({
-                shows: true
+                shows: true,
+                loading:false
+            }, () => {
+                setTimeout(() => {
+                    window.addEventListener('keyup', this.handleKeyDown)
+                }, 1000);
             })
         })
     }
     Cancel = () => {
-        this.props.shows(false)
-        this.props.upForm(this.props.current)
+        this.setState({
+            shows: false
+        })
     }
 
     ParamChange = (e) => {
@@ -90,11 +91,9 @@ class LookUpPublicComponent extends Component {
     }
 
     OnPressEnter = (key, page, pagesize, show, e) => {
-        // console.log(e.target.value);
-        // console.log(key);
-        // this.setState({
-        //     isEnter: true
-        // })
+        this.setState({
+            loading:true
+        })
         this.ParamChange(e.target.value)
         this.ClickHandleKey(key, page, pagesize, show)
     }
@@ -103,8 +102,6 @@ class LookUpPublicComponent extends Component {
         switch (e.keyCode) {
             case 40://下
                 if (this.props.current.tr < dataSource.length - 1) {
-                    // console.log(this.props.current.tr);
-
                     this.props.trAddDown(this.props.current.tr, 1)
                 }
                 break;
@@ -120,49 +117,39 @@ class LookUpPublicComponent extends Component {
 
                 break
             case 13:
-                // this.props.shows(false)
-                // console.log(this.props.current.show);
-
-                // if (!this.props.current.show) {
                 this.CLick(false)
-                // }
 
                 break
             case 27:
-                this.props.shows(false)
-                this.props.upForm(this.props.current)
-                this.props.form.resetFields()
+                this.setState({
+                    shows: false
+                })
                 break
         }
     }
     CLick = (key) => {
         const { dataSource } = this.props.current
+        // console.log(key);
+        window.removeEventListener('keyup', this.handleKeyDown);
         if (key) {
-            // this.props.shows(false)
-
-            // console.log(key);
             if (dataSource.length >= 1) {
                 // console.log(this.props.current.tr);
                 let dataSource_ = JSON.parse(JSON.stringify(dataSource[key]));
-
-                //更新lookup对应得input
-                this.props.updataValues(dataSource_);
-                window.removeEventListener('keyup', this.handleKeyDown);
-
                 let agg = this.props.UpdataFormData.filter(e => e.type === 'INPUT' && e.isTrueInLookUp === this.props.current.id)
                 agg.forEach(e => {
                     e.defaultValue = dataSource_[e.typePoint]
                     this.props.upForm(e)
                 })
 
-                // console.log(agg);
-                this.props.onClickTr(key)
-                //更新整个form
-                this.props.upForm(this.props.current);
-                // console.log(this.props.UpdataFormData);
+                let unqueData = this.props.UpdataFormData.find(e => e.key === this.props.PublicData.key)
+                unqueData.values = dataSource_
+                // unqueData.show = false
+                this.setState({
+                    shows: false,
+                    value: dataSource_[unqueData.upKey]
+                })
             } else {
                 this.props.upForm(this.props.current)
-                window.removeEventListener('keyup', this.handleKeyDown)
             }
         } else {
             if (dataSource.length >= 1) {
@@ -171,7 +158,7 @@ class LookUpPublicComponent extends Component {
 
                 //更新lookup对应得input
                 // this.props.updataValues(dataSource_);
-                window.removeEventListener('keyup', this.handleKeyDown);
+
 
                 let agg = this.props.UpdataFormData.filter(e => e.type === 'INPUT' && e.isTrueInLookUp === this.props.current.id)
                 agg.forEach(e => {
@@ -184,15 +171,14 @@ class LookUpPublicComponent extends Component {
                 // unqueData.show = false
                 this.setState({
                     shows: false,
-                    value:dataSource_[unqueData.upKey]
+                    value: dataSource_[unqueData.upKey]
                 })                //更新整个form
                 // this.props.upForm(this.props.current);
-                console.log(this.props.UpdataFormData);
+                // console.log(this.props.UpdataFormData);
 
 
             } else {
                 this.props.upForm(this.props.current)
-                window.removeEventListener('keyup', this.handleKeyDown)
             }
         }
 
@@ -204,67 +190,61 @@ class LookUpPublicComponent extends Component {
     }
     //失去焦点
     Blur = (e) => {
-        //debugger;
-        // console.log(e);
-        // pre.PublicData.values[pre.PublicData.upKey]
         let data = this.props.PublicData
-        // if (!this.state.isEnter) {
         console.log(this.state.value);
         if (this.state.value == '') {
             this.setState({
                 value: ''
             })
-            // console.log(this.props.UpdataFormData.find(e => e.key === data.key));
             this.props.UpdataFormData.find(e => e.key === data.key).values = ''
         } else {
             this.setState({
                 value: data.values[data.upKey]
             })
         }
-
-        // }
-
     }
     render() {
         // const { getFieldDecorator } = this.props.form
         const { dataSource, label, key, required, message, layout, columns, show, scroll } = this.props.PublicData
         // console.log(show);
-        const { shows } = this.state
+        const { shows,loading } = this.state
         return (
-            <div className="certain-category-search-wrapper" style={{ width: '100%' }}>
-                <Modal
-                    visible={shows}
-                    width='100%'
-                    style={{ top: '0' }}
-                    footer={null}
-                    onCancel={this.Cancel.bind(this)}
-                    bodyStyle={{ overflow: 'scroll' }}
-                    destroyOnClose={true}
-                >
-                    <TablePublicComponent
-                        PublicData={this.props.current}
-                        ClickHandleKey={this.ClickHandleKey.bind(this)}
-                        h={this.state.h}
-                        lookupCLick={this.CLick}>
-                    </TablePublicComponent>
-                </Modal>
-                <FormItem
-                    label={label}
-                    {...layout}
-                >
-                    {/* {getFieldDecorator(key, {
+            <Spin spinning={loading}>
+                <div className="certain-category-search-wrapper" style={{ width: '100%' }}>
+                    <Modal
+                        visible={shows}
+                        width='100%'
+                        style={{ top: '0' }}
+                        footer={null}
+                        onCancel={this.Cancel.bind(this)}
+                        bodyStyle={{ overflow: 'scroll' }}
+                        destroyOnClose={true}
+                    >
+                        <TablePublicComponent
+                            PublicData={this.props.current}
+                            ClickHandleKey={this.ClickHandleKey.bind(this)}
+                            h={this.state.h}
+                            lookupCLick={this.CLick}>
+                        </TablePublicComponent>
+                    </Modal>
+                    <FormItem
+                        label={label}
+                        {...layout}
+                    >
+                        {/* {getFieldDecorator(key, {
                         rules: [{ required: { required }, message: message === '' ? '必填' : message }],
                     })( */}
-                    <Input
-                        value={this.state.value}
-                        onChange={this.LookUpChange.bind(this)}
-                        onPressEnter={this.OnPressEnter.bind(this, this.props.PublicData.key, 1, 200, true)}
-                        onBlur={this.Blur.bind(this)}
-                    >
-                    </Input>
-                    {/* )} */}
-                </FormItem>
-            </div>
+                        <Input
+                            value={this.state.value}
+                            onChange={this.LookUpChange.bind(this)}
+                            onPressEnter={this.OnPressEnter.bind(this, this.props.PublicData.key, 1, 200, true)}
+                            onBlur={this.Blur.bind(this)}
+                        >
+                        </Input>
+                        {/* )} */}
+                    </FormItem>
+                </div>
+            </Spin>
         )
     }
 }
