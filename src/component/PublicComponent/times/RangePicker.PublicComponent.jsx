@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { DatePicker, Form } from 'antd'
 import { connect } from 'react-redux'
 import { inputChange } from '../Public.action'
-import { getHours } from '../../../lib/MATH/math'
+import { getDat } from '../../../lib/MATH/math'
+import moment from 'moment';
 
 const { RangePicker } = DatePicker;
 const FormItem = Form.Item
@@ -10,22 +11,36 @@ const dateFormat = 'YYYY-MM-DD';
 class RangePickerPublicComponent extends Component {
     TimesChange = (date, dateString) => {
         // console.log(date, dateString);
-        let times = [dateString[0] + getHours(), dateString[1] + getHours()]
-        this.props.inputChange(this.props.PublicData.key, times)
+        this.props.inputChange(this.props.PublicData.key, dateString)
     }
     render() {
-        const { getFieldDecorator } = this.props.form
-        const { disabled, label, key, required, message, layout } = this.props.PublicData
+        // const { getFieldDecorator } = this.props.form
+        const { disabled, label, layout, defaultValue } = this.props.PublicData
+        let days = []
+        if (defaultValue.length > 0) {
+            //有数据
+            if (defaultValue[0] === -1) {
+                //当天
+                days = [moment(new Date(), dateFormat), moment(new Date(), dateFormat)]
+            } else {
+                //时间段
+                days = [moment(defaultValue[0], dateFormat), moment(defaultValue[1] === -1 ? getDat() : defaultValue[1], dateFormat)]
+            }
+        }
         return (
             <FormItem
                 label={label}
                 {...layout}
             >
-                {getFieldDecorator(key, {
+                {/* {getFieldDecorator(key, {
                     rules: [{ required: { required }, message: { message } }],
-                })(
-                    <RangePicker onChange={this.TimesChange.bind(this)} disabled={disabled} format={dateFormat} />
-                )}
+                })( */}
+                <RangePicker
+                    onChange={this.TimesChange.bind(this)}
+                    disabled={disabled}
+                    format={dateFormat}
+                    defaultValue={days} />
+                {/* )} */}
             </FormItem>
         )
     }
@@ -42,7 +57,8 @@ const mapDispatchProps = (dispatch) => {
         }
     }
 }
-export default RangePickerPublicComponent = connect(mapStateToProps, mapDispatchProps)(Form.create()(RangePickerPublicComponent));
+export default RangePickerPublicComponent = connect(mapStateToProps, mapDispatchProps)(RangePickerPublicComponent)
+// (Form.create()(RangePickerPublicComponent));
 
 
 

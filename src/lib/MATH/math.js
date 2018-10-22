@@ -192,6 +192,14 @@ function getTime() {
 
 export { getTime }
 
+function getDat() {
+    var myDate = new Date()
+    myDate.getFullYear()
+    myDate.getMonth()
+    myDate.getDate()
+    return `${myDate.getFullYear()}-${myDate.getMonth() + 1}-${myDate.getDate()}`
+}
+export {getDat}
 function getHours() {
     var myDate = new Date()
     var myHours = ''

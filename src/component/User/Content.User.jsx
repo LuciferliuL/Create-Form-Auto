@@ -6,7 +6,7 @@ import PublicComponent from '../PublicComponent/Public.Component'
 import { fugai } from '../stylist/action/Stylist.action'
 import TABLECOMPONENT from '../PublicComponent/table/Table'
 import { API } from '../../lib/API/check.API'
-import { POST$, httprequest, getrequestparam } from '../../lib/MATH/math'
+import { POST$, httprequest, getrequestparam, getHours } from '../../lib/MATH/math'
 import { _clear, _tableUpdataFromResults, tableTr0 } from '../stylist/action/Stylist.action'
 
 const ButtonGroup = Button.Group;
@@ -55,7 +55,9 @@ class ContentUser extends Component {
                         } else if (e.type === 'Input' && e.typePoint !== 0) {
                             valueList[e.typePoint] = e.defaultValue === undefined ? '' : e.defaultValue;
                         } else if (e.type === "Range") {
-                            valueList[e.id] = e.defaultValue === '' ? ['', ''] : e.defaultValue;
+                            valueList[e.id] = e.defaultValue === '' ? ['', ''] : [e.defaultValue[0] + getHours(), e.defaultValue[1] + getHours()];
+                        } else if (e.type === 'RadioGroup') {
+                            valueList[e.id] = e.defaultValue === '-1' ? ' ' : e.defaultValue;
                         } else {
                             valueList[e.id] = e.defaultValue === undefined ? '' : e.defaultValue;
                         }
@@ -73,7 +75,7 @@ class ContentUser extends Component {
                     POST$(API('SQL').http, body, (res) => {
                         // console.log(res);
                         if (res.Results) {
-                            pre._tableUpdataFromResults(res.Results, res.RecordCount)
+                            pre.tableSource.dataSource = res.Results
                             pre.tableTr0(0)
                             resolve(true)
                         } else {
@@ -113,7 +115,9 @@ class ContentUser extends Component {
                         } else if (e.type === 'Input' && e.typePoint !== 0) {
                             valueList[e.typePoint] = e.defaultValue === undefined ? '' : e.defaultValue;
                         } else if (e.type === "Range") {
-                            valueList[e.id] = e.defaultValue === '' ? ['', ''] : e.defaultValue;
+                            valueList[e.id] = e.defaultValue === '' ? ['', ''] : [e.defaultValue[0] + getHours(), e.defaultValue[1] + getHours()];
+                        } else if (e.type === 'RadioGroup') {
+                            valueList[e.id] = e.defaultValue === '-1' ? ' ' : e.defaultValue;
                         } else {
                             valueList[e.id] = e.defaultValue === undefined ? '' : e.defaultValue;
                         }
@@ -166,7 +170,9 @@ class ContentUser extends Component {
                     valueList[e.typePoint] = e.defaultValue === undefined ? '' : e.defaultValue;
                 }
                 else if (e.type === "Range") {
-                    valueList[e.id] = e.defaultValue === '' ? ['', ''] : e.defaultValue;
+                    valueList[e.id] = e.defaultValue === '' ? ['', ''] : [e.defaultValue[0] + getHours(), e.defaultValue[1] + getHours()];
+                } else if (e.type === 'RadioGroup') {
+                    valueList[e.id] = e.defaultValue === '-1' ? ' ' : e.defaultValue;
                 } else {
                     valueList[e.id] = e.defaultValue === undefined ? '' : e.defaultValue;
                 }
@@ -213,7 +219,9 @@ class ContentUser extends Component {
                 } else if (e.type === 'Input' && e.typePoint !== 0) {
                     valueList[e.typePoint] = e.defaultValue === undefined ? '' : e.defaultValue;
                 } else if (e.type === "Range") {
-                    valueList[e.id] = e.defaultValue === '' ? ['', ''] : e.defaultValue;
+                    valueList[e.id] = e.defaultValue === '' ? ['', ''] : [e.defaultValue[0] + getHours(), e.defaultValue[1] + getHours()];
+                } else if (e.type === 'RadioGroup') {
+                    valueList[e.id] = e.defaultValue === '-1' ? ' ' : e.defaultValue;
                 } else {
                     valueList[e.id] = e.defaultValue === undefined ? '' : e.defaultValue;
                 }
@@ -237,7 +245,7 @@ class ContentUser extends Component {
             }
             POST$(API('SQL').http, body, (res) => {
                 if (res.Results) {
-                    this.props._tableUpdataFromResults(res.Results, res.RecordCount)
+                    this.props.dataSource = res.Results
                     resolve(true)
                 } else {
                     reject(false)
@@ -334,8 +342,8 @@ const mapDispatchProps = (dispatch) => {
         clear: () => {
             dispatch(_clear())
         },
-        _tableUpdataFromResults: (k, totalPage) => {
-            dispatch(_tableUpdataFromResults(k, totalPage))
+        _tableUpdataFromResults: (k) => {
+            dispatch(_tableUpdataFromResults(k))
         },
         tableTr0: (k) => {
             dispatch(tableTr0(k))

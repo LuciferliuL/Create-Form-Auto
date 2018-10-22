@@ -18,7 +18,7 @@ class LookUpPublicComponent extends Component {
         h: 0,
         shows: false,
         value: ' ',
-        loading:false
+        loading: false
     }
     componentDidMount() {
         var h = document.documentElement.clientHeight
@@ -71,7 +71,7 @@ class LookUpPublicComponent extends Component {
             this.props.upForm(this.props.current)
             this.setState({
                 shows: true,
-                loading:false
+                loading: false
             }, () => {
                 setTimeout(() => {
                     window.addEventListener('keyup', this.handleKeyDown)
@@ -92,7 +92,7 @@ class LookUpPublicComponent extends Component {
 
     OnPressEnter = (key, page, pagesize, show, e) => {
         this.setState({
-            loading:true
+            loading: true
         })
         this.ParamChange(e.target.value)
         this.ClickHandleKey(key, page, pagesize, show)
@@ -184,9 +184,18 @@ class LookUpPublicComponent extends Component {
 
     }
     LookUpChange = (e) => {
-        this.setState({
-            value: e.target.value
-        })
+        if (e.target.value === '') {
+            let data = this.props.PublicData
+            this.setState({
+                value: ''
+            })
+            this.props.UpdataFormData.find(e => e.key === data.key).values = ''
+        } else {
+            this.setState({
+                value: e.target.value
+            })
+        }
+
     }
     //失去焦点
     Blur = (e) => {
@@ -207,7 +216,7 @@ class LookUpPublicComponent extends Component {
         // const { getFieldDecorator } = this.props.form
         const { dataSource, label, key, required, message, layout, columns, show, scroll } = this.props.PublicData
         // console.log(show);
-        const { shows,loading } = this.state
+        const { shows, loading } = this.state
         return (
             <Spin spinning={loading}>
                 <div className="certain-category-search-wrapper" style={{ width: '100%' }}>

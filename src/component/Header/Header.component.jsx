@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { API } from '../../lib/API/check.API'
 import { POST$, httprequest, getrequestparam } from '../../lib/MATH/math'
-import { _clear, _tableUpdataFromResults, tableTr0 } from '../stylist/action/Stylist.action'
+import { _clear, _tableUpdataFromResults, tableTr0,fugai } from '../stylist/action/Stylist.action'
 
 const ButtonGroup = Button.Group;
 const { Header } = Layout
@@ -140,7 +140,7 @@ class Headercomponent extends Component {
     // }
     enter = () => {
         this.props.history.push('/')
-        this.props.UpdataFormData = [{}]
+        this.props.fugai([])
     }
     // DAOCHU = () => {
     //     let valueList = {}
@@ -312,7 +312,10 @@ const mapDispatchProps = (dispatch) => {
         },
         tableTr0: (k) => {
             dispatch(tableTr0(k))
-        }
+        },
+        fugai: (k) => {
+            dispatch(fugai(k))
+        },
     }
 }
 export default connect(mapStateToProps, mapDispatchProps)(withRouter(Headercomponent));
