@@ -181,7 +181,7 @@ class Drawercomponent extends Component {
                 width='500'
                 onClose={this.onClose.bind(this)}
             >
-                <Form>
+                <Form style={{ marginBottom: '40px' }}>
                     {content}
                     <div
                         style={{
