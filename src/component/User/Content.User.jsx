@@ -68,6 +68,7 @@ class ContentUser extends Component {
                 ref={this.myRef}
                 style={{ minHeight: h + 'px',borderTop:'none'}}
                 bodyStyle={{padding:10}}
+                
                 >
                 <Form
                     style={{ padding: '5px', position: 'relative' }}>{Dr}</Form>

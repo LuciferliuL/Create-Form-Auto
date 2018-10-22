@@ -7,7 +7,7 @@ const RadioGroup = Radio.Group
 const FormItem = Form.Item
 class RadioPublicComponent extends Component {
     componentDidMount() {
-        console.log(this.props);
+        // console.log(this.props);
 
         // this.setState({
         //     value:this.props.PublicData.GroupValue[0].value
@@ -15,35 +15,28 @@ class RadioPublicComponent extends Component {
         this.props.inputChange(this.props.PublicData.key, this.props.PublicData.GroupValue[0].value)
     }
     radioChange = (e) => {
-        // console.log(e.target.value);
+        console.log(e.target.value);
         this.props.inputChange(this.props.PublicData.key, e.target.value)
     }
     render() {
-        const { getFieldDecorator } = this.props.form
+        // const { getFieldDecorator } = this.props.form
         const { disabled, label, key, required, message, GroupValue, groupname, layout } = this.props.PublicData
         const radiolist = []
         GroupValue.forEach((e, i) => {
-            // if (i === 0) {//defaultChecked
-            //     radiolist.push(<Radio value={e.value} key={i + e.value} defaultChecked={true}>{e.name}</Radio>)
-            // } else {
             radiolist.push(<Radio value={e.value} key={i + e.value}>{e.name}</Radio>)
-            // }
         });
         return (
             <FormItem
                 label={label}
                 {...layout}
             >
-                {getFieldDecorator(key, {
-                    rules: [{ required: { required }, message: { message } }],
-                })(
-                    <RadioGroup
-                        name={groupname}
-                        disabled={disabled}
-                        onChange={this.radioChange.bind(this)}>
-                        {radiolist}
-                    </RadioGroup>
-                )}
+                <RadioGroup
+                    defaultValue={this.props.PublicData.GroupValue[0].value}
+                    name={groupname}
+                    disabled={disabled}
+                    onChange={this.radioChange.bind(this)}>
+                    {radiolist}
+                </RadioGroup>
             </FormItem>
         )
 
@@ -62,17 +55,7 @@ const mapDispatchProps = (dispatch) => {
         }
     }
 }
-export default RadioPublicComponent = connect(mapStateToProps, mapDispatchProps)(Form.create({
-    mapPropsToFields(props) {
-        console.log(props);
-        let field = {}
-        let value = props.PublicData.GroupValue[0].value
-        let key = props.PublicData.key
-        field[key] = Form.createFormField({value:value})
-        return field
-        
-      },
-})(RadioPublicComponent));
+export default RadioPublicComponent = connect(mapStateToProps, mapDispatchProps)(RadioPublicComponent);
 
 
 
