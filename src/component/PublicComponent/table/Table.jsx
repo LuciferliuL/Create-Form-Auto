@@ -125,7 +125,7 @@ class TABLECOMPONENT extends Component {
                     if (i > (Source.length - 1)) {
                         let objs = {}
                         Object.keys(Source[0]).map(e => {
-                            objs[e] = '无'
+                            objs[e] = '-'
                         })
                         objs.indexs = i + 'tables'
                         data.push(objs)
