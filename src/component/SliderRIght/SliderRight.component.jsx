@@ -28,17 +28,20 @@ class SliderRightcomponent extends Component {
     componentWillReceiveProps(pre) {
         const { getFieldDecorator } = pre.form;
         let dateChange = 0
-        if (pre.currentAttr.defaultValue === '' && pre.currentAttr.type === 'Range') {
-            dateChange = 3 //无
-        } else if (pre.currentAttr.defaultValue[0] === -1 && pre.currentAttr.type === 'Range') {
-            dateChange = 1 //最新时间
-            // defaultValueTime = [getDat(),getDat()]
-        } else if (pre.currentAttr.type === 'Range') {
-            dateChange = 2 //自定义
-            // defaultValueTime = pre.currentAttr.defaultValue
-            // console.log(defaultValueTime);
 
+        if (pre.currentAttr.type === 'Range') {
+            if (pre.currentAttr.defaultValue) {
+                if (pre.currentAttr.defaultValue === '') {
+                    dateChange = 3 //无
+                } else if (pre.currentAttr.defaultValue[0] === -1) {
+                    dateChange = 1 //最新时间
+                } else {
+                    dateChange = 2 //自定义
+                }
+            }
         }
+
+
         const formItemLayout = {
             labelCol: {
                 xs: { span: 24 },
