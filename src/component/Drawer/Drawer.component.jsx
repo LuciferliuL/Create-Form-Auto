@@ -100,6 +100,9 @@ class Drawercomponent extends Component {
                 </div>
             )
         } else if (this.props.flag === 'columns') {
+            if (this.props.currentAttr.columns == undefined)
+                return;
+
             content.push(
                 <div key={1314165182}>
                     <Col span={6}>
