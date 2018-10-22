@@ -100,6 +100,9 @@ class Drawercomponent extends Component {
                 </div>
             )
         } else if (this.props.flag === 'columns') {
+            if (this.props.currentAttr.columns == undefined)
+                return;
+
             content.push(
                 <div key={1314165182}>
                     <Col span={6}>
@@ -181,7 +184,7 @@ class Drawercomponent extends Component {
                 width='500'
                 onClose={this.onClose.bind(this)}
             >
-                <Form>
+                <Form style={{ marginBottom: '40px' }}>
                     {content}
                     <div
                         style={{

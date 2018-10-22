@@ -35,7 +35,7 @@ class LookUpPublicComponent extends Component {
                 "Sql": obj.SQL,
                 "Param": JSON.stringify(abbr),
                 "PageIndex": 1,
-                "PageSize": 100,
+                "PageSize": 1,
                 isPage: true
             }
             POST$(API('SQL').http, body, (res) => {

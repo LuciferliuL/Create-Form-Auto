@@ -18,3 +18,7 @@
     min-width: 100px;
     background-color: #0e7cff4f
 }
+
+.ant-table-tbody{
+    background-color: #fff;
+}

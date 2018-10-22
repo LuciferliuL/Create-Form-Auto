@@ -298,10 +298,10 @@ class ContentUser extends Component {
             return (
                 <Card
                     ref={this.myRef}
-                    style={{ minHeight: h + 'px', borderTop: 'none' }}
-                    bodyStyle={{ padding: 10 }}  >
+                    style={{ minHeight: h + 'px', borderTop: '1px solid #eae7e7' }}
+                    bodyStyle={{ padding: 5 }}  >
 
-                    <div style={{ float: 'left', width: '100%', borderTop: '2px solid #1a1a1d14' }}>
+                    <div style={{ float: 'left', width: '100%' }}>
                         <ButtonGroup>
                             <Button onClick={this.SQLChecked.bind(this)}>
                                 <Icon type="security-scan" theme="outlined" />
@@ -329,7 +329,7 @@ class ContentUser extends Component {
             return (
                 <Card
                     ref={this.myRef}
-                    style={{ minHeight: h + 'px', borderTop: 'none' }}>
+                    style={{ minHeight: h + 'px', borderTop: '1px solid #eae7e7' }}>
                     欢迎使用通用表单查询管理系统
                 </Card>
             )
