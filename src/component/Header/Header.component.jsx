@@ -139,8 +139,9 @@ class Headercomponent extends Component {
 
     // }
     enter = () => {
-        this.props.history.push('/')
-        this.props.UpdataFormData = [{}]
+        this.props.history.push('/');
+        if (this.props.UpdataFormData != undefined)
+            this.props.UpdataFormData = [{}]
     }
     // DAOCHU = () => {
     //     let valueList = {}
