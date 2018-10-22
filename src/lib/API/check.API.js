@@ -1,5 +1,5 @@
-//export const baseAPI = 'http://10.3.4.177:9004'
-export const baseAPI = 'http://10.2.132.215:7000'
+export const baseAPI = 'http://10.3.4.177:9004'
+//export const baseAPI = 'http://10.2.132.215:7000'
 
 export const API = (key) => {
     switch (key) {
