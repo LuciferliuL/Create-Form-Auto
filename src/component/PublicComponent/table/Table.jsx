@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { Table, Tooltip } from 'antd'
 import { connect } from 'react-redux'
 import './Table.PublicComponent.css'
-import { tAddDown, tReduceUp } from '../lookup/action/lookup.action'
+import { tAddDown, tReduceUp } from '../lookup/action/lookup.action';
+import { dateFtt } from '../../../lib/MATH/math'
+
 // import { Resizable } from 'react-resizable';
 
 
@@ -214,6 +216,15 @@ class TABLECOMPONENT extends Component {
                     e.width = 200
                     e.render = (text) => {
                         if (text) {
+
+                            //format datetime;
+                            let ss = text;
+                            let crtTime = new Date(ss);
+                            if (isNaN(crtTime.getDate()))
+                                text = ss;
+                            else
+                                text = dateFtt("yyyy-MM-dd", crtTime);
+
                             if (/^[\u4e00-\u9fa5]/.test(text)) {//中文
                                 if (text.length > 10) {
                                     // 大于10
