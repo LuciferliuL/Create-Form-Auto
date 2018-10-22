@@ -245,7 +245,7 @@ class ContentUser extends Component {
             }
             POST$(API('SQL').http, body, (res) => {
                 if (res.Results) {
-                    this.props.dataSource = res.Results
+                    this.props.tableSource.dataSource = res.Results
                     resolve(true)
                 } else {
                     reject(false)

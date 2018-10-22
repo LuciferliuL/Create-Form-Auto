@@ -22,20 +22,20 @@ class SliderRightcomponent extends Component {
         uniqueList: [],
         flag: '',
         value: 1,
-        defaultValueTime:[]
+        // defaultValueTime:[]
     }
 
     componentWillReceiveProps(pre) {
         const { getFieldDecorator } = pre.form;
-        let dateChange = 0,defaultValueTime=[]
+        let dateChange = 0
         if(pre.currentAttr.defaultValue === ''){
             dateChange = 3 //无
         }else if(pre.currentAttr.defaultValue[0] === -1){
             dateChange = 1 //最新时间
-            defaultValueTime = [getDat(),getDat()]
+            // defaultValueTime = [getDat(),getDat()]
         }else{
             dateChange = 2 //自定义
-            defaultValueTime = pre.currentAttr.defaultValue
+            // defaultValueTime = pre.currentAttr.defaultValue
             // console.log(defaultValueTime);
             
         }
@@ -270,7 +270,7 @@ class SliderRightcomponent extends Component {
         this.setState({
             uniqueList: uniqueList,
             value:dateChange,
-            defaultValueTime:defaultValueTime
+            // defaultValueTime:defaultValueTime
         })
     }
     handleChange = (e) => {
@@ -383,7 +383,7 @@ class SliderRightcomponent extends Component {
                                         <Radio value={2}>自己设定</Radio>
                                         <Radio value={3}>无限定时间</Radio>
                                     </RadioGroup>
-                                    {this.state.value === 2 ? <RangePicker onChange={this.RangePicker} disabledDate={disabledDate} value={defaultValueTime}/> : null}
+                                    {this.state.value === 2 ? <RangePicker onChange={this.RangePicker} disabledDate={disabledDate}/> : null}
                                 </div>
                                 : <div></div>}
                         </TabPane>
