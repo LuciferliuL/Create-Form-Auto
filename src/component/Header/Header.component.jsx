@@ -23,250 +23,236 @@ class Headercomponent extends Component {
             window.location.href = 'http://localhost:3000/'
         }
     }
-    componentWillReceiveProps(pre) {
-        // console.log(pre);
-        if (pre.R === 'R') {
-            document.onkeydown = function (e) {
-                // console.log(e.keyCode);
-                var keyCode = e.keyCode || e.which || e.charCode;
-                var altKey = e.altKey;
-                if (altKey && keyCode === 81) {
-                    pre.Loading()
-                    let valueList = {}
-                    let SQL = pre.tableSource.SQL
-                    pre.data.map(e => {
-                        if (e.type !== 'Table' && e.type !== 'Group') {
-                            if (e.type === 'LookUp') {
-                                valueList[e.id] = e.values[e.upKey] === undefined ? '' : e.values[e.upKey];
-                            } else if (e.type === 'Input' && e.typePoint === 0) {
-                                valueList[e.id] = e.defaultValue === undefined ? '' : e.defaultValue;
-                            } else if (e.type === 'Input' && e.typePoint !== 0) {
-                                valueList[e.typePoint] = e.defaultValue === undefined ? '' : e.defaultValue;
-                            } else if (e.type === "Range") {
-                                valueList[e.id] = e.defaultValue === '' ? ['', ''] : e.defaultValue;
-                            } else {
-                                valueList[e.id] = e.defaultValue === undefined ? '' : e.defaultValue;
-                            }
-                        }
-                        return true
-                    })
-                    let post = new Promise((resolve, reject) => {
-                        let body = {
-                            "Sql": SQL,
-                            "Param": JSON.stringify(valueList),
-                            "PageIndex": 1,
-                            "PageSize": 200,
-                            isPage: true
-                        }
-                        POST$(API('SQL').http, body, (res) => {
-                            // console.log(res);
-                            if (res.Results) {
-                                pre._tableUpdataFromResults(res.Results, res.RecordCount)
-                                pre.tableTr0(0)
-                                resolve(true)
-                            } else {
-                                reject(false)
-                            }
+    // componentWillReceiveProps(pre) {
+    //     // console.log(pre);
+    //     if (pre.R === 'R') {
+    //         document.onkeydown = function (e) {
+    //             // console.log(e.keyCode);
+    //             var keyCode = e.keyCode || e.which || e.charCode;
+    //             var altKey = e.altKey;
+    //             if (altKey && keyCode === 81) {
+    //                 pre.Loading()
+    //                 let valueList = {}
+    //                 let SQL = pre.tableSource.SQL
+    //                 pre.data.map(e => {
+    //                     if (e.type !== 'Table' && e.type !== 'Group') {
+    //                         if (e.type === 'LookUp') {
+    //                             valueList[e.id] = e.values[e.upKey] === undefined ? '' : e.values[e.upKey];
+    //                         } else if (e.type === 'Input' && e.typePoint === 0) {
+    //                             valueList[e.id] = e.defaultValue === undefined ? '' : e.defaultValue;
+    //                         } else if (e.type === 'Input' && e.typePoint !== 0) {
+    //                             valueList[e.typePoint] = e.defaultValue === undefined ? '' : e.defaultValue;
+    //                         } else if (e.type === "Range") {
+    //                             valueList[e.id] = e.defaultValue === '' ? ['', ''] : e.defaultValue;
+    //                         } else {
+    //                             valueList[e.id] = e.defaultValue === undefined ? '' : e.defaultValue;
+    //                         }
+    //                     }
+    //                     return true
+    //                 })
+    //                 let post = new Promise((resolve, reject) => {
+    //                     let body = {
+    //                         "Sql": SQL,
+    //                         "Param": JSON.stringify(valueList),
+    //                         "PageIndex": 1,
+    //                         "PageSize": 200,
+    //                         isPage: true
+    //                     }
+    //                     POST$(API('SQL').http, body, (res) => {
+    //                         // console.log(res);
+    //                         if (res.Results) {
+    //                             pre._tableUpdataFromResults(res.Results, res.RecordCount)
+    //                             pre.tableTr0(0)
+    //                             resolve(true)
+    //                         } else {
+    //                             reject(false)
+    //                         }
 
-                        })
-                    })
-                    let time = new Promise((resolve, reject) => {
-                        setTimeout(() => {
-                            reject(false)
-                        }, 10000);
-                    })
+    //                     })
+    //                 })
+    //                 let time = new Promise((resolve, reject) => {
+    //                     setTimeout(() => {
+    //                         reject(false)
+    //                     }, 10000);
+    //                 })
 
-                    Promise.race([post, time])
-                        .then((result) => {
-                            pre.Loading()
-                        })
-                        .catch((err) => {
-                            message.error('获取数据超时')
-                            pre.Loading()
-                        })
-                } else if (altKey && keyCode === 82) {
+    //                 Promise.race([post, time])
+    //                     .then((result) => {
+    //                         pre.Loading()
+    //                     })
+    //                     .catch((err) => {
+    //                         message.error('获取数据超时')
+    //                         pre.Loading()
+    //                     })
+    //             } else if (altKey && keyCode === 82) {
 
-                } else if (altKey && keyCode === 67) {
-                    pre.clear()
-                } else if (altKey && keyCode === 69) {
+    //             } else if (altKey && keyCode === 67) {
+    //                 pre.clear()
+    //             } else if (altKey && keyCode === 69) {
 
-                    let valueList = {}
-                    let SQL = pre.tableSource.SQL
-                    pre.data.map(e => {
-                        if (e.type !== 'Table' && e.type !== 'Group') {
-                            if (e.type === 'LookUp') {
-                                valueList[e.id] = e.values[e.upKey] === undefined ? '' : e.values[e.upKey];
-                            } else if (e.type === 'Input' && e.typePoint === 0) {
-                                valueList[e.id] = e.defaultValue === undefined ? '' : e.defaultValue;
-                            } else if (e.type === 'Input' && e.typePoint !== 0) {
-                                valueList[e.typePoint] = e.defaultValue === undefined ? '' : e.defaultValue;
-                            } else if (e.type === "Range") {
-                                valueList[e.id] = e.defaultValue === '' ? ['', ''] : e.defaultValue;
-                            } else {
-                                valueList[e.id] = e.defaultValue === undefined ? '' : e.defaultValue;
-                            }
-                        }
-                        return true
-                    })
-                    let cols = {}
-                    pre.tableSource.columns.forEach(e => {
-                        cols[e.dataIndex] = e.title
-                    })
-                    let param = {
-                        Param: JSON.stringify(valueList),
-                        Columns: JSON.stringify(cols),
-                        IsPage: true,
-                        PageSize: 350,
-                        Sql: SQL
-                    };
+    //                 let valueList = {}
+    //                 let SQL = pre.tableSource.SQL
+    //                 pre.data.map(e => {
+    //                     if (e.type !== 'Table' && e.type !== 'Group') {
+    //                         if (e.type === 'LookUp') {
+    //                             valueList[e.id] = e.values[e.upKey] === undefined ? '' : e.values[e.upKey];
+    //                         } else if (e.type === 'Input' && e.typePoint === 0) {
+    //                             valueList[e.id] = e.defaultValue === undefined ? '' : e.defaultValue;
+    //                         } else if (e.type === 'Input' && e.typePoint !== 0) {
+    //                             valueList[e.typePoint] = e.defaultValue === undefined ? '' : e.defaultValue;
+    //                         } else if (e.type === "Range") {
+    //                             valueList[e.id] = e.defaultValue === '' ? ['', ''] : e.defaultValue;
+    //                         } else {
+    //                             valueList[e.id] = e.defaultValue === undefined ? '' : e.defaultValue;
+    //                         }
+    //                     }
+    //                     return true
+    //                 })
+    //                 let cols = {}
+    //                 pre.tableSource.columns.forEach(e => {
+    //                     cols[e.dataIndex] = e.title
+    //                 })
+    //                 let param = {
+    //                     Param: JSON.stringify(valueList),
+    //                     Columns: JSON.stringify(cols),
+    //                     IsPage: true,
+    //                     PageSize: 350,
+    //                     Sql: SQL
+    //                 };
 
-                    var params = getrequestparam('exportsqldata', JSON.stringify(param));
-                    httprequest(params, (result) => {
-                        var url = window.URL.createObjectURL(result)
-                        var a = document.createElement('a')
-                        a.href = url
-                        a.download = "数据.xls"
-                        a.click()
-                    });
-                } else {
-                    // e.preventDefault();
-                    return true;
-                }
-                e.preventDefault();
-                return false;
-            }
-        }
+    //                 var params = getrequestparam('exportsqldata', JSON.stringify(param));
+    //                 httprequest(params, (result) => {
+    //                     var url = window.URL.createObjectURL(result)
+    //                     var a = document.createElement('a')
+    //                     a.href = url
+    //                     a.download = "数据.xls"
+    //                     a.click()
+    //                 });
+    //             } else {
+    //                 // e.preventDefault();
+    //                 return true;
+    //             }
+    //             e.preventDefault();
+    //             return false;
+    //         }
+    //     }
 
-    }
+    // }
     enter = () => {
         this.props.history.push('/')
     }
-    DAOCHU = () => {
-        let valueList = {}
-        let SQL = this.props.tableSource.SQL
-        this.props.data.map(e => {
-            if (e.type !== 'Table' && e.type !== 'Group') {
-                if (e.type === 'LookUp') {
-                    valueList[e.id] = e.values[e.upKey] === undefined ? '' : e.values[e.upKey];
-                } else if (e.type === 'Input' && e.typePoint === 0) {
-                    valueList[e.id] = e.defaultValue === undefined ? '' : e.defaultValue;
-                } else if (e.type === 'Input' && e.typePoint !== 0) {
-                    valueList[e.typePoint] = e.defaultValue === undefined ? '' : e.defaultValue;
-                }
-                else if (e.type === "Range") {
-                    valueList[e.id] = e.defaultValue === '' ? ['', ''] : e.defaultValue;
-                } else {
-                    valueList[e.id] = e.defaultValue === undefined ? '' : e.defaultValue;
-                }
-            }
-            return true
-        })
-        let cols = {}
-        this.props.tableSource.columns.forEach(e => {
-            cols[e.dataIndex] = e.title
-        })
-        let param = {
-            Param: JSON.stringify(valueList),
-            Columns: JSON.stringify(cols),
-            IsPage: true,
-            PageSize: 350,
-            Sql: SQL
-        };
+    // DAOCHU = () => {
+    //     let valueList = {}
+    //     let SQL = this.props.tableSource.SQL
+    //     this.props.data.map(e => {
+    //         if (e.type !== 'Table' && e.type !== 'Group') {
+    //             if (e.type === 'LookUp') {
+    //                 valueList[e.id] = e.values[e.upKey] === undefined ? '' : e.values[e.upKey];
+    //             } else if (e.type === 'Input' && e.typePoint === 0) {
+    //                 valueList[e.id] = e.defaultValue === undefined ? '' : e.defaultValue;
+    //             } else if (e.type === 'Input' && e.typePoint !== 0) {
+    //                 valueList[e.typePoint] = e.defaultValue === undefined ? '' : e.defaultValue;
+    //             }
+    //             else if (e.type === "Range") {
+    //                 valueList[e.id] = e.defaultValue === '' ? ['', ''] : e.defaultValue;
+    //             } else {
+    //                 valueList[e.id] = e.defaultValue === undefined ? '' : e.defaultValue;
+    //             }
+    //         }
+    //         return true
+    //     })
+    //     let cols = {}
+    //     this.props.tableSource.columns.forEach(e => {
+    //         cols[e.dataIndex] = e.title
+    //     })
+    //     let param = {
+    //         Param: JSON.stringify(valueList),
+    //         Columns: JSON.stringify(cols),
+    //         IsPage: true,
+    //         PageSize: 350,
+    //         Sql: SQL
+    //     };
 
-        var params = getrequestparam('exportsqldata', JSON.stringify(param));
-        httprequest(params, (result) => {
-            var url = window.URL.createObjectURL(result)
-            var a = document.createElement('a')
-            a.href = url
-            a.download = "数据.xls"
-            a.click()
-        });
-    }
-    SQLChecked = () => {
-        var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.85
-        let hflag = 0
-        let height_ = 40
+    //     var params = getrequestparam('exportsqldata', JSON.stringify(param));
+    //     httprequest(params, (result) => {
+    //         var url = window.URL.createObjectURL(result)
+    //         var a = document.createElement('a')
+    //         a.href = url
+    //         a.download = "数据.xls"
+    //         a.click()
+    //     });
+    // }
+    // SQLChecked = () => {
+    //     var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.85
+    //     let hflag = 0
+    //     let height_ = 40
 
-        this.props.Loading()
-        let valueList = {}
-        let SQL = this.props.tableSource.SQL;
+    //     this.props.Loading()
+    //     let valueList = {}
+    //     let SQL = this.props.tableSource.SQL;
 
-        //debugger;
-        this.props.data.map(e => {
-            if (e.type !== 'Table' && e.type !== 'Group') {
-                if (e.type === 'LookUp') {
-                    valueList[e.id] = e.values[e.upKey] === undefined ? '' : e.values[e.upKey];
-                } else if (e.type === 'Input' && e.typePoint === 0) {
-                    valueList[e.id] = e.defaultValue === undefined ? '' : e.defaultValue;
-                } else if (e.type === 'Input' && e.typePoint !== 0) {
-                    valueList[e.typePoint] = e.defaultValue === undefined ? '' : e.defaultValue;
-                } else if (e.type === "Range") {
-                    valueList[e.id] = e.defaultValue === '' ? ['', ''] : e.defaultValue;
-                } else {
-                    valueList[e.id] = e.defaultValue === undefined ? '' : e.defaultValue;
-                }
-            }
-            let PositionTop = e.GridY * height_
-            if (PositionTop > hflag) {
-                hflag = PositionTop
-            }
-            return true
-        })
+    //     //debugger;
+    //     this.props.data.map(e => {
+    //         if (e.type !== 'Table' && e.type !== 'Group') {
+    //             if (e.type === 'LookUp') {
+    //                 valueList[e.id] = e.values[e.upKey] === undefined ? '' : e.values[e.upKey];
+    //             } else if (e.type === 'Input' && e.typePoint === 0) {
+    //                 valueList[e.id] = e.defaultValue === undefined ? '' : e.defaultValue;
+    //             } else if (e.type === 'Input' && e.typePoint !== 0) {
+    //                 valueList[e.typePoint] = e.defaultValue === undefined ? '' : e.defaultValue;
+    //             } else if (e.type === "Range") {
+    //                 valueList[e.id] = e.defaultValue === '' ? ['', ''] : e.defaultValue;
+    //             } else {
+    //                 valueList[e.id] = e.defaultValue === undefined ? '' : e.defaultValue;
+    //             }
+    //         }
+    //         let PositionTop = e.GridY * height_
+    //         if (PositionTop > hflag) {
+    //             hflag = PositionTop
+    //         }
+    //         return true
+    //     })
 
-        //table行数
-        let cols = (h - hflag) * 0.8
-        let post = new Promise((resolve, reject) => {
-            let body = {
-                "Sql": SQL,
-                "Param": JSON.stringify(valueList),
-                "PageIndex": 1,
-                "PageSize": 350,
-                isPage: true
-            }
-            POST$(API('SQL').http, body, (res) => {
-                console.log(res.Results);
-                // let Res = res.Results
-                // let arr = []
-                // for (let i = 0; i < Res.length; i++) {
-                //     let x = 0
-                //     if (i === cols * (x + 1)) {
-                //         arr[x].push(Res[i])
-                //         x++
-                //         arr[x] = []
-                //     } else if (i < cols * (x + 1) && i > cols * x) {
-                //         arr[x].push(Res[i])
-                //     }
-                // }
+    //     //table行数
+    //     let cols = (h - hflag) * 0.8
+    //     let post = new Promise((resolve, reject) => {
+    //         let body = {
+    //             "Sql": SQL,
+    //             "Param": JSON.stringify(valueList),
+    //             "PageIndex": 1,
+    //             "PageSize": 350,
+    //             isPage: true
+    //         }
+    //         POST$(API('SQL').http, body, (res) => {
+    //             console.log(res.Results);
 
-                // console.log(arr);
+    //             if (res.Results) {
+    //                 this.props._tableUpdataFromResults(res.Results, res.RecordCount)
+    //                 resolve(true)
+    //             } else {
+    //                 reject(false)
+    //             }
 
-                if (res.Results) {
-                    this.props._tableUpdataFromResults(res.Results, res.RecordCount)
-                    resolve(true)
-                } else {
-                    reject(false)
-                }
+    //         })
+    //     })
+    //     let time = new Promise((resolve, reject) => {
+    //         setTimeout(() => {
+    //             reject(false)
+    //         }, 10000);
+    //     })
 
-            })
-        })
-        let time = new Promise((resolve, reject) => {
-            setTimeout(() => {
-                reject(false)
-            }, 10000);
-        })
-
-        Promise.race([post, time])
-            .then((result) => {
-                this.props.Loading()
-            })
-            .catch((err) => {
-                message.error('获取数据超时')
-                this.props.Loading()
-            })
-    }
-    guanbi = () => {
-        this.props.clear()
-    }
+    //     Promise.race([post, time])
+    //         .then((result) => {
+    //             this.props.Loading()
+    //         })
+    //         .catch((err) => {
+    //             message.error('获取数据超时')
+    //             this.props.Loading()
+    //         })
+    // }
+    // guanbi = () => {
+    //     this.props.clear()
+    // }
     render() {
         const { user, userdata } = this.state
         const menu = (
@@ -303,27 +289,7 @@ class Headercomponent extends Component {
                         <Tag style={{ float: 'left', marginTop: '5px' }}>人员名称：{userdata.UserName}</Tag>
                     </Dropdown>
                 </div>
-                {this.props.R === 'R' ?
-                    <div style={{ float: 'left', width: '100%', borderTop: '2px solid #1a1a1d14' }}>
-                        <ButtonGroup>
-                            <Button onClick={this.SQLChecked.bind(this)}>
-                                <Icon type="security-scan" theme="outlined" />
-                                查询 ALT+Q
-                        </Button>
-                            {/* <Button >
-                            <Icon type="copyright" theme="outlined" />
-                            清空 ALT+R
-                            </Button> */}
-                            <Button onClick={this.guanbi.bind(this)}>
-                                <Icon type="export" theme="outlined" />
-                                关闭 ALT+C
-                        </Button>
-                            <Button onClick={this.DAOCHU.bind(this)}>
-                                <Icon type="usb" theme="outlined" />
-                                导出 ALT+E
-                            </Button>
-                        </ButtonGroup>
-                    </div> : null}
+
             </Header>
         );
     }

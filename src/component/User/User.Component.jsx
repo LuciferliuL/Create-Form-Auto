@@ -10,53 +10,46 @@ class USER extends Component {
     state = {
         loading: true,
         user: '',
-        collapsed:false
+        collapsed: false
     };
-   
+
     componentWillMount() {
-       
         if (sessionStorage.getItem('token')) {
 
         } else {
             this.props.history.push('/')
         }
         var values = sessionStorage.getItem('values')
-        console.log(values);
         setTimeout(() => {
-            this.setState((pre)=>({
-                loading:!pre.loading,
-                user: JSON.parse(values) 
+            this.setState((pre) => ({
+                loading: !pre.loading,
+                user: JSON.parse(values)
             }))
         }, 1000);
     }
     Loading = () => {
-        this.setState((pre)=>({
-            loading:!pre.loading
+        this.setState((pre) => ({
+            loading: !pre.loading
         }))
     }
     toggle = () => {
         this.setState({
-          collapsed: !this.state.collapsed,
+            collapsed: !this.state.collapsed,
         });
-      }
+    }
     render() {
-        const { user , loading} = this.state
+        const { user, loading } = this.state
         return (
             <Spin spinning={loading} size='large'>
                 <Layout>
-                    <Sider 
-                    style={{ overflow: 'auto', height: '100vh', left: 0, backgroundColor:'#fafafa' }}
-                    // trigger={null}
-                    // collapsible
-                    // collapsed={this.state.collapsed}
-                    // onCollapse={this.toggle}
-                    >
+                    <Sider
+                        style={{ overflow: 'auto', height: '100vh', left: 0, backgroundColor: '#fafafa' }}  >
                         <TreeUser></TreeUser>
                     </Sider>
                     <Layout >
-                        <Headercomponent user={user} R={'R'} Loading={this.Loading.bind(this)}></Headercomponent>
-                        <Content style={{  overflow: 'initial' }} >
-                            <ContentUser></ContentUser>
+                        <Headercomponent user={user} R={'R'} ></Headercomponent>
+                        <Content style={{ overflow: 'initial' }} >
+                            <ContentUser Loading={this.Loading.bind(this)}></ContentUser>
                         </Content>
                     </Layout>
                 </Layout>
