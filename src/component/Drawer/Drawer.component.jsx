@@ -85,7 +85,6 @@ class Drawercomponent extends Component {
         console.log(e.target.value);
         this.props.sqlValueChange(e.target.value)
         console.log(this.props.currentAttr);
-
     }
     render() {
         let content = []
@@ -100,9 +99,6 @@ class Drawercomponent extends Component {
                 </div>
             )
         } else if (this.props.flag === 'columns') {
-            if (this.props.currentAttr.columns == undefined)
-                return;
-
             content.push(
                 <div key={1314165182}>
                     <Col span={6}>
@@ -119,32 +115,31 @@ class Drawercomponent extends Component {
                     </Col>
                 </div>
             )
-            this.props.currentAttr.columns.forEach((e, i) => {
 
-                content.push(
-                    <div key={i}>
-                        <InputGroup style={{ padding: '5px' }} >
-                            <Col span={6}>
-                                <Input value={e.title} onChange={this.InputChange.bind(this, i, 'title')} />
-                            </Col>
-                            <Col span={6}>
-                                <Input value={e.dataIndex} onChange={this.InputChange.bind(this, i, 'dataIndex')} />
-                            </Col>
-                            <Col span={6}>
-                                <Input value={e.width} onChange={this.InputChange.bind(this, i, 'width')} />
-                            </Col>
-                            <Col span={6}>
-                                <Tag onClick={this.TagAdd.bind(this, i)}>添加</Tag>
-                                <Tag onClick={this.TagCancel.bind(this, i)}>删除</Tag>
-                            </Col>
-                        </InputGroup>
-                    </div>
-                )
-            });
+            if (this.props.currentAttr.columns != undefined) {
+                this.props.currentAttr.columns.forEach((e, i) => {
+                    content.push(
+                        <div key={i}>
+                            <InputGroup style={{ padding: '5px' }} >
+                                <Col span={6}>
+                                    <Input value={e.title} onChange={this.InputChange.bind(this, i, 'title')} />
+                                </Col>
+                                <Col span={6}>
+                                    <Input value={e.dataIndex} onChange={this.InputChange.bind(this, i, 'dataIndex')} />
+                                </Col>
+                                <Col span={6}>
+                                    <Input value={e.width} onChange={this.InputChange.bind(this, i, 'width')} />
+                                </Col>
+                                <Col span={6}>
+                                    <Tag onClick={this.TagAdd.bind(this, i)}>添加</Tag>
+                                    <Tag onClick={this.TagCancel.bind(this, i)}>删除</Tag>
+                                </Col>
+                            </InputGroup>
+                        </div>
+                    )
+                });
+            }
         } else if (this.props.flag === 'GroupValue') {
-            if (this.props.currentAttr.GroupValue == undefined)
-                return;
-
             content.push(
                 <div key={132313182}>
                     <Col span={6}>
@@ -156,24 +151,26 @@ class Drawercomponent extends Component {
                 </div>
             )
 
-            this.props.currentAttr.GroupValue.forEach((e, i) => {
-                content.push(
-                    <div key={i}>
-                        <InputGroup style={{ padding: '5px' }} >
-                            <Col span={8}>
-                                <Input value={e.name} onChange={this.GroupChange.bind(this, i, 'name')} />
-                            </Col>
-                            <Col span={8}>
-                                <Input value={e.value} onChange={this.GroupChange.bind(this, i, 'value')} />
-                            </Col>
-                            <Col span={8}>
-                                <Tag onClick={this.GroupAdd.bind(this, i)}>添加</Tag>
-                                <Tag onClick={this.GroupCancel.bind(this, i)}>删除</Tag>
-                            </Col>
-                        </InputGroup>
-                    </div>
-                )
-            });
+            if (this.props.currentAttr.GroupValue != undefined) {
+                this.props.currentAttr.GroupValue.forEach((e, i) => {
+                    content.push(
+                        <div key={i}>
+                            <InputGroup style={{ padding: '5px' }} >
+                                <Col span={8}>
+                                    <Input value={e.name} onChange={this.GroupChange.bind(this, i, 'name')} />
+                                </Col>
+                                <Col span={8}>
+                                    <Input value={e.value} onChange={this.GroupChange.bind(this, i, 'value')} />
+                                </Col>
+                                <Col span={8}>
+                                    <Tag onClick={this.GroupAdd.bind(this, i)}>添加</Tag>
+                                    <Tag onClick={this.GroupCancel.bind(this, i)}>删除</Tag>
+                                </Col>
+                            </InputGroup>
+                        </div>
+                    )
+                });
+            }
         }
         return (
 
