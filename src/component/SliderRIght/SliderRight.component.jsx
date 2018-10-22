@@ -310,7 +310,7 @@ class SliderRightcomponent extends Component {
         // console.log(date, dateString);
         // console.log(getDat());
 
-        let times = [dateString[0], dateString[1] === getDat() ? -1 : dateString[1]]
+        let times = [dateString[0], dateString[1] === getDat() ? getDat() : dateString[1]]
         this.props.inputChange(this.props.currentAttr.key, times)
     }
     render() {
