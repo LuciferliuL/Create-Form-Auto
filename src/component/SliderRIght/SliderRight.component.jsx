@@ -28,16 +28,16 @@ class SliderRightcomponent extends Component {
     componentWillReceiveProps(pre) {
         const { getFieldDecorator } = pre.form;
         let dateChange = 0
-        if(pre.currentAttr.defaultValue === ''){
+        if (pre.currentAttr.defaultValue === '' && pre.currentAttr.type === 'Range') {
             dateChange = 3 //无
-        }else if(pre.currentAttr.defaultValue[0] === -1){
+        } else if (pre.currentAttr.defaultValue[0] === -1 && pre.currentAttr.type === 'Range') {
             dateChange = 1 //最新时间
             // defaultValueTime = [getDat(),getDat()]
-        }else{
+        } else if (pre.currentAttr.type === 'Range') {
             dateChange = 2 //自定义
             // defaultValueTime = pre.currentAttr.defaultValue
             // console.log(defaultValueTime);
-            
+
         }
         const formItemLayout = {
             labelCol: {
@@ -269,7 +269,7 @@ class SliderRightcomponent extends Component {
 
         this.setState({
             uniqueList: uniqueList,
-            value:dateChange,
+            value: dateChange,
             // defaultValueTime:defaultValueTime
         })
     }
@@ -322,7 +322,7 @@ class SliderRightcomponent extends Component {
                 sm: { span: 16 },
             },
         };
-        const { currentAttr ,defaultValueTime} = this.props
+        const { currentAttr, defaultValueTime } = this.props
         // console.log(currentAttr);
 
         let inputList = []
@@ -383,7 +383,7 @@ class SliderRightcomponent extends Component {
                                         <Radio value={2}>自己设定</Radio>
                                         <Radio value={3}>无限定时间</Radio>
                                     </RadioGroup>
-                                    {this.state.value === 2 ? <RangePicker onChange={this.RangePicker} disabledDate={disabledDate}/> : null}
+                                    {this.state.value === 2 ? <RangePicker onChange={this.RangePicker} disabledDate={disabledDate} /> : null}
                                 </div>
                                 : <div></div>}
                         </TabPane>
