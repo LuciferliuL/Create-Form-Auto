@@ -128,6 +128,7 @@ class ContentUser extends Component {
                     Param: JSON.stringify(valueList),
                     Columns: JSON.stringify(cols),
                     IsPage: true,
+                    PageIndex: 1,
                     PageSize: 350,
                     Sql: SQL
                 };
@@ -180,6 +181,7 @@ class ContentUser extends Component {
             Param: JSON.stringify(valueList),
             Columns: JSON.stringify(cols),
             IsPage: true,
+            PageIndex: 1,
             PageSize: 350,
             Sql: SQL
         };

@@ -48,7 +48,7 @@ class USER extends Component {
                     </Sider>
                     <Layout >
                         <Headercomponent user={user} R={'R'} ></Headercomponent>
-                        <Content style={{ overflow: 'initial' }} >
+                        <Content style={{ overflow: 'initial', backgroundColor: 'white' }} >
                             <ContentUser Loading={this.Loading.bind(this)}></ContentUser>
                         </Content>
                     </Layout>
