@@ -4,10 +4,10 @@ import { CURRENT_ATTR } from '../action/Stylist.action'
 import { CURRENT_ATTR_UPDATA, FORM_UPDATA_FROM_CURRENT } from '../../SliderRIght/action/Right.action'
 import {
     TR_ADD_DOWN, TR_REDUCE_UP, SHOWS, UPDATA_VALUES, UPDATA_CURRENt_DATASOURCE, T_ADD_DOWN
-    , T_REDUCE_UP,ON_CLICK_TR
+    , T_REDUCE_UP, ON_CLICK_TR
 } from '../../PublicComponent/lookup/action/lookup.action'
 import { TAG_PUSH_DATA_IN_COLUMNS, INPUT_VALUE_CHANGE, SQL_VALUE_CHANGE, GROUP_VALUE_CHANGE, TAG_PUSH_DATA_IN_GROUP, TAG_CANCEL_DATA_IN_GROUP, INPUT_CANCEL_DATA } from '../../Drawer/action/Drawer.action'
-import { INPUT_CHANGE } from '../../PublicComponent/Public.action'
+import { INPUT_CHANGE,CHECK_BOX_VALUE } from '../../PublicComponent/Public.action'
 
 const initialState = []
 
@@ -55,6 +55,10 @@ export const UpdataFormData = (state = [], action) => {
         case INPUT_CHANGE:
             return state.map(e => e.key === action.key
                 ? { ...e, defaultValue: action.value }
+                : e)
+        case CHECK_BOX_VALUE:
+            return state.map(e => e.key === action.key
+                ? { ...e, checked: action.value }
                 : e)
         case CLEAR_FORM:
             return state = action.initial
@@ -182,7 +186,7 @@ export const tableSource = (state = table, action) => {
 const table = {
     GridX: 0, GridY: 0, w: 24, h: 8, key: 'tablesKey', pageSize: 200, scroll: 1200,
     icons: 'table', label: '简单表格', type: 'Table', id: 'tables', float: 0,
-    SQL: 'select * where', groupname: '', tr: 0,pageNum:1,
+    SQL: 'select * where', groupname: '', tr: 0, pageNum: 1,
     columns: [
         {
             title: '',

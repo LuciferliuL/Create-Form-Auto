@@ -123,7 +123,7 @@ class LookUpPublicComponent extends Component {
             case 27:
                 this.setState({
                     shows: false,
-                    value:''
+                    value: ''
                 })
                 let unqueData = this.props.UpdataFormData.find(e => e.key === this.props.PublicData.key)
                 unqueData.values = ''
@@ -151,7 +151,7 @@ class LookUpPublicComponent extends Component {
                 // unqueData.show = false
                 let keys = unqueData.uniqueKey
                 // console.log(keys);
-                
+
                 this.setState({
                     shows: false,
                     value: dataSource_[keys]
@@ -179,7 +179,7 @@ class LookUpPublicComponent extends Component {
                 // unqueData.show = false
                 let keys = unqueData.uniqueKey
                 // console.log(keys);
-                
+
                 this.setState({
                     shows: false,
                     value: dataSource_[keys]
@@ -229,24 +229,25 @@ class LookUpPublicComponent extends Component {
         // console.log(show);
         const { shows, loading } = this.state
         return (
-            <Spin spinning={loading}>
-                <div className="certain-category-search-wrapper" style={{ width: '100%' }}>
-                    <Modal
-                        visible={shows}
-                        width='100%'
-                        style={{ top: '0' }}
-                        footer={null}
-                        onCancel={this.Cancel.bind(this)}
-                        bodyStyle={{ overflow: 'scroll' }}
-                        destroyOnClose={true}
-                    >
-                        <TablePublicComponent
-                            PublicData={this.props.current}
-                            ClickHandleKey={this.ClickHandleKey.bind(this)}
-                            h={this.state.h}
-                            lookupCLick={this.CLick}>
-                        </TablePublicComponent>
-                    </Modal>
+
+            <div className="certain-category-search-wrapper" style={{ width: '100%' }}>
+                <Modal
+                    visible={shows}
+                    width='100%'
+                    style={{ top: '0' }}
+                    footer={null}
+                    onCancel={this.Cancel.bind(this)}
+                    bodyStyle={{ overflow: 'scroll' }}
+                    destroyOnClose={true}
+                >
+                    <TablePublicComponent
+                        PublicData={this.props.current}
+                        ClickHandleKey={this.ClickHandleKey.bind(this)}
+                        h={this.state.h}
+                        lookupCLick={this.CLick}>
+                    </TablePublicComponent>
+                </Modal>
+                {/* <Spin spinning={loading}  wrapperClassName='smallspin'> */}
                     <FormItem
                         label={label}
                         {...layout}
@@ -263,8 +264,9 @@ class LookUpPublicComponent extends Component {
                         </Input>
                         {/* )} */}
                     </FormItem>
-                </div>
-            </Spin>
+                {/* </Spin> */}
+            </div>
+
         )
     }
 }
