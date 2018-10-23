@@ -130,22 +130,11 @@ class TABLECOMPONENT extends Component {
         let colHeight = Math.floor(pre.heights / 23)
         let data = []
         let Source = pre.tableSource.dataSource
-<<<<<<< HEAD
-        Source.map((e, i) => {
-            e.indexs = i + 'tables'
-            data.push(e)
-        })
-
-        this.setState(() => (
-            {
-                data: data,
-                colHeight: colHeight
-=======
         // console.log(Source.length);
-        
-        if (Source.length < colHeight && Source.length>0) {
+
+        if (Source.length < colHeight && Source.length > 0) {
             // console.log(2);
-            
+
             let keys = Object.keys(Source[0])
             Source.map((e, i) => {
                 e.indexs = i + 'tables'
@@ -158,7 +147,6 @@ class TABLECOMPONENT extends Component {
                 })
                 e.indexs = i + 'tt'
                 data.push(e)
->>>>>>> a0b96fa244cf7d0e144e5d3190824863f0369573
             }
             this.setState(() => (
                 {
@@ -168,7 +156,7 @@ class TABLECOMPONENT extends Component {
             ))
         } else {
             // console.log(1);
-            
+
             Source.map((e, i) => {
                 e.indexs = i + 'tables'
                 data.push(e)
@@ -182,7 +170,7 @@ class TABLECOMPONENT extends Component {
         }
 
 
-       
+
     }
 
     // handleKeyDown = (e) => {
