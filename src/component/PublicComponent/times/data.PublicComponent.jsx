@@ -8,19 +8,19 @@ const dateFormat = 'YYYY-MM-DD';
 const FormItem = Form.Item
 class DatePublicComponent extends Component {
     TimesChange = (date, dateString) => {
-        // console.log(date, dateString);
         this.props.inputChange(this.props.PublicData.key, dateString + getHours())
     }
     render() {
         const { getFieldDecorator } = this.props.form
-        const { disabled, label, key, required, message, layout, placeholder } = this.props.PublicData
+        const { disabled, label, key, required, message, layout, placeholder } = this.props.PublicData;
+
         return (
             <FormItem
                 label={label}
                 {...layout}
             >
                 {getFieldDecorator(key, {
-                    rules: [{ required: { required }, message: { message } }],
+                    rules: [{ required: { required }, message: "必填项" }],
                 })(
                     <DatePicker onChange={this.TimesChange.bind(this)} disabled={disabled} placeholder={placeholder} format={dateFormat} />
                 )}
