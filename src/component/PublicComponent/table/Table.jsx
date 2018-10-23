@@ -127,20 +127,9 @@ class TABLECOMPONENT extends Component {
         // console.log(pre);
         // if (pre.tableSource.pageNum === this.state.pageNum) {
         //加新数据
-        let colHeight = Math.floor(pre.heights / 23)
+        let colHeight = Math.floor(pre.heights / 24)
         let data = []
         let Source = pre.tableSource.dataSource
-<<<<<<< HEAD
-        Source.map((e, i) => {
-            e.indexs = i + 'tables'
-            data.push(e)
-        })
-
-        this.setState(() => (
-            {
-                data: data,
-                colHeight: colHeight
-=======
         // console.log(Source.length);
         
         if (Source.length < colHeight && Source.length>0) {
@@ -158,7 +147,6 @@ class TABLECOMPONENT extends Component {
                 })
                 e.indexs = i + 'tt'
                 data.push(e)
->>>>>>> a0b96fa244cf7d0e144e5d3190824863f0369573
             }
             this.setState(() => (
                 {
