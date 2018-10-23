@@ -52,9 +52,9 @@ class DatePublicComponent extends Component {
                 label={label}
                 {...layout}
             >
-                {getFieldDecorator(key, {
+                {/* {getFieldDecorator(key, {
                     rules: [{ required: { required }, message: "必填项" }],
-                })(
+                })( */}
                     <DatePicker
                         onChange={this.TimesChange.bind(this)}
                         disabled={disabled}
@@ -62,7 +62,7 @@ class DatePublicComponent extends Component {
                         format={dateFormat}
                         defaultValue={days}
                     />
-                )}
+                {/* )} */}
             </FormItem>
         )
     }

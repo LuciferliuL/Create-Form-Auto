@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Form, Layout, Menu, Dropdown, Button, Tag, Icon, message } from 'antd'
+import { Card, Form,Pagination , Button, Tag, Icon, message } from 'antd'
 import { connect } from 'react-redux';
 import { formUpdataFromCurrent } from '../SliderRIght/action/Right.action'
 import PublicComponent from '../PublicComponent/Public.Component'
@@ -8,15 +8,14 @@ import TABLECOMPONENT from '../PublicComponent/table/Table'
 import { API } from '../../lib/API/check.API'
 import { POST$, httprequest, getrequestparam, getHours, getDat } from '../../lib/MATH/math'
 import { _clear, _tableUpdataFromResults, tableTr0 } from '../stylist/action/Stylist.action'
-import moment from 'moment';
+import { tAddDown, tReduceUp } from '../PublicComponent/lookup/action/lookup.action';
 
 const ButtonGroup = Button.Group;
-const { Header } = Layout
-const dateFormat = 'YYYY-MM-DD';
+
 
 function mapStateToProps(State) {
     // console.log(State);
-
+  
     return {
         data: State.UpdataFormData,
         InitStylistData: State.InitStylistData.InitStylistData,
@@ -31,7 +30,8 @@ class ContentUser extends Component {
         data: [],
         domWidth: 0,
         totalpage: 0,
-        flag: true
+        flag: true,
+        current:1
     }
     myRef = React.createRef();
     changeWidth = () => {
@@ -45,6 +45,9 @@ class ContentUser extends Component {
             var keyCode = e.keyCode || e.which || e.charCode;
             var altKey = e.altKey;
             if (altKey && keyCode === 81) {
+                var oInput = document.getElementById("input");
+                oInput.focus();
+                window.addEventListener('keyup', this.handleKeyDown)
                 pre.Loading()
                 let valueList = {}
                 let SQL = pre.tableSource.SQL
@@ -151,6 +154,8 @@ class ContentUser extends Component {
                         // console.log(res);
                         if (res.Results) {
                             pre.tableSource.dataSource = res.Results
+                            pre.props.tableSource.tr = 0
+                            pre.props.tableSource.pageSize = res.RecordCount
                             pre.tableTr0(0)
                             resolve(true)
                         } else {
@@ -353,7 +358,12 @@ class ContentUser extends Component {
             a.click()
         });
     }
-    SQLChecked = () => {
+    SQLChecked = (page) => {
+        //input获取焦点
+        var oInput = document.getElementById("input");
+        oInput.focus();
+        window.addEventListener('keyup', this.handleKeyDown)
+
         var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.85
         let hflag = 0
         let height_ = 40
@@ -463,13 +473,15 @@ class ContentUser extends Component {
             let body = {
                 "Sql": SQL,
                 "Param": JSON.stringify(valueList),
-                "PageIndex": 1,
-                "PageSize": 350,
+                "PageIndex": page,
+                "PageSize": 200,
                 isPage: true
             }
             POST$(API('SQL').http, body, (res) => {
                 if (res.Results) {
                     this.props.tableSource.dataSource = res.Results
+                    this.props.tableSource.tr = 0
+                    this.props.tableSource.pageSize = res.RecordCount
                     resolve(true)
                 } else {
                     reject(false)
@@ -494,9 +506,43 @@ class ContentUser extends Component {
     guanbi = () => {
         this.props.clear()
     }
+    handleKeyDown = (e) => {
+        const { dataSource, columns } = this.props.tableSource
+        switch (e.keyCode) {
+            case 40://下
+                if (this.props.tableSource.tr < dataSource.length - 1) {
+                    // console.log(this.props.current.tr);
+                    this.props.tAddDown(this.props.tableSource.tr, 1)
+                }
+                break;
+            case 38://上
+                if (this.props.tableSource.tr > 0) {
+                    this.props.tReduceUp(this.props.tableSource.tr, 1)
+                }
+                break;
+            case 37:
 
+                break
+            case 39:
+
+                break
+        }
+    }
+    ONBlur = ()=>{
+        // window.addEventListener('keyup', this.handleKeyDown)
+        window.removeEventListener('keyup', this.handleKeyDown)
+    }
+    onChange = (page) => {
+        this.setState({
+            current:page
+        })
+        this.SQLChecked(page)
+    }
     render() {
         var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.93
+        const {tableSource}=this.props
+        console.log(tableSource);
+        
         let Dr = []
         let width_ = this.state.domWidth / 24
         let height_ = 40
@@ -527,7 +573,7 @@ class ContentUser extends Component {
 
                     <div style={{ float: 'left', width: '100%' }}>
                         <ButtonGroup>
-                            <Button onClick={this.SQLChecked.bind(this)}>
+                            <Button onClick={this.SQLChecked.bind(this,1)}>
                                 <Icon type="security-scan" theme="outlined" />
                                 查询 ALT+Q
                                     </Button>
@@ -544,8 +590,15 @@ class ContentUser extends Component {
                     <Form
                         style={{ padding: '5px', marginTop: '40px', position: 'relative' }}>{Dr}</Form>
                     <div style={{ position: 'relative', top: (hflag + 40) + 'px', height: (h - hflag) * 0.8 + 'px' }}>
-                        <TABLECOMPONENT PublicData={this.props.tableSource} style={{ marginTop: '40px' }} heights={(h - hflag) * 0.8}>
+                        <input type="text" id='input' onBlur={this.ONBlur} style={{display:'none'}}/>
+                        <TABLECOMPONENT PublicData={tableSource} style={{ marginTop: '40px' }} heights={(h - hflag) * 0.8}>
                         </TABLECOMPONENT>
+                        <Pagination 
+                        defaultCurrent={1}  
+                        total={tableSource.pageSize} 
+                        pageSize={200}
+                        current={this.state.current}
+                        onChange={this.onChange}></Pagination>  
                     </div>
                 </Card>
             )
@@ -577,6 +630,12 @@ const mapDispatchProps = (dispatch) => {
         },
         upForm: (k) => {
             dispatch(formUpdataFromCurrent(k))
+        },
+        tAddDown: (k, i) => {
+            dispatch(tAddDown(k, i))
+        },
+        tReduceUp: (k, i) => {
+            dispatch(tReduceUp(k, i))
         },
     }
 }
