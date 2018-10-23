@@ -3,11 +3,7 @@ import { Table, Tooltip } from 'antd'
 import { connect } from 'react-redux'
 import './Table.PublicComponent.css'
 import { tAddDown, tReduceUp } from '../lookup/action/lookup.action';
-import { dateFtt } from '../../../lib/MATH/math'
-
-// import { Resizable } from 'react-resizable';
-
-
+import { isdate, formatDate } from '../../../lib/MATH/math'
 
 class TABLECOMPONENT extends Component {
     state = {
@@ -130,15 +126,15 @@ class TABLECOMPONENT extends Component {
     componentWillReceiveProps(pre) {
         // console.log(pre);
         // if (pre.tableSource.pageNum === this.state.pageNum) {
-            //加新数据
-            let colHeight = Math.floor(pre.heights / 23)
-            let data = []
-            let Source = pre.tableSource.dataSource
-            Source.map((e, i) => {
-                e.indexs = i + 'tables'
-                data.push(e)
-            })
- 
+        //加新数据
+        let colHeight = Math.floor(pre.heights / 23)
+        let data = []
+        let Source = pre.tableSource.dataSource
+        Source.map((e, i) => {
+            e.indexs = i + 'tables'
+            data.push(e)
+        })
+
         this.setState(() => (
             {
                 data: data,
@@ -188,11 +184,11 @@ class TABLECOMPONENT extends Component {
 
                             //format datetime;
                             let ss = text;
-                            let crtTime = new Date(ss);
-                            if (isNaN(crtTime.getDate()))
+                            if (isdate(text))
+                                text = formatDate(new Date(ss), "yyyy-MM-dd");
+                            else {
                                 text = ss;
-                            else
-                                text = dateFtt("yyyy-MM-dd", crtTime);
+                            }
 
                             if (/^[\u4e00-\u9fa5]/.test(text)) {//中文
                                 if (text.length > 10) {
@@ -257,7 +253,7 @@ class TABLECOMPONENT extends Component {
                         // if (this.props.tableSource.tr > (colHeight - 1)) {
                         //     return (index === (this.props.tableSource.tr - (colHeight * (this.state.x - 1))) ? 'black' : "")
                         // } else {
-                            return (index === this.props.tableSource.tr ? 'black' : '')
+                        return (index === this.props.tableSource.tr ? 'black' : '')
                         // }
                     }}
                     rowKey='indexs'

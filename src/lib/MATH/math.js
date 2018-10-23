@@ -175,11 +175,11 @@ $.ajaxSetup({
     }
 })
 
-function formats(time){
+function formats(time) {
     return `${time.getFullYear()}-${time.getMonth()}-${time.getDay()}`
 }
 
-export { formats}
+export { formats }
 
 function getTime() {
     var myDate = new Date()
@@ -206,6 +206,24 @@ function getDat() {
     return `${myDate.getFullYear()}-${myDate.getMonth() + 1}-${myDate.getDate()}`
 }
 export { getDat }
+
+function getstartHours() {
+    let hours = '00';
+    let minutes = '00';
+    let seconds = '00';
+    return `T${hours}:${minutes}:${seconds}`
+}
+export { getstartHours }
+
+function getendHours() {
+    let hours = '23';
+    let minutes = '59';
+    let seconds = '59';
+    return `T${hours}:${minutes}:${seconds}`
+}
+export { getendHours }
+
+
 function getHours() {
     var myDate = new Date()
     var myHours = ''
@@ -214,7 +232,6 @@ function getHours() {
     let seconds = myDate.getSeconds() > 9 ? myDate.getSeconds() : '0' + myDate.getSeconds()
     return myHours = `T${hours}:${minutes}:${seconds}`
 }
-
 export { getHours }
 
 //下载
@@ -340,20 +357,35 @@ export function isChinese(temp) {
     return true;
 }
 
-export function dateFtt(fmt, date) { //
+export function isdate(dateString) {
+    if (dateString.toString().trim() == "") return false;
+    var r = dateString.toString().match(/^(\d{1,4})(-|\/)(\d{1,2})\2(\d{1,2})$/);
+    if (r == null) {
+        return false;
+    }
+    var d = new Date(r[1], r[3] - 1, r[4]);
+    var num = (d.getFullYear() == r[1] && (d.getMonth() + 1) == r[3] && d.getDate() == r[4]);
+    if (num == 0) {
+    }
+    return (num != 0);
+}
+
+export function formatDate(sdt, format) {
     var o = {
-        "M+": date.getMonth() + 1,                 //月份   
-        "d+": date.getDate(),                    //日   
-        "h+": date.getHours(),                   //小时   
-        "m+": date.getMinutes(),                 //分   
-        "s+": date.getSeconds(),                 //秒   
-        "q+": Math.floor((date.getMonth() + 3) / 3), //季度   
-        "S": date.getMilliseconds()             //毫秒   
+        "M+": sdt.getMonth() + 1, //month
+        "d+": sdt.getDate(),    //day
+        "h+": sdt.getHours(),   //hour
+        "m+": sdt.getMinutes(), //minute
+        "s+": sdt.getSeconds(), //second
+        "q+": Math.floor((sdt.getMonth() + 3) / 3),  //quarter
+        "S": sdt.getMilliseconds() //millisecond
     };
-    if (/(y+)/.test(fmt))
-        fmt = fmt.replace(RegExp.$1, (date.getFullYear() + "").substr(4 - RegExp.$1.length));
+    if (/(y+)/.test(format)) format = format.replace(RegExp.$1,
+        (sdt.getFullYear() + "").substr(4 - RegExp.$1.length));
     for (var k in o)
-        if (new RegExp("(" + k + ")").test(fmt))
-            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-    return fmt;
-} 
+        if (new RegExp("(" + k + ")").test(format))
+            format = format.replace(RegExp.$1,
+                RegExp.$1.length == 1 ? o[k] :
+                    ("00" + o[k]).substr(("" + o[k]).length));
+    return format;
+};
