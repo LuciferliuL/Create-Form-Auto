@@ -131,10 +131,10 @@ class TABLECOMPONENT extends Component {
         let data = []
         let Source = pre.tableSource.dataSource
         // console.log(Source.length);
-        
-        if (Source.length < colHeight && Source.length>0) {
+
+        if (Source.length < colHeight && Source.length > 0) {
             // console.log(2);
-            
+
             let keys = Object.keys(Source[0])
             Source.map((e, i) => {
                 e.indexs = i + 'tables'
@@ -156,7 +156,7 @@ class TABLECOMPONENT extends Component {
             ))
         } else {
             // console.log(1);
-            
+
             Source.map((e, i) => {
                 e.indexs = i + 'tables'
                 data.push(e)
@@ -170,7 +170,7 @@ class TABLECOMPONENT extends Component {
         }
 
 
-       
+
     }
 
     // handleKeyDown = (e) => {
