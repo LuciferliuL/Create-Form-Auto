@@ -54,7 +54,7 @@ const SData = [
         }
     },
     {
-        GridX: 0, GridY: 0, w: 16, h: 1, key: '0',
+        GridX: 0, GridY: 0, w: 8, h: 1, key: '0',
         icons: 'contacts', id: 8, type: 'Range', required: false,
         message: "", label: "时段选择", disabled: false,
         defaultValue: '',
