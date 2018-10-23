@@ -60,7 +60,7 @@ class ContentUser extends Component {
                         } else if (e.type === 'Input' && e.typePoint !== 0) {
                             valueList[e.typePoint] = e.defaultValue === undefined ? '' : e.defaultValue;
                         } else if (e.type === "Range") {
-                            let days = ['', '']
+                            let days = e.defaultValue + getHours()
                             if (e.defaultValue === -1) {
                                 //当天
                                 var oneweekdate = new Date()
@@ -99,7 +99,7 @@ class ContentUser extends Component {
                         } else if (e.type === 'RadioGroup') {
                             valueList[e.id] = e.defaultValue === '-1' ? ' ' : e.defaultValue;
                         } else if (e.type === 'Date') {
-                            let days = ''
+                            let days = e.defaultValue + getHours()
                             if (e.defaultValue === -1) {
                                 //当天
                                 var oneweekdate = new Date()
@@ -324,7 +324,7 @@ class ContentUser extends Component {
                     valueList[e.typePoint] = e.defaultValue === undefined ? '' : e.defaultValue;
                 }
                 else if (e.type === "Range") {
-                    let days = ['', '']
+                    let days = e.defaultValue + getHours()
                     if (e.defaultValue === -1) {
                         //当天
                         var oneweekdate = new Date()
@@ -363,7 +363,7 @@ class ContentUser extends Component {
                 } else if (e.type === 'RadioGroup') {
                     valueList[e.id] = e.defaultValue === '-1' ? ' ' : e.defaultValue;
                 } else if (e.type === 'Date') {
-                    let days = ''
+                    let days = e.defaultValue + getHours()
                     if (e.defaultValue === -1) {
                         //当天
                         var oneweekdate = new Date()
@@ -450,7 +450,7 @@ class ContentUser extends Component {
                 } else if (e.type === 'Input' && e.typePoint !== 0) {
                     valueList[e.typePoint] = e.defaultValue === undefined ? '' : e.defaultValue;
                 } else if (e.type === "Range") {
-                    let days = ['', '']
+                    let days =e.defaultValue + getHours()
                     if (e.defaultValue === -1) {
                         //当天
                         var oneweekdate = new Date()
@@ -489,7 +489,7 @@ class ContentUser extends Component {
                 } else if (e.type === 'RadioGroup') {
                     valueList[e.id] = e.defaultValue === '-1' ? ' ' : e.defaultValue;
                 } else if (e.type === 'Date') {
-                    let days = ''
+                    let days = e.defaultValue + getHours()
                     if (e.defaultValue === -1) {
                         //当天
                         var oneweekdate = new Date()
