@@ -195,15 +195,84 @@ class ContentUser extends Component {
                         } else if (e.type === 'Input' && e.typePoint !== 0) {
                             valueList[e.typePoint] = e.defaultValue === undefined ? '' : e.defaultValue;
                         } else if (e.type === "Range") {
-                            if (e.defaultValue === '')
-                                valueList[e.id] = ['', ''];
-                            else if (e.defaultValue[0] === '' && e.defaultValue[1] === '')
-                                valueList[e.id] = ['', ''];
-                            else
-                                valueList[e.id] = [e.defaultValue[0] + getHours(), e.defaultValue[1] + getHours()];
+                            let days = ['', '']
+                            if (e.defaultValue === -1) {
+                                //当天
+                                var oneweekdate = new Date()
+                                var y = oneweekdate.getFullYear();
+                                var m = oneweekdate.getMonth() + 1;
+                                var d = oneweekdate.getDate();
+                                var formatwdate = y + '-' + m + '-' + d;
+                                days = [formatwdate + getHours(), getDat() + getHours()]
+                            } else if (e.defaultValue === 1) {
+                                //前一天
+                                var ds = new Date()
+                                var oneweekdate = new Date(ds - 24 * 3600 * 1000);
+                                var y = oneweekdate.getFullYear();
+                                var m = oneweekdate.getMonth() + 1;
+                                var d = oneweekdate.getDate();
+                                var formatwdate = y + '-' + m + '-' + d;
+                                days = [formatwdate + getHours(), getDat() + getHours()]
+                            } else if (e.defaultValue === 7) {
+                                var ds = new Date()
+                                var oneweekdate = new Date(ds - 7 * 24 * 3600 * 1000);
+                                var y = oneweekdate.getFullYear();
+                                var m = oneweekdate.getMonth() + 1;
+                                var d = oneweekdate.getDate();
+                                var formatwdate = y + '-' + m + '-' + d;
+                                days = [formatwdate + getHours(), getDat() + getHours()]
+                            } else if (e.defaultValue === 30) {
+                                var ds = new Date()
+                                ds.setMonth(ds.getMonth() - 1);
+                                var y = d.getFullYear();
+                                var m = d.getMonth() + 1;
+                                var d = d.getDate();
+                                var formatwdate = y + '-' + m + '-' + d;
+                                days = [formatwdate + getHours(), getDat() + getHours()]
+                            }
+                            valueList[e.id] = days
                         } else if (e.type === 'RadioGroup') {
                             valueList[e.id] = e.defaultValue === '-1' ? ' ' : e.defaultValue;
-                        } else {
+                        }
+                        else if (e.type === 'Date') {
+                            let days = ''
+                            if (e.defaultValue === -1) {
+                                //当天
+                                var oneweekdate = new Date()
+                                var y = oneweekdate.getFullYear();
+                                var m = oneweekdate.getMonth() + 1;
+                                var d = oneweekdate.getDate();
+                                var formatwdate = y + '-' + m + '-' + d;
+                                days = formatwdate + getHours()
+                            } else if (e.defaultValue === 1) {
+                                //前一天
+                                var ds = new Date()
+                                var oneweekdate = new Date(ds - 24 * 3600 * 1000);
+                                var y = oneweekdate.getFullYear();
+                                var m = oneweekdate.getMonth() + 1;
+                                var d = oneweekdate.getDate();
+                                var formatwdate = y + '-' + m + '-' + d;
+                                days = formatwdate + getHours()
+                            } else if (e.defaultValue === 7) {
+                                var ds = new Date()
+                                var oneweekdate = new Date(ds - 7 * 24 * 3600 * 1000);
+                                var y = oneweekdate.getFullYear();
+                                var m = oneweekdate.getMonth() + 1;
+                                var d = oneweekdate.getDate();
+                                var formatwdate = y + '-' + m + '-' + d;
+                                days = formatwdate + getHours()
+                            } else if (e.defaultValue === 30) {
+                                var ds = new Date()
+                                ds.setMonth(ds.getMonth() - 1);
+                                var y = d.getFullYear();
+                                var m = d.getMonth() + 1;
+                                var d = d.getDate();
+                                var formatwdate = y + '-' + m + '-' + d;
+                                days = formatwdate + getHours()
+                            }
+                            valueList[e.id] = days
+                        }
+                        else {
                             valueList[e.id] = e.defaultValue === undefined ? '' : e.defaultValue;
                         }
                     }
