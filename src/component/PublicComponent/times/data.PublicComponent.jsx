@@ -13,8 +13,7 @@ class DatePublicComponent extends Component {
         this.props.inputChange(this.props.PublicData.key, dateString)
     }
     render() {
-        const { getFieldDecorator } = this.props.form
-        const { disabled, label, key, required, message, layout, placeholder, defaultValue } = this.props.PublicData
+        const { disabled, label,  layout, placeholder, defaultValue } = this.props.PublicData
         let days = ''
         //有数据
         if (defaultValue === -1) {

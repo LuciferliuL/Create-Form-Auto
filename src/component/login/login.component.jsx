@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form, Icon, Input, Button, Card, Cascader, Radio, message, Spin } from 'antd';
 import './login.component.css'
-import { API, userAPI, getuserparam } from '../../lib/API/login.API'
+import { API} from '../../lib/API/login.API'
 import { GETFetch, TreeMath, POSTFETCHNOBODY, POST$ } from '../../lib/MATH/math'
 import ReactCanvasNest from 'react-canvas-nest'
 
@@ -96,7 +96,7 @@ class NormalLoginForm extends React.Component {
         }
         return (
             <Spin size='large' spinning={this.state.loading}>
-                {/* <ReactCanvasNest config={config}></ReactCanvasNest> */}
+                <ReactCanvasNest config={config}></ReactCanvasNest>
                 <Card className="width-40 margin-auto center" style={{ background: 'transparent' }}>
                     <Form onSubmit={this.handleSubmit} className="center">
                         <FormItem
