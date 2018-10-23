@@ -154,8 +154,8 @@ class ContentUser extends Component {
                         // console.log(res);
                         if (res.Results) {
                             pre.tableSource.dataSource = res.Results
-                            pre.props.tableSource.tr = 0
-                            pre.props.tableSource.pageSize = res.RecordCount
+                            pre.tableSource.tr = 0
+                            pre.tableSource.pageSize = res.RecordCount
                             pre.tableTr0(0)
                             resolve(true)
                         } else {

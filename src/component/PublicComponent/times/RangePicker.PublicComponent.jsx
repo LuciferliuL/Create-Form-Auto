@@ -43,9 +43,9 @@ class RangePickerPublicComponent extends Component {
             }else if(defaultValue === 30){
                 var ds = new Date()
                 ds.setMonth(ds.getMonth() - 1);
-                var y = d.getFullYear();
-                var m = d.getMonth() + 1;
-                var d = d.getDate();
+                var y = ds.getFullYear();
+                var m = ds.getMonth() + 1;
+                var d = ds.getDate();
                 var formatwdate = y + '-' + m + '-' + d;
                 days = [moment(formatwdate, dateFormat), moment(getDat(), dateFormat)]
             }

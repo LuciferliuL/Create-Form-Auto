@@ -47,7 +47,7 @@ const SData = [
         GridX: 0, GridY: 0, w: 8, h: 1, key: '0',
         icons: 'calendar', id: 8, type: 'Date', required: false,
         message: "", label: "日期选择", disabled: false, placeholder: "",
-        defaultValue: '',
+        defaultValue: -1,
         layout: {
             labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
             wrapperCol: { xs: { span: 24 }, sm: { span: 16 } }
@@ -57,7 +57,7 @@ const SData = [
         GridX: 0, GridY: 0, w: 8, h: 1, key: '0',
         icons: 'contacts', id: 8, type: 'Range', required: false,
         message: "", label: "时段选择", disabled: false,
-        defaultValue: '',
+        defaultValue: -1,
         layout: {
             labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
             wrapperCol: { xs: { span: 24 }, sm: { span: 16 } }

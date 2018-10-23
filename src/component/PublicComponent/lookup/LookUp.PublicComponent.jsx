@@ -51,7 +51,7 @@ class LookUpPublicComponent extends Component {
     componentWillReceiveProps(pre) {
         // console.log(pre);
         this.setState({
-            value: pre.PublicData.values[pre.PublicData.upKey] ? pre.PublicData.values[pre.PublicData.upKey] : ''
+            value: pre.PublicData.values[pre.PublicData.uniqueKey] ? pre.PublicData.values[pre.PublicData.uniqueKey] : ''
         })
     }
     ClickHandleKey = (key, page, pagesize, show) => {
@@ -86,7 +86,7 @@ class LookUpPublicComponent extends Component {
     }
 
     ParamChange = (e) => {
-        // console.log(e);
+        console.log(e);
         abbr['Abbr'] = e
     }
 
@@ -214,7 +214,7 @@ class LookUpPublicComponent extends Component {
         console.log(this.state.value);
         if (this.state.value == '') {
             this.setState({
-                value: ''
+
             })
             this.props.UpdataFormData.find(e => e.key === data.key).values = ''
         } else {

@@ -28,8 +28,11 @@ class SliderCard extends Component {
         }
         // console.log(this.props.UpdataFormData);
         let y = 0
-        this.props.UpdataFormData.map(e => e.GridY > y || e.GridY === y ? y = e.GridY : y)
+        // let X = 0
+        this.props.UpdataFormData.map(e => e.GridY > y || e.GridY === y ? y = e.GridY + 2 : y)
+        // this.props.UpdataFormData.map(e => e.GridX > X || e.GridX === X ? X = e.GridX + 2: X)
         ADD_TAG.GridY = y
+        // ADD_TAG.GridX = X
         // console.log(y);
         ev.dataTransfer.setData("ID", ADD_TAG.id)
         //需要移动的目标数据
