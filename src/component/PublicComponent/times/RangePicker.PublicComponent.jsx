@@ -17,7 +17,7 @@ class RangePickerPublicComponent extends Component {
         // const { getFieldDecorator } = this.props.form
         const { disabled, label, layout, defaultValue } = this.props.PublicData
         console.log(defaultValue);
-        
+
         let days = []
             //有数据
             if (defaultValue === -1) {

@@ -56,13 +56,13 @@ class DatePublicComponent extends Component {
                 {/* {getFieldDecorator(key, {
                     rules: [{ required: { required }, message: "必填项" }],
                 })( */}
-                    <DatePicker
-                        onChange={this.TimesChange.bind(this)}
-                        disabled={disabled}
-                        placeholder={placeholder}
-                        format={dateFormat}
-                        defaultValue={days}
-                    />
+                <DatePicker
+                    onChange={this.TimesChange.bind(this)}
+                    disabled={disabled}
+                    placeholder={placeholder}
+                    format={dateFormat}
+                    defaultValue={days}
+                />
                 {/* )} */}
             </FormItem>
         )

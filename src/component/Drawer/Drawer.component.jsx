@@ -99,6 +99,10 @@ class Drawercomponent extends Component {
                 </div>
             )
         } else if (this.props.flag === 'columns') {
+            let length = 1;
+            if (this.props.currentAttr && this.props.currentAttr.columns)
+                length = this.props.currentAttr.columns.length;
+
             content.push(
                 <div key={1314165182}>
                     <Col span={6}>
@@ -111,12 +115,12 @@ class Drawercomponent extends Component {
                         <Tag>占位宽度</Tag>
                     </Col>
                     <Col>
-                        <Tag onClick={this.TagAdd.bind(this, this.props.currentAttr.columns.length - 1)}>添加</Tag>
+                        <Tag onClick={this.TagAdd.bind(this, length - 1)}>添加</Tag>
                     </Col>
                 </div>
             )
 
-            if (this.props.currentAttr.columns != undefined) {
+            if (this.props.currentAttr.columns) {
                 this.props.currentAttr.columns.forEach((e, i) => {
                     content.push(
                         <div key={i}>
@@ -151,7 +155,7 @@ class Drawercomponent extends Component {
                 </div>
             )
 
-            if (this.props.currentAttr.GroupValue != undefined) {
+            if (this.props.currentAttr.GroupValue) {
                 this.props.currentAttr.GroupValue.forEach((e, i) => {
                     content.push(
                         <div key={i}>

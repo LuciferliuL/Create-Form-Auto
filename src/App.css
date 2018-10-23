@@ -27,4 +27,6 @@
 .margin-auto{
   margin: 10% auto !important
 }
-
+.ant-calendar-picker{
+    width:100%;
+}

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Form,Pagination , Button, Tag, Icon, message } from 'antd'
+import { Card, Form, Pagination, Button, Tag, Icon, message } from 'antd'
 import { connect } from 'react-redux';
 import { formUpdataFromCurrent } from '../SliderRIght/action/Right.action'
 import PublicComponent from '../PublicComponent/Public.Component'
@@ -15,7 +15,7 @@ const ButtonGroup = Button.Group;
 
 function mapStateToProps(State) {
     // console.log(State);
-  
+
     return {
         data: State.UpdataFormData,
         InitStylistData: State.InitStylistData.InitStylistData,
@@ -31,7 +31,7 @@ class ContentUser extends Component {
         domWidth: 0,
         totalpage: 0,
         flag: true,
-        current:1
+        current: 1
     }
     myRef = React.createRef();
     changeWidth = () => {
@@ -89,9 +89,9 @@ class ContentUser extends Component {
                             } else if (e.defaultValue === 30) {
                                 var ds = new Date()
                                 ds.setMonth(ds.getMonth() - 1);
-                                var y = d.getFullYear();
-                                var m = d.getMonth() + 1;
-                                var d = d.getDate();
+                                var y = ds.getFullYear();
+                                var m = ds.getMonth() + 1;
+                                var d = ds.getDate();
                                 var formatwdate = y + '-' + m + '-' + d;
                                 days = [formatwdate + getHours(), getDat() + getHours()]
                             }
@@ -128,9 +128,9 @@ class ContentUser extends Component {
                             } else if (e.defaultValue === 30) {
                                 var ds = new Date()
                                 ds.setMonth(ds.getMonth() - 1);
-                                var y = d.getFullYear();
-                                var m = d.getMonth() + 1;
-                                var d = d.getDate();
+                                var y = ds.getFullYear();
+                                var m = ds.getMonth() + 1;
+                                var d = ds.getDate();
                                 var formatwdate = y + '-' + m + '-' + d;
                                 days = formatwdate + getHours()
                             }
@@ -224,9 +224,9 @@ class ContentUser extends Component {
                             } else if (e.defaultValue === 30) {
                                 var ds = new Date()
                                 ds.setMonth(ds.getMonth() - 1);
-                                var y = d.getFullYear();
-                                var m = d.getMonth() + 1;
-                                var d = d.getDate();
+                                var y = ds.getFullYear();
+                                var m = ds.getMonth() + 1;
+                                var d = ds.getDate();
                                 var formatwdate = y + '-' + m + '-' + d;
                                 days = [formatwdate + getHours(), getDat() + getHours()]
                             }
@@ -264,9 +264,9 @@ class ContentUser extends Component {
                             } else if (e.defaultValue === 30) {
                                 var ds = new Date()
                                 ds.setMonth(ds.getMonth() - 1);
-                                var y = d.getFullYear();
-                                var m = d.getMonth() + 1;
-                                var d = d.getDate();
+                                var y = ds.getFullYear();
+                                var m = ds.getMonth() + 1;
+                                var d = ds.getDate();
                                 var formatwdate = y + '-' + m + '-' + d;
                                 days = formatwdate + getHours()
                             }
@@ -353,9 +353,9 @@ class ContentUser extends Component {
                     } else if (e.defaultValue === 30) {
                         var ds = new Date()
                         ds.setMonth(ds.getMonth() - 1);
-                        var y = d.getFullYear();
-                        var m = d.getMonth() + 1;
-                        var d = d.getDate();
+                        var y = ds.getFullYear();
+                        var m = ds.getMonth() + 1;
+                        var d = ds.getDate();
                         var formatwdate = y + '-' + m + '-' + d;
                         days = [formatwdate + getHours(), getDat() + getHours()]
                     }
@@ -392,9 +392,9 @@ class ContentUser extends Component {
                     } else if (e.defaultValue === 30) {
                         var ds = new Date()
                         ds.setMonth(ds.getMonth() - 1);
-                        var y = d.getFullYear();
-                        var m = d.getMonth() + 1;
-                        var d = d.getDate();
+                        var y = ds.getFullYear();
+                        var m = ds.getMonth() + 1;
+                        var d = ds.getDate();
                         var formatwdate = y + '-' + m + '-' + d;
                         days = formatwdate + getHours()
                     }
@@ -479,9 +479,9 @@ class ContentUser extends Component {
                     } else if (e.defaultValue === 30) {
                         var ds = new Date()
                         ds.setMonth(ds.getMonth() - 1);
-                        var y = d.getFullYear();
-                        var m = d.getMonth() + 1;
-                        var d = d.getDate();
+                        var y = ds.getFullYear();
+                        var m = ds.getMonth() + 1;
+                        var d = ds.getDate();
                         var formatwdate = y + '-' + m + '-' + d;
                         days = [formatwdate + getHours(), getDat() + getHours()]
                     }
@@ -518,9 +518,9 @@ class ContentUser extends Component {
                     } else if (e.defaultValue === 30) {
                         var ds = new Date()
                         ds.setMonth(ds.getMonth() - 1);
-                        var y = d.getFullYear();
-                        var m = d.getMonth() + 1;
-                        var d = d.getDate();
+                        var y = ds.getFullYear();
+                        var m = ds.getMonth() + 1;
+                        var d = ds.getDate();
                         var formatwdate = y + '-' + m + '-' + d;
                         days = formatwdate + getHours()
                     }
@@ -597,21 +597,21 @@ class ContentUser extends Component {
                 break
         }
     }
-    ONBlur = ()=>{
+    ONBlur = () => {
         // window.addEventListener('keyup', this.handleKeyDown)
         window.removeEventListener('keyup', this.handleKeyDown)
     }
     onChange = (page) => {
         this.setState({
-            current:page
+            current: page
         })
         this.SQLChecked(page)
     }
     render() {
         var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.93
-        const {tableSource}=this.props
+        const { tableSource } = this.props
         console.log(tableSource);
-        
+
         let Dr = []
         let width_ = this.state.domWidth / 24
         let height_ = 40
@@ -642,7 +642,7 @@ class ContentUser extends Component {
 
                     <div style={{ float: 'left', width: '100%' }}>
                         <ButtonGroup>
-                            <Button onClick={this.SQLChecked.bind(this,1)}>
+                            <Button onClick={this.SQLChecked.bind(this, 1)}>
                                 <Icon type="security-scan" theme="outlined" />
                                 查询 ALT+Q
                                     </Button>
@@ -659,15 +659,15 @@ class ContentUser extends Component {
                     <Form
                         style={{ padding: '5px', marginTop: '40px', position: 'relative' }}>{Dr}</Form>
                     <div style={{ position: 'relative', top: (hflag + 40) + 'px', height: (h - hflag) * 0.8 + 'px' }}>
-                        <input type="text" id='input' onBlur={this.ONBlur} style={{display:'none'}}/>
+                        <input type="text" id='input' onBlur={this.ONBlur} style={{ display: 'none' }} />
                         <TABLECOMPONENT PublicData={tableSource} style={{ marginTop: '40px' }} heights={(h - hflag) * 0.8}>
                         </TABLECOMPONENT>
-                        <Pagination 
-                        defaultCurrent={1}  
-                        total={tableSource.pageSize} 
-                        pageSize={200}
-                        current={this.state.current}
-                        onChange={this.onChange}></Pagination>  
+                        <Pagination
+                            defaultCurrent={1}
+                            total={tableSource.pageSize}
+                            pageSize={200}
+                            current={this.state.current}
+                            onChange={this.onChange}></Pagination>
                     </div>
                 </Card>
             )
