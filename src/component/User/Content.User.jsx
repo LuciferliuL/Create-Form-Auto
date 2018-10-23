@@ -135,6 +135,12 @@ class ContentUser extends Component {
                                 days = formatwdate + getHours()
                             }
                             valueList[e.id] = days
+                        } else if(e.type === 'CheckBox'){
+                            if(e.checked){
+                                valueList[e.id] = e.defaultValue
+                            }else{
+                                valueList[e.id] = ''
+                            }
                         }
                         else {
                             valueList[e.id] = e.defaultValue === undefined ? '' : e.defaultValue;
@@ -299,7 +305,7 @@ class ContentUser extends Component {
                     a.download = "数据.xls"
                     a.click()
                 });
-            } else {
+            }else {
                 return true;
             }
             e.preventDefault();
@@ -399,7 +405,13 @@ class ContentUser extends Component {
                         days = formatwdate + getHours()
                     }
                     valueList[e.id] = days
-                } else {
+                } else if(e.type === 'CheckBox'){
+                    if(e.checked){
+                        valueList[e.id] = e.defaultValue
+                    }else{
+                        valueList[e.id] = ''
+                    }
+                }else {
                     valueList[e.id] = e.defaultValue === undefined ? '' : e.defaultValue;
                 }
             }
@@ -525,7 +537,14 @@ class ContentUser extends Component {
                         days = formatwdate + getHours()
                     }
                     valueList[e.id] = days
-                } else {
+                } else if(e.type === 'CheckBox'){
+                    if(e.checked){
+                        valueList[e.id] = e.defaultValue
+                    }else{
+                        valueList[e.id] = ''
+                    }
+                }
+                else {
                     valueList[e.id] = e.defaultValue === undefined ? '' : e.defaultValue;
                 }
             }
@@ -560,7 +579,7 @@ class ContentUser extends Component {
         let time = new Promise((resolve, reject) => {
             setTimeout(() => {
                 reject(false)
-            }, 10000);
+            }, 5000);
         })
 
         Promise.race([post, time])

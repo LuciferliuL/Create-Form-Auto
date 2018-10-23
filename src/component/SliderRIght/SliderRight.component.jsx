@@ -23,6 +23,7 @@ class SliderRightcomponent extends Component {
         flag: '',
         value: 1,
         // defaultValueTime:[]
+        checkboxvalue:''
     }
 
     componentWillReceiveProps(pre) {
@@ -40,7 +41,11 @@ class SliderRightcomponent extends Component {
                 }
             }
         }
-
+        if(pre.currentAttr.type === 'CheckBox'){
+            this.setState({
+                checkboxvalue:pre.currentAttr.defaultValue
+            })
+        }
 
         const formItemLayout = {
             labelCol: {
@@ -273,7 +278,7 @@ class SliderRightcomponent extends Component {
             value: e.target.value
         })
         if (e.target.value === 1) {
-            let times = -1 
+            let times = -1
             this.props.inputChange(this.props.currentAttr.key, times)
         } else if (e.target.value === 3) {
             let times = ''
@@ -290,17 +295,23 @@ class SliderRightcomponent extends Component {
             // console.log(times);
             this.props.inputChange(this.props.currentAttr.key, 1)
         } else if (value === 7) {
-       
+
             //    console.log(formatwdate);
             this.props.inputChange(this.props.currentAttr.key, 7)
         } else if (value === 30) {
-          
+
             // console.log(times);
             this.props.inputChange(this.props.currentAttr.key, 30)
         }
 
 
 
+    }
+    checkBoxValueChange = (e)=>{
+        this.setState({
+            checkboxvalue:e.target.value
+        })
+        this.props.inputChange(this.props.currentAttr.key, e.target.value )
     }
     render() {
         const { getFieldDecorator } = this.props.form;
@@ -314,7 +325,7 @@ class SliderRightcomponent extends Component {
                 sm: { span: 16 },
             },
         };
-        const { currentAttr} = this.props
+        const { currentAttr } = this.props
         // console.log(currentAttr);
 
         let inputList = []
@@ -408,6 +419,15 @@ class SliderRightcomponent extends Component {
                                         : null}
                                 </div>
                                 : null}
+                            {currentAttr.type === 'CheckBox' ?
+                                <div>默认值：
+                                    <Input type="text" 
+                                    value={this.state.checkboxvalue}
+                                    onChange={this.checkBoxValueChange}
+                                    />
+                                </div>
+                                : null
+                            }
                         </TabPane>
                     </Tabs>
                 </Form>
