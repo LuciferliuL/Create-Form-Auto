@@ -79,7 +79,7 @@ class ContentUser extends Component {
                                 ds.setMonth(ds.getMonth() - 1);
                                 days = [formatDate(ds, 'yyyy-MM-dd') + getstartHours(), getDat() + getendHours()]
                             }
-                            else if (e.defaultValue[0] != '') {
+                            else if (e.defaultValue.length > 0 && e.defaultValue[0] != '') {
                                 days = [formatDate(new Date(e.defaultValue[0]), 'yyyy-MM-dd') + getstartHours(), formatDate(new Date(e.defaultValue[1]), 'yyyy-MM-dd') + getendHours()]
                             }
                             valueList[e.id] = days
@@ -195,7 +195,7 @@ class ContentUser extends Component {
                                 ds.setMonth(ds.getMonth() - 1);
                                 days = [formatDate(ds, 'yyyy-MM-dd') + getstartHours(), getDat() + getendHours()]
                             }
-                            else if (e.defaultValue[0] != '') {
+                            else if (e.defaultValue.length > 0 && e.defaultValue[0] != '') {
                                 days = [formatDate(new Date(e.defaultValue[0]), 'yyyy-MM-dd') + getstartHours(), formatDate(new Date(e.defaultValue[1]), 'yyyy-MM-dd') + getendHours()]
                             }
                             valueList[e.id] = days
@@ -299,7 +299,7 @@ class ContentUser extends Component {
                         ds.setMonth(ds.getMonth() - 1);
                         days = [formatDate(ds, 'yyyy-MM-dd') + getstartHours(), getDat() + getendHours()]
                     }
-                    else if (e.defaultValue[0] != '') {
+                    else if (e.defaultValue.length > 0 && e.defaultValue[0] != '') {
                         days = [formatDate(new Date(e.defaultValue[0]), 'yyyy-MM-dd') + getstartHours(), formatDate(new Date(e.defaultValue[1]), 'yyyy-MM-dd') + getendHours()]
                     }
                     valueList[e.id] = days
@@ -381,7 +381,6 @@ class ContentUser extends Component {
                 } else if (e.type === 'Input' && e.typePoint !== 0) {
                     valueList[e.typePoint] = e.defaultValue === undefined ? '' : e.defaultValue;
                 } else if (e.type === "Range") {
-                    console.log(e.defaultValue);
 
                     let days = ['', ''];
                     if (e.defaultValue === -1) {
@@ -402,7 +401,7 @@ class ContentUser extends Component {
                         ds.setMonth(ds.getMonth() - 1);
                         days = [formatDate(ds, 'yyyy-MM-dd') + getstartHours(), getDat() + getendHours()]
                     }
-                    else if (e.defaultValue[0] != '') {
+                    else if (e.defaultValue.length > 0 && e.defaultValue[0] != '') {
                         days = [formatDate(new Date(e.defaultValue[0]), 'yyyy-MM-dd') + getstartHours(), formatDate(new Date(e.defaultValue[1]), 'yyyy-MM-dd') + getendHours()]
                     }
                     valueList[e.id] = days
