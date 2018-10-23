@@ -130,21 +130,51 @@ class TABLECOMPONENT extends Component {
     componentWillReceiveProps(pre) {
         // console.log(pre);
         // if (pre.tableSource.pageNum === this.state.pageNum) {
-            //加新数据
-            let colHeight = Math.floor(pre.heights / 23)
-            let data = []
-            let Source = pre.tableSource.dataSource
+        //加新数据
+        let colHeight = Math.floor(pre.heights / 23)
+        let data = []
+        let Source = pre.tableSource.dataSource
+        // console.log(Source.length);
+        
+        if (Source.length < colHeight && Source.length>0) {
+            // console.log(2);
+            
+            let keys = Object.keys(Source[0])
             Source.map((e, i) => {
                 e.indexs = i + 'tables'
                 data.push(e)
             })
- 
-        this.setState(() => (
-            {
-                data: data,
-                colHeight: colHeight
+            for (var i = 0; i < colHeight - Source.length; i++) {
+                let e = {}
+                keys.forEach(x => {
+                    e[x] = '-'
+                })
+                e.indexs = i + 'tt'
+                data.push(e)
             }
-        ))
+            this.setState(() => (
+                {
+                    data: data,
+                    colHeight: colHeight
+                }
+            ))
+        } else {
+            // console.log(1);
+            
+            Source.map((e, i) => {
+                e.indexs = i + 'tables'
+                data.push(e)
+            })
+            this.setState(() => (
+                {
+                    data: data,
+                    colHeight: colHeight
+                }
+            ))
+        }
+
+
+       
     }
 
     // handleKeyDown = (e) => {
@@ -257,7 +287,7 @@ class TABLECOMPONENT extends Component {
                         // if (this.props.tableSource.tr > (colHeight - 1)) {
                         //     return (index === (this.props.tableSource.tr - (colHeight * (this.state.x - 1))) ? 'black' : "")
                         // } else {
-                            return (index === this.props.tableSource.tr ? 'black' : '')
+                        return (index === this.props.tableSource.tr ? 'black' : '')
                         // }
                     }}
                     rowKey='indexs'
