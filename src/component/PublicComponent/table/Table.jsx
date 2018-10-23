@@ -3,22 +3,7 @@ import { Table, Tooltip } from 'antd'
 import { connect } from 'react-redux'
 import './Table.PublicComponent.css'
 import { tAddDown, tReduceUp } from '../lookup/action/lookup.action'
-// import { Resizable } from 'react-resizable';
 
-
-// const ResizeableTitle = (props) => {
-//     const { onResize, width, ...restProps } = props;
-
-//     if (!width) {
-//         return <th {...restProps} />;
-//     }
-
-//     return (
-//         <Resizable width={width} height={0} onResize={onResize}>
-//             <th {...restProps} />
-//         </Resizable>
-//     );
-// };
 
 
 class TABLECOMPONENT extends Component {
@@ -29,27 +14,9 @@ class TABLECOMPONENT extends Component {
         tr: 0,
         colHeight: 0
     }
-    // components = {
-    //     header: {
-    //         cell: ResizeableTitle,
-    //     },
-    // };
-    // handleResize = index => (e, { size }) => {
-    //     this.setState(({ columns }) => {
-    //         const nextColumns = [...columns];
-    //         nextColumns[index] = {
-    //             ...nextColumns[index],
-    //             width: size.width,
-    //         };
-    //         return { columns: nextColumns };
-    //     });
-    // };
 
     componentWillReceiveProps(pre) {
         console.log(pre.tableSource)
-        // console.log(this.state.tr + '-----' + pre.tableSource.tr);
-        // const {colHeight} = this.state
-        // console.log(pre);
         let colHeight = Math.floor(pre.heights / 22)
         let data = []
         if (pre.tableSource.tr > this.state.tr) {
@@ -61,16 +28,6 @@ class TABLECOMPONENT extends Component {
                         data.push(e)
                     }
                 })
-                // } else {
-                //     pre.tableSource.dataSource.map((e, i) => {
-                //         if (colHeight * this.state.x <= i && i < (colHeight * this.state.x + colHeight)) {
-                //             e.indexs = colHeight * this.state.x + i + 'tables'
-                //             data.push(e)
-                //         }
-                //     })
-                // }
-
-
                 this.setState((p) => (
                     {
                         data: data,
@@ -92,14 +49,6 @@ class TABLECOMPONENT extends Component {
                         data.push(e)
                     }
                 })
-                // } else {
-                //     pre.tableSource.dataSource.map((e, i) => {
-                //         if (colHeight * this.state.x <= i && i < (colHeight * this.state.x + colHeight)) {
-                //             e.indexs = colHeight * this.state.x + i + 'table'
-                //             data.push(e)
-                //         }
-                //     })
-                // }
                 this.setState((p) => (
                     {
                         data: data,
@@ -169,10 +118,6 @@ class TABLECOMPONENT extends Component {
                 }, 100);
             })
         }
-        // this.setState({
-        //     tr: pre.tableSource.tr
-        // })
-
     }
     handleKeyDown = (e) => {
         const { dataSource, columns } = this.props.tableSource
@@ -196,9 +141,8 @@ class TABLECOMPONENT extends Component {
                 break
         }
     }
+  
     render() {
-        // console.log(this.props.PublicData);
-        var w = document.documentElement.clientWidth || document.body.clientWidth;
         const { colHeight } = this.state
         const { columns } = this.props.PublicData
         let widths = 0
@@ -218,9 +162,9 @@ class TABLECOMPONENT extends Component {
                                 if (text.length > 10) {
                                     // 大于10
                                     return (
-                                        <Tooltip title={text}>
+                                        // <Tooltip title={text}>
                                             <span style={{ width: '200px' }}>{text.slice(0, 10)} </span>
-                                        </Tooltip>
+                                        // </Tooltip>
                                     )
                                 } else {
                                     //小于10
@@ -246,7 +190,7 @@ class TABLECOMPONENT extends Component {
             });
         }
         // console.log(this.props.tableSource);
-
+       
         return (
             <div>
                 <Table
@@ -255,7 +199,7 @@ class TABLECOMPONENT extends Component {
                     // components={this.components}
                     columns={this.props.tableSource.columns}
                     dataSource={this.state.data}
-                    pagination={false}
+                    pagination={{ pageSize: colHeight }}
                     scroll={{ x: widths }}
                     onHeaderRow={(column) => {
                         // console.log(column);

@@ -29,7 +29,7 @@ class TablePublicComponent extends Component {
         data: [],
         x: 1,
         tr: 0,
-        heightTr: 300
+        heightTr: 200
     }
     // components = {
     //     header: {
@@ -55,7 +55,7 @@ class TablePublicComponent extends Component {
         if (this.props.h > 900) {
             if (Object.keys(this.props.currentAttr).length > 0) {
                 this.props.currentAttr.dataSource.map((e, i) => {
-                    if (i < 300) {
+                    if (i < 200) {
                         e.indexs = i + 'table'
                         data.push(e)
                     }
@@ -63,14 +63,14 @@ class TablePublicComponent extends Component {
 
             }
             this.setState({
-                heightTr: 300,
+                heightTr: 200,
                 data: data,
                 tr: this.props.currentAttr.tr
             })
         } else {
             if (Object.keys(this.props.currentAttr).length > 0) {
                 this.props.currentAttr.dataSource.map((e, i) => {
-                    if (i < 300) {
+                    if (i < 200) {
                         e.indexs = i + 'table'
                         data.push(e)
                     }

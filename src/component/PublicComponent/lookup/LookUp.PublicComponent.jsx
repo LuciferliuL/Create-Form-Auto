@@ -122,8 +122,13 @@ class LookUpPublicComponent extends Component {
                 break
             case 27:
                 this.setState({
-                    shows: false
+                    shows: false,
+                    value:''
                 })
+                let unqueData = this.props.UpdataFormData.find(e => e.key === this.props.PublicData.key)
+                unqueData.values = ''
+                unqueData.dataSource = []
+                window.removeEventListener('keyup', this.handleKeyDown);
                 break
         }
     }
@@ -144,9 +149,12 @@ class LookUpPublicComponent extends Component {
                 let unqueData = this.props.UpdataFormData.find(e => e.key === this.props.PublicData.key)
                 unqueData.values = dataSource_
                 // unqueData.show = false
+                let keys = unqueData.uniqueKey
+                // console.log(keys);
+                
                 this.setState({
                     shows: false,
-                    value: dataSource_[unqueData.upKey]
+                    value: dataSource_[keys]
                 })
             } else {
                 this.props.upForm(this.props.current)
@@ -169,10 +177,13 @@ class LookUpPublicComponent extends Component {
                 let unqueData = this.props.UpdataFormData.find(e => e.key === this.props.PublicData.key)
                 unqueData.values = dataSource_
                 // unqueData.show = false
+                let keys = unqueData.uniqueKey
+                // console.log(keys);
+                
                 this.setState({
                     shows: false,
-                    value: dataSource_[unqueData.upKey]
-                })                //更新整个form
+                    value: dataSource_[keys]
+                })              //更新整个form
                 // this.props.upForm(this.props.current);
                 // console.log(this.props.UpdataFormData);
 
@@ -208,7 +219,7 @@ class LookUpPublicComponent extends Component {
             this.props.UpdataFormData.find(e => e.key === data.key).values = ''
         } else {
             this.setState({
-                value: data.values[data.upKey]
+                value: data.values[data.uniqueKey]
             })
         }
     }

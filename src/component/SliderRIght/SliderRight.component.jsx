@@ -5,7 +5,7 @@ import { currentAttrUpdata, formUpdataFromCurrent, hidenDrawer, flagChange } fro
 import Drawercomponent from '../Drawer/Drawer.component'
 import moment from 'moment';
 import { inputChange } from '../PublicComponent/Public.action'
-import { getDat } from '../../lib/MATH/math'
+import { getDat, formats } from '../../lib/MATH/math'
 const { MonthPicker, RangePicker, WeekPicker } = DatePicker;
 const Option = Select.Option
 const RadioButton = Radio.Button;
@@ -29,11 +29,11 @@ class SliderRightcomponent extends Component {
         const { getFieldDecorator } = pre.form;
         let dateChange = 0
 
-        if (pre.currentAttr.type === 'Range') {
+        if (pre.currentAttr.type === 'Range' || pre.currentAttr.type === 'Date') {
             if (pre.currentAttr.defaultValue) {
                 if (pre.currentAttr.defaultValue === '') {
                     dateChange = 3 //无
-                } else if (pre.currentAttr.defaultValue[0] === -1) {
+                } else if (pre.currentAttr.defaultValue === -1) {
                     dateChange = 1 //最新时间
                 } else {
                     dateChange = 2 //自定义
@@ -93,7 +93,7 @@ class SliderRightcomponent extends Component {
                                     {...formItemLayout}
                                 >
                                     {getFieldDecorator('upKey')(
-                                        <Select style={{ width: 120 }} onChange={this.handleChange}>
+                                        <Select style={{ width: '100%' }} onChange={this.handleChange}>
                                             {selectOptions_}
                                         </Select>
                                     )}
@@ -118,32 +118,6 @@ class SliderRightcomponent extends Component {
                         </div>
                     )
                     break;
-                // case 'checked':
-                //     uniqueList.push(
-                //         <FormItem
-                //             label='默认勾选'
-                //             {...formItemLayout}
-                //             key={pre.currentAttr.key + 'checked'}
-                //         >
-                //             {getFieldDecorator('checked')(
-                //                 <Switch checked={pre.currentAttr.checked}></Switch>
-                //             )}
-                //         </FormItem>
-                //     )
-                //     break;
-                case 'pageSize':
-                    uniqueList.push(
-                        <FormItem
-                            label='每页显示数'
-                            {...formItemLayout}
-                            key={pre.currentAttr.key + 'pageSize'}
-                        >
-                            {getFieldDecorator('pageSize')(
-                                <InputNumber min={10} max={100} />
-                            )}
-                        </FormItem>
-                    )
-                    break;
                 case 'float':
                     uniqueList.push(
                         <FormItem
@@ -152,7 +126,7 @@ class SliderRightcomponent extends Component {
                             key={pre.currentAttr.key + 'float'}
                         >
                             {getFieldDecorator('float')(
-                                <InputNumber min={0} max={4} />
+                                <InputNumber min={0} max={4} style={{ width: '100%' }} />
                             )}
                         </FormItem>
                     )
@@ -229,7 +203,7 @@ class SliderRightcomponent extends Component {
                                     {...formItemLayout}
                                 >
                                     {getFieldDecorator('uniqueKey')(
-                                        <Select style={{ width: 120 }} onChange={this.handleChange}>
+                                        <Select style={{ width: '100%' }} onChange={this.handleChange}>
                                             {selectOptions}
                                         </Select>
                                     )}
@@ -293,25 +267,40 @@ class SliderRightcomponent extends Component {
             }
         });
     }
-    radioChange = (e) => {
-        // console.log(e.target.value);
+    radioChange = (key, e) => {
+        console.log(key);
         this.setState({
             value: e.target.value
         })
         if (e.target.value === 1) {
-            let times = [-1, -1]
+            let times = -1 
             this.props.inputChange(this.props.currentAttr.key, times)
         } else if (e.target.value === 3) {
             let times = ''
             this.props.inputChange(this.props.currentAttr.key, times)
+        } else {
+            // console.log(times);
+            this.props.inputChange(this.props.currentAttr.key, 1)
         }
     }
-    RangePicker = (date, dateString) => {
+    handleChange = (key, value) => {
         // console.log(date, dateString);
-        // console.log(getDat());
+        // console.log(value);
+        if (value === 1) {
+            // console.log(times);
+            this.props.inputChange(this.props.currentAttr.key, 1)
+        } else if (value === 7) {
+       
+            //    console.log(formatwdate);
+            this.props.inputChange(this.props.currentAttr.key, 7)
+        } else if (value === 30) {
+          
+            // console.log(times);
+            this.props.inputChange(this.props.currentAttr.key, 30)
+        }
 
-        let times = [dateString[0], dateString[1] === getDat() ? getDat() : dateString[1]]
-        this.props.inputChange(this.props.currentAttr.key, times)
+
+
     }
     render() {
         const { getFieldDecorator } = this.props.form;
@@ -325,7 +314,7 @@ class SliderRightcomponent extends Component {
                 sm: { span: 16 },
             },
         };
-        const { currentAttr, defaultValueTime } = this.props
+        const { currentAttr} = this.props
         // console.log(currentAttr);
 
         let inputList = []
@@ -345,7 +334,7 @@ class SliderRightcomponent extends Component {
 
 
         return (
-            <Card>
+            <Card bodyStyle={{ padding: 5 }}>
                 <Form onSubmit={this.handleSubmit.bind(this)}>
                     <Tabs defaultActiveKey="1">
                         <TabPane tab="基础属性" key="1">
@@ -381,14 +370,44 @@ class SliderRightcomponent extends Component {
                             {this.state.uniqueList}
                             {currentAttr.type === 'Range' ?
                                 <div>
-                                    <RadioGroup onChange={this.radioChange} value={this.state.value}>
+                                    <RadioGroup onChange={this.radioChange.bind(this, 'Range')} value={this.state.value}>
                                         <Radio value={1}>最新时间</Radio>
                                         <Radio value={2}>自己设定</Radio>
                                         <Radio value={3}>无限定时间</Radio>
                                     </RadioGroup>
-                                    {this.state.value === 2 ? <RangePicker onChange={this.RangePicker} disabledDate={disabledDate} /> : null}
+                                    {this.state.value === 2 ?
+                                        // <RangePicker onChange={this.RangePicker} disabledDate={disabledDate} />
+                                        <div>
+                                            <span>默认时间</span>
+                                            <Select defaultValue={1} onChange={this.handleChange.bind(this, 'Range')}>
+                                                <Option value={1}>前1天</Option>
+                                                <Option value={7}>前7天</Option>
+                                                <Option value={30}>前一个月</Option>
+                                            </Select>
+                                        </div>
+                                        : null}
                                 </div>
-                                : <div></div>}
+                                : null}
+                            {currentAttr.type === 'Date' ?
+                                <div>
+                                    <RadioGroup onChange={this.radioChange.bind(this, 'Date')} value={this.state.value}>
+                                        <Radio value={1}>最新时间</Radio>
+                                        <Radio value={2}>自己设定</Radio>
+                                        <Radio value={3}>无限定时间</Radio>
+                                    </RadioGroup>
+                                    {this.state.value === 2 ?
+                                        // <RangePicker onChange={this.RangePicker} disabledDate={disabledDate} />
+                                        <div>
+                                            <span>默认时间</span>
+                                            <Select defaultValue={1} onChange={this.handleChange.bind(this, 'Date')}>
+                                                <Option value={1}>前1天</Option>
+                                                <Option value={7}>前7天</Option>
+                                                <Option value={30}>前一个月</Option>
+                                            </Select>
+                                        </div>
+                                        : null}
+                                </div>
+                                : null}
                         </TabPane>
                     </Tabs>
                 </Form>
@@ -460,7 +479,5 @@ export default connect(mapPropsToState, mapDispatchProps)(Form.create({
     },
 })(SliderRightcomponent));
 
-function disabledDate(current) {
-    // Can not select days before today and today
-    return current && current > moment().endOf('day');
-}
+
+

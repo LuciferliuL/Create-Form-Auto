@@ -175,6 +175,12 @@ $.ajaxSetup({
     }
 })
 
+function formats(time){
+    return `${time.getFullYear()}-${time.getMonth()}-${time.getDay()}`
+}
+
+export { formats}
+
 function getTime() {
     var myDate = new Date()
     var mytime
