@@ -60,11 +60,7 @@ class ContentUser extends Component {
                         } else if (e.type === 'Input' && e.typePoint !== 0) {
                             valueList[e.typePoint] = e.defaultValue === undefined ? '' : e.defaultValue;
                         } else if (e.type === "Range") {
-<<<<<<< HEAD
                             let days = ['', ''];
-=======
-                            let days = e.defaultValue + getHours()
->>>>>>> 4aec5e88712447b99089f2aec8ba2d8c8212026e
                             if (e.defaultValue === -1) {
                                 //当天
                                 var oneweekdate = new Date()
@@ -90,11 +86,7 @@ class ContentUser extends Component {
                         } else if (e.type === 'RadioGroup') {
                             valueList[e.id] = e.defaultValue === '-1' ? ' ' : e.defaultValue;
                         } else if (e.type === 'Date') {
-<<<<<<< HEAD
                             let days = '';
-=======
-                            let days = e.defaultValue + getHours()
->>>>>>> 4aec5e88712447b99089f2aec8ba2d8c8212026e
                             if (e.defaultValue === -1) {
                                 //当天
                                 var oneweekdate = new Date()
@@ -118,10 +110,10 @@ class ContentUser extends Component {
                                 days = formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours()
                             }
                             valueList[e.id] = days
-                        } else if(e.type === 'CheckBox'){
-                            if(e.checked){
+                        } else if (e.type === 'CheckBox') {
+                            if (e.checked) {
                                 valueList[e.id] = e.defaultValue
-                            }else{
+                            } else {
                                 valueList[e.id] = ''
                             }
                         }
@@ -263,7 +255,7 @@ class ContentUser extends Component {
                     a.download = "数据.xls"
                     a.click()
                 });
-            }else {
+            } else {
                 return true;
             }
             e.preventDefault();
@@ -288,11 +280,7 @@ class ContentUser extends Component {
                     valueList[e.typePoint] = e.defaultValue === undefined ? '' : e.defaultValue;
                 }
                 else if (e.type === "Range") {
-<<<<<<< HEAD
                     let days = ['', ''];
-=======
-                    let days = e.defaultValue + getHours()
->>>>>>> 4aec5e88712447b99089f2aec8ba2d8c8212026e
                     if (e.defaultValue === -1) {
                         //当天
                         var oneweekdate = new Date()
@@ -318,11 +306,7 @@ class ContentUser extends Component {
                 } else if (e.type === 'RadioGroup') {
                     valueList[e.id] = e.defaultValue === '-1' ? ' ' : e.defaultValue;
                 } else if (e.type === 'Date') {
-<<<<<<< HEAD
                     let days = '';
-=======
-                    let days = e.defaultValue + getHours()
->>>>>>> 4aec5e88712447b99089f2aec8ba2d8c8212026e
                     if (e.defaultValue === -1) {
                         //当天
                         var oneweekdate = new Date()
@@ -341,23 +325,12 @@ class ContentUser extends Component {
                         ds.setMonth(ds.getMonth() - 1);
                         days = formatDate(ds, 'yyyy-MM-dd') + getstartHours()
                     }
-<<<<<<< HEAD
                     else if (e.defaultValue != '') {
                         var oneweekdate = new Date(e.defaultValue)
                         days = formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours()
                     }
                     valueList[e.id] = days;
                 } else {
-=======
-                    valueList[e.id] = days
-                } else if(e.type === 'CheckBox'){
-                    if(e.checked){
-                        valueList[e.id] = e.defaultValue
-                    }else{
-                        valueList[e.id] = ''
-                    }
-                }else {
->>>>>>> 4aec5e88712447b99089f2aec8ba2d8c8212026e
                     valueList[e.id] = e.defaultValue === undefined ? '' : e.defaultValue;
                 }
             }
@@ -408,13 +381,9 @@ class ContentUser extends Component {
                 } else if (e.type === 'Input' && e.typePoint !== 0) {
                     valueList[e.typePoint] = e.defaultValue === undefined ? '' : e.defaultValue;
                 } else if (e.type === "Range") {
-<<<<<<< HEAD
                     console.log(e.defaultValue);
 
                     let days = ['', ''];
-=======
-                    let days =e.defaultValue + getHours()
->>>>>>> 4aec5e88712447b99089f2aec8ba2d8c8212026e
                     if (e.defaultValue === -1) {
                         //当天
                         var oneweekdate = new Date()
@@ -440,11 +409,7 @@ class ContentUser extends Component {
                 } else if (e.type === 'RadioGroup') {
                     valueList[e.id] = e.defaultValue === '-1' ? ' ' : e.defaultValue;
                 } else if (e.type === 'Date') {
-<<<<<<< HEAD
                     let days = '';
-=======
-                    let days = e.defaultValue + getHours()
->>>>>>> 4aec5e88712447b99089f2aec8ba2d8c8212026e
                     if (e.defaultValue === -1) {
                         //当天
                         var oneweekdate = new Date()
@@ -468,10 +433,10 @@ class ContentUser extends Component {
                         days = formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours()
                     }
                     valueList[e.id] = days
-                } else if(e.type === 'CheckBox'){
-                    if(e.checked){
+                } else if (e.type === 'CheckBox') {
+                    if (e.checked) {
                         valueList[e.id] = e.defaultValue
-                    }else{
+                    } else {
                         valueList[e.id] = ''
                     }
                 }
