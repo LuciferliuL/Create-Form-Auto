@@ -53,7 +53,7 @@ class DatePublicComponent extends Component {
                 {...layout}
             >
                 {getFieldDecorator(key, {
-                    rules: [{ required: { required }, message: { message } }],
+                    rules: [{ required: { required }, message: "必填项" }],
                 })(
                     <DatePicker
                         onChange={this.TimesChange.bind(this)}

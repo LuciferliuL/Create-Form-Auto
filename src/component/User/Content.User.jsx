@@ -190,7 +190,12 @@ class ContentUser extends Component {
                         } else if (e.type === 'Input' && e.typePoint !== 0) {
                             valueList[e.typePoint] = e.defaultValue === undefined ? '' : e.defaultValue;
                         } else if (e.type === "Range") {
-                            valueList[e.id] = e.defaultValue === '' ? ['', ''] : [e.defaultValue[0] + getHours(), e.defaultValue[1] + getHours()];
+                            if (e.defaultValue === '')
+                                valueList[e.id] = ['', ''];
+                            else if (e.defaultValue[0] === '' && e.defaultValue[1] === '')
+                                valueList[e.id] = ['', ''];
+                            else
+                                valueList[e.id] = [e.defaultValue[0] + getHours(), e.defaultValue[1] + getHours()];
                         } else if (e.type === 'RadioGroup') {
                             valueList[e.id] = e.defaultValue === '-1' ? ' ' : e.defaultValue;
                         } else {
