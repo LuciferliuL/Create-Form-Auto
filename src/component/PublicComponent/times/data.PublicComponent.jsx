@@ -40,9 +40,9 @@ class DatePublicComponent extends Component {
         } else if (defaultValue === 30) {
             var ds = new Date()
             ds.setMonth(ds.getMonth() - 1);
-            var y = d.getFullYear();
-            var m = d.getMonth() + 1;
-            var d = d.getDate();
+            var y = ds.getFullYear();
+            var m = ds.getMonth() + 1;
+            var d = ds.getDate();
             var formatwdate = y + '-' + m + '-' + d;
             days = moment(formatwdate, dateFormat)
         }
@@ -54,13 +54,13 @@ class DatePublicComponent extends Component {
                 {/* {getFieldDecorator(key, {
                     rules: [{ required: { required }, message: "必填项" }],
                 })( */}
-                    <DatePicker
-                        onChange={this.TimesChange.bind(this)}
-                        disabled={disabled}
-                        placeholder={placeholder}
-                        format={dateFormat}
-                        defaultValue={days}
-                    />
+                <DatePicker
+                    onChange={this.TimesChange.bind(this)}
+                    disabled={disabled}
+                    placeholder={placeholder}
+                    format={dateFormat}
+                    defaultValue={days}
+                />
                 {/* )} */}
             </FormItem>
         )

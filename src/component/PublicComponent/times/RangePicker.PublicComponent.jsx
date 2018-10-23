@@ -17,38 +17,38 @@ class RangePickerPublicComponent extends Component {
         // const { getFieldDecorator } = this.props.form
         const { disabled, label, layout, defaultValue } = this.props.PublicData
         console.log(defaultValue);
-        
+
         let days = []
-            //有数据
-            if (defaultValue === -1) {
-                //当天
-                days = [moment(new Date(), dateFormat), moment(new Date(), dateFormat)]
-            } else if(defaultValue === 1){
-                //前一天
-                var ds = new Date()
-                var oneweekdate = new Date(ds - 24 * 3600 * 1000);
-                var y = oneweekdate.getFullYear();
-                var m = oneweekdate.getMonth() + 1;
-                var d = oneweekdate.getDate();
-                var formatwdate = y + '-' + m + '-' + d;
-                days = [moment(formatwdate, dateFormat), moment(getDat(), dateFormat)]
-            }else if(defaultValue === 7){
-                var ds = new Date()
-                var oneweekdate = new Date(ds - 7 * 24 * 3600 * 1000);
-                var y = oneweekdate.getFullYear();
-                var m = oneweekdate.getMonth() + 1;
-                var d = oneweekdate.getDate();
-                var formatwdate = y + '-' + m + '-' + d;
-                days = [moment(formatwdate, dateFormat), moment(getDat(), dateFormat)]
-            }else if(defaultValue === 30){
-                var ds = new Date()
-                ds.setMonth(ds.getMonth() - 1);
-                var y = d.getFullYear();
-                var m = d.getMonth() + 1;
-                var d = d.getDate();
-                var formatwdate = y + '-' + m + '-' + d;
-                days = [moment(formatwdate, dateFormat), moment(getDat(), dateFormat)]
-            }
+        //有数据
+        if (defaultValue === -1) {
+            //当天
+            days = [moment(new Date(), dateFormat), moment(new Date(), dateFormat)]
+        } else if (defaultValue === 1) {
+            //前一天
+            var ds = new Date()
+            var oneweekdate = new Date(ds - 24 * 3600 * 1000);
+            var y = oneweekdate.getFullYear();
+            var m = oneweekdate.getMonth() + 1;
+            var d = oneweekdate.getDate();
+            var formatwdate = y + '-' + m + '-' + d;
+            days = [moment(formatwdate, dateFormat), moment(getDat(), dateFormat)]
+        } else if (defaultValue === 7) {
+            var ds = new Date()
+            var oneweekdate = new Date(ds - 7 * 24 * 3600 * 1000);
+            var y = oneweekdate.getFullYear();
+            var m = oneweekdate.getMonth() + 1;
+            var d = oneweekdate.getDate();
+            var formatwdate = y + '-' + m + '-' + d;
+            days = [moment(formatwdate, dateFormat), moment(getDat(), dateFormat)]
+        } else if (defaultValue === 30) {
+            var ds = new Date()
+            ds.setMonth(ds.getMonth() - 1);
+            var y = ds.getFullYear();
+            var m = ds.getMonth() + 1;
+            var d = ds.getDate();
+            var formatwdate = y + '-' + m + '-' + d;
+            days = [moment(formatwdate, dateFormat), moment(getDat(), dateFormat)]
+        }
 
         return (
             <FormItem
