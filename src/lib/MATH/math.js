@@ -359,15 +359,7 @@ export function isChinese(temp) {
 
 export function isdate(dateString) {
     if (dateString.toString().trim() == "") return false;
-    var r = dateString.toString().match(/^(\d{1,4})(-|\/)(\d{1,2})\2(\d{1,2})$/);
-    if (r == null) {
-        return false;
-    }
-    var d = new Date(r[1], r[3] - 1, r[4]);
-    var num = (d.getFullYear() == r[1] && (d.getMonth() + 1) == r[3] && d.getDate() == r[4]);
-    if (num == 0) {
-    }
-    return (num != 0);
+    return dateString.toString().indexOf('T00') > 0;
 }
 
 export function formatDate(sdt, format) {
