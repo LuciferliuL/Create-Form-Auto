@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
-import { Card, Tabs, Form, Input, Switch, InputNumber, Radio, Icon, Select, DatePicker } from 'antd'
+import { Card, Tabs, Form, Input, Switch, InputNumber, Radio, Icon, Select} from 'antd'
 import { connect } from 'react-redux'
 import { currentAttrUpdata, formUpdataFromCurrent, hidenDrawer, flagChange } from './action/Right.action.js'
 import Drawercomponent from '../Drawer/Drawer.component'
-import moment from 'moment';
 import { inputChange } from '../PublicComponent/Public.action'
-import { getDat, formats } from '../../lib/MATH/math'
-const { MonthPicker, RangePicker, WeekPicker } = DatePicker;
 const Option = Select.Option
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;

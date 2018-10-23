@@ -168,12 +168,10 @@ class TablePublicComponent extends Component {
         }
     }
     render() {
-        var w = document.documentElement.clientWidth || document.body.clientWidth;
         var h = document.documentElement.clientHeight || document.body.clientHeight;
         const { columns } = this.props.PublicData
         const { heightTr } = this.state
         let widths = 0
-        let heightTable = this.props.currentAttr.tr * (-38) > -228 ? '0px' : (this.props.currentAttr.tr * (-38) + 228) + 'px'
         if (columns) {
             columns.map((e, i) => {
                 // console.log(e);
