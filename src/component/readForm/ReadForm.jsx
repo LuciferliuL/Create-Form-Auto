@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Card, Col, Row, Table, Tree, Spin, message, Button} from 'antd'
+import { Card, Col, Row, Table, Tree, Spin, message, Button } from 'antd'
 import { API } from '../../lib/API/check.API.js'
 import { GET$, POST$, treeData } from '../../lib/MATH/math.js'
 
 function mapStateToProps(state) {
     return {
-
     };
 }
-
 class ReadForm extends Component {
     state = {
         selectedRowKeys: [],
@@ -51,7 +49,6 @@ class ReadForm extends Component {
         let p1 = new Promise(
             (resolve, reject) => {
                 POST$(API('CheckCurrentId').http, body, (res) => {
-                    console.log(res);
                     if (res.Results) {
                         resolve(res.Results)
                     } else {
@@ -63,58 +60,53 @@ class ReadForm extends Component {
         let p2 = new Promise(
             (resolve, reject) => {
                 POST$(API('POSTDATA').http, {}, (res) => {
-                    // console.log(res);
-                    if(res.length > 0){
+                    if (res.length > 0) {
                         res.forEach((e) => {
                             treeData(e)
                         })
                         resolve(res)
-                    }else{
+                    } else {
                         reject(500)
                     }
                 })
             }
         )
         Promise.all([p1, p2])
-        .then((Results) => {
-            this.setState({
-                data:Results[0],
-                treeData:Results[1],
-                loading:false
+            .then((Results) => {
+                this.setState({
+                    data: Results[0],
+                    treeData: Results[1],
+                    loading: false
+                })
             })
-        })
-        .catch((reject)=>{
-            message.error(reject)
-        })
+            .catch((reject) => {
+                message.error(reject)
+            })
     }
     rowSelectionChange = (rowKeys, rows) => {
-        // console.log(rowKeys, rows);
         this.setState({
             selectedRowKeys: rowKeys,
             rows: rows
-        })
+        });
     }
-
 
     handleChange = (keys, info) => {
         this.setState({
             loading: true,
             keys: keys[0]
-        })
-        console.log(keys, info);
+        });
         let get = new Promise((resolve, reject) => {
             setTimeout(() => {
                 reject('500 error')
             }, 10000);
-        })
+        });
         let GET = new Promise((resolve, reject) => {
             GET$(API('CheckId').http + ' ' + keys[0], (res) => {
-                // console.log(res);
                 let list = []
                 res.map(e => list.push(e.RoleId))
                 resolve(list)
             })
-        })
+        });
         Promise.race([get, GET])
             .then((Result) => {
                 this.setState({
@@ -127,17 +119,11 @@ class ReadForm extends Component {
                 this.setState({
                     loading: false
                 })
-                // console.log(err);
-
             })
-
     }
     Add = () => {
         this.state.rows.forEach(e => e.SOURCEID = this.state.keys)
-        // console.log(this.state.rows);
-
         POST$(API('Role').http, this.state.rows, (res) => {
-            // console.log(res);
             if (res.length > 0) {
                 this.setState({
                     loading: false
@@ -167,10 +153,8 @@ class ReadForm extends Component {
                             {this.state.treeData.length
                                 ? <Tree
                                     style={{ width: 300 }}
-                                    // value={this.state.value}
                                     treeData={this.state.treeData}
                                     placeholder="Please select"
-                                    // treeDefaultExpandAll
                                     onSelect={this.handleChange.bind(this)}
                                 />
                                 : 'loading tree'}
@@ -179,7 +163,7 @@ class ReadForm extends Component {
                     <Col span={20}>
                         <Card title="选择权限"
                             bordered={true}
-                            bodyStyle={{padding:'5px'}}                            
+                            bodyStyle={{ padding: '5px' }}
                             extra={<Button onClick={this.Add.bind(this)}>添加权限</Button>}>
                             <Table
                                 bordered
@@ -187,8 +171,8 @@ class ReadForm extends Component {
                                 columns={columns}
                                 rowSelection={rowSelection}
                                 rowKey='ROLEID'
-                                pagination={{defaultPageSize:15}}
-                                scroll={{y:h*0.8}}
+                                pagination={{ defaultPageSize: 15 }}
+                                scroll={{ y: h * 0.8 }}
                             ></Table>
                         </Card>
                     </Col>

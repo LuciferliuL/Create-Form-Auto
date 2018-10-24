@@ -7,7 +7,6 @@ import { formUpdataFromCurrent } from '../SliderRIght/action/Right.action'
 import { API } from '../../lib/API/check.API'
 import { POST$, treeData } from '../../lib/MATH/math'
 
-
 class TreeUser extends Component {
     state = {
         treeData: [],
@@ -15,7 +14,6 @@ class TreeUser extends Component {
     }
     componentDidMount() {
         POST$(API('POSTDATA').http, {}, (res) => {
-            // console.log(res);
             if (res.length > 0) {
                 res.forEach((e) => {
                     treeData(e)
@@ -25,7 +23,6 @@ class TreeUser extends Component {
                 })
             }
         })
-
     }
 
     onSelect = (keys, record) => {
@@ -35,23 +32,18 @@ class TreeUser extends Component {
             data.FormData.forEach(e => {
                 e.isUserMove = false
             })
-            // console.log(data);
             this.props.upData(data.FormData)
             this.props.tableFugai(data.TableData)
         }
-
     }
     render() {
-        const { treeData} = this.state
+        const { treeData } = this.state
 
         return (
             treeData.length > 0 ?
                 <Tree
                     style={{ width: 300, color: 'white' }}
-                    // value={this.state.value}
                     treeData={treeData}
-                    // expandedKeys={expandedKeys}
-                    // treeDefaultExpandAll
                     onSelect={this.onSelect}
                 />
                 : 'loading tree'

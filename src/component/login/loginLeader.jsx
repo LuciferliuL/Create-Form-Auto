@@ -33,18 +33,18 @@ class loginLeader extends Component {
             MetaTitle: "DESGIN",//卡片抬头
             MetaDescription: "表单设计",//卡片描述<Icon type="" theme="outlined" />
             href: 'http://10.3.4.177:9003/Design'//跳转地址
-        // }, {
-        //     IconType: "rocket",//图标
-        //     AvatarSrc: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",//人物头像
-        //     MetaTitle: "DEVTOOL",//卡片抬头
-        //     MetaDescription: "DEVTOOL",//卡片描述<Icon type="" theme="outlined" />
-        //     href: 'http://10.3.2.22:50003/index.html'//跳转地址
-        // }, {
-        //     IconType: "bulb",//图标
-        //     AvatarSrc: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",//人物头像
-        //     MetaTitle: "Card title",//卡片抬头<Icon type="" theme="outlined" />
-        //     MetaDescription: "This is the description",//卡片描述
-        //     href: 'www.baidu.com'//跳转地址
+            // }, {
+            //     IconType: "rocket",//图标
+            //     AvatarSrc: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",//人物头像
+            //     MetaTitle: "DEVTOOL",//卡片抬头
+            //     MetaDescription: "DEVTOOL",//卡片描述<Icon type="" theme="outlined" />
+            //     href: 'http://10.3.2.22:50003/index.html'//跳转地址
+            // }, {
+            //     IconType: "bulb",//图标
+            //     AvatarSrc: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",//人物头像
+            //     MetaTitle: "Card title",//卡片抬头<Icon type="" theme="outlined" />
+            //     MetaDescription: "This is the description",//卡片描述
+            //     href: 'www.baidu.com'//跳转地址
         }]
     }
     componentDidMount() {
@@ -69,22 +69,17 @@ class loginLeader extends Component {
             default:
                 break;
         }
-        
+
         data.forEach((e, i) => {
             return dataList.push(
                 <Col span={colwidth} key={i}>
                     <Card
                         style={{ width: '85%' }}
-                        // cover={<img alt="example" src={data.CoverSrc} style={{height:'160px',width:'100%'}}/>}
                         actions={[<Icon type={e.IconType}
                             onClick={() => {
-                                // window.location.href='localhost:3000/Design'
                                 if (e.MetaTitle === 'DESGIN') {
-                                    // var tempwindow = window.open('_blank')
                                     this.props.history.push('/Design/er')
                                 } else {
-                                    // var tempwindow = window.open('_blank')
-                                    // tempwindow.location = e.href
                                     window.location.href = e.href
                                 }
                             }} />]}

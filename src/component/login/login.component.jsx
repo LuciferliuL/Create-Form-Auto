@@ -1,13 +1,10 @@
 import React from 'react';
 import { Form, Icon, Input, Button, Card, Cascader, Radio, message, Spin } from 'antd';
 import './login.component.css'
-import { API} from '../../lib/API/login.API'
+import { API } from '../../lib/API/login.API'
 import { GETFetch, TreeMath, POSTFETCHNOBODY, POST$ } from '../../lib/MATH/math'
 import ReactCanvasNest from 'react-canvas-nest'
-
-
 const FormItem = Form.Item;
-
 
 class NormalLoginForm extends React.Component {
     state = {
@@ -34,9 +31,7 @@ class NormalLoginForm extends React.Component {
         this.props.form.validateFields((err, values) => {
             //登入判断
             if (!err) {
-                // console.log('Received values of form: ', values);
                 values.scope = values.scope[values.scope.length - 1]
-                //console.log(values);
                 let http = `grant_type=password&username=${values.username}&password=${values.password}&client_id=JZT&scope=${values.scope}`
                 POSTFETCHNOBODY(API('checkLoginID').http, http, (token) => {
                     if (token.error_description) {
@@ -60,17 +55,12 @@ class NormalLoginForm extends React.Component {
                                 this.props.history.push('/USER')
                             }
                         })
-
-
-
-
                     }
                 })
             }
         });
     }
     onChange = (value) => {
-        console.log(value)
         // 长期保存公司
         let company = value
         localStorage.setItem('company', JSON.stringify(company))
@@ -88,11 +78,7 @@ class NormalLoginForm extends React.Component {
             },
         };
         const config = {
-            // pointColor: ' 255, 255, 255 ' ,
             count: 88,
-            // pointOpacity:0.5,
-            // lineColor:'red',
-            // lineWidth:3
         }
         return (
             <Spin size='large' spinning={this.state.loading}>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Tabs, Form, Input, Switch, InputNumber, Radio, Icon, Select} from 'antd'
+import { Card, Tabs, Form, Input, Switch, InputNumber, Radio, Icon, Select } from 'antd'
 import { connect } from 'react-redux'
 import { currentAttrUpdata, formUpdataFromCurrent, hidenDrawer, flagChange } from './action/Right.action.js'
 import Drawercomponent from '../Drawer/Drawer.component'
@@ -19,8 +19,7 @@ class SliderRightcomponent extends Component {
         uniqueList: [],
         flag: '',
         value: 1,
-        // defaultValueTime:[]
-        checkboxvalue:''
+        checkboxvalue: ''
     }
 
     componentWillReceiveProps(pre) {
@@ -38,9 +37,9 @@ class SliderRightcomponent extends Component {
                 }
             }
         }
-        if(pre.currentAttr.type === 'CheckBox'){
+        if (pre.currentAttr.type === 'CheckBox') {
             this.setState({
-                checkboxvalue:pre.currentAttr.defaultValue
+                checkboxvalue: pre.currentAttr.defaultValue
             })
         }
 
@@ -249,17 +248,13 @@ class SliderRightcomponent extends Component {
         this.setState({
             uniqueList: uniqueList,
             value: dateChange,
-            // defaultValueTime:defaultValueTime
         })
     }
     handleChange = (e) => {
-        console.log(e);
-
     }
     click = (e) => {
         this.props.flagChange(e)
         this.props.hide(true)
-
     }
     handleSubmit = (e) => {
         e.preventDefault();
@@ -270,7 +265,6 @@ class SliderRightcomponent extends Component {
         });
     }
     radioChange = (key, e) => {
-        console.log(key);
         this.setState({
             value: e.target.value
         })
@@ -281,34 +275,23 @@ class SliderRightcomponent extends Component {
             let times = ''
             this.props.inputChange(this.props.currentAttr.key, times)
         } else {
-            // console.log(times);
             this.props.inputChange(this.props.currentAttr.key, 1)
         }
     }
     handleChange = (key, value) => {
-        // console.log(date, dateString);
-        // console.log(value);
         if (value === 1) {
-            // console.log(times);
             this.props.inputChange(this.props.currentAttr.key, 1)
         } else if (value === 7) {
-
-            //    console.log(formatwdate);
             this.props.inputChange(this.props.currentAttr.key, 7)
         } else if (value === 30) {
-
-            // console.log(times);
             this.props.inputChange(this.props.currentAttr.key, 30)
         }
-
-
-
     }
-    checkBoxValueChange = (e)=>{
+    checkBoxValueChange = (e) => {
         this.setState({
-            checkboxvalue:e.target.value
+            checkboxvalue: e.target.value
         })
-        this.props.inputChange(this.props.currentAttr.key, e.target.value )
+        this.props.inputChange(this.props.currentAttr.key, e.target.value)
     }
     render() {
         const { getFieldDecorator } = this.props.form;
@@ -322,8 +305,7 @@ class SliderRightcomponent extends Component {
                 sm: { span: 16 },
             },
         };
-        const { currentAttr } = this.props
-        // console.log(currentAttr);
+        const { currentAttr } = this.props;
 
         let inputList = []
         HTMLTitle.forEach((e, i) => {
@@ -418,9 +400,9 @@ class SliderRightcomponent extends Component {
                                 : null}
                             {currentAttr.type === 'CheckBox' ?
                                 <div>默认值：
-                                    <Input type="text" 
-                                    value={this.state.checkboxvalue}
-                                    onChange={this.checkBoxValueChange}
+                                    <Input type="text"
+                                        value={this.state.checkboxvalue}
+                                        onChange={this.checkBoxValueChange}
                                     />
                                 </div>
                                 : null
@@ -435,7 +417,6 @@ class SliderRightcomponent extends Component {
 
 const mapPropsToState = (state) => {
     return {
-
     }
 }
 const mapDispatchProps = (dispatch) => {
@@ -459,40 +440,25 @@ const mapDispatchProps = (dispatch) => {
 }
 export default connect(mapPropsToState, mapDispatchProps)(Form.create({
     onFieldsChange(props, changedFields) {
-        // console.log(props);
-        // console.log(changedFields);
         let value = changedFields[Object.keys(changedFields)[0]]['value']
         let label = changedFields[Object.keys(changedFields)[0]]['name']
         let obj = {}
-        obj[label] = value
-        // console.log(obj);
-        Object.assign(props.currentAttr, obj)
-        props.updata(props.currentAttr)
-        props.upForm(props.currentAttr)
+        obj[label] = value;
+        Object.assign(props.currentAttr, obj);
+        props.updata(props.currentAttr);
+        props.upForm(props.currentAttr);
     },
     mapPropsToFields(props) {
-        // console.log(props.currentAttr);
         const { currentAttr } = props
         let Field = {}
         if (Object.keys(currentAttr).length > 0) {
-            // HTMLTitle.forEach(e => {
-            //     Field[e.label] = Form.createFormField({ value: currentAttr[e.label] })
-            // })
             Object.keys(currentAttr).forEach(e => {
                 Field[e] = Form.createFormField({ value: currentAttr[e] })
             })
         }
-        // console.log(Object.keys(currentAttr));
-
-        // Object.keys(initialTags).forEach(e => {
-        //     Field[e] = Form.createFormField({ value: initialTags[e] })
-        // })
-        // console.log(Field);
-
         return Field;
     },
     onValuesChange(_, values) {
-        // console.log(values);
     },
 })(SliderRightcomponent));
 

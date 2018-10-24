@@ -15,7 +15,6 @@ import { selectkeysToHeader } from '../Slider/action/Header.action'
 import TABLECOMPONENT from '../PublicComponent/table/Table'
 
 const getblockStyle = isDragging => {
-
     return {
         background: isDragging ? '#1890ff' : 'white'
     }
@@ -49,10 +48,7 @@ class Stylistcomponent extends Component {
     }
     drop = (ev) => {
         ev.preventDefault();
-        // console.log(ev);
-
         var data = ev.dataTransfer.getData("ID");
-        // console.log(this.props.currentTagsUpdata);
         if (data === this.props.currentTagsUpdata.id) {
             this.props.FormData(this.props.currentTagsUpdata)
         }
@@ -64,7 +60,6 @@ class Stylistcomponent extends Component {
         this.props.rightUpdata(e)
     }
     cancel = (e) => {
-        // console.log(e);
         this.props.FormDataDelete(e)
     }
     //固定位置
@@ -73,7 +68,6 @@ class Stylistcomponent extends Component {
     }
     showModal = () => {
         POST$(API('GetCategory').http, {}, (res) => {
-            // console.log(res);
             res.forEach((e) => {
                 treeData(e)
             })
@@ -85,14 +79,12 @@ class Stylistcomponent extends Component {
     }
 
     read = () => {
-
         this.setState({
             read: !this.state.read
         }, () => { this.changeWidth() })
     }
     //取消
     handleCancel = (e) => {
-        // console.log(e);
         this.props.form.resetFields(['formname'])
         this.setState({
             visible: false,
@@ -103,7 +95,6 @@ class Stylistcomponent extends Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
 
-            console.log(values);
             this.setState({
                 loading: true
             });
@@ -113,9 +104,12 @@ class Stylistcomponent extends Component {
             body.TableData = this.props.tableSource;
             if (this.props.InitStylistData.PK) {
                 //编辑
-                save = Object.assign({}, this.props.InitStylistData, { 'Name': values.Name }, { 'Sort': values.Sort }, { 'ParentFormID': values.ParentFormID }, { 'Bytes': JSON.stringify(body) })
-                // console.log(newData);
-
+                save = Object.assign({},
+                    this.props.InitStylistData,
+                    { 'Name': values.Name },
+                    { 'Sort': values.Sort },
+                    { 'ParentFormID': values.ParentFormID },
+                    { 'Bytes': JSON.stringify(body) })
             } else {
                 //新建
                 let user = sessionStorage.getItem('values')
@@ -133,13 +127,9 @@ class Stylistcomponent extends Component {
                     PageSize: 15
                 }
             }
-            console.log(save);
 
             POST$(API('SaveForm').http, save, (res) => {
-                // console.log(res);
                 res.PK === -1 ? message.error('保存失败') : message.success('保存成功')
-                // this.props.fugai([])
-                // sessionStorage.setItem('C','N')
                 this.props.onTodoClick(['表单权限'])
                 this.props.history.push('/Design/Arch')
                 this.props.fugai([])
@@ -152,11 +142,10 @@ class Stylistcomponent extends Component {
         });
     }
     handleChange = (value) => {
-        console.log(`selected ${value}`);
+
     }
     render() {
         var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.70
-        // console.log(this.state.dataSource);
         const { getFieldDecorator } = this.props.form;
         return (
             <Spin spinning={this.state.loading}>
@@ -178,14 +167,10 @@ class Stylistcomponent extends Component {
                             {getFieldDecorator('ParentFormID', {
                                 rules: [{ required: true, message: '请选择存放菜单!' }],
                             })(
-                                // <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="表单类" />
                                 <TreeSelect
-                                    // style={{ width: 300 }}
-                                    // value={this.state.value}
                                     dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
                                     treeData={this.state.treeData}
                                     placeholder="请选择存放菜单"
-                                    // treeDefaultExpandAll
                                     onChange={this.handleChange}
                                 />
                             )}
@@ -211,10 +196,9 @@ class Stylistcomponent extends Component {
                             bodyStyle={{ padding: '0px' }}
                             extra={
                                 <div>
-                                    <Button onClick={this.read.bind(this)}>预览</Button>
+                                    <Button onClick={this.read.bind(this)}>{this.state.read ? '预览' : '关闭'}</Button>
                                     <Button style={this.state.read ? { display: 'unset' } : { display: 'none' }} onClick={this.showModal.bind(this)}>保存</Button>
                                 </div>
-
                             }
                             ref={this.myRef}>
                             <Form
@@ -235,7 +219,6 @@ class Stylistcomponent extends Component {
                                     onDragEnd={this.time.bind(this)}
                                 >
                                     {(item, provided) => {
-                                        // console.log(item);
                                         return (
                                             <div
                                                 {...provided.props}
@@ -248,7 +231,6 @@ class Stylistcomponent extends Component {
                                                         ...provided.props.style,
                                                         ...getblockStyle(provided.isDragging)
                                                     }}
-
                                             >
                                                 <Popconfirm title="你要干什么？"
                                                     icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
@@ -257,6 +239,7 @@ class Stylistcomponent extends Component {
                                                     onCancel={this.cancel.bind(this, item)}>
                                                     <Icon
                                                         className="Delete"
+                                                        style={this.state.read ? { display: 'unset' } : { display: 'none' }}
                                                         type="minus-square"
                                                         theme="filled" />
                                                 </Popconfirm>
@@ -272,6 +255,7 @@ class Stylistcomponent extends Component {
                                         onConfirm={this.confirm.bind(this, this.props.tableSource)}>
                                         <Icon
                                             className="Delete"
+                                            style={this.state.read ? { display: 'unset' } : { display: 'none' }}
                                             type="minus-square"
                                             theme="filled" />
                                     </Popconfirm>

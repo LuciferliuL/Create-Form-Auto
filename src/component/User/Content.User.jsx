@@ -11,11 +11,7 @@ import { _clear, _tableUpdataFromResults, tableTr0 } from '../stylist/action/Sty
 import { tAddDown, tReduceUp } from '../PublicComponent/lookup/action/lookup.action';
 
 const ButtonGroup = Button.Group;
-
-
 function mapStateToProps(State) {
-    // console.log(State);
-
     return {
         data: State.UpdataFormData,
         InitStylistData: State.InitStylistData.InitStylistData,
@@ -132,7 +128,6 @@ class ContentUser extends Component {
                         isPage: true
                     }
                     POST$(API('SQL').http, body, (res) => {
-                        // console.log(res);
                         if (res.Results) {
                             pre.tableSource.dataSource = res.Results
                             pre.tableSource.tr = 0
@@ -142,7 +137,6 @@ class ContentUser extends Component {
                         } else {
                             reject(false)
                         }
-
                     })
                 })
                 let time = new Promise((resolve, reject) => {
@@ -494,7 +488,6 @@ class ContentUser extends Component {
         switch (e.keyCode) {
             case 40://下
                 if (this.props.tableSource.tr < dataSource.length - 1) {
-                    // console.log(this.props.current.tr);
                     this.props.tAddDown(this.props.tableSource.tr, 1)
                 }
                 break;
@@ -512,7 +505,6 @@ class ContentUser extends Component {
         }
     }
     ONBlur = () => {
-        // window.addEventListener('keyup', this.handleKeyDown)
         window.removeEventListener('keyup', this.handleKeyDown)
     }
     onChange = (page) => {
@@ -522,9 +514,8 @@ class ContentUser extends Component {
         this.SQLChecked(page)
     }
     render() {
-        var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.93
-        const { tableSource } = this.props
-        console.log(tableSource);
+        var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.93;
+        const { tableSource } = this.props;
 
         let Dr = []
         let width_ = this.state.domWidth / 24

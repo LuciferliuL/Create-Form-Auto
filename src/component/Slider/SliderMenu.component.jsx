@@ -6,10 +6,8 @@ import { selectkeysToHeader } from './action/Header.action'
 const SubMenu = Menu.SubMenu;
 
 class SliderMenucomponent extends Component {
-    //选中得回调
     onSelect = (item) => {
-        // console.log(item)
-        this.props.onTodoClick(item.selectedKeys)
+        this.props.onTodoClick(item.selectedKeys);
     }
     render() {
         const menudata = []
@@ -59,22 +57,21 @@ class SliderMenucomponent extends Component {
     }
 }
 
-function mapStateToProps(state){
-    // console.log(state);
-    
-    return{
+function mapStateToProps(state) {
+    return {
         selectedKeys: state.Slider.selectedKeys
     }
 }
-function mapDispatchProps(dispatch){  
+
+function mapDispatchProps(dispatch) {
     return {
-        onTodoClick: (k)=>{
+        onTodoClick: (k) => {
             dispatch(selectkeysToHeader(k))
         }
     }
 }
-export default connect(mapStateToProps,mapDispatchProps)(SliderMenucomponent);
 
+export default connect(mapStateToProps, mapDispatchProps)(SliderMenucomponent);
 const sliderData = [
     {
         key: '表单总览',

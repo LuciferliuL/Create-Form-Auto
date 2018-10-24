@@ -13,78 +13,68 @@ const InputGroup = Input.Group
 const { TextArea } = Input
 class Drawercomponent extends Component {
     onClose = () => {
-        this.props.hidefun(false)
+        this.props.hidefun(false);
     };
     onSure = (e) => {
-        // console.log(e);
-
         //修改的结果在这里
         if (this.props.currentAttr.key === 'tablesKey') {
-            // console.log(1111);
-
-            this.props.tableFugai(this.props.currentAttr)
+            this.props.tableFugai(this.props.currentAttr);
         } else if (this.props.currentAttr.type === 'LookUp' && this.props.currentAttr.dataSource.length === 0) {
-            let abbr = {}
+            let abbr = {};
             let body = {
                 "Sql": this.props.currentAttr.SQL,
                 "Param": JSON.stringify(abbr),
                 "PageIndex": 1,
                 "PageSize": 100,
                 isPage: true
-            }
+            };
             POST$(API('SQL').http, body, (res) => {
-                // console.log(res);
-                this.props.upDataCurrentDataSource(res.Results, res.RecordCount)
-                this.props.upForm(this.props.currentAttr)
-            })
+                this.props.upDataCurrentDataSource(res.Results, res.RecordCount);
+                this.props.upForm(this.props.currentAttr);
+            });
         }
         else {
-            this.props.upForm(this.props.currentAttr)
+            this.props.upForm(this.props.currentAttr);
         }
-        this.props.hidefun(false)
+        this.props.hidefun(false);
     }
     //列数据方法
     TagAdd = (i) => {
-        console.log(i);
-
         this.props.tagPushDataInColumns(i, {
             title: '',
             dataIndex: '',
             width: '',
-        })
+        });
     }
     GroupAdd = (i) => {
         this.props.tagPushDataInGroup(i, {
             name: '',
             value: ''
-        })
+        });
     }
     TagCancel = (i) => {
-        this.props.InputCancelData(i)
+        this.props.InputCancelData(i);
     }
     GroupCancel = (i) => {
-        this.props.TagCancelDataInGroup(i)
+        this.props.TagCancelDataInGroup(i);
     }
     InputChange = (i, title, e) => {
         if (title === 'dataIndex') {
-            this.props.inputValueChange(i, title, e.target.value.toUpperCase())
+            this.props.inputValueChange(i, title, e.target.value.toUpperCase());
         } else {
-            this.props.inputValueChange(i, title, e.target.value)
+            this.props.inputValueChange(i, title, e.target.value);
         }
 
     }
     GroupChange = (i, title, e) => {
         if (title === 'dataIndex') {
-            this.props.GroupValueChange(i, title, e.target.value.toUpperCase())
+            this.props.GroupValueChange(i, title, e.target.value.toUpperCase());
         } else {
-            this.props.GroupValueChange(i, title, e.target.value)
+            this.props.GroupValueChange(i, title, e.target.value);
         }
-
     }
     SQLChange = (e) => {
-        console.log(e.target.value);
-        this.props.sqlValueChange(e.target.value)
-        console.log(this.props.currentAttr);
+        this.props.sqlValueChange(e.target.value);
     }
     render() {
         let content = []

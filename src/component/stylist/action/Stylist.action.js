@@ -20,9 +20,7 @@ export const stylistDataSourceGet = (InitStylistData) => {
 }
 
 export const stylistDataSourceAsync = (k) => {
-    // console.log(k);
     return (dispatch, getState) => {
-        // console.log(getState().InitStylistData);
         dispatch(stylistDataSourceGet(k))
     }
 }
@@ -35,15 +33,15 @@ export const formSourceData = (FormSourceData) => {
 }
 export const formSourceDataUpdata = (formSourceDataUpdata) => {
     return {
-        type:FORM_SOURCE_DATA_UPDATA,
-        formSourceDataUpdata:formSourceDataUpdata
+        type: FORM_SOURCE_DATA_UPDATA,
+        formSourceDataUpdata: formSourceDataUpdata
     }
 }
 //删除
 export const formSourceDataDelete = (formSourceDataDelete) => {
     return {
-        type:FORM_SOURCE_DATA_DELETE,
-        formSourceDataDelete:formSourceDataDelete
+        type: FORM_SOURCE_DATA_DELETE,
+        formSourceDataDelete: formSourceDataDelete
     }
 }
 //右边显示的属性
@@ -56,43 +54,43 @@ export const currentAttr = (currentAttr) => {
 
 export const fugai = (init) => {
     return {
-        type:FORM_UPDATA_FUGAI,
-        init:init
+        type: FORM_UPDATA_FUGAI,
+        init: init
     }
 }
 
-export const _clear = (initial = [])=>{
+export const _clear = (initial = []) => {
     return {
-        type:CLEAR_FORM,
-        initial:initial
+        type: CLEAR_FORM,
+        initial: initial
     }
 }
 
 export const _tableUpdataFromResults = (initial) => {
     return {
-        type:TABLE_UPDATA_FROM_RESULTS,
-        initial:initial
+        type: TABLE_UPDATA_FROM_RESULTS,
+        initial: initial
     }
 }
 
 export const tableFugai = (initial) => {
     return {
-        type:TABLE_FUGAI,
-        initial:initial
+        type: TABLE_FUGAI,
+        initial: initial
     }
 }
 
 export const tableTr0 = (initial) => {
     return {
-        type:TABLE_TR_0,
-        initial:initial
+        type: TABLE_TR_0,
+        initial: initial
     }
 }
 
 export const tableReset = (init) => {
     return {
-        type:TABLE_RESET,
-        init:init
+        type: TABLE_RESET,
+        init: init
     }
 }
 

@@ -75,6 +75,9 @@ export { POSTFETCH }
 
 function POSTFETCHNOBODY(URL, postBody, Callback) {
 
+    console.log('url.' + URL);
+    console.log('data.' + postBody);
+
     let myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json, text/plain, */*');
     let request = new Request(URL, {
@@ -86,7 +89,8 @@ function POSTFETCHNOBODY(URL, postBody, Callback) {
     fetch(request)
         .then(response => response.json())
         .then(result => {
-            Callback(result)
+            //console.log('result.' + result);
+            Callback(result);
         })
         .catch(res => {
             console.log(res)
@@ -147,7 +151,10 @@ export const GET$ = (URL, Callback) => {
 }
 
 export const POST$ = (URL, POSTBODY, CALLBACK) => {
-    POSTBODY = JSON.stringify(POSTBODY)
+    console.log('url.' + URL);
+    POSTBODY = JSON.stringify(POSTBODY);
+    console.log('data.' + POSTBODY);
+
     let token = sessionStorage.getItem('token')
     $.ajax({
         url: URL,
@@ -159,7 +166,8 @@ export const POST$ = (URL, POSTBODY, CALLBACK) => {
             xhr.setRequestHeader("Authorization", "Bearer " + token)
         },
         success: function (res) {
-            CALLBACK(res)
+            //console.log('result.' + JSON.stringify(res));
+            CALLBACK(res);
         }
     })
 }
