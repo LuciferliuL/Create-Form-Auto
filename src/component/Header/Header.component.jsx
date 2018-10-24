@@ -14,11 +14,11 @@ class Headercomponent extends Component {
     componentWillMount() {
 
         // console.log(typeof sessionStorage.getItem('values'));
-        if (typeof sessionStorage.getItem('values') === 'string') {
+        // if (typeof sessionStorage.getItem('values') === 'string') {
 
-        } else {
-            window.location.href = 'http://localhost:3000/'
-        }
+        // } else {
+        //     window.location.href = 'http://localhost:3000/'
+        // }
     }
     enter = () => {
         this.props.history.push('/')

@@ -34,7 +34,7 @@ class NormalLoginForm extends React.Component {
         this.props.form.validateFields((err, values) => {
             //登入判断
             if (!err) {
-                // console.log('Received values of form: ', values);
+                console.log('Received values of form: ', values);
                 values.scope = values.scope[values.scope.length - 1]
                 //console.log(values);
                 let http = `grant_type=password&username=${values.username}&password=${values.password}&client_id=JZT&scope=${values.scope}`
@@ -53,12 +53,12 @@ class NormalLoginForm extends React.Component {
                         POST$(API('getuserdata').http, uparam, (u) => {
                             console.log(u);
                             sessionStorage.setItem('udata', JSON.stringify(u));
-                            let path = {}
-                            if (values.use === 'a') {
+                            // let path = {}
+                            // if (values.use === 'a') {
                                 this.props.history.push('/loginLeader')
-                            } else {
-                                this.props.history.push('/USER')
-                            }
+                            // } else {
+                            //     this.props.history.push('/USER')
+                            // }
                         })
 
 
@@ -99,7 +99,7 @@ class NormalLoginForm extends React.Component {
                 <ReactCanvasNest config={config}></ReactCanvasNest>
                 <Card className="width-40 margin-auto center" style={{ background: 'transparent' }}>
                     <Form onSubmit={this.handleSubmit} className="center">
-                        <FormItem
+                        {/* <FormItem
                             {...formItemLayout}
                             label="目的"
                         >
@@ -111,7 +111,7 @@ class NormalLoginForm extends React.Component {
                                     <Radio.Button value="b">我是使用者</Radio.Button>
                                 </Radio.Group>
                             )}
-                        </FormItem>
+                        </FormItem> */}
                         <FormItem
                             {...formItemLayout}
                             label="公司">
