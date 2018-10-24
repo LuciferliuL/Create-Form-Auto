@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Layout, Menu, Dropdown, Tag} from "antd";
+import { Layout, Menu, Dropdown, Tag } from "antd";
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { _clear, _tableUpdataFromResults, tableTr0,fugai } from '../stylist/action/Stylist.action'
+import { _clear, _tableUpdataFromResults, tableTr0, fugai } from '../stylist/action/Stylist.action'
 
 const { Header } = Layout
 
@@ -24,7 +24,7 @@ class Headercomponent extends Component {
         this.props.history.push('/')
         this.props.fugai([])
     }
-    
+
     render() {
         const { user, userdata } = this.state
         const menu = (
@@ -67,7 +67,6 @@ class Headercomponent extends Component {
     }
 }
 const mapStateToProps = (state) => {
-    // console.log(state);
     return {
         data: state.UpdataFormData,
         tableSource: state.tableSource

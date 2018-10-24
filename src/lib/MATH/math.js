@@ -75,6 +75,9 @@ export { POSTFETCH }
 
 function POSTFETCHNOBODY(URL, postBody, Callback) {
 
+    console.log('url.' + URL);
+    console.log('data.' + postBody);
+
     let myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json, text/plain, */*');
     let request = new Request(URL, {
@@ -86,7 +89,8 @@ function POSTFETCHNOBODY(URL, postBody, Callback) {
     fetch(request)
         .then(response => response.json())
         .then(result => {
-            Callback(result)
+            //console.log('result.' + result);
+            Callback(result);
         })
         .catch(res => {
             console.log(res)
@@ -147,7 +151,10 @@ export const GET$ = (URL, Callback) => {
 }
 
 export const POST$ = (URL, POSTBODY, CALLBACK) => {
-    POSTBODY = JSON.stringify(POSTBODY)
+    console.log('url.' + URL);
+    POSTBODY = JSON.stringify(POSTBODY);
+    console.log('data.' + POSTBODY);
+
     let token = sessionStorage.getItem('token')
     $.ajax({
         url: URL,
@@ -159,7 +166,7 @@ export const POST$ = (URL, POSTBODY, CALLBACK) => {
             xhr.setRequestHeader("Authorization", "Bearer " + token)
         },
         success: function (res) {
-            CALLBACK(res)
+            CALLBACK(res);
         }
     })
 }
@@ -195,7 +202,6 @@ function getTime() {
     mytime = `${myDate.getFullYear()}-${myDate.getMonth() + 1}-${myDate.getDate()}T${myDate.getHours()}:${myDate.getMinutes()}:${myDate.getSeconds()}`
     return mytime
 }
-
 export { getTime }
 
 function getDat() {
@@ -223,14 +229,12 @@ function getendHours() {
 }
 export { getendHours }
 
-
 function getHours() {
     var myDate = new Date()
-    var myHours = ''
     let hours = myDate.getHours() > 9 ? myDate.getHours() : '0' + myDate.getHours()
     let minutes = myDate.getMinutes() > 9 ? myDate.getMinutes() : '0' + myDate.getMinutes()
     let seconds = myDate.getSeconds() > 9 ? myDate.getSeconds() : '0' + myDate.getSeconds()
-    return myHours = `T${hours}:${minutes}:${seconds}`
+    return `T${hours}:${minutes}:${seconds}`
 }
 export { getHours }
 
@@ -358,7 +362,7 @@ export function isChinese(temp) {
 }
 
 export function isdate(dateString) {
-    if (dateString.toString().trim() == "") return false;
+    if (dateString.toString().trim() === "") return false;
     return dateString.toString().indexOf('T00') > 0;
 }
 
@@ -377,7 +381,7 @@ export function formatDate(sdt, format) {
     for (var k in o)
         if (new RegExp("(" + k + ")").test(format))
             format = format.replace(RegExp.$1,
-                RegExp.$1.length == 1 ? o[k] :
+                RegExp.$1.length === 1 ? o[k] :
                     ("00" + o[k]).substr(("" + o[k]).length));
     return format;
 };

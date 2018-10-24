@@ -7,7 +7,7 @@ import {
     , T_REDUCE_UP, ON_CLICK_TR
 } from '../../PublicComponent/lookup/action/lookup.action'
 import { TAG_PUSH_DATA_IN_COLUMNS, INPUT_VALUE_CHANGE, SQL_VALUE_CHANGE, GROUP_VALUE_CHANGE, TAG_PUSH_DATA_IN_GROUP, TAG_CANCEL_DATA_IN_GROUP, INPUT_CANCEL_DATA } from '../../Drawer/action/Drawer.action'
-import { INPUT_CHANGE,CHECK_BOX_VALUE } from '../../PublicComponent/Public.action'
+import { INPUT_CHANGE, CHECK_BOX_VALUE } from '../../PublicComponent/Public.action'
 
 const initialState = []
 
@@ -31,7 +31,6 @@ const result = (o1, o2) => {
 }
 
 export const UpdataFormData = (state = [], action) => {
-    // console.log(action);
 
     switch (action.type) {
         case FORM_SOURCE_DATA:
@@ -68,7 +67,6 @@ export const UpdataFormData = (state = [], action) => {
 }
 
 export const currentAttr = (state = {}, action) => {
-    // console.log(action);
     switch (action.type) {
         case CURRENT_ATTR:
             return state = action.currentAttr
@@ -111,7 +109,6 @@ export const currentAttr = (state = {}, action) => {
                 if (i === keys_) {
                     list_.push(initial_)
                 }
-
             })
             return {
                 ...state, GroupValue: list_

@@ -67,7 +67,6 @@ class DesignTablecomponent extends Component {
             width: '20%',
             dataIndex: 'PK',
             render: (text, record) => {
-                // console.log(record);
                 //增加判断
                 return (
                     !record.IsCategory
@@ -82,7 +81,6 @@ class DesignTablecomponent extends Component {
     }
     componentDidMount() {
         POST$(API('POSTDATA').http, {}, (res) => {
-            // console.log(res);
             res.forEach(e => {
                 DesignDataTree(e)
             })
@@ -149,7 +147,6 @@ class DesignTablecomponent extends Component {
         this.setState({
             loading: true
         })
-        // console.log(e);
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
@@ -168,7 +165,6 @@ class DesignTablecomponent extends Component {
                     Role: "",
                     TelantId: "",
                 }
-                //console.log(this.state);
 
                 //若创建根节点或编辑菜单，则ParentFormID=选择节点的ParentFormID
                 save.ParentFormID = this.state.rootmenu ? 0 : this.state.selectData.ParentFormID;
@@ -176,15 +172,13 @@ class DesignTablecomponent extends Component {
                 if (this.state.CreateMenu)
                     save.ParentFormID = this.state.selectData.PK;
 
-                if (seldata != 0) {
+                if (seldata !== 0) {
                     seldata.Name = save.Name;
                     seldata.Sort = save.Sort;
                 }
 
                 //新建菜单
                 POST$(API('SaveForm').http, save, (res) => {
-                    console.log(res);
-
                     if (res.PK) {
 
                         POST$(API('POSTDATA').http, {}, (res) => {
@@ -206,7 +200,6 @@ class DesignTablecomponent extends Component {
     }
 
     handleCancel = (e) => {
-        // console.log(e);
         this.setState({
             visible: false,
         });
@@ -248,7 +241,6 @@ class DesignTablecomponent extends Component {
                 } else {
                     //表单
                     let body = JSON.parse(this.state.selectData.Bytes)
-                    // sessionStorage.setItem('C', JSON.stringify(this.state.selectData))
                     this.props.fugai(body.FormData) //添加表单的
                     this.props.tableFugai(body.TableData)//添加表格的
                     this.props.update(this.state.selectData)//用来确定是否新建
@@ -261,7 +253,6 @@ class DesignTablecomponent extends Component {
     }
     rowSelection = {
         onSelect: (record) => {
-            //console.log(record);
             this.setState({
                 selectData: record
             })

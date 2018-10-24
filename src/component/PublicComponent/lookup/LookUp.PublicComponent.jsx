@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Input, Button, Modal, Spin } from 'antd'
+import { Form, Input, Modal } from 'antd'
 import { connect } from 'react-redux'
 import './LookUp.PublicComponent.css'
 import { shows, upDataCurrentDataSource, updataValues, trAddDown, trReduceUp, onClickTr } from './action/lookup.action'
@@ -22,15 +22,12 @@ class LookUpPublicComponent extends Component {
     }
     componentDidMount() {
         var h = document.documentElement.clientHeight
-        // console.log(h);
         this.setState({
             h: h
         })
-        // console.log(res);
         let res = this.props.UpdataFormData[this.props.UpdataFormData.length - 1] //每次获取新加入的
         if (res.SQL && res.SQL.length > 0) {
             let obj = this.props.UpdataFormData.find(e => e.key === res.key)
-            // this.props.UpDataCurrent(obj)
             let body = {
                 "Sql": obj.SQL,
                 "Param": JSON.stringify(abbr),
@@ -39,12 +36,9 @@ class LookUpPublicComponent extends Component {
                 isPage: true
             }
             POST$(API('SQL').http, body, (res) => {
-                // console.log(res);
-                // this.props.upDataCurrentDataSource(res.Results, res.RecordCount)
                 obj.dataSource = res.Results
                 obj.totalPage = res.RecordCount
                 this.props.upForm(obj)
-
             })
         }
     }
@@ -164,30 +158,19 @@ class LookUpPublicComponent extends Component {
                 // console.log(this.props.current.tr);
                 let dataSource_ = JSON.parse(JSON.stringify(dataSource[this.props.current.tr]));
 
-                //更新lookup对应得input
-                // this.props.updataValues(dataSource_);
-
-
                 let agg = this.props.UpdataFormData.filter(e => e.type === 'INPUT' && e.isTrueInLookUp === this.props.current.id)
                 agg.forEach(e => {
                     e.defaultValue = dataSource_[e.typePoint]
                     this.props.upForm(e)
                 })
-                // console.log(agg);
                 let unqueData = this.props.UpdataFormData.find(e => e.key === this.props.PublicData.key)
                 unqueData.values = dataSource_
-                // unqueData.show = false
                 let keys = unqueData.uniqueKey
-                // console.log(keys);
 
                 this.setState({
                     shows: false,
                     value: dataSource_[keys]
-                })              //更新整个form
-                // this.props.upForm(this.props.current);
-                // console.log(this.props.UpdataFormData);
-
-
+                })
             } else {
                 this.props.upForm(this.props.current)
             }
@@ -212,7 +195,7 @@ class LookUpPublicComponent extends Component {
     Blur = (e) => {
         let data = this.props.PublicData
         console.log(this.state.value);
-        if (this.state.value == '') {
+        if (this.state.value === '') {
             this.setState({
 
             })
@@ -224,10 +207,8 @@ class LookUpPublicComponent extends Component {
         }
     }
     render() {
-        // const { getFieldDecorator } = this.props.form
-        const { dataSource, label, key, required, message, layout, columns, show, scroll } = this.props.PublicData
-        // console.log(show);
-        const { shows, loading } = this.state
+        const { label, layout } = this.props.PublicData
+        const { shows } = this.state
         return (
 
             <div className="certain-category-search-wrapper" style={{ width: '100%' }}>
@@ -247,37 +228,30 @@ class LookUpPublicComponent extends Component {
                         lookupCLick={this.CLick}>
                     </TablePublicComponent>
                 </Modal>
-                {/* <Spin spinning={loading}  wrapperClassName='smallspin'> */}
-                    <FormItem
-                        label={label}
-                        {...layout}
+                <FormItem
+                    label={label}
+                    {...layout}
+                >
+                    <Input
+                        value={this.state.value}
+                        onChange={this.LookUpChange.bind(this)}
+                        onPressEnter={this.OnPressEnter.bind(this, this.props.PublicData.key, 1, 200, true)}
+                        onBlur={this.Blur.bind(this)}
                     >
-                        {/* {getFieldDecorator(key, {
-                        rules: [{ required: { required }, message: message === '' ? '必填' : message }],
-                    })( */}
-                        <Input
-                            value={this.state.value}
-                            onChange={this.LookUpChange.bind(this)}
-                            onPressEnter={this.OnPressEnter.bind(this, this.props.PublicData.key, 1, 200, true)}
-                            onBlur={this.Blur.bind(this)}
-                        >
-                        </Input>
-                        {/* )} */}
-                    </FormItem>
-                {/* </Spin> */}
+                    </Input>
+                </FormItem>
             </div>
 
         )
     }
 }
 const mapStateToProps = (state) => {
-    // console.log(state);
-
     return {
         current: state.currentAttr,
         UpdataFormData: state.UpdataFormData
     }
 }
+
 const mapDispatchProps = (dispatch) => {
     return {
         shows: (k) => {
@@ -308,19 +282,6 @@ const mapDispatchProps = (dispatch) => {
 }
 
 export default LookUpPublicComponent = connect(mapStateToProps, mapDispatchProps)(LookUpPublicComponent)
-// (Form.create({
-//     mapPropsToFields(props) {
-//         console.log(props);
-//         let Field = {}
-//         let v = props.UpdataFormData.find(e => e.key === props.PublicData.key)
-//         let values = v.values[v.uniqueKey]
-//         // console.log(v);
-//         let key = v.key
-//         Field[key] = Form.createFormField({ value: values })
-//         //console.log(Field);
-//         return Field
-//     },
-// })(LookUpPublicComponent));
 
 
 

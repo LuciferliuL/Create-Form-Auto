@@ -7,10 +7,7 @@ import { Route } from 'react-router-dom';
 import DesignTablecomponent from '../DesignTable/DesignTable.component'
 import Stylistcomponent from '../stylist/Stylist.component'
 import ReadForm from '../readForm/ReadForm'
-
-
 const { Content, Sider } = Layout;
-
 
 class Desgincomponent extends Component {
     state = {
@@ -18,20 +15,13 @@ class Desgincomponent extends Component {
         user: ''
     };
     componentWillMount() {
-        // if (this.props.location.state) {
-
-        // } else {
-        //     this.props.history.push('/')
-        // }
         var values = sessionStorage.getItem('values')
         this.setState({
             user: values
-        })
-
+        });
     }
     onCollapse = (collapsed) => {
-        // console.log(collapsed);
-        this.setState({ collapsed })
+        this.setState({ collapsed });
     }
 
     render() {
@@ -40,25 +30,21 @@ class Desgincomponent extends Component {
         return (
             <Layout style={{ minHeight: '100vh' }}>
                 <Sider
-                    // breakpoint="lg"
-                    // onBreakpoint={(broken) => { console.log(broken); }}
                     collapsible
                     collapsed={this.state.collapsed}
                     onCollapse={this.onCollapse}
                 >
-
                     <SliderMenucomponent></SliderMenucomponent>
                 </Sider>
                 <Layout>
                     <Headercomponent user={user}></Headercomponent>
                     <Content style={{ margin: '5px' }}>
-                        <div style={{ padding: 10, background: '#fff', minHeight:h }}>
+                        <div style={{ padding: 10, background: '#fff', minHeight: h }}>
                             <Route path='/Design/er' component={DesignTablecomponent}></Route>
                             <Route path='/Design/Stylist' component={Stylistcomponent}></Route>
                             <Route path='/Design/Arch' component={ReadForm}></Route>
                         </div>
                     </Content>
-                    {/* <Footers></Footers> */}
                 </Layout>
             </Layout >
         );
