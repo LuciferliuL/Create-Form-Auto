@@ -172,7 +172,7 @@ class DesignTablecomponent extends Component {
                 if (this.state.CreateMenu)
                     save.ParentFormID = this.state.selectData.PK;
 
-                if (seldata != 0) {
+                if (seldata !== 0) {
                     seldata.Name = save.Name;
                     seldata.Sort = save.Sort;
                 }
