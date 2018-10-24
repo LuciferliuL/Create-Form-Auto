@@ -25,6 +25,7 @@ class Stylistcomponent extends Component {
         visible: false,
         domWidth: 0,
         read: true,
+        edit: false,
         loading: false,
         treeData: [],
     }
@@ -66,7 +67,11 @@ class Stylistcomponent extends Component {
     time = () => {
         this.props.FormDataUpata(this.dragact.getLayout())
     }
-    showModal = () => {
+    showModal = (e) => {
+        //if (this.props.InitStylistData.PK) {
+        //    this.handleSubmit(e);
+        //}
+        //else {
         POST$(API('GetCategory').http, {}, (res) => {
             res.forEach((e) => {
                 treeData(e)
@@ -76,6 +81,7 @@ class Stylistcomponent extends Component {
                 treeData: res
             });
         })
+        //}
     }
 
     read = () => {

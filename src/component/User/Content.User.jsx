@@ -57,25 +57,28 @@ class ContentUser extends Component {
                             valueList[e.typePoint] = e.defaultValue === undefined ? '' : e.defaultValue;
                         } else if (e.type === "Range") {
                             let days = ['', ''];
+                            var oneweekdate;
+                            var ds;
+
                             if (e.defaultValue === -1) {
                                 //当天
-                                var oneweekdate = new Date()
+                                oneweekdate = new Date()
                                 days = [formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours(), getDat() + getendHours()]
                             } else if (e.defaultValue === 1) {
                                 //前一天
-                                var ds = new Date()
-                                var oneweekdate = new Date(ds - 24 * 3600 * 1000);
+                                ds = new Date()
+                                oneweekdate = new Date(ds - 24 * 3600 * 1000);
                                 days = [formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours(), getDat() + getendHours()]
                             } else if (e.defaultValue === 7) {
-                                var ds = new Date()
-                                var oneweekdate = new Date(ds - 7 * 24 * 3600 * 1000);
+                                ds = new Date()
+                                oneweekdate = new Date(ds - 7 * 24 * 3600 * 1000);
                                 days = [formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours(), getDat() + getendHours()]
                             } else if (e.defaultValue === 30) {
-                                var ds = new Date()
+                                ds = new Date()
                                 ds.setMonth(ds.getMonth() - 1);
                                 days = [formatDate(ds, 'yyyy-MM-dd') + getstartHours(), getDat() + getendHours()]
                             }
-                            else if (e.defaultValue.length > 0 && e.defaultValue[0] != '') {
+                            else if (e.defaultValue.length > 0 && e.defaultValue[0] !== '') {
                                 days = [formatDate(new Date(e.defaultValue[0]), 'yyyy-MM-dd') + getstartHours(), formatDate(new Date(e.defaultValue[1]), 'yyyy-MM-dd') + getendHours()]
                             }
                             valueList[e.id] = days
@@ -83,26 +86,29 @@ class ContentUser extends Component {
                             valueList[e.id] = e.defaultValue === '-1' ? ' ' : e.defaultValue;
                         } else if (e.type === 'Date') {
                             let days = '';
+                            var oneweekdate;
+                            var ds;
+
                             if (e.defaultValue === -1) {
                                 //当天
-                                var oneweekdate = new Date()
+                                oneweekdate = new Date()
                                 days = formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours()
                             } else if (e.defaultValue === 1) {
                                 //前一天
-                                var ds = new Date()
-                                var oneweekdate = new Date(ds - 24 * 3600 * 1000);
+                                ds = new Date()
+                                oneweekdate = new Date(ds - 24 * 3600 * 1000);
                                 days = formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours()
                             } else if (e.defaultValue === 7) {
-                                var ds = new Date()
-                                var oneweekdate = new Date(ds - 7 * 24 * 3600 * 1000);
+                                ds = new Date()
+                                oneweekdate = new Date(ds - 7 * 24 * 3600 * 1000);
                                 days = formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours()
                             } else if (e.defaultValue === 30) {
-                                var ds = new Date()
+                                ds = new Date()
                                 ds.setMonth(ds.getMonth() - 1);
                                 days = formatDate(ds, 'yyyy-MM-dd') + getstartHours()
                             }
-                            else if (e.defaultValue != '') {
-                                var oneweekdate = new Date(e.defaultValue)
+                            else if (e.defaultValue !== '') {
+                                oneweekdate = new Date(e.defaultValue)
                                 days = formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours()
                             }
                             valueList[e.id] = days
@@ -171,25 +177,28 @@ class ContentUser extends Component {
                             valueList[e.typePoint] = e.defaultValue === undefined ? '' : e.defaultValue;
                         } else if (e.type === "Range") {
                             let days = ['', ''];
+                            var oneweekdate;
+                            var ds;
+
                             if (e.defaultValue === -1) {
                                 //当天
-                                var oneweekdate = new Date()
+                                oneweekdate = new Date()
                                 days = [formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours(), getDat() + getendHours()]
                             } else if (e.defaultValue === 1) {
                                 //前一天
-                                var ds = new Date()
-                                var oneweekdate = new Date(ds - 24 * 3600 * 1000);
+                                ds = new Date()
+                                oneweekdate = new Date(ds - 24 * 3600 * 1000);
                                 days = [formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours(), getDat() + getendHours()]
                             } else if (e.defaultValue === 7) {
-                                var ds = new Date()
-                                var oneweekdate = new Date(ds - 7 * 24 * 3600 * 1000);
+                                ds = new Date()
+                                oneweekdate = new Date(ds - 7 * 24 * 3600 * 1000);
                                 days = [formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours(), getDat() + getendHours()]
                             } else if (e.defaultValue === 30) {
-                                var ds = new Date()
+                                ds = new Date()
                                 ds.setMonth(ds.getMonth() - 1);
                                 days = [formatDate(ds, 'yyyy-MM-dd') + getstartHours(), getDat() + getendHours()]
                             }
-                            else if (e.defaultValue.length > 0 && e.defaultValue[0] != '') {
+                            else if (e.defaultValue.length > 0 && e.defaultValue[0] !== '') {
                                 days = [formatDate(new Date(e.defaultValue[0]), 'yyyy-MM-dd') + getstartHours(), formatDate(new Date(e.defaultValue[1]), 'yyyy-MM-dd') + getendHours()]
                             }
                             valueList[e.id] = days
@@ -198,26 +207,29 @@ class ContentUser extends Component {
                         }
                         else if (e.type === 'Date') {
                             let days = '';
+                            var ds;
+                            var oneweekdate;
+
                             if (e.defaultValue === -1) {
                                 //当天
-                                var oneweekdate = new Date()
+                                oneweekdate = new Date()
                                 days = formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours()
                             } else if (e.defaultValue === 1) {
                                 //前一天
-                                var ds = new Date()
-                                var oneweekdate = new Date(ds - 24 * 3600 * 1000);
+                                ds = new Date()
+                                oneweekdate = new Date(ds - 24 * 3600 * 1000);
                                 days = formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours()
                             } else if (e.defaultValue === 7) {
-                                var ds = new Date()
-                                var oneweekdate = new Date(ds - 7 * 24 * 3600 * 1000);
+                                ds = new Date()
+                                oneweekdate = new Date(ds - 7 * 24 * 3600 * 1000);
                                 days = formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours()
                             } else if (e.defaultValue === 30) {
-                                var ds = new Date()
+                                ds = new Date()
                                 ds.setMonth(ds.getMonth() - 1);
                                 days = formatDate(ds, 'yyyy-MM-dd') + getstartHours()
                             }
-                            else if (e.defaultValue != '') {
-                                var oneweekdate = new Date(e.defaultValue)
+                            else if (e.defaultValue !== '') {
+                                oneweekdate = new Date(e.defaultValue)
                                 days = formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours()
                             }
                             valueList[e.id] = days;
@@ -275,25 +287,28 @@ class ContentUser extends Component {
                 }
                 else if (e.type === "Range") {
                     let days = ['', ''];
+                    var oneweekdate;
+                    var ds;
+
                     if (e.defaultValue === -1) {
                         //当天
-                        var oneweekdate = new Date()
+                        oneweekdate = new Date()
                         days = [formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours(), getDat() + getendHours()]
                     } else if (e.defaultValue === 1) {
                         //前一天
-                        var ds = new Date()
-                        var oneweekdate = new Date(ds - 24 * 3600 * 1000);
+                        ds = new Date()
+                        oneweekdate = new Date(ds - 24 * 3600 * 1000);
                         days = [formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours(), getDat() + getendHours()]
                     } else if (e.defaultValue === 7) {
-                        var ds = new Date()
-                        var oneweekdate = new Date(ds - 7 * 24 * 3600 * 1000);
+                        ds = new Date()
+                        oneweekdate = new Date(ds - 7 * 24 * 3600 * 1000);
                         days = [formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours(), getDat() + getendHours()]
                     } else if (e.defaultValue === 30) {
-                        var ds = new Date()
+                        ds = new Date()
                         ds.setMonth(ds.getMonth() - 1);
                         days = [formatDate(ds, 'yyyy-MM-dd') + getstartHours(), getDat() + getendHours()]
                     }
-                    else if (e.defaultValue.length > 0 && e.defaultValue[0] != '') {
+                    else if (e.defaultValue.length > 0 && e.defaultValue[0] !== '') {
                         days = [formatDate(new Date(e.defaultValue[0]), 'yyyy-MM-dd') + getstartHours(), formatDate(new Date(e.defaultValue[1]), 'yyyy-MM-dd') + getendHours()]
                     }
                     valueList[e.id] = days
@@ -301,26 +316,29 @@ class ContentUser extends Component {
                     valueList[e.id] = e.defaultValue === '-1' ? ' ' : e.defaultValue;
                 } else if (e.type === 'Date') {
                     let days = '';
+                    var oneweekdate;
+                    var ds;
+
                     if (e.defaultValue === -1) {
                         //当天
-                        var oneweekdate = new Date()
+                        oneweekdate = new Date()
                         days = formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours()
                     } else if (e.defaultValue === 1) {
                         //前一天
-                        var ds = new Date()
-                        var oneweekdate = new Date(ds - 24 * 3600 * 1000);
+                        ds = new Date()
+                        oneweekdate = new Date(ds - 24 * 3600 * 1000);
                         days = formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours()
                     } else if (e.defaultValue === 7) {
-                        var ds = new Date()
-                        var oneweekdate = new Date(ds - 7 * 24 * 3600 * 1000);
+                        ds = new Date()
+                        oneweekdate = new Date(ds - 7 * 24 * 3600 * 1000);
                         days = formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours()
                     } else if (e.defaultValue === 30) {
                         var ds = new Date()
                         ds.setMonth(ds.getMonth() - 1);
                         days = formatDate(ds, 'yyyy-MM-dd') + getstartHours()
                     }
-                    else if (e.defaultValue != '') {
-                        var oneweekdate = new Date(e.defaultValue)
+                    else if (e.defaultValue !== '') {
+                        oneweekdate = new Date(e.defaultValue)
                         days = formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours()
                     }
                     valueList[e.id] = days;
@@ -395,7 +413,7 @@ class ContentUser extends Component {
                         ds.setMonth(ds.getMonth() - 1);
                         days = [formatDate(ds, 'yyyy-MM-dd') + getstartHours(), getDat() + getendHours()]
                     }
-                    else if (e.defaultValue.length > 0 && e.defaultValue[0] != '') {
+                    else if (e.defaultValue.length > 0 && e.defaultValue[0] !== '') {
                         days = [formatDate(new Date(e.defaultValue[0]), 'yyyy-MM-dd') + getstartHours(), formatDate(new Date(e.defaultValue[1]), 'yyyy-MM-dd') + getendHours()]
                     }
                     valueList[e.id] = days
@@ -421,7 +439,7 @@ class ContentUser extends Component {
                         ds.setMonth(ds.getMonth() - 1);
                         days = formatDate(ds, 'yyyy-MM-dd') + getstartHours()
                     }
-                    else if (e.defaultValue != '') {
+                    else if (e.defaultValue !== '') {
                         var oneweekdate = new Date(e.defaultValue)
                         days = formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours()
                     }

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { DatePicker, Form } from 'antd'
 import { connect } from 'react-redux'
 import { inputChange } from '../Public.action'
-import { getDat } from '../../../lib/MATH/math'
 import moment from 'moment';
 
 const dateFormat = 'YYYY-MM-DD';
@@ -13,48 +12,51 @@ class DatePublicComponent extends Component {
         this.props.inputChange(this.props.PublicData.key, dateString)
     }
     render() {
-        const { disabled, label,  layout, placeholder, defaultValue } = this.props.PublicData
-        let days = ''
+        const { disabled, label, layout, placeholder, defaultValue } = this.props.PublicData
+        let days = '';
+        var ds = new Date();
+        var formatwdate = '';
+        var y;
+        var m;
+        var d;
+
         //有数据
         if (defaultValue === -1) {
             //当天
             days = moment(new Date(), dateFormat)
         } else if (defaultValue === 1) {
             //前一天
-            var ds = new Date()
+            ds = new Date();
             var oneweekdate = new Date(ds - 24 * 3600 * 1000);
-            var y = oneweekdate.getFullYear();
-            var m = oneweekdate.getMonth() + 1;
-            var d = oneweekdate.getDate();
-            var formatwdate = y + '-' + m + '-' + d;
+            y = oneweekdate.getFullYear();
+            m = oneweekdate.getMonth() + 1;
+            d = oneweekdate.getDate();
+            formatwdate = y + '-' + m + '-' + d;
             days = moment(formatwdate, dateFormat)
         } else if (defaultValue === 7) {
-            var ds = new Date()
+            ds = new Date()
             var oneweekdate = new Date(ds - 7 * 24 * 3600 * 1000);
-            var y = oneweekdate.getFullYear();
-            var m = oneweekdate.getMonth() + 1;
-            var d = oneweekdate.getDate();
-            var formatwdate = y + '-' + m + '-' + d;
+            y = oneweekdate.getFullYear();
+            m = oneweekdate.getMonth() + 1;
+            d = oneweekdate.getDate();
+            formatwdate = y + '-' + m + '-' + d;
             days = moment(formatwdate, dateFormat)
         } else if (defaultValue === 30) {
-            var ds = new Date()
+            ds = new Date()
             ds.setMonth(ds.getMonth() - 1);
-            var y = ds.getFullYear();
-            var m = ds.getMonth() + 1;
-            var d = ds.getDate();
-            var formatwdate = y + '-' + m + '-' + d;
+            y = ds.getFullYear();
+            m = ds.getMonth() + 1;
+            d = ds.getDate();
+            formatwdate = y + '-' + m + '-' + d;
             days = moment(formatwdate, dateFormat)
         }
         console.log(defaultValue);
-        
+
         return (
             <FormItem
                 label={label}
                 {...layout}
             >
-                {/* {getFieldDecorator(key, {
-                    rules: [{ required: { required }, message: "必填项" }],
-                })( */}
                 <DatePicker
                     onChange={this.TimesChange.bind(this)}
                     disabled={disabled}
@@ -62,7 +64,6 @@ class DatePublicComponent extends Component {
                     format={dateFormat}
                     defaultValue={days}
                 />
-                {/* )} */}
             </FormItem>
         )
     }
