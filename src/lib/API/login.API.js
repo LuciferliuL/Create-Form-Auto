@@ -1,5 +1,6 @@
-//获取用户信息
-export const userAPI = 'http://10.3.4.233:20296';
+import './url.API'
+const userAPI = global.cfg.userAPI;
+
 export const API = (k) => {
     switch (k) {
         case 'login':

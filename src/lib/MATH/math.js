@@ -1,7 +1,8 @@
 import 'isomorphic-fetch'
 import $ from 'jquery'
 import { notification } from 'antd'
-import { baseAPI } from '../API/check.API'
+import '../API/url.API'
+const baseAPI = global.cfg.baseAPI;
 /**
  * 
  * @param {链接} URL 
