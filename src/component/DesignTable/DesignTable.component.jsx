@@ -90,6 +90,17 @@ class DesignTablecomponent extends Component {
             })
         })
     }
+    componentWillReceiveProps() {
+        POST$(API('POSTDATA').http, {}, (res) => {
+            res.forEach(e => {
+                DesignDataTree(e)
+            })
+            this.setState({
+                data: res,
+                loading: false
+            })
+        })
+    }
     //delete
     handleDelete = () => {
 
