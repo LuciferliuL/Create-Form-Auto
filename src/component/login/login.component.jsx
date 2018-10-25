@@ -45,19 +45,20 @@ class NormalLoginForm extends React.Component {
                 let scope = global.cfg.currentBranchId;
                 let sysparam = `branchId=${scope}&module=Sys&isIntnet=false`;
                 httprequest(getrequestparam('gethost', sysparam), (sys) => {
-                    global.cfg.branchSysAPI = sys;
+                    global.cfg.branchSysAPI = sys;//分公司登录api;
                     sessionStorage.setItem('branchSysAPI', sys);
 
                     let queryparam = `branchId=${scope}&module=Query&isIntnet=false`;
                     httprequest(getrequestparam('gethost', queryparam), (query) => {
-                        global.cfg.branchQueryAPI = query;
+                        global.cfg.branchQueryAPI = query;//分公司查询api；
                         sessionStorage.setItem('branchQueryAPI', query);
 
                         let queryparam = `branchId=ZDA&module=Query&isIntnet=false`;
                         httprequest(getrequestparam('gethost', queryparam), (query) => {
-                            global.cfg.centerQueryAPI = query;
+                            global.cfg.centerQueryAPI = query;//集中查询api；
                             sessionStorage.setItem('centerQueryAPI', query);
 
+                            //分公司登录；
                             let http = `grant_type=password&username=${values.username}&password=${values.password}&client_id=JZT&scope=${values.scope}`
                             POSTFETCHNOBODY(API('checkLoginID').http, http, (token) => {
                                 if (token.error_description) {
