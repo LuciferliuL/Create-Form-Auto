@@ -155,11 +155,12 @@ class ContentUser extends Component {
 
                 Promise.race([post, time])
                     .then((result) => {
-                        pre.Loading()
+                        pre.hidLoading()
                     })
                     .catch((err) => {
-                        message.error('获取数据超时')
-                        pre.Loading()
+                        //debugger
+                        //message.error('获取数据超时')
+                        pre.hidLoading()
                     })
             } else if (altKey && keyCode === 82) {
 
@@ -498,11 +499,12 @@ class ContentUser extends Component {
 
         Promise.race([post, time])
             .then((result) => {
-                this.props.Loading()
+                this.props.hidLoading()
             })
             .catch((err) => {
-                message.error('获取数据超时')
-                this.props.Loading()
+                //debugger
+                //message.error('获取数据超时')
+                this.props.hidLoading()
             })
     }
     guanbi = () => {

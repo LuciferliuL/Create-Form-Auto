@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import TreeUser from './Tree.User.jsx'
 import ContentUser from './Content.User'
 import { Layout, Spin } from 'antd'
+import $ from 'jquery'
 import Headercomponent from '../Header/Header.component'
 import { withRouter } from 'react-router-dom'
 
@@ -27,10 +28,18 @@ class USER extends Component {
             }))
         }, 1000);
     }
+
+    hidLoading = () => {
+        this.setState((pre) => ({
+            loading: false
+        }));
+    }
+
     Loading = () => {
+
         this.setState((pre) => ({
             loading: !pre.loading
-        }))
+        }));
     }
     toggle = () => {
         this.setState({
@@ -49,7 +58,7 @@ class USER extends Component {
                     <Layout >
                         <Headercomponent user={user} R={'R'} ></Headercomponent>
                         <Content style={{ overflow: 'initial', backgroundColor: 'white' }} >
-                            <ContentUser Loading={this.Loading.bind(this)}></ContentUser>
+                            <ContentUser Loading={this.Loading.bind(this)} hidLoading={this.hidLoading.bind(this)}></ContentUser>
                         </Content>
                     </Layout>
                 </Layout>
