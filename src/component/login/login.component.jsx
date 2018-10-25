@@ -77,6 +77,7 @@ class NormalLoginForm extends React.Component {
                                 console.log(u);
                                 sessionStorage.setItem('udata', JSON.stringify(u));
                                 this.props.history.push('/loginLeader')
+                                // this.props.history.push('/USER')
                             })
                         }
                     });
