@@ -27,7 +27,7 @@ const SData = [
         GridX: 0, GridY: 0, w: 4, h: 1, key: '0',
         icons: 'border', id: 8, type: 'CheckBox', required: false,
         message: "", label: "多选框", checked: false, disabled: false,
-        defaultValue: '',checked:false,
+        defaultValue: '', checked: false,
         layout: {
             labelCol: { xs: { span: 24 }, sm: { span: 16 }, },
             wrapperCol: { xs: { span: 24 }, sm: { span: 8 } }
@@ -153,7 +153,8 @@ const SQL = [
         layout: {
             labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
             wrapperCol: { xs: { span: 24 }, sm: { span: 16 } }
-        }, tr: 0, values: '', uniqueKey: 'key', scroll: 1200,
+        }, tr: 0, values: '', uniqueKey: 'PRODNAME', upKey: 'PRODID',
+        scroll: 1200,
         show: false,
         columns: [{
             title: "采购员ID",
@@ -296,7 +297,7 @@ const SQL = [
         layout: {
             labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
             wrapperCol: { xs: { span: 24 }, sm: { span: 16 } }
-        }, tr: 0, values: '', uniqueKey: 'key',
+        }, tr: 0, values: '', uniqueKey: 'STAFFNAME', upKey: 'STAFFID',
         show: false,
         columns: [{
             title: "主键",
@@ -346,9 +347,9 @@ const SQL = [
         layout: {
             labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
             wrapperCol: { xs: { span: 24 }, sm: { span: 16 } }
-        }, tr: 0, values: '', uniqueKey: 'key',
+        }, tr: 0, values: '', uniqueKey: 'DICTITEMNAME', upKey: 'DICTITEMCODE',
         columns: [{
-            title: "经销代销类型",
+            title: "字典编码",
             dataIndex: "DICTITEMCODE",
             width: 200,
         }, {
@@ -378,7 +379,7 @@ const SQL = [
         layout: {
             labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
             wrapperCol: { xs: { span: 24 }, sm: { span: 16 } }
-        }, tr: 0, values: '', uniqueKey: 'key',
+        }, tr: 0, values: '', uniqueKey: 'CUSTNAME', upKey: 'CUSTID',
         columns: [
             {
                 title: "主管部门名称",
@@ -644,7 +645,7 @@ const SQL = [
         layout: {
             labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
             wrapperCol: { xs: { span: 24 }, sm: { span: 16 } }
-        }, tr: 0, values: '', uniqueKey: 'key',
+        }, tr: 0, values: '', uniqueKey: 'CUSTNAME', upKey: 'CUSTID',
         columns: [{
             title: "主管部门名称",
             dataIndex: "EXECUTIVEDEPT",
@@ -909,7 +910,7 @@ and (f.custno like upper('%' || :Abbr || '%') or
         layout: {
             labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
             wrapperCol: { xs: { span: 24 }, sm: { span: 16 } }
-        }, tr: 0, values: '', uniqueKey: 'key',
+        }, tr: 0, values: '', uniqueKey: 'CUSTNAME', upKey: 'CUSTID',
         columns: [{
             title: "子公司主管部门名称",
             dataIndex: "EXECUTIVEDEPT",
@@ -1172,7 +1173,7 @@ and (f.custno like upper('%' || :Abbr || '%') or
         layout: {
             labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
             wrapperCol: { xs: { span: 24 }, sm: { span: 16 } }
-        }, tr: 0, values: '', uniqueKey: 'key',
+        }, tr: 0, values: '', uniqueKey: 'CUSTNAME', upKey: 'CUSTID',
         columns: [{
             title: "子公司主管部门名称",
             dataIndex: "EXECUTIVEDEPT",

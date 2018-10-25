@@ -194,7 +194,7 @@ class SliderRightcomponent extends Component {
                     )
                     break;
                 case 'uniqueKey':
-                    let selectOptions = []
+                    let selectOptions = [];
                     if (pre.currentAttr.dataSource.length > 0) {
                         Object.keys(pre.currentAttr.dataSource[0]).forEach(e => { selectOptions.push(<Option value={e} key={e}>{e}</Option>) })
                         uniqueList.push(
