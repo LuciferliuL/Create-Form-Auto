@@ -149,7 +149,7 @@ const SQL = [
     {
         GridX: 0, GridY: 0, w: 8, h: 1, key: '0', float: 0,
         icons: 'gift', id: 8, type: 'LookUp', required: false,
-        message: "", label: "商品检索", disabled: false, upKey: '',
+        message: "", label: "商品检索", disabled: false,
         layout: {
             labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
             wrapperCol: { xs: { span: 24 }, sm: { span: 16 } }
@@ -293,7 +293,7 @@ const SQL = [
     }, {
         GridX: 0, GridY: 0, w: 8, h: 1, key: '0', float: 0,
         icons: 'team', id: 8, type: 'LookUp', required: false,
-        message: "", label: "人员查询", disabled: false, upKey: '', scroll: 1200,
+        message: "", label: "人员查询", disabled: false, scroll: 1200,
         layout: {
             labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
             wrapperCol: { xs: { span: 24 }, sm: { span: 16 } }
@@ -342,7 +342,7 @@ const SQL = [
     }, {
         GridX: 0, GridY: 0, w: 8, h: 1, key: '0', float: 0,
         icons: 'hdd', id: 8, type: 'LookUp', required: false,
-        message: "", label: "字典检索", disabled: false, upKey: '', scroll: 1200,
+        message: "", label: "字典检索", disabled: false, scroll: 1200,
         show: false,
         layout: {
             labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
@@ -374,7 +374,7 @@ const SQL = [
     }, {
         GridX: 0, GridY: 0, w: 8, h: 1, key: '0', float: 0,
         icons: 'heat-map', id: 8, type: 'LookUp', required: false,
-        message: "", label: "客户检索", disabled: false, upKey: '',
+        message: "", label: "客户检索", disabled: false,
         show: false, scroll: 1200,
         layout: {
             labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
@@ -640,7 +640,7 @@ const SQL = [
     }, {
         GridX: 0, GridY: 0, w: 8, h: 1, key: '0', float: 0,
         icons: 'rise', id: 8, type: 'LookUp', required: false,
-        message: "", label: "上游客户检索", disabled: false, upKey: '', scroll: 1200,
+        message: "", label: "上游客户检索", disabled: false, scroll: 1200,
         show: false,
         layout: {
             labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
@@ -905,7 +905,7 @@ and (f.custno like upper('%' || :Abbr || '%') or
     }, {
         GridX: 0, GridY: 0, w: 8, h: 1, key: '0', float: 0,
         icons: 'bulb', id: 8, type: 'LookUp', required: false,
-        message: "", label: "全部客户检索", disabled: false, upKey: '', scroll: 1200,
+        message: "", label: "全部客户检索", disabled: false, scroll: 1200,
         show: false,
         layout: {
             labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
@@ -1168,7 +1168,7 @@ and (f.custno like upper('%' || :Abbr || '%') or
     }, {
         GridX: 0, GridY: 0, w: 8, h: 1, key: '0', float: 0,
         icons: 'fall', id: 8, type: 'LookUp', required: false,
-        message: "", label: "下游客户检索", disabled: false, upKey: '', scroll: 1200,
+        message: "", label: "下游客户检索", disabled: false, scroll: 1200,
         show: false,
         layout: {
             labelCol: { xs: { span: 24 }, sm: { span: 8 }, },

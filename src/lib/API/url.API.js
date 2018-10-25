@@ -35,5 +35,7 @@ else if (environment === 'develop') {
         branchSysAPI: 'http://10.3.2.21:20296/',//登录
         centerQueryAPI: 'http://10.3.4.177:9004/',//queryservice
         branchQueryAPI: 'http://10.3.4.177:9004/',//queryservice
+        // centerQueryAPI: 'http://10.2.132.215:7000/',//queryservice
+        // branchQueryAPI: 'http://10.2.132.215:7000/',//queryservice
     }
 }
