@@ -72,7 +72,7 @@ class NormalLoginForm extends React.Component {
                                     sessionStorage.setItem('values', JSON.stringify(values));//保存登入信息
 
                                     POST$(API('getuserdata').http, uparam, (u) => {
-                                        console.log(this.props);
+
                                         sessionStorage.setItem('udata', JSON.stringify(u));
                                         this.props.history.push('/loginLeader');
                                         sessionStorage.setItem('model', 'design');
