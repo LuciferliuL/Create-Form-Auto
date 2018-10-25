@@ -46,7 +46,7 @@ class TreeUser extends Component {
                     treeData={treeData}
                     onSelect={this.onSelect}
                 />
-                : 'loading tree'
+                : ''
         );
     }
 }

@@ -80,7 +80,10 @@ class ReadForm extends Component {
                 })
             })
             .catch((reject) => {
-                message.error(reject)
+                //message.error(reject)
+                this.setState({
+                    loading: false
+                })
             })
     }
     rowSelectionChange = (rowKeys, rows) => {
@@ -97,7 +100,7 @@ class ReadForm extends Component {
         });
         let get = new Promise((resolve, reject) => {
             setTimeout(() => {
-                reject('500 error')
+                //reject('500 error')
             }, 10000);
         });
         let GET = new Promise((resolve, reject) => {
@@ -115,7 +118,7 @@ class ReadForm extends Component {
                 })
             })
             .catch((err) => {
-                message.error(err)
+                //message.error(err)
                 this.setState({
                     loading: false
                 })
@@ -157,7 +160,7 @@ class ReadForm extends Component {
                                     placeholder="Please select"
                                     onSelect={this.handleChange.bind(this)}
                                 />
-                                : 'loading tree'}
+                                : ''}
                         </Card>
                     </Col>
                     <Col span={20}>

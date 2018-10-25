@@ -46,13 +46,17 @@ class NormalLoginForm extends React.Component {
 
                     let queryparam = `branchId=${scope}&module=Query&isIntnet=false`;
                     httprequest(getrequestparam('gethost', queryparam), (query) => {
-                        global.cfg.branchQueryAPI = query;//分公司查询api；
-                        sessionStorage.setItem('branchQueryAPI', query);
+                        if (global.cfg.model !== 'dev') {
+                            global.cfg.branchQueryAPI = query;//分公司查询api；
+                            sessionStorage.setItem('branchQueryAPI', query);
+                        }
 
                         let queryparam = `branchId=ZDA&module=Query&isIntnet=false`;
                         httprequest(getrequestparam('gethost', queryparam), (query) => {
-                            global.cfg.centerQueryAPI = query;//集中查询api；
-                            sessionStorage.setItem('centerQueryAPI', query);
+                            if (global.cfg.model !== 'dev') {
+                                global.cfg.centerQueryAPI = query;//集中查询api；
+                                sessionStorage.setItem('centerQueryAPI', query);
+                            }
 
                             //分公司登录；
                             let http = `grant_type=password&username=${values.username}&password=${values.password}&client_id=JZT&scope=${values.scope}`
@@ -71,10 +75,11 @@ class NormalLoginForm extends React.Component {
                                     POST$(API('getuserdata').http, uparam, (u) => {
 
                                         sessionStorage.setItem('udata', JSON.stringify(u));
-                                        // this.props.history.push('/loginLeader');
-                                        // sessionStorage.setItem('model', 'design');
-                                        this.props.history.push('/USER');
-                                        sessionStorage.setItem('model', 'runtime');
+                                        this.props.history.push('/loginLeader');
+                                        sessionStorage.setItem('model', 'design');
+
+                                        // this.props.history.push('/USER');
+                                        // sessionStorage.setItem('model', 'runtime');
                                     })
                                 }
                             });
