@@ -65,7 +65,8 @@ function POSTFETCH(URL, postBody, Callback) {
     fetch(request)
         .then(response => response.json())
         .then(result => {
-            Callback(result)
+            console.log('data.' + JSON.stringify(result));
+            Callback(result);
         })
         .catch(res => {
             console.log(res)
@@ -90,7 +91,7 @@ function POSTFETCHNOBODY(URL, postBody, Callback) {
     fetch(request)
         .then(response => response.json())
         .then(result => {
-            //console.log('result.' + result);
+            console.log('data.' + JSON.stringify(result));
             Callback(result);
         })
         .catch(res => {
@@ -146,6 +147,7 @@ export const GET$ = (URL, Callback) => {
         dataType: "json",
         beforeSend: function (xhr) { xhr.setRequestHeader("Authorization", "Bearer " + token) },
         success: function (res) {
+            console.log('data.' + JSON.stringify(res));
             Callback(res)
         }
     })
@@ -167,6 +169,7 @@ export const POST$ = (URL, POSTBODY, CALLBACK) => {
             xhr.setRequestHeader("Authorization", "Bearer " + token)
         },
         success: function (res) {
+            console.log('data.' + JSON.stringify(res));
             CALLBACK(res);
         }
     })
@@ -349,6 +352,7 @@ export const httprequest = (param, callback) => {
         fetch(request)
             .then(response => response.json())
             .then(result => {
+                console.log('data.' + JSON.stringify(result));
                 callback(result);
             })
             .catch(res => {

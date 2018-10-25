@@ -7,6 +7,10 @@ import { GETFetch, TreeMath, POSTFETCHNOBODY, POST$, httprequest, getrequestpara
 import ReactCanvasNest from 'react-canvas-nest'
 const FormItem = Form.Item;
 
+export const handleCallApi = (callback) => {
+
+}
+
 class NormalLoginForm extends React.Component {
     state = {
         listObj: [],
@@ -26,27 +30,6 @@ class NormalLoginForm extends React.Component {
         })
     }
 
-    handleCallApi = (e, callback) => {
-        let scope = global.cfg.currentBranchId;
-        let sysparam = `branchId=${scope}&module=Sys&isIntnet=false`;
-        httprequest(getrequestparam('gethost', sysparam), (sys) => {
-            global.cfg.sysAPI = sys;
-            let queryparam = `branchId=${scope}&module=Query&isIntnet=false`;
-            httprequest(getrequestparam('gethost', queryparam), (query) => {
-                global.cfg.branchQueryAPI = query;
-
-                let queryparam = `branchId=ZDA&module=Query&isIntnet=false`;
-                httprequest(getrequestparam('gethost', queryparam), (query) => {
-                    global.cfg.centerQueryAPI = query;
-
-                    callback(query);
-
-                });
-            });
-        });
-
-    }
-
 
     handleSubmit = (e) => {
         e.preventDefault();
@@ -57,41 +40,67 @@ class NormalLoginForm extends React.Component {
                 values.scope = values.scope[values.scope.length - 1];
                 //当前；
                 global.cfg.currentBranchId = values.scope;
+                sessionStorage.setItem('currentBranchId', values.scope);
 
-                handleCallApi(e, function () {
+                let scope = global.cfg.currentBranchId;
+                let sysparam = `branchId=${scope}&module=Sys&isIntnet=false`;
+                httprequest(getrequestparam('gethost', sysparam), (sys) => {
+                    global.cfg.branchSysAPI = sys;
+                    sessionStorage.setItem('branchSysAPI', sys);
 
-                    let http = `grant_type=password&username=${values.username}&password=${values.password}&client_id=JZT&scope=${values.scope}`
-                    POSTFETCHNOBODY(API('checkLoginID').http, http, (token) => {
-                        if (token.error_description) {
-                            message.error(token.error_description)
-                        } else {
-                            //得到用户信息；
-                            let uparam = {
-                                UseId: values.username,
-                                OrganId: values.scope
-                            };
-                            sessionStorage.setItem('token', token.access_token) //保存token
-                            sessionStorage.setItem('values', JSON.stringify(values))//保存登入信息
+                    let queryparam = `branchId=${scope}&module=Query&isIntnet=false`;
+                    httprequest(getrequestparam('gethost', queryparam), (query) => {
+                        global.cfg.branchQueryAPI = query;
+                        sessionStorage.setItem('branchQueryAPI', query);
 
-                            POST$(API('getuserdata').http, uparam, (u) => {
-                                console.log(u);
-                                sessionStorage.setItem('udata', JSON.stringify(u));
-                                this.props.history.push('/loginLeader')
-                                // this.props.history.push('/USER')
-                            })
-                        }
+                        let queryparam = `branchId=ZDA&module=Query&isIntnet=false`;
+                        httprequest(getrequestparam('gethost', queryparam), (query) => {
+                            global.cfg.centerQueryAPI = query;
+                            sessionStorage.setItem('centerQueryAPI', query);
+
+                            let http = `grant_type=password&username=${values.username}&password=${values.password}&client_id=JZT&scope=${values.scope}`
+                            POSTFETCHNOBODY(API('checkLoginID').http, http, (token) => {
+                                if (token.error_description) {
+                                    message.error(token.error_description);
+                                } else {
+                                    //得到用户信息；
+                                    let uparam = {
+                                        UseId: values.username,
+                                        OrganId: values.scope
+                                    };
+                                    sessionStorage.setItem('token', token.access_token); //保存token
+                                    sessionStorage.setItem('values', JSON.stringify(values));//保存登入信息
+
+                                    POST$(API('getuserdata').http, uparam, (u) => {
+                                        console.log(this.props);
+                                        sessionStorage.setItem('udata', JSON.stringify(u));
+                                        this.props.history.push('/loginLeader');
+                                        sessionStorage.setItem('model', 'design');
+                                        //this.props.history.push('/USER');
+                                        //sessionStorage.setItem('model', 'runtime');
+                                    })
+                                }
+                            });
+
+                        });
                     });
-                })
+                });
+
             }
         });
     }
+
+
+
     onChange = (value) => {
         // 长期保存公司
-        let company = value
-        localStorage.setItem('company', JSON.stringify(company))
+        let company = value;
+        localStorage.setItem('company', JSON.stringify(company));
     }
+
     render() {
         const { getFieldDecorator } = this.props.form;
+
         const formItemLayout = {
             labelCol: {
                 xs: { span: 4 },
@@ -102,14 +111,16 @@ class NormalLoginForm extends React.Component {
                 sm: { span: 20 },
             },
         };
+
         const config = {
             count: 88,
         }
+
         return (
             <Spin size='large' spinning={this.state.loading}>
                 <ReactCanvasNest config={config}></ReactCanvasNest>
                 <Card className="width-40 margin-auto center" style={{ background: 'transparent' }}>
-                    <Form onSubmit={this.handleSubmit} className="center">
+                    <Form onSubmit={this.handleSubmit.bind(this)} className="center">
                         {/* <FormItem
                             {...formItemLayout}
                             label="目的"
