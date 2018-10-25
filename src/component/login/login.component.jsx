@@ -1,15 +1,11 @@
 import React from 'react';
-import { Form, Icon, Input, Button, Card, Cascader, Radio, message, Spin } from 'antd';
+import { Form, Icon, Input, Button, Card, Cascader, message, Spin } from 'antd';
 import './login.component.css'
 import { API } from '../../lib/API/login.API'
 import '../../lib/API/url.API'
 import { GETFetch, TreeMath, POSTFETCHNOBODY, POST$, httprequest, getrequestparam } from '../../lib/MATH/math'
 import ReactCanvasNest from 'react-canvas-nest'
 const FormItem = Form.Item;
-
-export const handleCallApi = (callback) => {
-
-}
 
 class NormalLoginForm extends React.Component {
     state = {

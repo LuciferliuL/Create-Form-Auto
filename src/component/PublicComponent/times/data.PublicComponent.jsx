@@ -14,11 +14,12 @@ class DatePublicComponent extends Component {
     render() {
         const { disabled, label, layout, placeholder, defaultValue } = this.props.PublicData
         let days = '';
-        var ds = new Date();
-        var formatwdate = '';
+        let ds = new Date();
+        let formatwdate = '';
         var y;
         var m;
         var d;
+        let oneweekdate = new Date();
 
         //有数据
         if (defaultValue === -1) {
@@ -27,7 +28,7 @@ class DatePublicComponent extends Component {
         } else if (defaultValue === 1) {
             //前一天
             ds = new Date();
-            var oneweekdate = new Date(ds - 24 * 3600 * 1000);
+            oneweekdate = new Date(ds - 24 * 3600 * 1000);
             y = oneweekdate.getFullYear();
             m = oneweekdate.getMonth() + 1;
             d = oneweekdate.getDate();
@@ -35,7 +36,7 @@ class DatePublicComponent extends Component {
             days = moment(formatwdate, dateFormat)
         } else if (defaultValue === 7) {
             ds = new Date()
-            var oneweekdate = new Date(ds - 7 * 24 * 3600 * 1000);
+            oneweekdate = new Date(ds - 7 * 24 * 3600 * 1000);
             y = oneweekdate.getFullYear();
             m = oneweekdate.getMonth() + 1;
             d = oneweekdate.getDate();

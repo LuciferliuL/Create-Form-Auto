@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { Card, Form, Pagination, Button, Tag, Icon, message } from 'antd'
+import { Card, Form, Pagination, Button, Icon, message } from 'antd'
 import { connect } from 'react-redux';
 import { formUpdataFromCurrent } from '../SliderRIght/action/Right.action'
 import PublicComponent from '../PublicComponent/Public.Component'
 import { fugai } from '../stylist/action/Stylist.action'
 import TABLECOMPONENT from '../PublicComponent/table/Table'
 import { API } from '../../lib/API/check.API'
-import { POST$, httprequest, getrequestparam, getHours, getDat, formatDate, getstartHours, getendHours } from '../../lib/MATH/math'
+import { POST$, httprequest, getrequestparam, getDat, formatDate, getstartHours, getendHours } from '../../lib/MATH/math'
 import { _clear, _tableUpdataFromResults, tableTr0 } from '../stylist/action/Stylist.action'
 import { tAddDown, tReduceUp } from '../PublicComponent/lookup/action/lookup.action';
 
@@ -29,6 +29,7 @@ class ContentUser extends Component {
         flag: true,
         current: 1
     }
+
     myRef = React.createRef();
     changeWidth = () => {
         const dom = (this.myRef.current.container.clientWidth) - 64
@@ -36,6 +37,7 @@ class ContentUser extends Component {
             domWidth: dom
         });
     }
+
     componentWillReceiveProps(pre) {
         document.onkeydown = function (e) {
             var keyCode = e.keyCode || e.which || e.charCode;
@@ -57,8 +59,8 @@ class ContentUser extends Component {
                             valueList[e.typePoint] = e.defaultValue === undefined ? '' : e.defaultValue;
                         } else if (e.type === "Range") {
                             let days = ['', ''];
-                            var oneweekdate;
-                            var ds;
+                            let oneweekdate = new Date();
+                            let ds = new Date();
 
                             if (e.defaultValue === -1) {
                                 //当天
@@ -66,22 +68,22 @@ class ContentUser extends Component {
                                 days = [formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours(), getDat() + getendHours()]
                             } else if (e.defaultValue === 1) {
                                 //前一天
-                                ds = new Date()
+                                ds = new Date();
                                 oneweekdate = new Date(ds - 24 * 3600 * 1000);
-                                days = [formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours(), getDat() + getendHours()]
+                                days = [formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours(), getDat() + getendHours()];
                             } else if (e.defaultValue === 7) {
-                                ds = new Date()
+                                ds = new Date();
                                 oneweekdate = new Date(ds - 7 * 24 * 3600 * 1000);
-                                days = [formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours(), getDat() + getendHours()]
+                                days = [formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours(), getDat() + getendHours()];
                             } else if (e.defaultValue === 30) {
-                                ds = new Date()
+                                ds = new Date();
                                 ds.setMonth(ds.getMonth() - 1);
-                                days = [formatDate(ds, 'yyyy-MM-dd') + getstartHours(), getDat() + getendHours()]
+                                days = [formatDate(ds, 'yyyy-MM-dd') + getstartHours(), getDat() + getendHours()];
                             }
                             else if (e.defaultValue.length > 0 && e.defaultValue[0] !== '') {
                                 days = [formatDate(new Date(e.defaultValue[0]), 'yyyy-MM-dd') + getstartHours(), formatDate(new Date(e.defaultValue[1]), 'yyyy-MM-dd') + getendHours()]
                             }
-                            valueList[e.id] = days
+                            valueList[e.id] = days;
                         } else if (e.type === 'RadioGroup') {
                             valueList[e.id] = e.defaultValue === '-1' ? ' ' : e.defaultValue;
                         } else if (e.type === 'Date') {
@@ -177,8 +179,8 @@ class ContentUser extends Component {
                             valueList[e.typePoint] = e.defaultValue === undefined ? '' : e.defaultValue;
                         } else if (e.type === "Range") {
                             let days = ['', ''];
-                            var oneweekdate;
-                            var ds;
+                            let oneweekdate = new Date();
+                            let ds = new Date();
 
                             if (e.defaultValue === -1) {
                                 //当天
@@ -287,8 +289,8 @@ class ContentUser extends Component {
                 }
                 else if (e.type === "Range") {
                     let days = ['', ''];
-                    var oneweekdate;
-                    var ds;
+                    let oneweekdate = new Date();
+                    let ds = new Date();
 
                     if (e.defaultValue === -1) {
                         //当天
@@ -316,8 +318,8 @@ class ContentUser extends Component {
                     valueList[e.id] = e.defaultValue === '-1' ? ' ' : e.defaultValue;
                 } else if (e.type === 'Date') {
                     let days = '';
-                    var oneweekdate;
-                    var ds;
+                    let oneweekdate = new Date();
+                    let ds = new Date();
 
                     if (e.defaultValue === -1) {
                         //当天
@@ -333,7 +335,7 @@ class ContentUser extends Component {
                         oneweekdate = new Date(ds - 7 * 24 * 3600 * 1000);
                         days = formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours()
                     } else if (e.defaultValue === 30) {
-                        var ds = new Date()
+                        ds = new Date()
                         ds.setMonth(ds.getMonth() - 1);
                         days = formatDate(ds, 'yyyy-MM-dd') + getstartHours()
                     }
@@ -395,21 +397,24 @@ class ContentUser extends Component {
                 } else if (e.type === "Range") {
 
                     let days = ['', ''];
+                    let oneweekdate = new Date();
+                    let ds = new Date();
+
                     if (e.defaultValue === -1) {
                         //当天
-                        var oneweekdate = new Date()
+                        oneweekdate = new Date()
                         days = [formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours(), getDat() + getendHours()]
                     } else if (e.defaultValue === 1) {
                         //前一天
-                        var ds = new Date()
-                        var oneweekdate = new Date(ds - 24 * 3600 * 1000);
+                        ds = new Date()
+                        oneweekdate = new Date(ds - 24 * 3600 * 1000);
                         days = [formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours(), getDat() + getendHours()]
                     } else if (e.defaultValue === 7) {
-                        var ds = new Date()
-                        var oneweekdate = new Date(ds - 7 * 24 * 3600 * 1000);
+                        ds = new Date()
+                        oneweekdate = new Date(ds - 7 * 24 * 3600 * 1000);
                         days = [formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours(), getDat() + getendHours()]
                     } else if (e.defaultValue === 30) {
-                        var ds = new Date()
+                        ds = new Date()
                         ds.setMonth(ds.getMonth() - 1);
                         days = [formatDate(ds, 'yyyy-MM-dd') + getstartHours(), getDat() + getendHours()]
                     }
@@ -421,49 +426,51 @@ class ContentUser extends Component {
                     valueList[e.id] = e.defaultValue === '-1' ? ' ' : e.defaultValue;
                 } else if (e.type === 'Date') {
                     let days = '';
+                    let oneweekdate = new Date();
+                    let ds = new Date();
+
                     if (e.defaultValue === -1) {
                         //当天
-                        var oneweekdate = new Date()
+                        oneweekdate = new Date()
                         days = formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours()
                     } else if (e.defaultValue === 1) {
                         //前一天
-                        var ds = new Date()
-                        var oneweekdate = new Date(ds - 24 * 3600 * 1000);
+                        ds = new Date()
+                        oneweekdate = new Date(ds - 24 * 3600 * 1000);
                         days = formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours()
                     } else if (e.defaultValue === 7) {
-                        var ds = new Date()
-                        var oneweekdate = new Date(ds - 7 * 24 * 3600 * 1000);
+                        ds = new Date()
+                        oneweekdate = new Date(ds - 7 * 24 * 3600 * 1000);
                         days = formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours()
                     } else if (e.defaultValue === 30) {
-                        var ds = new Date()
+                        ds = new Date()
                         ds.setMonth(ds.getMonth() - 1);
                         days = formatDate(ds, 'yyyy-MM-dd') + getstartHours()
                     }
                     else if (e.defaultValue !== '') {
-                        var oneweekdate = new Date(e.defaultValue)
+                        oneweekdate = new Date(e.defaultValue)
                         days = formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours()
                     }
                     valueList[e.id] = days
                 } else if (e.type === 'CheckBox') {
                     if (e.checked) {
-                        valueList[e.id] = e.defaultValue
+                        valueList[e.id] = e.defaultValue;
                     } else {
-                        valueList[e.id] = ''
+                        valueList[e.id] = '';
                     }
                 }
                 else {
                     valueList[e.id] = e.defaultValue === undefined ? '' : e.defaultValue;
                 }
             }
-            let PositionTop = e.GridY * height_
+            let PositionTop = e.GridY * height_;
             if (PositionTop > hflag) {
-                hflag = PositionTop
+                hflag = PositionTop;
             }
             return true
         })
 
         //table行数
-        let cols = (h - hflag) * 0.8
         let post = new Promise((resolve, reject) => {
             let body = {
                 "Sql": SQL,
@@ -474,12 +481,12 @@ class ContentUser extends Component {
             }
             POST$(API('SQL').http, body, (res) => {
                 if (res.Results) {
-                    this.props.tableSource.dataSource = res.Results
-                    this.props.tableSource.tr = 0
-                    this.props.tableSource.pageSize = res.RecordCount
-                    resolve(true)
+                    this.props.tableSource.dataSource = res.Results;
+                    this.props.tableSource.tr = 0;
+                    this.props.tableSource.pageSize = res.RecordCount;
+                    resolve(true);
                 } else {
-                    reject(false)
+                    reject(false);
                 }
             })
         })
@@ -515,11 +522,11 @@ class ContentUser extends Component {
                 }
                 break;
             case 37:
-
                 break
             case 39:
-
                 break
+            default:
+                break;
         }
     }
     ONBlur = () => {

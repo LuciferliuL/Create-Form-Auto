@@ -18,11 +18,12 @@ class RangePickerPublicComponent extends Component {
         const { disabled, label, layout, defaultValue } = this.props.PublicData
         console.log(defaultValue);
 
-        var ds = new Date();
-        var formatwdate = '';
+        let ds = new Date();
+        let formatwdate = '';
         var y;
         var m;
         var d;
+        let oneweekdate = new Date();
 
         let days = []
         //有数据
@@ -32,7 +33,7 @@ class RangePickerPublicComponent extends Component {
         } else if (defaultValue === 1) {
             //前一天
             ds = new Date()
-            var oneweekdate = new Date(ds - 24 * 3600 * 1000);
+            oneweekdate = new Date(ds - 24 * 3600 * 1000);
             y = oneweekdate.getFullYear();
             m = oneweekdate.getMonth() + 1;
             d = oneweekdate.getDate();
@@ -40,7 +41,7 @@ class RangePickerPublicComponent extends Component {
             days = [moment(formatwdate, dateFormat), moment(getDat(), dateFormat)]
         } else if (defaultValue === 7) {
             ds = new Date()
-            var oneweekdate = new Date(ds - 7 * 24 * 3600 * 1000);
+            oneweekdate = new Date(ds - 7 * 24 * 3600 * 1000);
             y = oneweekdate.getFullYear();
             m = oneweekdate.getMonth() + 1;
             d = oneweekdate.getDate();
