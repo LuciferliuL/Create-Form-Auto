@@ -2,7 +2,8 @@ import React from 'react';
 import { Form, Icon, Input, Button, Card, Cascader, Radio, message, Spin } from 'antd';
 import './login.component.css'
 import { API } from '../../lib/API/login.API'
-import { GETFetch, TreeMath, POSTFETCHNOBODY, POST$ } from '../../lib/MATH/math'
+import '../../lib/API/url.API'
+import { GETFetch, TreeMath, POSTFETCHNOBODY, POST$, httprequest, getrequestparam } from '../../lib/MATH/math'
 import ReactCanvasNest from 'react-canvas-nest'
 const FormItem = Form.Item;
 
@@ -25,6 +26,27 @@ class NormalLoginForm extends React.Component {
         })
     }
 
+    handleCallApi = (e, callback) => {
+        let scope = global.cfg.currentBranchId;
+        let sysparam = `branchId=${scope}&module=Sys&isIntnet=false`;
+        httprequest(getrequestparam('gethost', sysparam), (sys) => {
+            global.cfg.sysAPI = sys;
+            let queryparam = `branchId=${scope}&module=Query&isIntnet=false`;
+            httprequest(getrequestparam('gethost', queryparam), (query) => {
+                global.cfg.branchQueryAPI = query;
+
+                let queryparam = `branchId=ZDA&module=Query&isIntnet=false`;
+                httprequest(getrequestparam('gethost', queryparam), (query) => {
+                    global.cfg.centerQueryAPI = query;
+
+                    callback(query);
+
+                });
+            });
+        });
+
+    }
+
 
     handleSubmit = (e) => {
         e.preventDefault();
@@ -32,31 +54,32 @@ class NormalLoginForm extends React.Component {
             //登入判断
             if (!err) {
                 console.log('Received values of form: ', values);
-                values.scope = values.scope[values.scope.length - 1]
-                let http = `grant_type=password&username=${values.username}&password=${values.password}&client_id=JZT&scope=${values.scope}`
-                POSTFETCHNOBODY(API('checkLoginID').http, http, (token) => {
-                    if (token.error_description) {
-                        message.error(token.error_description)
-                    } else {
-                        //得到用户信息；
-                        let uparam = {
-                            UseId: values.username,
-                            OrganId: values.scope
-                        };
-                        sessionStorage.setItem('token', token.access_token) //保存token
-                        sessionStorage.setItem('values', JSON.stringify(values))//保存登入信息
+                values.scope = values.scope[values.scope.length - 1];
+                //当前；
+                global.cfg.currentBranchId = values.scope;
 
-                        POST$(API('getuserdata').http, uparam, (u) => {
-                            console.log(u);
-                            sessionStorage.setItem('udata', JSON.stringify(u));
-                            // let path = {}
-                            // if (values.use === 'a') {
+                handleCallApi(e, function () {
+
+                    let http = `grant_type=password&username=${values.username}&password=${values.password}&client_id=JZT&scope=${values.scope}`
+                    POSTFETCHNOBODY(API('checkLoginID').http, http, (token) => {
+                        if (token.error_description) {
+                            message.error(token.error_description)
+                        } else {
+                            //得到用户信息；
+                            let uparam = {
+                                UseId: values.username,
+                                OrganId: values.scope
+                            };
+                            sessionStorage.setItem('token', token.access_token) //保存token
+                            sessionStorage.setItem('values', JSON.stringify(values))//保存登入信息
+
+                            POST$(API('getuserdata').http, uparam, (u) => {
+                                console.log(u);
+                                sessionStorage.setItem('udata', JSON.stringify(u));
                                 this.props.history.push('/loginLeader')
-                            // } else {
-                            //     this.props.history.push('/USER')
-                            // }
-                        })
-                    }
+                            })
+                        }
+                    });
                 })
             }
         });

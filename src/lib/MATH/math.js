@@ -2,7 +2,7 @@ import 'isomorphic-fetch'
 import $ from 'jquery'
 import { notification } from 'antd'
 import '../API/url.API'
-const baseAPI = global.cfg.baseAPI;
+
 /**
  * 
  * @param {链接} URL 
@@ -300,7 +300,6 @@ export const DesignDataTree = (element) => {
 
 export const getrequestparam = (k, body) => {
 
-    const httpurl = baseAPI;
     switch (k) {
         case "exportsqldata":
             return {
@@ -309,7 +308,16 @@ export const getrequestparam = (k, body) => {
                 auth: false,
                 body: body,
                 contenttype: 'application/json;charset=UTF-8',
-                httpurl: httpurl + "/api/dataquery/ExportData"
+                httpurl: global.cfg.queryAPI + "/api/dataquery/ExportData"
+            }
+        case "gethost":
+            return {
+                response: 'json',
+                method: 'GET',
+                auth: false,
+                body: body,
+                contenttype: 'application/json;charset=UTF-8',
+                httpurl: global.login.api + "/api/RegisterManager/GetHost?" + body
             }
         default:
             break;
