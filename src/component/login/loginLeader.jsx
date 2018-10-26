@@ -20,13 +20,15 @@ class loginLeader extends Component {
             AvatarSrc: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",//人物头像
             MetaTitle: "CONFIGUI",//卡片抬头
             MetaDescription: "配置管理",//卡片描述
-            href: 'http://10.3.4.177:9003/ConfigUI'//跳转地址
+            // href: 'http://10.3.4.177:9003/ConfigUI',//跳转地址
+            href:'http://10.3.4.233:8090'
         }, {
             IconType: "zoom-in",//图标
             AvatarSrc: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",//人物头像
             MetaTitle: "BPMADMIN",//卡片抬头
             MetaDescription: "流程管理",//卡片描述
             href: 'http://10.3.4.177:9003/bpm-admin'//跳转地址
+            // href:'http://10.3.4.177:9003'
         }, {
             IconType: "radius-setting",//图标
             AvatarSrc: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",//人物头像
