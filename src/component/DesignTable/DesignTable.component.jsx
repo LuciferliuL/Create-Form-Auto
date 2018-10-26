@@ -55,7 +55,7 @@ class DesignTablecomponent extends Component {
         }, {
             title: '最后修改时间',
             dataIndex: 'LastModifyTime',
-            width: '30%',
+            width: '15%',
             key: 'LastModifyTime',
             render: (text, record) => {
                 return (
