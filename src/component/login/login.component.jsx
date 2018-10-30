@@ -71,10 +71,10 @@ class NormalLoginForm extends React.Component {
                                     POST$(API('getuserdata').http, uparam, (u) => {
 
                                         sessionStorage.setItem('udata', JSON.stringify(u));
-                                        // this.props.history.push('/loginLeader');
-                                        // sessionStorage.setItem('model', 'design');
-                                        this.props.history.push('/USER');
-                                        sessionStorage.setItem('model', 'runtime');
+                                        this.props.history.push('/loginLeader');
+                                        sessionStorage.setItem('model', 'design');
+                                        // this.props.history.push('/USER');
+                                        // sessionStorage.setItem('model', 'runtime');
                                     })
                                 }
                             });
