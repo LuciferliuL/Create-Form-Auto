@@ -14,6 +14,7 @@ class DesignTablecomponent extends Component {
         visible: false,
         selectData: 0,
         CreateMenu: true,
+        addroot: false,
         rootmenu: true,
         PKMenu: true,
         columns: [{
@@ -54,7 +55,7 @@ class DesignTablecomponent extends Component {
         }, {
             title: '最后修改时间',
             dataIndex: 'LastModifyTime',
-            width: '30%',
+            width: '15%',
             key: 'LastModifyTime',
             render: (text, record) => {
                 return (
@@ -143,6 +144,15 @@ class DesignTablecomponent extends Component {
                 message.warning('请选中一个菜单');
                 return;
             }
+
+            this.setState({
+                addroot: false
+            })
+        }
+        else {
+            this.setState({
+                addroot: true
+            })
         }
 
         this.props.form.resetFields();
@@ -182,6 +192,8 @@ class DesignTablecomponent extends Component {
                 //若创建二级菜单时，ParentFormID=选择节点的PK
                 if (this.state.CreateMenu)
                     save.ParentFormID = this.state.selectData.PK;
+                if (this.state.addroot)
+                    save.ParentFormID = 0;
 
                 if (seldata !== 0) {
                     seldata.Name = save.Name;
@@ -235,6 +247,7 @@ class DesignTablecomponent extends Component {
                         this.setState({
                             visible: true,
                             CreateMenu: false,
+                            addroot: false,
                             rootmenu: true,
                             PKMenu: false
                         })
@@ -242,6 +255,7 @@ class DesignTablecomponent extends Component {
                         this.setState({
                             visible: true,
                             CreateMenu: false,
+                            addroot: false,
                             rootmenu: false,
                             PKMenu: false
                         })
