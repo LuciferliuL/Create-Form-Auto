@@ -1,25 +1,10 @@
 import React, { Component } from 'react';
-import { Table } from 'antd'
+import { Table, Tooltip } from 'antd'
 import { connect } from 'react-redux'
 import './Table.PublicComponent.css'
-import { tAddDown, tReduceUp } from '../lookup/action/lookup.action'
-// import { Resizable } from 'react-resizable';
-
-
-// const ResizeableTitle = (props) => {
-//     const { onResize, width, ...restProps } = props;
-
-//     if (!width) {
-//         return <th {...restProps} />;
-//     }
-
-//     return (
-//         <Resizable width={width} height={0} onResize={onResize}>
-//             <th {...restProps} />
-//         </Resizable>
-//     );
-// };
-
+import { tAddDown, tReduceUp } from '../lookup/action/lookup.action';
+import { isdate, formatDate } from '../../../lib/MATH/math'
+import { width } from 'window-size';
 
 class TABLECOMPONENT extends Component {
     state = {
@@ -27,187 +12,182 @@ class TABLECOMPONENT extends Component {
         data: [],
         x: 1,
         tr: 0,
-        colHeight: 0
+        colHeight: 0,
+        pageNum: 1,
+        domWidth: 0
     }
-    componentDidMount(){
-        console.log(this.props.tableSource);
-        
-    }
+
     componentWillReceiveProps(pre) {
-        // console.log(pre.tableSource)
-        // console.log(this.state.tr + '-----' + pre.tableSource.tr);
-        // const {colHeight} = this.state
-        // console.log(pre);
-        let colHeight = Math.floor(pre.heights / 23)
+
+        // console.log(pre.tableSource.columns);
+        let row = []
+        pre.tableSource.columns.forEach(e => {
+            row.push(e.dataIndex)
+        })
+        //加新数据
+        let colHeight = Math.floor(pre.heights / 24)
         let data = []
-        if (pre.tableSource.tr > this.state.tr) {
-            if (pre.tableSource.tr === colHeight * this.state.x && pre.tableSource.tr < 350) {
-                // if (pre.TABLE === 'TABLE') {
-                    pre.tableSource.dataSource.map((e, i) => {
-                        if (colHeight * this.state.x <= i && i < (colHeight * this.state.x + colHeight)) {
-                            e.indexs = colHeight * this.state.x + i + 'tables'
-                            data.push(e)
-                        }
-                    })
-                // } else {
-                //     pre.tableSource.dataSource.map((e, i) => {
-                //         if (colHeight * this.state.x <= i && i < (colHeight * this.state.x + colHeight)) {
-                //             e.indexs = colHeight * this.state.x + i + 'tables'
-                //             data.push(e)
-                //         }
-                //     })
-                // }
+        let Source = pre.tableSource.dataSource
+        if (Source.length < colHeight && Source.length > 0) {
 
-
-                this.setState((p) => (
-                    {
-                        data: data,
-                        tr: pre.tableSource.tr,
-                        x: p.x + 1,
-                        colHeight:colHeight
-                    }
-                ))
-            }
-
-        } else if (pre.tableSource.tr < this.state.tr) {
-            if (pre.tableSource.tr === (colHeight * (this.state.x - 1) - 1) && pre.tableSource.tr > 0) {
-                console.log(this.state.x);
-
-                // if (pre.TABLE === 'TABLE') {
-                    pre.tableSource.dataSource.map((e, i) => {
-                        if (colHeight * this.state.x <= i && i < (colHeight * this.state.x + colHeight)) {
-                            e.indexs = i + 'tables'
-                            data.push(e)
-                        }
-                    })
-                // } else {
-                //     pre.tableSource.dataSource.map((e, i) => {
-                //         if (colHeight * this.state.x <= i && i < (colHeight * this.state.x + colHeight)) {
-                //             e.indexs = colHeight * this.state.x + i + 'table'
-                //             data.push(e)
-                //         }
-                //     })
-                // }
-                this.setState((p) => (
-                    {
-                        data: data,
-                        tr: pre.tableSource.tr,
-                        x: p.x - 1,
-                        colHeight:colHeight
-                    }
-                ))
-            }
-        } else {
-            // console.log(pre);
-
-            pre.tableSource.dataSource.map((e, i) => {
-                if (i < colHeight) {
-                    e.indexs = i + 'tables'
-                    data.push(e)
-                }
+            let keys = Object.keys(Source[0])
+            Source.map((e, i) => {
+                e.indexs = i + 'tables'
+                data.push(e)
             })
-            // console.log(data);
-
-            this.setState((p) => (
+            for (var i = 0; i < colHeight - Source.length; i++) {
+                let e = {}
+                keys.forEach(x => {
+                    e[x] = '-'
+                })
+                e.indexs = i + 'tt'
+                data.push(e)
+            }
+            this.setState(() => (
                 {
                     data: data,
-                    tr: 0,
-                    x: 1,
-                    colHeight:colHeight
+                    colHeight: colHeight,
+                    columnskeys: row
                 }
-            ), () => {
-                setTimeout(() => {
-                    pre.tableSource.tr = 0
-                    // console.log(pre.tableSource.tr);
-                }, 100);
+            ))
+        } else {
+
+            Source.map((e, i) => {
+                e.indexs = i + 'tables'
+                data.push(e)
             })
+            this.setState(() => (
+                {
+                    data: data,
+                    colHeight: colHeight,
+                    columnskeys: pre.tableSource.columns
+                }
+            ))
         }
-        // this.setState({
-        //     tr: pre.tableSource.tr
-        // })
+
+
 
     }
-    handleKeyDown = (e) => {
-        const { dataSource, columns } = this.props.tableSource
-        switch (e.keyCode) {
-            case 40://下
-                if (this.props.tableSource.tr < dataSource.length - 1) {
-                    // console.log(this.props.current.tr);
-                    this.props.tAddDown(this.props.tableSource.tr, 1)
+    onmouseup = () => {
+        document.removeEventListener('mousemove', this.aa)
+    }
+    onMouseDown = (i) => {
+        const { columnskeys } = this.state
+        document.addEventListener('mousemove', function aa(e){
+            this.move(i, columnskeys, e)
+        })
+    }
+    move = (i, columnskeys, e) => {
+        console.log(e.pageX);
+        if (i === 0) {
+            //第一个
+            columnskeys[i]['width'] += e.pageX
+            columnskeys[i + 1]['width'] -= e.pageX
+            this.setState((pre) => (
+                {
+                    columnskeys: columnskeys
                 }
-                break;
-            case 38://上
-                if (this.props.tableSource.tr > 0) {
-                    this.props.tReduceUp(this.props.tableSource.tr, 1)
-                }
-                break;
-            case 37:
+            ))
+        } else if (i === columnskeys.length - 1) {
+            //第二个
 
-                break
-            case 39:
+        } else {
+            //中间得
 
-                break
         }
     }
     render() {
-        // console.log(this.props.PublicData);
-        var w = document.documentElement.clientWidth || document.body.clientWidth;
-        const { colHeight } = this.state
-        const { columns } = this.props.PublicData
+        const { colHeight, data, columnskeys } = this.state
+        const { columns, pageSize } = this.props.PublicData
         let widths = 0
-        let heightTable = this.props.tableSource.tr * (-38) > -228 ? '0px' : (this.props.tableSource.tr * (-38) + 228) + 'px'
-        if (columns) {
-            columns.map((e, i) => {
-                if (e.width > 0) {
-                    widths += Number(e.width)
+        let columnsData = []
+        let tbodyData = []
+        if (columnskeys) {
+            columnskeys.map((e, i) => {
+                if (width > 0) {
+                    widths += e['width']
+                    columnsData.push(
+                        <th key={e.dataIndex} style={{ width: e['width'] }} className='tablesback'>
+                            <span>{e.title}</span>
+                            <span
+                                onClick={this.onClickRight.bind(this, i)}
+                                style={{ float: 'right', cursor: 'col-resize' }}
+                                onMouseUp={this.onmouseup.bind(this)}>|</span>
+                        </th>
+                    )
                 } else {
                     widths += 200
+                    e['width'] = 200
+                    columnsData.push(
+                        <th key={e.dataIndex} style={{ width: '200px', border: '1px solid #ddd' }} className='tablesback'>
+                            <span>{e.title}</span>
+                            <span
+                                style={{ float: 'right', cursor: 'col-resize' }}
+                                onMouseUp={this.onmouseup.bind(this)}
+                                onMouseDown={this.onMouseDown.bind(this, i)}>|</span>
+                        </th>
+                    )
                 }
 
             });
+            if (widths < this.props.widths) {
+                widths = this.props.widths
+            }
         }
-        // console.log(this.props.tableSource);
+        // console.log(this.props.tableSource.tr);
+
+        if (data.length > 0) {
+            data.forEach((e, i) => {
+                let tbodytd = []
+                columnskeys.forEach((key, index) => {
+                    tbodytd.push(
+                        <td key={e.indexs + index}
+                            style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', border: '1px solid #ddd', width: key.width }}>
+                            <span >  {e[key.dataIndex]}</span>
+
+                        </td>
+                    )
+                })
+                tbodyData.push(
+                    <tr key={e.indexs + 'tr'} className={this.props.tableSource.tr === i ? 'black' : ''}>
+                        {tbodytd}
+                    </tr>
+                )
+            })
+        } else {
+            tbodyData.push(<tr>没有数据</tr>)
+        }
 
         return (
-            <div>
-                <Table
-                    bordered
-                    // bodyStyle={{height:this.props.heights}}
-                    // components={this.components}
-                    columns={this.props.tableSource.columns}
-                    dataSource={this.state.data}
-                    pagination={false}
-                    scroll={{ x: widths }}
-                    onHeaderRow={(column) => {
-                        return {
-                            onClick: () => {
-                                window.addEventListener('keyup', this.handleKeyDown)
-                            },        // 点击表头行开启键盘监听
-                        };
-                    }}
-                    rowClassName={(record, index) => {
-                        // console.log(record)
-                        // console.log(index);
-                        // console.log(this.state.x);
-                        // console.log(this.props.tableSource.tr);
-                        
-                        // console.log(colHeight);
-                        
-                        if (this.props.tableSource.tr > (colHeight - 1)) {
-                            return (index === (this.props.tableSource.tr - (colHeight * (this.state.x - 1))) ? 'black' : "")
-                        } else {
-                            return (index === this.props.tableSource.tr ? 'black' : '')
-                        }
-                    }}
-                    rowKey='indexs'
-                    size='small' />
+            <div style={{ marginRight: 0, overflowX: 'auto', width: this.props.widths + 40 }}>
+                <table>
+                    <tr>
+                        <td>
+                            <table style={{ tableLayout: "fixed", marginRight: 17, width: this.props.widths + 20, zIndex: 999, background: '#0e7cff4f' }}>
+                                <thead >
+                                    <tr>
+                                        {columnsData}
+                                    </tr>
+                                </thead>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <div
+                            style={{ height: this.props.heights - 40, overflowY: 'auto' }}>
+                            <table style={{ tableLayout: "fixed", width: this.props.widths + 20 }}>
+                                <tbody>
+                                    {tbodyData}
+                                </tbody>
+                            </table>
+                        </div>
+                    </tr>
+                </table>
             </div>
         )
     }
 }
 const mapStateToProps = (state) => {
-    // console.log(state);
-
     return {
         tableSource: state.tableSource
     }
@@ -223,5 +203,19 @@ const mapDispatchProps = (dispatch) => {
     }
 }
 export default connect(mapStateToProps, mapDispatchProps)(TABLECOMPONENT);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

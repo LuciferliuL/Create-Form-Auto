@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { formUpdataFromCurrent } from '../SliderRIght/action/Right.action'
 import PublicComponent from '../PublicComponent/Public.Component'
 import { fugai } from '../stylist/action/Stylist.action'
-import TABLECOMPONENT from '../PublicComponent/table/Table'
+import TABLECOMPONENT from '../PublicComponent/table/Tables'
 import { API } from '../../lib/API/check.API'
 import { POST$, httprequest, getrequestparam, getDat, formatDate, getstartHours, getendHours } from '../../lib/MATH/math'
 import { _clear, _tableUpdataFromResults, tableTr0 } from '../stylist/action/Stylist.action'
@@ -592,7 +592,7 @@ class ContentUser extends Component {
                         style={{ padding: '5px', marginTop: '40px', position: 'relative' }}>{Dr}</Form>
                     <div style={{ position: 'relative', top: (hflag + 40) + 'px', height: (h - hflag) * 0.8 + 'px' }}>
                         <input type="text" id='input' onBlur={this.ONBlur} style={{ display: 'none' }} />
-                        <TABLECOMPONENT PublicData={tableSource} style={{ marginTop: '40px' }} heights={(h - hflag) * 0.8}>
+                        <TABLECOMPONENT PublicData={tableSource} style={{ marginTop: '40px' }} heights={(h - hflag) * 0.8} widths={this.state.domWidth}>
                         </TABLECOMPONENT>
                         <Pagination
                             defaultCurrent={1}

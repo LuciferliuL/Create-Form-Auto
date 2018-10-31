@@ -22,3 +22,9 @@
 .ant-table-tbody{
     background-color: #fff;
 }
+
+.tablesback{
+    padding: 10px !important;
+    min-width: 100px;
+    background-color: #0e7cff4f
+}
