@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Row, Col, Card, Icon, Avatar, Layout } from 'antd'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Route } from 'react-router-dom'
+import Information from '../Information/Information'
 
 const { Meta } = Card;
 const { Header, Footer, Content } = Layout;
@@ -15,6 +16,7 @@ function mapStateToProps(state) {
 class loginLeader extends Component {
     state = {
         h: 0,
+        showOrHiden:true,
         data: [{
             IconType: "setting",//图标
             AvatarSrc: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",//人物头像
@@ -35,12 +37,12 @@ class loginLeader extends Component {
             MetaTitle: "DESGIN",//卡片抬头
             MetaDescription: "表单设计",//卡片描述<Icon type="" theme="outlined" />
             href: 'http://10.3.4.177:9003/Design'//跳转地址
-            // }, {
-            //     IconType: "rocket",//图标
-            //     AvatarSrc: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",//人物头像
-            //     MetaTitle: "DEVTOOL",//卡片抬头
-            //     MetaDescription: "DEVTOOL",//卡片描述<Icon type="" theme="outlined" />
-            //     href: 'http://10.3.2.22:50003/index.html'//跳转地址
+            }, {
+                IconType: "rocket",//图标
+                AvatarSrc: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",//人物头像
+                MetaTitle: "I9群信息",//卡片抬头
+                MetaDescription: "群体信息发送",//卡片描述<Icon type="" theme="outlined" />
+                href: 'http://10.3.4.177:9003/Information'//跳转地址
             // }, {
             //     IconType: "bulb",//图标
             //     AvatarSrc: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",//人物头像
@@ -81,7 +83,11 @@ class loginLeader extends Component {
                             onClick={() => {
                                 if (e.MetaTitle === 'DESGIN') {
                                     this.props.history.push('/Design/er')
-                                } else {
+                                } else if(e.MetaTitle === 'I9群信息'){
+                                    this.setState({
+                                        showOrHiden:false
+                                    })
+                                }else {
                                     window.location.href = e.href
                                 }
                             }} />]}
@@ -98,15 +104,16 @@ class loginLeader extends Component {
         return (
             <Layout>
                 <Header>Header</Header>
-                <Content>
+                <Content style={{ height: h }}>
+                    {this.state.showOrHiden ?
                     <Card style={{ height: h }}>
                         <Row align='middle' justify='start' style={{ marginTop: '5%' }}>
                             <Col span={2}></Col>
                             {dataList}
                             <Col span={2}></Col>
                         </Row>
-                    </Card>
-
+                    </Card> :
+                    <Information></Information>}
                 </Content>
                 <Footer style={{ textAlign: 'center' }}>
                     ERP Design ©2018 Created by LEO

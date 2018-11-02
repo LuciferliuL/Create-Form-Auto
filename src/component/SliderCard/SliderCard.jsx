@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { Card, Icon, Tabs } from 'antd'
 import { connect } from 'react-redux'
 import { currentTagsUpdata } from './action/SliderCard.action.js'
+import { LookUpApi } from '../../lib/API/lookUpList'
+import { GET$, POST$ } from '../../lib/MATH/math'
+
 
 const TabPane = Tabs.TabPane
 const CardGrid = Card.Grid
@@ -19,6 +22,17 @@ const pointer = {
     MsUserSelect: 'none'
 }
 class SliderCard extends Component {
+    state = {
+        tableDataSource: []
+    }
+    componentDidMount() {
+        GET$(LookUpApi('LookUpList').http, (res) => {
+            console.log(res);
+            this.setState({
+                tableDataSource: res,
+            })
+        })
+    }
     drag = (obj, ev) => {
         let ADD_TAG = JSON.parse(JSON.stringify(obj))
         ADD_TAG.id = (Math.random() * 1000).toFixed(2)
@@ -59,6 +73,21 @@ class SliderCard extends Component {
                 </CardGrid>
             )
         })
+        const z = []
+        if (this.state.tableDataSource.length > 0) {
+            this.state.tableDataSource.forEach(e => {
+                let cardDatas = JSON.parse(e.Bytes)
+                // console.log(cardDatas);
+                
+                z.push(
+                    <CardGrid style={gridStyle} key={cardDatas.icons} draggable="true" onDragStart={this.drag.bind(this, cardDatas)}>
+                        <Icon type={cardDatas.icons} theme="outlined" />
+                        <span style={pointer}>{cardDatas.label}</span>
+                    </CardGrid>
+                )
+            })
+        }
+
         return (
             <Card>
                 <Tabs defaultActiveKey='1'>
@@ -70,6 +99,11 @@ class SliderCard extends Component {
                     <TabPane tab='SQL组件' key='2'>
                         <Card>
                             {s}
+                        </Card>
+                    </TabPane>
+                    <TabPane tab="自定义检索" key='3'>
+                        <Card>
+                            {z}
                         </Card>
                     </TabPane>
                 </Tabs>

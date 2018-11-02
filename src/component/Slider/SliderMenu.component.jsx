@@ -88,5 +88,10 @@ const sliderData = [
         type: 'lock',
         children: [],
         link: '/Design/Arch'
+    }, {
+        key: '检索方案',
+        type: 'question-circle',
+        children: [],
+        link: '/Design/LookUpSelf'
     }
 ]

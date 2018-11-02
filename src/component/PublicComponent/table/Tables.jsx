@@ -6,6 +6,8 @@ import { tAddDown, tReduceUp } from '../lookup/action/lookup.action';
 import { isdate, formatDate } from '../../../lib/MATH/math'
 import { width } from 'window-size';
 
+let nums = 0
+let pointX = 0 //点击原点
 class TABLECOMPONENT extends Component {
     state = {
         // page: 1,
@@ -69,31 +71,50 @@ class TABLECOMPONENT extends Component {
 
     }
     onmouseup = () => {
-        document.removeEventListener('mousemove', this.aa)
+
+        document.removeEventListener('mousemove', this.mos)
     }
     onMouseDown = (i) => {
+        nums = i
+        document.addEventListener('mousedown', this.offset)
+        document.addEventListener('mousemove', this.mos)
+    }
+    offset = (e) => {
+        // console.log(e.pageX);
+        pointX = e.pageX
+    }
+    mos = (e) => {
+        // console.log(e.pageX);
+        let offsetX = e.pageX
         const { columnskeys } = this.state
-        document.addEventListener('mousemove', function aa(e){
-            this.move(i, columnskeys, e)
-        })
+        this.move(nums, columnskeys, offsetX)
     }
     move = (i, columnskeys, e) => {
-        console.log(e.pageX);
-        if (i === 0) {
+        if (i < columnskeys.length - 1) {
             //第一个
-            columnskeys[i]['width'] += e.pageX
-            columnskeys[i + 1]['width'] -= e.pageX
-            this.setState((pre) => (
+            if ((pointX - e) > 0) {//向左
+                columnskeys[i]['width'] -= 2
+                columnskeys[i + 1]['width'] += 2
+                pointX = e
+            } else {//向右
+                columnskeys[i]['width'] += 2
+                columnskeys[i + 1]['width'] -= 2
+                pointX = e
+            }
+            // console.log(columnskeys);
+
+            this.setState(
                 {
                     columnskeys: columnskeys
                 }
-            ))
-        } else if (i === columnskeys.length - 1) {
-            //第二个
-
-        } else {
-            //中间得
-
+            )
+        }  else {
+            //最后一个
+            this.setState(
+                {
+                    columnskeys: columnskeys
+                }
+            )
         }
     }
     render() {
@@ -104,26 +125,37 @@ class TABLECOMPONENT extends Component {
         let tbodyData = []
         if (columnskeys) {
             columnskeys.map((e, i) => {
-                if (width > 0) {
+                if (e['width'] > 0) {
                     widths += e['width']
                     columnsData.push(
-                        <th key={e.dataIndex} style={{ width: e['width'] }} className='tablesback'>
+                        <th
+                            key={e.dataIndex}
+                            style={{ width: e['width'], border: '1px solid #ddd' }}
+                            className='tablesback'
+                            onMouseUp={this.onmouseup.bind(this)}
+                            onMouseLeave={this.onmouseup.bind(this)}
+                        >
+
                             <span>{e.title}</span>
                             <span
-                                onClick={this.onClickRight.bind(this, i)}
                                 style={{ float: 'right', cursor: 'col-resize' }}
-                                onMouseUp={this.onmouseup.bind(this)}>|</span>
+                                onMouseDown={this.onMouseDown.bind(this, i)}>|</span>
                         </th>
                     )
                 } else {
                     widths += 200
                     e['width'] = 200
                     columnsData.push(
-                        <th key={e.dataIndex} style={{ width: '200px', border: '1px solid #ddd' }} className='tablesback'>
+                        <th
+                            key={e.dataIndex}
+                            style={{ width: '200px', border: '1px solid #ddd' }}
+                            className='tablesback'
+                            onMouseUp={this.onmouseup.bind(this)}
+                            onMouseLeave={this.onmouseup.bind(this)}
+                        >
                             <span>{e.title}</span>
                             <span
                                 style={{ float: 'right', cursor: 'col-resize' }}
-                                onMouseUp={this.onmouseup.bind(this)}
                                 onMouseDown={this.onMouseDown.bind(this, i)}>|</span>
                         </th>
                     )

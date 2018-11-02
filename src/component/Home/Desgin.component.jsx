@@ -7,6 +7,7 @@ import { Route } from 'react-router-dom';
 import DesignTablecomponent from '../DesignTable/DesignTable.component'
 import Stylistcomponent from '../stylist/Stylist.component'
 import ReadForm from '../readForm/ReadForm'
+import LookUpSelf from '../LookUpSelf/lookUpSelf'
 const { Content, Sider } = Layout;
 
 class Desgincomponent extends Component {
@@ -43,6 +44,7 @@ class Desgincomponent extends Component {
                             <Route path='/Design/er' component={DesignTablecomponent}></Route>
                             <Route path='/Design/Stylist' component={Stylistcomponent}></Route>
                             <Route path='/Design/Arch' component={ReadForm}></Route>
+                            <Route path='/Design/LookUpSelf' component={LookUpSelf}></Route>
                         </div>
                     </Content>
                 </Layout>
