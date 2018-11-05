@@ -6,6 +6,7 @@ import { updataValues } from '../PublicComponent/lookup/action/lookup.action'
 import { formUpdataFromCurrent } from '../SliderRIght/action/Right.action'
 import { API } from '../../lib/API/check.API'
 import { POST$, treeData } from '../../lib/MATH/math'
+import { withRouter, Route } from 'react-router-dom'
 
 class TreeUser extends Component {
     state = {
@@ -26,6 +27,8 @@ class TreeUser extends Component {
     }
 
     onSelect = (keys, record) => {
+        console.log(record);
+        
         if (!record.node.props.IsCategory) {
             let data = JSON.parse(record.node.props.Bytes)
 
@@ -76,4 +79,4 @@ const mapDispatchProps = (dispatch) => {
 }
 export default connect(
     mapStateToProps, mapDispatchProps
-)(TreeUser);
+)(withRouter(TreeUser) );

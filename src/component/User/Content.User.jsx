@@ -3,11 +3,10 @@ import { Card, Form, Pagination, Button, Icon, message } from 'antd'
 import { connect } from 'react-redux';
 import { formUpdataFromCurrent } from '../SliderRIght/action/Right.action'
 import PublicComponent from '../PublicComponent/Public.Component'
-import { fugai } from '../stylist/action/Stylist.action'
 import TABLECOMPONENT from '../PublicComponent/table/Tables'
 import { API } from '../../lib/API/check.API'
 import { POST$, httprequest, getrequestparam, getDat, formatDate, getstartHours, getendHours } from '../../lib/MATH/math'
-import { _clear, _tableUpdataFromResults, tableTr0 } from '../stylist/action/Stylist.action'
+import { _clear, _tableUpdataFromResults, tableTr0, fugai } from '../stylist/action/Stylist.action'
 import { tAddDown, tReduceUp } from '../PublicComponent/lookup/action/lookup.action';
 
 const ButtonGroup = Button.Group;

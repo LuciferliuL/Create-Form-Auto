@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import './Table.PublicComponent.css'
 import { tAddDown, tReduceUp } from '../lookup/action/lookup.action';
 import { isdate, formatDate } from '../../../lib/MATH/math'
-import { width } from 'window-size';
 
 let nums = 0
 let pointX = 0 //点击原点
