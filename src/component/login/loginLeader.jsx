@@ -104,7 +104,7 @@ class loginLeader extends Component {
         return (
             <Layout>
                 <Header>Header</Header>
-                <Content style={{ height: h }}>
+                <Content>
                     {this.state.showOrHiden ?
                     <Card style={{ height: h }}>
                         <Row align='middle' justify='start' style={{ marginTop: '5%' }}>
@@ -113,7 +113,7 @@ class loginLeader extends Component {
                             <Col span={2}></Col>
                         </Row>
                     </Card> :
-                    <Information></Information>}
+                    <Information height={h}></Information>}
                 </Content>
                 <Footer style={{ textAlign: 'center' }}>
                     ERP Design ©2018 Created by LEO
