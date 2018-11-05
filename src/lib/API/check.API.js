@@ -1,7 +1,7 @@
 import './url.API'
 
 export const API = (key) => {
-    console.clear();
+    // console.clear();
     console.log(global.cfg);
     console.log(global.login);
 

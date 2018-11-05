@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
 import TreeUser from './Tree.User.jsx'
 import ContentUser from './Content.User'
-import { Layout, Spin } from 'antd'
-import $ from 'jquery'
+import { Layout, Spin} from 'antd'
 import Headercomponent from '../Header/Header.component'
 import { withRouter } from 'react-router-dom'
+
 
 const { Sider, Content } = Layout;
 class USER extends Component {
     state = {
         loading: true,
         user: '',
-        collapsed: false
     };
 
     componentWillMount() {
@@ -27,6 +26,7 @@ class USER extends Component {
                 user: JSON.parse(values)
             }))
         }, 1000);
+        
     }
 
     hidLoading = () => {
@@ -41,13 +41,11 @@ class USER extends Component {
             loading: !pre.loading
         }));
     }
-    toggle = () => {
-        this.setState({
-            collapsed: !this.state.collapsed,
-        });
-    }
+   
+
     render() {
         const { user, loading } = this.state
+        
         return (
             <Spin spinning={loading} size='large'>
                 <Layout>

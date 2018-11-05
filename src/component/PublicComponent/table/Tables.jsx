@@ -3,7 +3,7 @@ import { Table, Tooltip } from 'antd'
 import { connect } from 'react-redux'
 import './Table.PublicComponent.css'
 import { tAddDown, tReduceUp } from '../lookup/action/lookup.action';
-import { isdate, formatDate } from '../../../lib/MATH/math'
+import { MathRandom } from '../../../lib/MATH/math'
 
 let nums = 0
 let pointX = 0 //点击原点
@@ -107,7 +107,7 @@ class TABLECOMPONENT extends Component {
                     columnskeys: columnskeys
                 }
             )
-        }  else {
+        } else {
             //最后一个
             this.setState(
                 {
@@ -128,7 +128,7 @@ class TABLECOMPONENT extends Component {
                     widths += e['width']
                     columnsData.push(
                         <th
-                            key={e.dataIndex}
+                            key={e.dataIndex + MathRandom()}
                             style={{ width: e['width'], border: '1px solid #ddd' }}
                             className='tablesback'
                             onMouseUp={this.onmouseup.bind(this)}
@@ -146,7 +146,7 @@ class TABLECOMPONENT extends Component {
                     e['width'] = 200
                     columnsData.push(
                         <th
-                            key={e.dataIndex}
+                            key={e.dataIndex + MathRandom()}
                             style={{ width: '200px', border: '1px solid #ddd' }}
                             className='tablesback'
                             onMouseUp={this.onmouseup.bind(this)}
@@ -186,7 +186,7 @@ class TABLECOMPONENT extends Component {
                 )
             })
         } else {
-            tbodyData.push(<tr>没有数据</tr>)
+            tbodyData.push(<tr key={123321543253463463}>没有数据</tr>)
         }
 
         return (

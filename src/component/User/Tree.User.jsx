@@ -6,7 +6,8 @@ import { updataValues } from '../PublicComponent/lookup/action/lookup.action'
 import { formUpdataFromCurrent } from '../SliderRIght/action/Right.action'
 import { API } from '../../lib/API/check.API'
 import { POST$, treeData } from '../../lib/MATH/math'
-import { withRouter, Route } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
+import { addTabs, delTabs, addTable, delTable } from './User.action'
 
 class TreeUser extends Component {
     state = {
@@ -28,14 +29,16 @@ class TreeUser extends Component {
 
     onSelect = (keys, record) => {
         console.log(record);
-        
+
         if (!record.node.props.IsCategory) {
             let data = JSON.parse(record.node.props.Bytes)
-
             data.FormData.forEach(e => {
                 e.isUserMove = false
             })
+            let name = record.node.props.Name
+            this.props.addTabs({Source:data,Name:name})
             this.props.upData(data.FormData)
+            // this.props.addTable(data.TableData)
             this.props.tableFugai(data.TableData)
         }
     }
@@ -49,16 +52,15 @@ class TreeUser extends Component {
                     treeData={treeData}
                     onSelect={this.onSelect}
                 />
-                : ''
+                : null
         );
     }
 }
 function mapStateToProps(State) {
+    // console.log(State);
+
     return {
-        InitStylistData: State.InitStylistData.InitStylistData,
-        currentTagsUpdata: State.currentTagsUpdata.InitialTags,
-        UpdataFormData: State.UpdataFormData,
-        currentAttr: State.currentAttr
+      
     };
 }
 const mapDispatchProps = (dispatch) => {
@@ -74,9 +76,21 @@ const mapDispatchProps = (dispatch) => {
         },
         tableFugai: (k) => {
             dispatch(tableFugai(k))
+        },
+        addTabs: (value) => {
+            dispatch(addTabs(value))
+        },
+        delTabs: (key) => {
+            dispatch(delTabs(key))
+        },
+        addTable: (value) => {
+            dispatch(addTable(value))
+        },
+        delTable: (key) => {
+            dispatch(delTable(key))
         }
     }
 }
 export default connect(
     mapStateToProps, mapDispatchProps
-)(withRouter(TreeUser) );
+)(withRouter(TreeUser));

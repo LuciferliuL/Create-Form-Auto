@@ -398,3 +398,7 @@ export function formatDate(sdt, format) {
                     ("00" + o[k]).substr(("" + o[k]).length));
     return format;
 };
+
+export const MathRandom = ()=>{
+    return Math.random().toFixed(4)*1000
+}

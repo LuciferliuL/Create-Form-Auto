@@ -1,35 +1,47 @@
 import React, { Component } from 'react';
-import { Layout, Menu, Dropdown, Tag } from "antd";
+import { Layout, Menu, Dropdown, Tag, Tabs } from "antd";
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { _clear, _tableUpdataFromResults, tableTr0, fugai } from '../stylist/action/Stylist.action'
+import { _clear, _tableUpdataFromResults, tableTr0, fugai, tableFugai } from '../stylist/action/Stylist.action'
+import { addTabs, delTabs, addTable, delTable, keyschange } from '../User/User.action'
 
+const TabPane = Tabs.TabPane;
 const { Header } = Layout
-
 class Headercomponent extends Component {
     state = {
         user: JSON.parse(sessionStorage.getItem('values')),
-        userdata: JSON.parse(sessionStorage.getItem('udata'))
-    }
-    componentDidMount() {
-        // this.setState({
-        //     user: JSON.parse(sessionStorage.getItem('values')),
-        //     userdata: JSON.parse(sessionStorage.getItem('udata'))
-        // })
-        // console.log(typeof sessionStorage.getItem('values'));
-        // if (typeof sessionStorage.getItem('values') === 'string') {
-
-        // } else {
-        //     window.location.href = 'http://localhost:3000/'
-        // }
+        userdata: JSON.parse(sessionStorage.getItem('udata')),
+        selectedTags: [],
+        activeKey: '1'
     }
     enter = () => {
         this.props.history.push('/')
         this.props.fugai([])
     }
-
+    handleChange(tag, checked) {
+        this.setState({ selectedTags: [tag] });
+    }
+    callback = (i) => {
+        this.props.keyschange(+i.split(',')[1])
+        // console.log(this.props.TabsData[this.props.KEYS]);
+        let fugaiData = this.props.TabsData[this.props.KEYS]
+        this.props.fugai(fugaiData.Source.FormData)
+        this.props.tableFugai(fugaiData.Source.TableData)
+        // this.props.delTabs(i)
+        this.setState({
+            activeKey: i
+        })
+    }
+    Edit = (targetKey, action) => {
+        // console.log(action);
+        this.props.delTabs(targetKey.split(',')[0])
+        let fugaiData = this.props.TabsData[this.props.KEYS]
+        this.props.fugai(fugaiData.Source.FormData)
+        this.props.tableFugai(fugaiData.Source.TableData)
+    }
     render() {
-        const { user, userdata } = this.state
+        const { userdata, activeKey } = this.state
+
         const menu = (
             <Menu>
                 <Menu.Item>
@@ -48,7 +60,7 @@ class Headercomponent extends Component {
         } else {
             return (
                 <Header
-                    style={{ background: '#fff', lineHeight: 'inherit', height: 'auto', padding: '0' }}>
+                    style={{ background: '#fff', lineHeight: 'inherit', padding: '0' }}>
                     <div className='slidertitle'>
                         <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" style={{ width: '32px', height: '32px', verticalAlign: 'middle' }}>
                             <defs>
@@ -59,8 +71,6 @@ class Headercomponent extends Component {
                         </svg>
                         <h2 className='title'>九州通</h2>
                     </div>
-                    {this.props.R === 'R' ? null : <div style={{ float: 'left' }}>你好！设计师</div>
-                    }
                     <div style={{ float: 'right' }}>
                         <Tag color='blue' style={{ float: 'left', marginTop: '5px' }}>
                             公司名称： {userdata.Organization.OrganizationName}
@@ -69,6 +79,20 @@ class Headercomponent extends Component {
                             <Tag style={{ float: 'left', marginTop: '5px' }}>人员名称：{userdata.UserName}</Tag>
                         </Dropdown>
                     </div>
+                    {this.props.R === 'R' ?
+                        <div style={{ position: 'relative', top: 25 }}>
+                            <Tabs
+                                type="editable-card"
+                                onChange={this.callback}
+                                activeKey={activeKey}
+                                onEdit={this.Edit}
+                                hideAdd>
+                                {this.props.TabsData.map((pane, i) => <TabPane tab={pane.Name} key={pane.Name + ',' + i}>{pane.Name}</TabPane>)}
+                            </Tabs>
+                        </div>
+                        : <div style={{ float: 'left' }}>你好！设计师</div>
+                    }
+
 
                 </Header>
             );
@@ -77,9 +101,14 @@ class Headercomponent extends Component {
     }
 }
 const mapStateToProps = (state) => {
+    console.log(state);
+
     return {
         data: state.UpdataFormData,
-        tableSource: state.tableSource
+        tableSource: state.tableSource,
+        TableList: state.TableList,
+        TabsData: state.TabsData,
+        KEYS:state.KEYS
     }
 }
 const mapDispatchProps = (dispatch) => {
@@ -96,6 +125,24 @@ const mapDispatchProps = (dispatch) => {
         fugai: (k) => {
             dispatch(fugai(k))
         },
+        addTabs: (value) => {
+            dispatch(addTabs(value))
+        },
+        delTabs: (key) => {
+            dispatch(delTabs(key))
+        },
+        addTable: (value) => {
+            dispatch(addTable(value))
+        },
+        delTable: (key) => {
+            dispatch(delTable(key))
+        },
+        keyschange: (key) => {
+            dispatch(keyschange(key))
+        },
+        tableFugai:(k) => {
+            dispatch(tableFugai(k))
+        }
     }
 }
 export default connect(mapStateToProps, mapDispatchProps)(withRouter(Headercomponent));
