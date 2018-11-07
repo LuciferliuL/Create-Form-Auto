@@ -12,7 +12,7 @@ class InformationDate extends Component {
     }
     componentDidMount() {
         const { selectedData } = this.props
-        if (selectedData.length > 0) {
+        if (selectedData[0].PK !== -1) {
             let type = selectedData[0].DueDatetype
             let date = selectedData[0].DueDateCorn
             // console.log(date);
@@ -25,7 +25,7 @@ class InformationDate extends Component {
     }
     componentWillReceiveProps(pre) {
         const { selectedData } = pre
-        if (selectedData.length > 0) {
+        if (selectedData[0].PK !== -1) {
             let type = selectedData[0].DueDatetype
             let date = selectedData[0].DueDateCorn
             // console.log(date);

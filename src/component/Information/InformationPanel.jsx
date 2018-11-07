@@ -19,7 +19,7 @@ class InformationPanel extends Component {
       componentDidMount(){
         const {selectedData} = this.props
         // console.log(selectedData);
-        if(selectedData.length > 0){
+        if(selectedData[0].PK !== -1){
           let SQLdata = JSON.parse(selectedData[0].Sqls)
           let paneData = []
           SQLdata.forEach((e,i) => {
@@ -34,10 +34,10 @@ class InformationPanel extends Component {
         
       }
       componentWillReceiveProps(pre){
-        console.log(1);
+        // console.log(1);
         const {selectedData} = pre
-        // console.log(selectedData);
-        if(selectedData.length > 0){
+        console.log(selectedData);
+        if(selectedData[0].PK !== -1){
           let SQLdata = JSON.parse(selectedData[0].Sqls)
           let paneData = []
           SQLdata.forEach((e,i) => {
