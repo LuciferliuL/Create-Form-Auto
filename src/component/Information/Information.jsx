@@ -21,20 +21,23 @@ class Information extends Component {
                     >
                         <InformationRadio 
                         selectedData={selectedData} 
-                        EditSelectedRow={this.props.EditSelectedRow}></InformationRadio>
+                        EditSelectedRow={this.props.EditSelectedRow}
+                        news={this.props.news}></InformationRadio>
                     </Card>
                     <Card
                         title="选择时间"
                         bodyStyle={{ textAlign: 'center' }}>
                         <InformationDate selectedData={selectedData}
-                        EditSelectedRow={this.props.EditSelectedRow}></InformationDate>
+                        EditSelectedRow={this.props.EditSelectedRow}
+                        news={this.props.news}></InformationDate>
                     </Card>
                 </Col>
                 <Col span={20}>
                     <Card
                         title="SQL">
                         <InformationPanel selectedData={selectedData}
-                        EditSelectedRow={this.props.EditSelectedRow}></InformationPanel>
+                        EditSelectedRow={this.props.EditSelectedRow}
+                        news={this.props.news}></InformationPanel>
                     </Card>
                 </Col>
             </Row>

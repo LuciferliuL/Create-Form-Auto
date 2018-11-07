@@ -34,10 +34,10 @@ class InformationPanel extends Component {
         
       }
       componentWillReceiveProps(pre){
-        // console.log(1);
-        const {selectedData} = pre
+        console.log(pre);
+        const {selectedData,news} = pre
         console.log(selectedData);
-        if(selectedData[0].PK !== -1){
+        if(!news){
           let SQLdata = JSON.parse(selectedData[0].Sqls)
           let paneData = []
           SQLdata.forEach((e,i) => {
@@ -48,7 +48,7 @@ class InformationPanel extends Component {
             activeKey: paneData[0].key,
             SQLdata:SQLdata
           })
-        }else if(selectedData[0].PK === -1){
+        }else if(news){
           this.setState({
             panes:[],
             activeKey: '0',

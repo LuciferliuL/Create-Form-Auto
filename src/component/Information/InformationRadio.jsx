@@ -7,21 +7,25 @@ class InformationRadio extends Component {
     state = {
         value: 0
     }
-    componentDidMount(){
-        const {selectedData} = this.props
-        if(selectedData.length>0){
+    componentDidMount() {
+        const { selectedData } = this.props
+        if (selectedData.length > 0) {
             this.setState({
-                value:selectedData[0].DataSource === '集中'?0:1
+                value: selectedData[0].DataSource === '集中' ? 0 : 1
             })
         }
-        
+
     }
-    componentWillReceiveProps(pre){
+    componentWillReceiveProps(pre) {
         // console.log(pre);
-        const {selectedData} = pre
-        if(selectedData.length>0){
+        const { selectedData, news } = pre
+        if (!news) {
             this.setState({
-                value:selectedData[0].DataSource === '集中'?0:1
+                value: selectedData[0].DataSource === '集中' ? 0 : 1
+            })
+        } else if (news) {
+            this.setState({
+                value: 0
             })
         }
     }
@@ -30,10 +34,10 @@ class InformationRadio extends Component {
         this.setState({
             value: e.target.value
         })
-        this.props.EditSelectedRow({'DataSource':e.target.value === 0?'集中':'分公司'})
+        this.props.EditSelectedRow({ 'DataSource': e.target.value === 0 ? '集中' : '分公司' })
     }
     render() {
-        
+
         return (
             <div>
                 <RadioGroup onChange={this.onChange} value={this.state.value}>

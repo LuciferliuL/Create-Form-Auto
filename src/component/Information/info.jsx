@@ -19,6 +19,7 @@ function mapStateToProps(state) {
 
 class Info extends Component {
     state = {
+        news: false,
         tabBarShow: false,
         disabled: true,
         loading: false,
@@ -107,7 +108,8 @@ class Info extends Component {
                         DeptID: global.msgcfg.filepath,
                         DeptName: global.msgcfg.fileurl
                     }],
-                    tabBarShow: true
+                    tabBarShow: true,
+                    news:true
                 })
                 break;
             case 'edit':
@@ -115,13 +117,14 @@ class Info extends Component {
                     this.setState({
                         activeKey: '2',
                         tabBarShow: true,
-                        disabled: false
+                        disabled: false,
+                        news:false
                     }) : message.warning('请选择数据')
                 break;
             case 'del':
-                POST$(API('i9Del',this.state.selectedRowKeys[0]).http,{},(res)=>{
+                POST$(API('i9Del', this.state.selectedRowKeys[0]).http, {}, (res) => {
                     // console.log(res);
-                    if(res.result){
+                    if (res.result) {
                         message.success('删除成功')
                         GET$(API('geti9msgall').http, (res) => {
                             // console.log(res);
@@ -129,7 +132,7 @@ class Info extends Component {
                                 data: res
                             })
                         })
-                    }else{
+                    } else {
                         message.error('删除失败')
                     }
                 })
@@ -195,7 +198,7 @@ class Info extends Component {
         })
     }
     render() {
-        const { columns, data, activeKey, selectedRowKeys, selectedData, disabled, loading } = this.state
+        const { columns, data, activeKey, selectedRowKeys, selectedData, disabled, loading, news } = this.state
         const rowSelection = {
             onChange: this.OnChange,
             type: 'radio',
@@ -223,10 +226,10 @@ class Info extends Component {
                         </Table>
                     </TabPane>
                     <TabPane tab="数据编辑" key='2' disabled={disabled}>
-                        <Information selectedData={selectedData} EditSelectedRow={this.EditSelectedRow}></Information>
+                        <Information selectedData={selectedData} EditSelectedRow={this.EditSelectedRow} news={news}></Information>
                     </TabPane>
                     <TabPane tab="人员选择" key='3' disabled={disabled}>
-                        <Person selectedData={selectedData} EditSelectedRow={this.EditSelectedRow}></Person>
+                        <Person selectedData={selectedData} EditSelectedRow={this.EditSelectedRow} news={news}></Person>
                     </TabPane>
                 </Tabs>
             </Spin>

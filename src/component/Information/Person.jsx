@@ -70,8 +70,8 @@ class Person extends Component {
   }
   componentWillReceiveProps(pre) {
     // console.log(pre);
-    const { selectedData } = pre
-    if (selectedData[0].PK !== -1) {
+    const { selectedData, news } = pre
+    if (!news) {
       let l = []
       JSON.parse(selectedData[0].Receivers).forEach(e => {
         let o = {}
@@ -82,9 +82,10 @@ class Person extends Component {
       this.setState({
         data2: l
       })
-    }else if(selectedData[0].PK === -1){
+    }else if(news){
       this.setState({
-        data2: []
+        data2: [],
+        data:[]
       })
     }
   }
@@ -113,11 +114,14 @@ class Person extends Component {
   //添加到右边
   AddRightTable = () => {
     const { data2, selectedRows } = this.state   
-    let D = [...selectedRows, ...data2]
+    let D = [...selectedRows,...data2 ]
+    console.log(this.un(D));
     
     this.setState({
       data2: this.un(D)
     }, () => {
+      console.log(this.state.data2);
+      
       let list = []
       this.state.data2.forEach(e => {
         let o = {}
@@ -156,6 +160,7 @@ class Person extends Component {
       selectedRowKeys,
       onChange: this.onSelectChange,
     }
+    console.log(this.state.data2);
     return (
       <Card>
         <Row gutter={12}>
