@@ -8,8 +8,8 @@ const FormItem = Form.Item;
 const baseData = [
     { label: '检索名称', id: 'label', message: '检索名称必填' },
     { label: 'ID', id: 'id', message: 'ID必填' },
-    { label: '默认显示的名称', id: 'uniquekey', message: '默认显示的名称必填' },
-    { label: '回传值的KEY', id: 'upkey', message: '回传值的KEY必填' },
+    { label: '默认显示的名称', id: 'uniqueKey', message: '默认显示的名称必填' },
+    { label: '回传值的KEY', id: 'upKey', message: '回传值的KEY必填' },
 ]
 const { TextArea } = Input;
 
@@ -91,7 +91,7 @@ class LookUpForm extends React.Component {
             }
         ]
     }
-    
+
     componentWillReceiveProps(pre) {
         this.setState({
             visible: false,
@@ -117,21 +117,21 @@ class LookUpForm extends React.Component {
             case 'add':
                 let num = Math.random().toFixed(4)
                 let list = []
-                 Tabledata !== undefined && Tabledata.length > 0 ?
-                Tabledata.forEach((e, i) => {
-                    if (i === index) {
-                        list.push({
-                            title: num,
-                            dataIndex: num,
-                            width: '',
-                        })
-                    }
-                    list.push(e)
-                }):list.push({
-                    title: num,
-                    dataIndex: num,
-                    width: '',
-                })
+                Tabledata !== undefined && Tabledata.length > 0 ?
+                    Tabledata.forEach((e, i) => {
+                        if (i === index) {
+                            list.push({
+                                title: num,
+                                dataIndex: num,
+                                width: '',
+                            })
+                        }
+                        list.push(e)
+                    }) : list.push({
+                        title: num,
+                        dataIndex: num,
+                        width: '',
+                    })
                 this.setState({
                     Tabledata: list
                 })
@@ -199,7 +199,7 @@ class LookUpForm extends React.Component {
                         wrapperCol: { xs: { span: 24 }, sm: { span: 16 } }
                     }, tr: 0, values: '',
                     scroll: 1200,
-                    show: false, columns: [], SQL: '',  dataSource: []
+                    show: false, columns: [], SQL: '', dataSource: []
                 }
                 Object.assign(data, values)
                 // console.log(data);
