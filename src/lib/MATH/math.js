@@ -301,7 +301,7 @@ export const DesignDataTree = (element) => {
 }
 
 
-export const getrequestparam = (k, body) => {
+export const getrequestparam = (k, body, branchtype = "") => {
 
     switch (k) {
         case "exportsqldata":
@@ -311,7 +311,7 @@ export const getrequestparam = (k, body) => {
                 auth: false,
                 body: body,
                 contenttype: 'application/json;charset=UTF-8',
-                httpurl: global.cfg.queryAPI + "/api/dataquery/ExportData"
+                httpurl: (branchtype === 'zda' ? global.cfg.centerQueryAPI : global.cfg.branchQueryAPI) + "/api/dataquery/ExportData"
             }
         case "gethost":
             return {

@@ -1,6 +1,6 @@
 import './url.API'
 
-export const API = (key) => {
+export const API = (key, branchtype = '') => {
     // console.clear();
     console.log(global.cfg);
     console.log(global.login);
@@ -39,7 +39,7 @@ export const API = (key) => {
         case 'SQL':
             return {
                 method: 'POST',
-                http: global.cfg.branchQueryAPI + 'api/dataquery/GetDataBySqlName'
+                http: (branchtype === 'zda' ? global.cfg.centerQueryAPI : global.cfg.branchQueryAPI) + 'api/dataquery/GetDataBySqlName'
             }
         case 'CheckCurrentId':
             return {
