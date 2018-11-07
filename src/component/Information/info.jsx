@@ -103,7 +103,9 @@ class Info extends Component {
                         Receivers: [],
                         Sender: null,
                         Sqls: [],
-                        Bytes: ""
+                        Bytes: "",
+                        DeptID: global.msgcfg.filepath,
+                        DeptName: global.msgcfg.fileurl
                     }],
                     tabBarShow: true
                 })
@@ -136,7 +138,10 @@ class Info extends Component {
             loading: true
         })
         // const {selectedData} = this.state
-        let s = this.state.selectedData[0]
+        let s = this.state.selectedData[0];
+
+        s.DeptID = global.msgcfg.filepath;
+        s.DeptName = global.msgcfg.fileurl;
         s.Sender = JSON.stringify({
             eId: global.msgcfg.eId,
             AppId: global.msgcfg.AppId,
