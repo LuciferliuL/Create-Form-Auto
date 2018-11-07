@@ -8,7 +8,7 @@ global.cfg = {
     branchQueryAPI: sessionStorage.getItem('branchQueryAPI'),//分公司
 }
 
-sessionStorage.setItem('environment', 'develop');//test,product,develop
+sessionStorage.setItem('environment', 'test');//test,product,develop
 const environment = sessionStorage.getItem('environment');
 if (environment === 'test') {
     global.login = {

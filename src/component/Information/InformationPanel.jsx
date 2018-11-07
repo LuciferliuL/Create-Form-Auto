@@ -9,16 +9,58 @@ class InformationPanel extends Component {
     constructor(props) {
         super(props);
         this.newTabIndex = 0;
-        const panes = [
-          { title: 'Tab 1', content: 'Content of Tab Pane 1', key: '1' },
-          { title: 'Tab 2', content: 'Content of Tab Pane 2', key: '2' },
-        ];
+        const panes = [];
         this.state = {
-          activeKey: panes[0].key,
+          activeKey: '0',
           panes,
+          SQLdata:[]
         };
       }
-    
+      componentDidMount(){
+        const {selectedData} = this.props
+        // console.log(selectedData);
+        if(selectedData.length > 0){
+          let SQLdata = JSON.parse(selectedData[0].Sqls)
+          let paneData = []
+          SQLdata.forEach((e,i) => {
+            paneData.push({ title: e.name, content:  <TabContent SQLdata={e} PaneSaveData={this.PaneSaveData} i={this.newTabIndex}></TabContent>, key: `newTab${this.newTabIndex++}` })
+          })
+          this.setState({
+            panes:paneData,
+            activeKey: paneData[0].key,
+            SQLdata:SQLdata
+          })
+        }
+        
+      }
+      componentWillReceiveProps(pre){
+        console.log(1);
+        const {selectedData} = pre
+        // console.log(selectedData);
+        if(selectedData.length > 0){
+          let SQLdata = JSON.parse(selectedData[0].Sqls)
+          let paneData = []
+          SQLdata.forEach((e,i) => {
+            paneData.push({ title: e.name, content:  <TabContent SQLdata={e}  PaneSaveData={this.PaneSaveData} i={this.newTabIndex}></TabContent>, key: `newTab${this.newTabIndex++}` })
+          })
+          this.setState({
+            panes:paneData,
+            activeKey: paneData[0].key,
+            SQLdata:SQLdata
+          })
+        }
+      }
+      PaneSaveData = (obj,key)=>{
+        // console.log(key);
+        const d = this.state.SQLdata
+        d[key] = obj
+        console.log(obj);
+        
+        this.setState({
+          SQLdata:d
+        })
+        this.props.EditSelectedRow({'Sqls':JSON.stringify(d)})
+      }
       onChange = (activeKey) => {
         this.setState({ activeKey });
       }
@@ -29,9 +71,10 @@ class InformationPanel extends Component {
     
       add = () => {
         const panes = this.state.panes;
-        const activeKey = `newTab${this.newTabIndex++}`;
-        panes.push({ title: 'New Tab', content: <TabContent></TabContent>, key: activeKey });
-        this.setState({ panes, activeKey });
+        const activeKey = `newTab${this.newTabIndex}`;
+        panes.push({ title: 'New Tab', content: <TabContent SQLdata={{}}  PaneSaveData={this.PaneSaveData} i ={this.newTabIndex}></TabContent>, key: activeKey });   
+        this.setState({ panes, activeKey },()=>{this.newTabIndex++});
+        
       }
     
       remove = (targetKey) => {
@@ -52,7 +95,7 @@ class InformationPanel extends Component {
         return (
           <div>
             <div style={{ marginBottom: 16 }}>
-              <Button onClick={this.add}>ADD</Button>
+              <Button onClick={this.add}>添加SQL数据</Button>
             </div>
             <Tabs
               hideAdd
@@ -61,7 +104,7 @@ class InformationPanel extends Component {
               type="editable-card"
               onEdit={this.onEdit}
             >
-              {this.state.panes.map(pane => <TabPane tab={pane.title} key={pane.key}>{pane.content}</TabPane>)}
+              {this.state.panes.map(pane => <TabPane tab={pane.title} key={pane.key} >{pane.content}</TabPane>)}
             </Tabs>
           </div>
         );

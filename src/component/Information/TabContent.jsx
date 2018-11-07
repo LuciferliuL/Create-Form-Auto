@@ -8,6 +8,7 @@ class TabContent extends Component {
         visible: false,
         SQL: '',
         name: '',
+        value: '',
         columnsIndex: -1,
         Tabledata: [],
         columns: [
@@ -75,15 +76,50 @@ class TabContent extends Component {
             }
         ]
     }
+    componentDidMount() {
+        const { SQLdata } = this.props
+        // console.log(SQLdata);
+        if (Object.keys(SQLdata).length > 0) {
+            let obj = JSON.parse(SQLdata.cols)
+            // console.log(obj);
+            let dataSource = []
+            Object.keys(obj).forEach(e => {
+                let o = {}
+                o['title'] = obj[e]
+                o['dataIndex'] = e
+                dataSource.push(o)
+            })
+            this.setState({
+                SQL: SQLdata.sql,
+                Tabledata: dataSource,
+                value: SQLdata.name
+            })
+        }
 
+    }
     componentWillReceiveProps(pre) {
-        this.setState({
-            visible: false,
-            SQL: '',
-            name: '',
-            columnsIndex: -1,
-            Tabledata: [],
-        })
+        // console.log(pre);
+        const { SQLdata } = pre
+        if (Object.keys(SQLdata).length > 0) {
+            let obj = JSON.parse(SQLdata.cols)
+            // console.log(obj);
+            let dataSource = []
+            Object.keys(obj).forEach(e => {
+                let o = {}
+                o['title'] = obj[e]
+                o['dataIndex'] = e
+                dataSource.push(o)
+            })
+            this.setState({
+                SQL: SQLdata.sql,
+                Tabledata: dataSource,
+                columnsIndex: -1,
+                visible: false,
+                name: '',
+                value: SQLdata.name
+            })
+        }
+
     }
     //用来修改表格得值
     inputChange = (name, e) => {
@@ -161,6 +197,12 @@ class TabContent extends Component {
             visible: false,
         })
         // console.log(this.state.Tabledata);
+        // this.props.EditSelectedRow({
+        //     name:this.state.value,
+
+        // })
+        const { Tabledata, SQL, value } = this.state
+        this.ChangeSQL(Tabledata, SQL, value)
     }
     handleCancel = () => {
         this.setState({
@@ -170,20 +212,40 @@ class TabContent extends Component {
 
     inputChangeReset = (e) => {
         this.setState({
-            Tabledata:e.target.value
+            Tabledata: e.target.value
         })
     }
     textAreaChange = (e) => {
         this.setState({
-            SQL:e.target.value
+            SQL: e.target.value
         })
+        const { Tabledata, SQL, value } = this.state
+        this.ChangeSQL(Tabledata, e.target.value, value)
+    }
+    InputChange = (e) => {
+        this.setState({
+            value: e.target.value
+        })
+        const { Tabledata, SQL, value } = this.state
+        this.ChangeSQL(Tabledata, SQL, e.target.value)
+    }
+    ChangeSQL = (Tabledata,SQL,value)=>{
+        let Obj = {}
+        Tabledata.forEach(e => {
+            Obj[e.dataIndex] = e.title
+        })
+        this.props.PaneSaveData({
+            name: value,
+            cols: JSON.stringify(Obj),
+            sql: SQL
+        },this.props.i)
     }
     render() {
-        const { Tabledata, columns , SQL} = this.state
+        const { Tabledata, columns, SQL, value } = this.state
         return (
             <div>
                 <Modal
-                    title="SQL"
+                    title="列数据"
                     visible={this.state.visible}
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}
@@ -203,12 +265,14 @@ class TabContent extends Component {
 
                     ></Table>
                 </Modal>
-                <span style={{padding:5,fontSize:20}}>SQL:</span>
-                <TextArea 
-                rows={10}
-                value={SQL}
-                onChange={this.textAreaChange.bind(this)}></TextArea>
-                <span style={{padding:5,fontSize:20}}>列选择项：</span>
+                <span style={{ padding: 5, fontSize: 20 }}>SQL名称:</span>
+                <Input value={value} onChange={this.InputChange}></Input>
+                <span style={{ padding: 5, fontSize: 20 }}>SQL:</span>
+                <TextArea
+                    rows={10}
+                    value={SQL}
+                    onChange={this.textAreaChange.bind(this)}></TextArea>
+                <span style={{ padding: 5, fontSize: 20 }}>列选择项：</span>
                 <Input
                     value={Tabledata}
                     onChange={this.inputChangeReset.bind(this)}
@@ -221,3 +285,6 @@ class TabContent extends Component {
 }
 
 export default TabContent;
+
+
+ 

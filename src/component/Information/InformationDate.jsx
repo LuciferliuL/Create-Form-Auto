@@ -3,12 +3,38 @@ import { Radio } from 'antd'
 import moment from 'moment';
 import { DatePicker } from 'antd';
 
-
-const { MonthPicker, RangePicker } = DatePicker;
 const RadioGroup = Radio.Group
 class InformationDate extends Component {
     state = {
-        value: 0
+        value: 0,
+        dateValue: moment('2018-11-06 00:00', 'YYYY-MM-DD HH:mm'),
+        dateString:''
+    }
+    componentDidMount() {
+        const { selectedData } = this.props
+        if (selectedData.length > 0) {
+            let type = selectedData[0].DueDatetype
+            let date = selectedData[0].DueDateCorn
+            // console.log(date);
+
+            this.setState({
+                value: type === '立即' ? 0 : 1,
+                dateValue: type === '立即' ? moment('2018-11-06 00:00', 'YYYY-MM-DD HH:mm') : moment(date , 'YYYY-MM-DD HH:mm'),
+            })
+        }
+    }
+    componentWillReceiveProps(pre) {
+        const { selectedData } = pre
+        if (selectedData.length > 0) {
+            let type = selectedData[0].DueDatetype
+            let date = selectedData[0].DueDateCorn
+            // console.log(date);
+
+            this.setState({
+                value: type === '立即' ? 0 : 1,
+                dateValue: type === '立即' ? moment('2018-11-06 00:00', 'YYYY-MM-DD HH:mm') : moment(date, 'YYYY-MM-DD HH:mm'),
+            })
+        }
     }
     onChange = (e) => {
         console.log(e.target.value);
@@ -28,29 +54,30 @@ class InformationDate extends Component {
         return current && current < moment().endOf('day');
     }
 
-    disabledDateTime = () => {
-        return {
-            disabledHours: () => this.range(0, 24).splice(4, 20),
-            disabledMinutes: () => this.range(30, 60),
-            disabledSeconds: () => [55, 56],
-        };
+    // disabledDateTime = () => {
+    //     return {
+    //         disabledHours: () => this.range(0, 24).splice(4, 20),
+    //         disabledMinutes: () => this.range(30, 60),
+    //         disabledSeconds: () => [55, 56],
+    //     };
+    // }
+    Onchange = (date, dateString) => {
+        console.log(dateString);
+        this.setState({
+            dateValue: date,
+            dateString:dateString
+        })
     }
-
-    disabledRangeTime = (_, type) => {
-        if (type === 'start') {
-            return {
-                disabledHours: () => this.range(0, 60).splice(4, 20),
-                disabledMinutes: () => this.range(30, 60),
-                disabledSeconds: () => [55, 56],
-            };
-        }
-        return {
-            disabledHours: () => this.range(0, 60).splice(20, 4),
-            disabledMinutes: () => this.range(0, 31),
-            disabledSeconds: () => [55, 56],
-        };
+    onOk = () => {
+        let DueDatetype = this.state.value === 0 ? '立即' : '时间'
+        let DueDateCorn = this.state.value === 0 ? '立即' :this.state.dateString
+        this.props.EditSelectedRow({
+            DueDatetype: DueDatetype,
+            DueDateCorn: DueDateCorn
+        })
     }
     render() {
+        const { defaultValue, dateValue } = this.state
         return (
             <div>
                 <RadioGroup onChange={this.onChange} value={this.state.value}>
@@ -62,10 +89,13 @@ class InformationDate extends Component {
                     <div>
                         <p>请选择详细时间</p>
                         <DatePicker
-                            format="YYYY-MM-DD HH:mm:ss"
-                            disabledDate={this.disabledDate}
-                            disabledTime={this.disabledDateTime}
-                            showTime={{ defaultValue: moment('00:00:00', 'HH:mm:ss') }}
+                            onOk={this.onOk}
+                            onChange={this.Onchange}
+                            value={dateValue}
+                            format="YYYY-MM-DD HH:mm"
+                            // disabledDate={this.disabledDate}
+                            // disabledTime={this.disabledDateTime}
+                            showTime={{ format: 'HH:mm' }}
                         /> </div> : null}
             </div>
         );

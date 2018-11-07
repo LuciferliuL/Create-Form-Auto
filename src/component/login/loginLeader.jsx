@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Row, Col, Card, Icon, Avatar, Layout } from 'antd'
-import { withRouter, Route } from 'react-router-dom'
-import Information from '../Information/Information'
+import { withRouter} from 'react-router-dom'
 
 const { Meta } = Card;
 const { Header, Footer, Content } = Layout;
@@ -16,7 +15,6 @@ function mapStateToProps(state) {
 class loginLeader extends Component {
     state = {
         h: 0,
-        showOrHiden:true,
         data: [{
             IconType: "setting",//图标
             AvatarSrc: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",//人物头像
@@ -84,9 +82,7 @@ class loginLeader extends Component {
                                 if (e.MetaTitle === 'DESGIN') {
                                     this.props.history.push('/Design/er')
                                 } else if(e.MetaTitle === 'I9群信息'){
-                                    this.setState({
-                                        showOrHiden:false
-                                    })
+                                    this.props.history.push('/Info')
                                 }else {
                                     window.location.href = e.href
                                 }
@@ -105,15 +101,15 @@ class loginLeader extends Component {
             <Layout>
                 <Header>Header</Header>
                 <Content>
-                    {this.state.showOrHiden ?
+                    {/* {this.state.showOrHiden ? */}
                     <Card style={{ height: h }}>
                         <Row align='middle' justify='start' style={{ marginTop: '5%' }}>
                             <Col span={2}></Col>
                             {dataList}
                             <Col span={2}></Col>
                         </Row>
-                    </Card> :
-                    <Information height={h}></Information>}
+                    </Card> 
+                    {/* // :<Information height={h}></Information>} */}
                 </Content>
                 <Footer style={{ textAlign: 'center' }}>
                     ERP Design ©2018 Created by LEO
