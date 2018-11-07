@@ -24,8 +24,8 @@ class InformationDate extends Component {
         }
     }
     componentWillReceiveProps(pre) {
-        const { selectedData } = pre
-        if (selectedData[0].PK !== -1) {
+        const { selectedData ,news} = pre
+        if (!news) {
             let type = selectedData[0].DueDatetype
             let date = selectedData[0].DueDateCorn
             // console.log(date);
@@ -33,6 +33,11 @@ class InformationDate extends Component {
             this.setState({
                 value: type === '立即' ? 0 : 1,
                 dateValue: type === '立即' ? moment('2018-11-06 00:00', 'YYYY-MM-DD HH:mm') : moment(date, 'YYYY-MM-DD HH:mm'),
+            })
+        }else if(news){
+            this.setState({
+                value: 0,
+                dateValue: moment('2018-11-06 00:00', 'YYYY-MM-DD HH:mm')
             })
         }
     }
