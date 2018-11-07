@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Table, Input, Button, Tabs, message, Spin } from 'antd';
 import { API } from '../../lib/API/I9'
+import '../../lib/API/url.API'
 import { GET$, POST$ } from '../../lib/MATH/math'
 import Information from './Information'
 import Person from './Person'
@@ -20,7 +21,7 @@ class Info extends Component {
     state = {
         tabBarShow: false,
         disabled: true,
-        loading:false,
+        loading: false,
         activeKey: '1',
         selectedRowKeys: [],
         selectedData: [{
@@ -29,11 +30,13 @@ class Info extends Component {
             DataSource: "集中",//集中，分公司；
             DueDatetype: "立即",
             DueDateCorn: "立即",//
-            MsgTemplateId: "I9MessageSend",
+            MsgTemplateId: global.msgcfg.autotemplateid,
             Receivers: null,
             Sender: null,
             Sqls: null,
-            Bytes: ""
+            Bytes: "",
+            DeptID: global.msgcfg.filepath,
+            DeptName: global.msgcfg.fileurl
         }],//应该修改的数据
         data: [],
         columns: [{
@@ -96,11 +99,13 @@ class Info extends Component {
                         DataSource: "集中",//集中，分公司；
                         DueDatetype: "立即",
                         DueDateCorn: "立即",//
-                        MsgTemplateId: "I9MessageSend",
+                        MsgTemplateId: global.msgcfg.autotemplateid,
                         Receivers: [],
                         Sender: null,
                         Sqls: [],
-                        Bytes: ""
+                        Bytes: "",
+                        DeptID: global.msgcfg.filepath,
+                        DeptName: global.msgcfg.fileurl
                     }],
                     tabBarShow: true
                 })
@@ -143,14 +148,17 @@ class Info extends Component {
     }
     OnOk = () => {
         this.setState({
-            loading:true
+            loading: true
         })
         // const {selectedData} = this.state
-        let s = this.state.selectedData[0]
+        let s = this.state.selectedData[0];
+
+        s.DeptID = global.msgcfg.filepath;
+        s.DeptName = global.msgcfg.fileurl;
         s.Sender = JSON.stringify({
-            eId: "8070424",
-            AppId: "500068278",
-            Secret: "3n1toHGU5409tfuCPVHe",
+            eId: global.msgcfg.eId,
+            AppId: global.msgcfg.AppId,
+            Secret: global.msgcfg.appSecret,
         })
         this.setState((pre) => (
             {
@@ -160,15 +168,15 @@ class Info extends Component {
 
             POST$(API('I9msg').http, this.state.selectedData[0], (res) => {
                 console.log(res);
-                
+
                 GET$(API('geti9msgall').http, (res) => {
                     console.log(res);
                     this.setState({
                         data: res,
                         activeKey: '1',
                         disabled: true,
-                        loading:false
-                    },()=>{message.success('添加成功')})
+                        loading: false
+                    }, () => { message.success('添加成功') })
                 })
             })
         })

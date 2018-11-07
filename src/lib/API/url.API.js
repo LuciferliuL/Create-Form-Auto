@@ -8,6 +8,18 @@ global.cfg = {
     branchQueryAPI: sessionStorage.getItem('branchQueryAPI'),//分公司
 }
 
+//i9消息发送配置；
+global.msgcfg = {
+    eId: "8070424",//eid
+    esecret: "ArqyyWkxcIl3jmXcUXwmxTqvtetoZvgG",//通讯录密钥
+    AppId: "500068278",
+    appSecret: "3n1toHGU5409tfuCPVHe",//app密钥
+    corntemplateid: "I9MessageSend",
+    autotemplateid: "I9MessageSend",
+    filepath: "C:\\Program Files (x86)\\JZTERP\\QueryService\\design",//excel保存路径
+    fileurl: "http://10.3.2.21:9003/"//excel保存站点
+}
+
 sessionStorage.setItem('environment', 'test');//test,product,develop
 const environment = sessionStorage.getItem('environment');
 if (environment === 'test') {
