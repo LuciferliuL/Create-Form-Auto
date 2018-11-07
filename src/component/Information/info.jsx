@@ -62,7 +62,7 @@ class Info extends Component {
         })
     }
     OnChange = (rowKey, rows) => {
-        // console.log(rows);
+        console.log(rowKey);
         this.setState({
             selectedRowKeys: rowKey,
             selectedData: rows
@@ -114,7 +114,20 @@ class Info extends Component {
                     }) : message.warning('请选择数据')
                 break;
             case 'del':
-
+                POST$(API('i9Del',this.state.selectedRowKeys[0]).http,{},(res)=>{
+                    // console.log(res);
+                    if(res.result){
+                        message.success('删除成功')
+                        GET$(API('geti9msgall').http, (res) => {
+                            // console.log(res);
+                            this.setState({
+                                data: res
+                            })
+                        })
+                    }else{
+                        message.error('删除失败')
+                    }
+                })
                 break;
             default:
                 break;
@@ -198,7 +211,7 @@ class Info extends Component {
                             bordered={true}
                             columns={columns}
                             dataSource={data}
-                            rowKey='CfgGuid'>
+                            rowKey='PK'>
                         </Table>
                     </TabPane>
                     <TabPane tab="数据编辑" key='2' disabled={disabled}>

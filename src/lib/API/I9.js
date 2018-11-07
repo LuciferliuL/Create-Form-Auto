@@ -1,6 +1,6 @@
 import './url.API'
 
-export const API = (k) => {
+export const API = (k,id) => {
     // console.clear();
     console.log(global.cfg);
     console.log(global.login);
@@ -29,7 +29,12 @@ export const API = (k) => {
         case "geti9allpersons"://全部人员
             return {
                 method: 'POST',
-                http: global.cfg.centerQueryAPI  + "/api/DataMsg/GetAllPerson"
+                http: global.cfg.centerQueryAPI + "/api/DataMsg/GetAllPerson"
+            }
+        case 'i9Del':
+            return {
+                method: 'POST',
+                http: global.cfg.centerQueryAPI + 'api/DataMsg/' + id + '/delete' //获取列表
             }
         default:
             break;

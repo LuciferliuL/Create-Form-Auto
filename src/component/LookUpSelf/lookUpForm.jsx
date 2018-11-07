@@ -24,6 +24,7 @@ class LookUpForm extends React.Component {
         visible: false,
         SQL: '',
         name: '',
+        i:-1,
         columnsIndex: -1,
         Tabledata: [],
         columns: [
@@ -71,21 +72,24 @@ class LookUpForm extends React.Component {
                 }
             }, {
                 title: '操作',
-                dataIndex: '',
+                dataIndex: 'key',
                 render: (text, record, i) => {
                     // console.log(i);
-
-                    return (
-                        this.state.columnsIndex === -1 ?
+                    if (i === this.state.i ) {
+                        return (
+                            <span>
+                                <Tag color="#f50" onClick={this.TagChange.bind(this, 'save', i)}>保存</Tag>
+                            </span>
+                        )
+                    } else {
+                        return (
                             <span>
                                 <Tag color="#87d068" onClick={this.TagChange.bind(this, 'add', i)}>添加</Tag>
                                 <Tag color="#2db7f5" onClick={this.TagChange.bind(this, 'edit', i)}>修改</Tag>
                                 <Tag color="#f50" onClick={this.TagChange.bind(this, 'del', i)}>删除</Tag>
-                            </span> :
-                            <span>
-                                <Tag color="#f50" onClick={this.TagChange.bind(this, 'save', i)}>保存</Tag>
                             </span>
-                    )
+                        )
+                    }
                 }
 
             }
@@ -121,6 +125,7 @@ class LookUpForm extends React.Component {
                     Tabledata.forEach((e, i) => {
                         if (i === index) {
                             list.push({
+                                key:num,
                                 title: num,
                                 dataIndex: num,
                                 width: '',
@@ -128,17 +133,20 @@ class LookUpForm extends React.Component {
                         }
                         list.push(e)
                     }) : list.push({
+                        key:num,
                         title: num,
                         dataIndex: num,
                         width: '',
                     })
                 this.setState({
-                    Tabledata: list
+                    Tabledata: list,
+                   
                 })
                 break;
             case 'edit':
                 this.setState({
-                    columnsIndex: index
+                    columnsIndex: index,
+                    i:index
                 })
 
                 break
@@ -155,7 +163,8 @@ class LookUpForm extends React.Component {
                 break
             case 'save':
                 this.setState({
-                    columnsIndex: -1
+                    columnsIndex: -1,
+                    i:-1
                 })
                 break
             default:
@@ -297,7 +306,7 @@ class LookUpForm extends React.Component {
                                     dataSource={Tabledata}
                                     bordered={true}
                                     pagination={false}
-                                    rowKey='title'
+                                    rowKey='key'
                                     bodyStyle={{ padding: 5 }}
 
                                 ></Table>

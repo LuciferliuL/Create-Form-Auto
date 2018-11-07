@@ -41,6 +41,12 @@ class InformationDate extends Component {
         this.setState({
             value: e.target.value
         })
+        if(e.target.value === 0){
+            this.props.EditSelectedRow({
+                DueDatetype: '立即',
+                DueDateCorn: '立即'
+            })
+        }
     }
     range = (start, end) => {
         const result = [];

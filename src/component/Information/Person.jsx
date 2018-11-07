@@ -54,7 +54,7 @@ class Person extends Component {
   componentDidMount() {
     console.log(this.props.selectedData);
     const { selectedData } = this.props
-    if(selectedData[0].PK !== -1){
+    if (selectedData[0].PK !== -1) {
       let l = []
       JSON.parse(selectedData[0].Receivers).forEach(e => {
         let o = {}
@@ -66,12 +66,12 @@ class Person extends Component {
         data2: l
       })
     }
-    
+
   }
   componentWillReceiveProps(pre) {
     // console.log(pre);
     const { selectedData } = pre
-    if(selectedData[0].PK !== -1){
+    if (selectedData[0].PK !== -1) {
       let l = []
       JSON.parse(selectedData[0].Receivers).forEach(e => {
         let o = {}
@@ -81,6 +81,10 @@ class Person extends Component {
       })
       this.setState({
         data2: l
+      })
+    }else if(selectedData[0].PK === -1){
+      this.setState({
+        data2: []
       })
     }
   }
@@ -108,9 +112,11 @@ class Person extends Component {
   }
   //添加到右边
   AddRightTable = () => {
-    let D = [...this.state.selectedRows, ...this.state.data2]
+    const { data2, selectedRows } = this.state   
+    let D = [...selectedRows, ...data2]
+    
     this.setState({
-      data2: D
+      data2: this.un(D)
     }, () => {
       let list = []
       this.state.data2.forEach(e => {
@@ -122,6 +128,10 @@ class Person extends Component {
       this.props.EditSelectedRow({ Receivers: JSON.stringify(list) })
     })
 
+  }
+  un = (arr) => {
+    const res = new Map();
+    return arr.filter((a) => !res.has(a.openId) && res.set(a.openId, 1))
   }
   delRow = (e) => {
     // console.log(e);

@@ -9,6 +9,7 @@ class TabContent extends Component {
         SQL: '',
         name: '',
         value: '',
+        i: -1,
         columnsIndex: -1,
         Tabledata: [],
         columns: [
@@ -56,21 +57,24 @@ class TabContent extends Component {
                 }
             }, {
                 title: '操作',
-                dataIndex: '',
+                dataIndex: 'key',
                 render: (text, record, i) => {
                     // console.log(i);
-
-                    return (
-                        this.state.columnsIndex === -1 ?
+                    if (i === this.state.i ) {
+                        return (
+                            <span>
+                                <Tag color="#f50" onClick={this.TagChange.bind(this, 'save', i)}>保存</Tag>
+                            </span>
+                        )
+                    } else {
+                        return (
                             <span>
                                 <Tag color="#87d068" onClick={this.TagChange.bind(this, 'add', i)}>添加</Tag>
                                 <Tag color="#2db7f5" onClick={this.TagChange.bind(this, 'edit', i)}>修改</Tag>
                                 <Tag color="#f50" onClick={this.TagChange.bind(this, 'del', i)}>删除</Tag>
-                            </span> :
-                            <span>
-                                <Tag color="#f50" onClick={this.TagChange.bind(this, 'save', i)}>保存</Tag>
                             </span>
-                    )
+                        )
+                    }
                 }
 
             }
@@ -143,6 +147,7 @@ class TabContent extends Component {
                     Tabledata.forEach((e, i) => {
                         if (i === index) {
                             list.push({
+                                key: num,
                                 title: num,
                                 dataIndex: num,
                                 width: '',
@@ -150,17 +155,19 @@ class TabContent extends Component {
                         }
                         list.push(e)
                     }) : list.push({
+                        key: num,
                         title: num,
                         dataIndex: num,
                         width: '',
                     })
                 this.setState({
-                    Tabledata: list
+                    Tabledata: list,
                 })
                 break;
             case 'edit':
                 this.setState({
-                    columnsIndex: index
+                    columnsIndex: index,
+                    i: index
                 })
 
                 break
@@ -177,7 +184,8 @@ class TabContent extends Component {
                 break
             case 'save':
                 this.setState({
-                    columnsIndex: -1
+                    columnsIndex: -1,
+                    i:-1
                 })
                 break
             default:
@@ -229,7 +237,7 @@ class TabContent extends Component {
         const { Tabledata, SQL, value } = this.state
         this.ChangeSQL(Tabledata, SQL, e.target.value)
     }
-    ChangeSQL = (Tabledata,SQL,value)=>{
+    ChangeSQL = (Tabledata, SQL, value) => {
         let Obj = {}
         Tabledata.forEach(e => {
             Obj[e.dataIndex] = e.title
@@ -238,7 +246,7 @@ class TabContent extends Component {
             name: value,
             cols: JSON.stringify(Obj),
             sql: SQL
-        },this.props.i)
+        }, this.props.i)
     }
     render() {
         const { Tabledata, columns, SQL, value } = this.state
@@ -260,7 +268,7 @@ class TabContent extends Component {
                         dataSource={Tabledata}
                         bordered={true}
                         pagination={false}
-                        rowKey='title'
+                        rowKey='key'
                         bodyStyle={{ padding: 5 }}
 
                     ></Table>
@@ -287,4 +295,3 @@ class TabContent extends Component {
 export default TabContent;
 
 
- 

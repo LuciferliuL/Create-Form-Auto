@@ -48,6 +48,12 @@ class InformationPanel extends Component {
             activeKey: paneData[0].key,
             SQLdata:SQLdata
           })
+        }else if(selectedData[0].PK === -1){
+          this.setState({
+            panes:[],
+            activeKey: '0',
+            SQLdata:''
+          })
         }
       }
       PaneSaveData = (obj,key)=>{
