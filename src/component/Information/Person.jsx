@@ -19,12 +19,12 @@ class Person extends Component {
         columns: [{
             title: '姓名',
             dataIndex: 'name',
-            width: 200
+            width: 100
         }, {
 
             title: '职位',
             dataIndex: 'jobTitle',
-            width: 200
+            width: 100
         }, {
             title: 'openId',
             dataIndex: 'openId',
