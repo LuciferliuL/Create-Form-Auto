@@ -41,13 +41,13 @@ class Info extends Component {
         }],//应该修改的数据
         data: [],
         columns: [{
-            title: '库',
+            title: '数据源',
             dataIndex: 'DataSource',
         }, {
             title: '创建时间',
             dataIndex: 'CreateTime',
         }, {
-            title: 'Name',
+            title: '名称',
             dataIndex: 'Name',
         }, {
             title: '备注',

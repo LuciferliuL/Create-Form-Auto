@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Input, Card, Row, Col, Table, Button } from 'antd';
 import { API } from '../../lib/API/I9'
+import "../../lib/API/url.API"
 import { POST$ } from '../../lib/MATH/math'
 
 const Search = Input.Search;
@@ -18,12 +19,12 @@ class Person extends Component {
     columns: [{
       title: '姓名',
       dataIndex: 'name',
-      width: 200
+      width: 100
     }, {
 
       title: '职位',
       dataIndex: 'jobTitle',
-      width: 200
+      width: 100
     }, {
       title: 'openId',
       dataIndex: 'openId',
@@ -82,18 +83,18 @@ class Person extends Component {
       this.setState({
         data2: l
       })
-    }else if(news){
+    } else if (news) {
       this.setState({
         data2: [],
-        data:[]
+        data: []
       })
     }
   }
   //搜索
   onsearch = (e) => {
     let ss = {
-      eId: "8070424",
-      secret: "ArqyyWkxcIl3jmXcUXwmxTqvtetoZvgG",
+      eId: global.msgcfg.eId,
+      secret: global.msgcfg.esecret,
       pagesize: 1000,
       keywords: e
     }
@@ -113,15 +114,12 @@ class Person extends Component {
   }
   //添加到右边
   AddRightTable = () => {
-    const { data2, selectedRows } = this.state   
-    let D = [...selectedRows,...data2 ]
-    console.log(this.un(D));
-    
+    const { data2, selectedRows } = this.state
+    let D = [...selectedRows, ...data2]
+
     this.setState({
       data2: this.un(D)
     }, () => {
-      console.log(this.state.data2);
-      
       let list = []
       this.state.data2.forEach(e => {
         let o = {}
@@ -160,7 +158,6 @@ class Person extends Component {
       selectedRowKeys,
       onChange: this.onSelectChange,
     }
-    console.log(this.state.data2);
     return (
       <Card>
         <Row gutter={12}>

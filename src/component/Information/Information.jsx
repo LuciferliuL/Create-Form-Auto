@@ -11,13 +11,13 @@ class Information extends Component {
         console.log(`selected ${value}`);
     }
     render() {
-        const {selectedData} = this.props
+        const { selectedData } = this.props
         return (
             <Row>
                 <Col span={4}>
                     <Card
                         bodyStyle={{ textAlign: 'center' }}
-                        title='选择公司'
+                        title='选择数据源'
                     >
                         <InformationRadio 
                         selectedData={selectedData} 
