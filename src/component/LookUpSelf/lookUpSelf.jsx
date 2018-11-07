@@ -6,6 +6,7 @@ import LookUpForm from './lookUpForm'
 import { LookUpApi } from '../../lib/API/lookUpList'
 import { GET$, POST$ } from '../../lib/MATH/math'
 
+
 const Panel = Collapse.Panel;
 const ButtonGroup = Button.Group
 
@@ -69,10 +70,16 @@ class lookUpSelf extends Component {
     }
     //删除
     del = () => {
-        let { tabledata } = this.state
+        let { tabledata } = this.state;
+        if (tabledata.length == 0) {
+            message.warning('请选择数据项！')
+            return;
+        }
+
         this.setState({
             loading: true
-        })
+        });
+
         POST$(LookUpApi('LookUpDel', tabledata[0].PK).http, {}, (res) => {
             // console.log(res);
             if (res.result) {
@@ -112,7 +119,7 @@ class lookUpSelf extends Component {
                     <Panel header="检索方案详情" key="2" >
                         <LookUpForm tabledata={tabledata} collapseChange={this.collapseChange}></LookUpForm>
                     </Panel>
-                    <Panel header="待定" key="3" >
+                    <Panel header="待定" key="3"  >
                         <p>text</p>
                     </Panel>
                 </Collapse>
