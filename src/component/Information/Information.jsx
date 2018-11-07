@@ -11,30 +11,30 @@ class Information extends Component {
         console.log(`selected ${value}`);
     }
     render() {
-        const {selectedData} = this.props
+        const { selectedData } = this.props
         return (
             <Row>
                 <Col span={4}>
                     <Card
                         bodyStyle={{ textAlign: 'center' }}
-                        title='选择公司'
+                        title='选择数据源'
                     >
-                        <InformationRadio 
-                        selectedData={selectedData} 
-                        EditSelectedRow={this.props.EditSelectedRow}></InformationRadio>
+                        <InformationRadio
+                            selectedData={selectedData}
+                            EditSelectedRow={this.props.EditSelectedRow}></InformationRadio>
                     </Card>
                     <Card
                         title="选择时间"
                         bodyStyle={{ textAlign: 'center' }}>
                         <InformationDate selectedData={selectedData}
-                        EditSelectedRow={this.props.EditSelectedRow}></InformationDate>
+                            EditSelectedRow={this.props.EditSelectedRow}></InformationDate>
                     </Card>
                 </Col>
                 <Col span={20}>
                     <Card
                         title="SQL">
                         <InformationPanel selectedData={selectedData}
-                        EditSelectedRow={this.props.EditSelectedRow}></InformationPanel>
+                            EditSelectedRow={this.props.EditSelectedRow}></InformationPanel>
                     </Card>
                 </Col>
             </Row>

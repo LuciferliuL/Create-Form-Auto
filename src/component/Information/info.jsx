@@ -40,13 +40,13 @@ class Info extends Component {
         }],//应该修改的数据
         data: [],
         columns: [{
-            title: '库',
+            title: '数据源',
             dataIndex: 'DataSource',
         }, {
             title: '创建时间',
             dataIndex: 'CreateTime',
         }, {
-            title: 'Name',
+            title: '名称',
             dataIndex: 'Name',
         }, {
             title: '备注',
@@ -119,9 +119,9 @@ class Info extends Component {
                     }) : message.warning('请选择数据')
                 break;
             case 'del':
-                POST$(API('i9Del',this.state.selectedRowKeys[0]).http,{},(res)=>{
+                POST$(API('i9Del', this.state.selectedRowKeys[0]).http, {}, (res) => {
                     // console.log(res);
-                    if(res.result){
+                    if (res.result) {
                         message.success('删除成功')
                         GET$(API('geti9msgall').http, (res) => {
                             // console.log(res);
@@ -129,7 +129,7 @@ class Info extends Component {
                                 data: res
                             })
                         })
-                    }else{
+                    } else {
                         message.error('删除失败')
                     }
                 })
