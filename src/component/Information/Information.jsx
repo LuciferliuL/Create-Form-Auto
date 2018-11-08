@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Row, Col } from 'antd'
+import { Card, Row, Col, Input } from 'antd'
 import InformationRadio from './InformationRadio'
 import InformationDate from './InformationDate'
 import InformationPanel from './InformationPanel'
@@ -9,14 +9,20 @@ import {copyDataSource} from './information.action'
 
 class Information extends Component {
 
-    handleChange = (value) => {
-        console.log(`selected ${value}`);
+    titleChange = (value) => {
+        console.log(`selected ${value.target.value}`);
+        this.props.copyDataSource({title:value.target.value})
     }
     render() {
         const { selectedData } = this.props
         return (
             <Row>
                 <Col span={4}>
+                    <Card
+                    bodyStyle={{ textAlign: 'center' }}
+                    title='标题'>
+                        <Input value={this.props.information.title} onChange={this.titleChange.bind(this)}></Input>
+                    </Card>
                     <Card
                         bodyStyle={{ textAlign: 'center' }}
                         title='选择数据源'
