@@ -37,17 +37,14 @@ class Info extends Component {
         }],//应该修改的数据
         data: [],
         columns: [{
+            title: '标题',
+            dataIndex: 'Title',
+        }, {
             title: '数据源',
             dataIndex: 'DataSource',
         }, {
             title: '创建时间',
             dataIndex: 'CreateTime',
-        }, {
-            title: '名称',
-            dataIndex: 'Name',
-        }, {
-            title: '备注',
-            dataIndex: 'Remark',
         }, {
             title: '状态',
             dataIndex: 'Status',
