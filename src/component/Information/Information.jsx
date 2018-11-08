@@ -3,6 +3,8 @@ import { Card, Row, Col } from 'antd'
 import InformationRadio from './InformationRadio'
 import InformationDate from './InformationDate'
 import InformationPanel from './InformationPanel'
+import { connect } from 'react-redux'
+import {copyDataSource} from './information.action'
 
 
 class Information extends Component {
@@ -27,7 +29,8 @@ class Information extends Component {
                     <Card
                         title="选择时间"
                         bodyStyle={{ textAlign: 'center' }}>
-                        <InformationDate selectedData={selectedData}
+                        <InformationDate 
+                        selectedData={selectedData}
                         EditSelectedRow={this.props.EditSelectedRow}
                         news={this.props.news}></InformationDate>
                     </Card>
@@ -35,7 +38,8 @@ class Information extends Component {
                 <Col span={20}>
                     <Card
                         title="SQL">
-                        <InformationPanel selectedData={selectedData}
+                        <InformationPanel 
+                        selectedData={selectedData}
                         EditSelectedRow={this.props.EditSelectedRow}
                         news={this.props.news}></InformationPanel>
                     </Card>
@@ -45,4 +49,19 @@ class Information extends Component {
     }
 }
 
-export default Information;
+function mapStateToProps(state) {
+    // console.log(state);
+    
+    return {
+        information:state.information
+    }
+}
+
+function mapDispatchProps(dispatch) {
+    return {
+        copyDataSource:(k)=>{
+            dispatch(copyDataSource(k))
+        }
+    }
+}
+export default connect(mapStateToProps, mapDispatchProps)(Information);

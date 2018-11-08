@@ -4,7 +4,7 @@ import { InitStylistData, UpdataFormData, currentAttr, tableSource } from '../co
 import { SliderCardData, currentTagsUpdata, SQL_Data } from '../component/SliderCard/reducer/SliderCard.reducer'
 import {hidenDrawer, flagChange} from '../component/SliderRIght/reducer/Right.reducer'
 import {TabsData, TableList, KEYS} from '../component/User/User.reducer'
-
+import {information, activeKey} from '../component/Information/information.reducer'
 
 const allReducers = {
     Slider: Slider,//侧边定位
@@ -19,7 +19,9 @@ const allReducers = {
     tableSource:tableSource, //表格的数据
     TabsData:TabsData,//多表单数据存储
     TableList:TableList,//多表格数据存储
-    KEYS:KEYS//激活的多tabs的key
+    KEYS:KEYS,//激活的多tabs的key
+    information:information,//i9信息用
+    activeKey:activeKey//pane状态
 }
 const rootReducer = combineReducers(allReducers)
 //使用combineReducers组合reducer

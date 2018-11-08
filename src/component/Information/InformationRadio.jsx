@@ -1,48 +1,19 @@
 import React, { Component } from 'react';
 import { Radio } from 'antd'
-
+import { connect } from 'react-redux'
+import { copyDataSource } from './information.action'
 
 const RadioGroup = Radio.Group
 class InformationRadio extends Component {
-    state = {
-        value: 0
-    }
-    componentDidMount() {
-        const { selectedData } = this.props
-        if (selectedData.length > 0) {
-            this.setState({
-                value: selectedData[0].DataSource === '集中' ? 0 : 1
-            })
-        }
-
-    }
-    componentWillReceiveProps(pre) {
-        console.log(pre);
-        const { selectedData, news } = pre
-        if (!news) {
-            this.setState({
-                value: selectedData[0].DataSource === '集中' ? 0 : 1
-            })
-        } else if (news) {
-            this.setState({
-                value: 0
-            })
-        }
-    }
     onChange = (e) => {
-        // console.log(e.target.value);
-        this.setState({
-            value: e.target.value
-        })
         let c = e.target.value === 0 ? '集中' : '分公司'
-        // this.props.EditSelectedRow({ 'DataSource': e.target.value === 0 ? '集中' : '分公司' })
-        sessionStorage.setItem('Radio', JSON.stringify({ DataSource: c }))
+        this.props.copyDataSource({ DataSource: c })
     }
     render() {
-
+        const { DataSource } = this.props.information
         return (
             <div>
-                <RadioGroup onChange={this.onChange} value={this.state.value}>
+                <RadioGroup onChange={this.onChange} value={DataSource === '集中' ? 0 : 1}>
                     <Radio value={0}>集中</Radio>
                     <Radio value={1}>分公司</Radio>
                 </RadioGroup>
@@ -50,5 +21,19 @@ class InformationRadio extends Component {
         );
     }
 }
+function mapStateToProps(state) {
+    // console.log(state.information);
 
-export default InformationRadio;
+    return {
+        information: state.information
+    }
+}
+
+function mapDispatchProps(dispatch) {
+    return {
+        copyDataSource: (k) => {
+            dispatch(copyDataSource(k))
+        }
+    }
+}
+export default connect(mapStateToProps, mapDispatchProps)(InformationRadio);
