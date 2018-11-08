@@ -44,7 +44,7 @@ else if (environment === 'develop') {
         model: "dev",
         center: "ZDA",
         currentBranchId: sessionStorage.getItem('currentBranchId'),
-        branchSysAPI: 'http://10.3.2.21:20296/',//登录
+        branchSysAPI: 'http://10.3.4.177:20296/',//分公司登录
         centerQueryAPI: 'http://10.3.4.177:9004/',//queryservice
         branchQueryAPI: 'http://10.3.4.177:9004/',//queryservice
         // centerQueryAPI: 'http://10.2.132.215:7000/',//queryservice
