@@ -6,16 +6,12 @@ import '../../lib/API/url.API'
 import { GET$, POST$ } from '../../lib/MATH/math'
 import Information from './Information'
 import Person from './Person'
+import { copyDataSource } from './information.action'
+
 
 const Search = Input.Search;
 const ButtonGroup = Button.Group
 const TabPane = Tabs.TabPane;
-
-function mapStateToProps(state) {
-    return {
-
-    };
-}
 
 class Info extends Component {
     state = {
@@ -32,9 +28,9 @@ class Info extends Component {
             DueDatetype: "立即",
             DueDateCorn: "立即",//
             MsgTemplateId: global.msgcfg.autotemplateid,
-            Receivers: null,
+            Receivers: '[]',
             Sender: null,
-            Sqls: null,
+            Sqls: '[]',
             Bytes: "",
             DeptID: global.msgcfg.filepath,
             DeptName: global.msgcfg.fileurl
@@ -101,24 +97,39 @@ class Info extends Component {
                         DueDatetype: "立即",
                         DueDateCorn: "立即",//
                         MsgTemplateId: global.msgcfg.autotemplateid,
-                        Receivers: [],
+                        Receivers: '[]',
                         Sender: null,
-                        Sqls: [],
+                        Sqls: '[]',
                         Bytes: "",
                         DeptID: global.msgcfg.filepath,
                         DeptName: global.msgcfg.fileurl
                     }],
                     tabBarShow: true,
-                    news:true
+                    news: true
                 })
+                this.props.copyDataSource({
+                    PK: -1,
+                    Name: "测试",
+                    DataSource: "集中",//集中，分公司；
+                    DueDatetype: "立即",
+                    DueDateCorn: "立即",//
+                    MsgTemplateId: global.msgcfg.autotemplateid,
+                    Receivers: '[]',
+                    Sender: null,
+                    Sqls: '[]',
+                    Bytes: "",
+                    DeptID: global.msgcfg.filepath,
+                    DeptName: global.msgcfg.fileurl
+                })//选择的数据
                 break;
             case 'edit':
+                this.props.copyDataSource(this.state.selectedData[0])//选择的数据
                 this.state.selectedData[0].PK !== -1 ?
                     this.setState({
                         activeKey: '2',
                         tabBarShow: true,
                         disabled: false,
-                        news:false
+                        news: false
                     }) : message.warning('请选择数据')
                 break;
             case 'del':
@@ -143,6 +154,16 @@ class Info extends Component {
     }
     callback = (key) => {
         // console.log(key);
+        // if(key !== 1){
+        //     let s = this.state.selectedData[0];
+        //     let Radio = JSON.parse(sessionStorage.getItem('Radio')) 
+        //     let Dates = JSON.parse(sessionStorage.getItem('Dates'))  
+        //     let SQL = JSON.parse(sessionStorage.getItem('SQL')) 
+        //     let Person = JSON.parse(sessionStorage.getItem('Person'))
+
+        //     let data = Object.assign({},s,Radio,Dates,SQL,Person)
+        //     console.log(data);
+        // }
         this.setState({
             activeKey: key,
             tabBarShow: key === '1' ? false : true,
@@ -153,8 +174,8 @@ class Info extends Component {
         this.setState({
             loading: true
         })
-        // const {selectedData} = this.state
-        let s = this.state.selectedData[0];
+        let s = this.props.information;
+        // console.log(s);
 
         s.DeptID = global.msgcfg.filepath;
         s.DeptName = global.msgcfg.fileurl;
@@ -164,26 +185,13 @@ class Info extends Component {
             Secret: global.msgcfg.appSecret,
         })
 
-       let Radio = JSON.parse(sessionStorage.getItem('Radio')) 
-       let Dates = JSON.parse(sessionStorage.getItem('Dates'))  
-       let SQL = JSON.parse(sessionStorage.getItem('SQL')) 
-       let Person = JSON.parse(sessionStorage.getItem('Person'))
-
-    //    console.log(Radio);
-    //    console.log(Dates);
-    //    console.log(SQL);
-       
-       let data = Object.assign({},s,Radio,Dates,SQL,Person)
-       console.log(data);
-       
-       
         this.setState((pre) => (
             {
-                selectedData: [data]
+                selectedData: s
             }
         ), () => {
 
-            POST$(API('I9msg').http, this.state.selectedData[0], (res) => {
+            POST$(API('I9msg').http, s, (res) => {
                 console.log(res);
 
                 GET$(API('geti9msgall').http, (res) => {
@@ -251,6 +259,24 @@ class Info extends Component {
     }
 }
 
+
+function mapStateToProps(state) {
+    // console.log(state);
+
+    return {
+        information: state.information
+    }
+}
+
+function mapDispatchProps(dispatch) {
+    return {
+        copyDataSource: (k) => {
+            dispatch(copyDataSource(k))
+        }
+    }
+}
+
+
 export default connect(
-    mapStateToProps,
+    mapStateToProps, mapDispatchProps
 )(Info);

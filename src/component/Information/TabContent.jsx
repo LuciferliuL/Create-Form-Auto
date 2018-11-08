@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Input, Modal, Button, Table, Icon, Tag } from 'antd'
-
-
+import { connect } from 'react-redux'
+import {copyDataSource} from './information.action'
 const TextArea = Input.TextArea
 class TabContent extends Component {
     state = {
@@ -82,7 +82,7 @@ class TabContent extends Component {
     }
     componentDidMount() {
         const { SQLdata } = this.props
-        // console.log(SQLdata);
+        console.log(SQLdata);
         if (Object.keys(SQLdata).length > 0) {
             let obj = JSON.parse(SQLdata.cols)
             // console.log(obj);
@@ -102,7 +102,7 @@ class TabContent extends Component {
 
     }
     componentWillReceiveProps(pre) {
-        // console.log(pre);
+        console.log(pre);
         const { SQLdata } = pre
         if (Object.keys(SQLdata).length > 0) {
             let obj = JSON.parse(SQLdata.cols)
@@ -234,7 +234,7 @@ class TabContent extends Component {
         this.setState({
             value: e.target.value
         })
-        const { Tabledata, SQL, value } = this.state
+        const { Tabledata, SQL } = this.state
         this.ChangeSQL(Tabledata, SQL, e.target.value)
     }
     ChangeSQL = (Tabledata, SQL, value) => {
@@ -242,11 +242,20 @@ class TabContent extends Component {
         Tabledata.forEach(e => {
             Obj[e.dataIndex] = e.title
         })
-        this.props.PaneSaveData({
+        // this.props.PaneSaveData({
+        //     name: value,
+        //     cols: JSON.stringify(Obj),
+        //     sql: SQL
+        // }, this.props.i)
+
+        let Sqls_ = JSON.parse(this.props.information.Sqls)
+        Sqls_[this.props.i] = {
             name: value,
             cols: JSON.stringify(Obj),
             sql: SQL
-        }, this.props.i)
+        }
+        console.log(this.props.i)
+        this.props.copyDataSource({ 'Sqls': JSON.stringify(Sqls_) })
     }
     render() {
         const { Tabledata, columns, SQL, value } = this.state
@@ -291,7 +300,21 @@ class TabContent extends Component {
         );
     }
 }
-
-export default TabContent;
+function mapStateToProps(state) {
+    console.log(state);
+    
+    return {
+        information:state.information
+    }
+}
+  
+function mapDispatchProps(dispatch) {
+    return {
+        copyDataSource:(k)=>{
+            dispatch(copyDataSource(k))
+        }
+    }
+}
+export default connect(mapStateToProps, mapDispatchProps)(TabContent);
 
 

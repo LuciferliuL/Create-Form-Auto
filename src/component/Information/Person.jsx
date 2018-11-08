@@ -4,18 +4,15 @@ import { Input, Card, Row, Col, Table, Button } from 'antd';
 import { API } from '../../lib/API/I9'
 import "../../lib/API/url.API"
 import { POST$ } from '../../lib/MATH/math'
+import {copyDataSource} from './information.action'
 
 const Search = Input.Search;
 
-function mapStateToProps(state) {
-  return {
-
-  };
-}
 
 class Person extends Component {
   state = {
     selectedRows: [],
+    selectedRowKeys:[],
     index:0,
     columns: [{
       title: '姓名',
@@ -54,11 +51,12 @@ class Person extends Component {
     data2: [],
   }
   componentDidMount() {
-    console.log(this.props.selectedData);
-    const { selectedData } = this.props
-    if (selectedData[0].PK !== -1) {
+    // console.log(this.props.selectedData);
+    // const { selectedData } = this.props
+    let Receivers = JSON.parse(this.props.information.Receivers)
+    if (Receivers.length > 0) {
       let l = []
-      JSON.parse(selectedData[0].Receivers).forEach(e => {
+      Receivers.forEach(e => {
         let o = {}
         o['openId'] = e.RecOpenid
         o['name'] = e.RecName
@@ -66,16 +64,26 @@ class Person extends Component {
       })
       this.setState({
         data2: l
+      })
+    }else{
+      this.setState({
+        data2:[],
+        data:[],
+        selectedRowKeys:[],
       })
     }
 
   }
   componentWillReceiveProps(pre) {
     console.log(pre);
-    const { selectedData, news } = pre
-    if (!news) {
+    let Receivers = JSON.parse(pre.information.Receivers)
+    console.log(Receivers);
+    
+    if (Receivers.length > 0) {
       let l = []
-      JSON.parse(selectedData[0].Receivers).forEach(e => {
+      console.log(1);
+      
+      Receivers.forEach(e => {
         let o = {}
         o['openId'] = e.RecOpenid
         o['name'] = e.RecName
@@ -84,18 +92,19 @@ class Person extends Component {
       this.setState({
         data2: l
       })
-    }else if(news && this.state.index === 0){
-      this.setState((pre)=>({
-          data2:[],
-          data:[],
-          index:pre.index ++
-      }))
+    }else{
+      this.setState({
+        data2:[],
+        data:[],
+        selectedRowKeys:[],
+      })
     }
   }
   componentWillUnmount(){
     this.setState({
       data2:[],
-      data:[]
+      data:[],
+      selectedRowKeys:[],
     })
   }
   //搜索
@@ -117,7 +126,7 @@ class Person extends Component {
     })
   }
   onSelectChange = (selectedRowKeys, selectedRows) => {
-    console.log('selectedRowKeys changed: ', selectedRows);
+    // console.log('selectedRowKeys changed: ', selectedRows);
     this.setState({ selectedRowKeys, selectedRows });
   }
   //添加到右边
@@ -136,7 +145,8 @@ class Person extends Component {
         list.push(o)
       })
       // this.props.EditSelectedRow({ Receivers: JSON.stringify(list) })
-      sessionStorage.setItem('Person',JSON.stringify({ Receivers: JSON.stringify(list) }))
+      // sessionStorage.setItem('Person',JSON.stringify({ Receivers: JSON.stringify(list) }))
+      this.props.copyDataSource({ Receivers: JSON.stringify(list) })
     })
 
   }
@@ -159,7 +169,7 @@ class Person extends Component {
         list.push(o)
       })
       // this.props.EditSelectedRow()
-      sessionStorage.setItem('Person',JSON.stringify({ Receivers: JSON.stringify(list) }))
+      this.props.copyDataSource({ Receivers: JSON.stringify(list) })
     })
   }
   render() {
@@ -208,7 +218,21 @@ class Person extends Component {
     );
   }
 }
+function mapStateToProps(state) {
+  console.log(state);
+  
+  return {
+      information:state.information
+  }
+}
 
+function mapDispatchProps(dispatch) {
+  return {
+      copyDataSource:(k)=>{
+          dispatch(copyDataSource(k))
+      }
+  }
+}
 export default connect(
-  mapStateToProps,
+  mapStateToProps,mapDispatchProps
 )(Person);
