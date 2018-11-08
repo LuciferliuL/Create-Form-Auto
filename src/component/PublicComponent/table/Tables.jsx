@@ -20,10 +20,10 @@ class TABLECOMPONENT extends Component {
 
     componentWillReceiveProps(pre) {
 
-        // console.log(pre.tableSource.columns);
+        console.log(pre.tableSource);
         let row = []
         pre.tableSource.columns.forEach(e => {
-            row.push(e.dataIndex)
+            row.push(e)
         })
         //加新数据
         let colHeight = Math.floor(pre.heights / 24)
@@ -122,6 +122,8 @@ class TABLECOMPONENT extends Component {
         let widths = 0
         let columnsData = []
         let tbodyData = []
+        console.log(columnskeys);
+        
         if (columnskeys) {
             columnskeys.map((e, i) => {
                 if (e['width'] > 0) {

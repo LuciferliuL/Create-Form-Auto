@@ -41,7 +41,7 @@ class Person extends Component {
       title: '操作',
       dataIndex: 'openId',
       render: (text, record) => {
-        return (
+        return this.props.news?null:(
           <div>
             <a href="javascript:;" onClick={this.delRow.bind(this, text)}>删除</a>
           </div>
