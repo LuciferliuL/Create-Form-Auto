@@ -16,6 +16,7 @@ function mapStateToProps(state) {
 class Person extends Component {
   state = {
     selectedRows: [],
+    index:0,
     columns: [{
       title: '姓名',
       dataIndex: 'name',
@@ -83,12 +84,19 @@ class Person extends Component {
       this.setState({
         data2: l
       })
-    } else if (news) {
-      this.setState({
-        data2: [],
-        data: []
-      })
+    }else if(news && this.state.index === 0){
+      this.setState((pre)=>({
+          data2:[],
+          data:[],
+          index:pre.index ++
+      }))
     }
+  }
+  componentWillUnmount(){
+    this.setState({
+      data2:[],
+      data:[]
+    })
   }
   //搜索
   onsearch = (e) => {
@@ -115,7 +123,7 @@ class Person extends Component {
   //添加到右边
   AddRightTable = () => {
     const { data2, selectedRows } = this.state
-    let D = [...selectedRows, ...data2]
+    let D = [ ...data2,...selectedRows]
 
     this.setState({
       data2: this.un(D)
