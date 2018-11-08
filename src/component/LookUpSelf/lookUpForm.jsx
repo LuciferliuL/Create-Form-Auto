@@ -6,10 +6,10 @@ import { POST$ } from '../../lib/MATH/math'
 
 const FormItem = Form.Item;
 const baseData = [
-    { label: '检索名称', id: 'label', message: '检索名称必填' },
     { label: 'ID', id: 'id', message: 'ID必填' },
-    { label: '默认显示的名称', id: 'uniqueKey', message: '默认显示的名称必填' },
-    { label: '回传值的KEY', id: 'upKey', message: '回传值的KEY必填' },
+    { label: '检索名称', id: 'label', message: '检索名称必填' },
+    { label: '显示字符', id: 'uniqueKey', message: '显示字符字段必填' },
+    { label: '回传KEY', id: 'upKey', message: '回传KEY字段必填' },
 ]
 const { TextArea } = Input;
 
@@ -24,7 +24,7 @@ class LookUpForm extends React.Component {
         visible: false,
         SQL: '',
         name: '',
-        i:-1,
+        i: -1,
         columnsIndex: -1,
         Tabledata: [],
         columns: [
@@ -75,7 +75,7 @@ class LookUpForm extends React.Component {
                 dataIndex: 'key',
                 render: (text, record, i) => {
                     // console.log(i);
-                    if (i === this.state.i ) {
+                    if (i === this.state.i) {
                         return (
                             <span>
                                 <Tag color="#f50" onClick={this.TagChange.bind(this, 'save', i)}>保存</Tag>
@@ -120,33 +120,26 @@ class LookUpForm extends React.Component {
         switch (name) {
             case 'add':
                 let num = Math.random().toFixed(4)
-                let list = []
-                Tabledata !== undefined && Tabledata.length > 0 ?
+                let list = [];
+
+                if (Tabledata !== undefined && Tabledata.length > 0)
                     Tabledata.forEach((e, i) => {
-                        if (i === index) {
-                            list.push({
-                                key:num,
-                                title: num,
-                                dataIndex: num,
-                                width: '',
-                            })
-                        }
                         list.push(e)
-                    }) : list.push({
-                        key:num,
-                        title: num,
-                        dataIndex: num,
-                        width: '',
-                    })
+                    });
+                list.push({
+                    key: num,
+                    title: num,
+                    dataIndex: num,
+                    width: '',
+                });
                 this.setState({
                     Tabledata: list,
-                   
                 })
                 break;
             case 'edit':
                 this.setState({
                     columnsIndex: index,
-                    i:index
+                    i: index
                 })
 
                 break
@@ -164,7 +157,7 @@ class LookUpForm extends React.Component {
             case 'save':
                 this.setState({
                     columnsIndex: -1,
-                    i:-1
+                    i: -1
                 })
                 break
             default:

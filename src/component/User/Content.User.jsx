@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Form, Pagination, Button, Icon, message, Radio } from 'antd'
+import { Card, Form, Pagination, Button, Icon, Radio } from 'antd'
 import { connect } from 'react-redux';
 import { formUpdataFromCurrent } from '../SliderRIght/action/Right.action'
 import PublicComponent from '../PublicComponent/Public.Component'
@@ -380,7 +380,7 @@ class ContentUser extends Component {
         oInput.focus();
         window.addEventListener('keyup', this.handleKeyDown)
 
-        var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.85
+        //var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.85
         let hflag = 0
         let height_ = 40
 
