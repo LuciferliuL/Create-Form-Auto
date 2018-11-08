@@ -56,7 +56,7 @@ class InformationDate extends Component {
 
         return (
             <div>
-                <RadioGroup onChange={this.onChange} value={DueDatetype === '立即' ? 0 : 1}>
+                <RadioGroup onChange={this.onChange} value={DueDatetype === '立即' ? 0 : 1} disabled={this.props.news}>
                     <Radio value={0}>立即发送</Radio>
                     <Radio value={1}>指定时间</Radio>
                 </RadioGroup>

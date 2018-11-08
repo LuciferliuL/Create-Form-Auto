@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Input, Modal, Button, Table, Icon, Tag } from 'antd'
 import { connect } from 'react-redux'
-import {copyDataSource} from './information.action'
+import { copyDataSource } from './information.action'
 const TextArea = Input.TextArea
 class TabContent extends Component {
     state = {
@@ -60,7 +60,7 @@ class TabContent extends Component {
                 dataIndex: 'key',
                 render: (text, record, i) => {
                     // console.log(i);
-                    if (i === this.state.i ) {
+                    if (i === this.state.i) {
                         return (
                             <span>
                                 <Tag color="#f50" onClick={this.TagChange.bind(this, 'save', i)}>保存</Tag>
@@ -82,7 +82,7 @@ class TabContent extends Component {
     }
     componentDidMount() {
         const { SQLdata } = this.props
-        console.log(SQLdata);
+        // console.log(SQLdata);
         if (Object.keys(SQLdata).length > 0) {
             let obj = JSON.parse(SQLdata.cols)
             // console.log(obj);
@@ -185,7 +185,7 @@ class TabContent extends Component {
             case 'save':
                 this.setState({
                     columnsIndex: -1,
-                    i:-1
+                    i: -1
                 })
                 break
             default:
@@ -271,7 +271,7 @@ class TabContent extends Component {
                     width={800}
                     destroyOnClose={true}
                 >
-                    <Button onClick={this.TagChange.bind(this, 'add', 0)}>添加</Button>
+                    <Button onClick={this.TagChange.bind(this, 'add', 0)} disabled={this.props.news}>添加</Button>
                     <Table
                         columns={columns}
                         dataSource={Tabledata}
@@ -283,14 +283,16 @@ class TabContent extends Component {
                     ></Table>
                 </Modal>
                 <span style={{ padding: 5, fontSize: 20 }}>SQL名称:</span>
-                <Input value={value} onChange={this.InputChange}></Input>
-                <span style={{ padding: 5, fontSize: 20 }}>SQL:</span>
+                <Input value={value} onChange={this.InputChange} disabled={this.props.news}></Input>
+                <span style={{ padding: 5, fontSize: 20 }} disabled={this.props.news}>SQL:</span>
                 <TextArea
+                    disabled={this.props.news}
                     rows={10}
                     value={SQL}
                     onChange={this.textAreaChange.bind(this)}></TextArea>
                 <span style={{ padding: 5, fontSize: 20 }}>列选择项：</span>
                 <Input
+                    disabled={this.props.news}
                     value={Tabledata}
                     onChange={this.inputChangeReset.bind(this)}
                     addonAfter={<span style={{ cursor: 'pointer' }}
@@ -302,15 +304,15 @@ class TabContent extends Component {
 }
 function mapStateToProps(state) {
     console.log(state);
-    
+
     return {
-        information:state.information
+        information: state.information
     }
 }
-  
+
 function mapDispatchProps(dispatch) {
     return {
-        copyDataSource:(k)=>{
+        copyDataSource: (k) => {
             dispatch(copyDataSource(k))
         }
     }

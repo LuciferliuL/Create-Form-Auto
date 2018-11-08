@@ -13,7 +13,7 @@ class InformationRadio extends Component {
         const { DataSource } = this.props.information
         return (
             <div>
-                <RadioGroup onChange={this.onChange} value={DataSource === '集中' ? 0 : 1}>
+                <RadioGroup onChange={this.onChange} value={DataSource === '集中' ? 0 : 1} disabled={this.props.news}>
                     <Radio value={0}>集中</Radio>
                     <Radio value={1}>分公司</Radio>
                 </RadioGroup>

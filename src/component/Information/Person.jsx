@@ -4,7 +4,7 @@ import { Input, Card, Row, Col, Table, Button } from 'antd';
 import { API } from '../../lib/API/I9'
 import "../../lib/API/url.API"
 import { POST$ } from '../../lib/MATH/math'
-import {copyDataSource} from './information.action'
+import { copyDataSource } from './information.action'
 
 const Search = Input.Search;
 
@@ -12,8 +12,8 @@ const Search = Input.Search;
 class Person extends Component {
   state = {
     selectedRows: [],
-    selectedRowKeys:[],
-    index:0,
+    selectedRowKeys: [],
+    index: 0,
     columns: [{
       title: '姓名',
       dataIndex: 'name',
@@ -65,11 +65,11 @@ class Person extends Component {
       this.setState({
         data2: l
       })
-    }else{
+    } else {
       this.setState({
-        data2:[],
-        data:[],
-        selectedRowKeys:[],
+        data2: [],
+        data: [],
+        selectedRowKeys: [],
       })
     }
 
@@ -78,11 +78,11 @@ class Person extends Component {
     console.log(pre);
     let Receivers = JSON.parse(pre.information.Receivers)
     console.log(Receivers);
-    
+
     if (Receivers.length > 0) {
       let l = []
       console.log(1);
-      
+
       Receivers.forEach(e => {
         let o = {}
         o['openId'] = e.RecOpenid
@@ -92,19 +92,19 @@ class Person extends Component {
       this.setState({
         data2: l
       })
-    }else{
+    } else {
       this.setState({
-        data2:[],
-        data:[],
-        selectedRowKeys:[],
+        data2: [],
+        data: [],
+        selectedRowKeys: [],
       })
     }
   }
-  componentWillUnmount(){
+  componentWillUnmount() {
     this.setState({
-      data2:[],
-      data:[],
-      selectedRowKeys:[],
+      data2: [],
+      data: [],
+      selectedRowKeys: [],
     })
   }
   //搜索
@@ -132,7 +132,7 @@ class Person extends Component {
   //添加到右边
   AddRightTable = () => {
     const { data2, selectedRows } = this.state
-    let D = [ ...data2,...selectedRows]
+    let D = [...data2, ...selectedRows]
 
     this.setState({
       data2: this.un(D)
@@ -174,6 +174,7 @@ class Person extends Component {
   }
   render() {
     const { data, columns, selectedRowKeys, columns2, data2 } = this.state
+    const {news} = this.props
     const rowSelection = {
       selectedRowKeys,
       onChange: this.onSelectChange,
@@ -193,11 +194,12 @@ class Person extends Component {
               title={() =>
                 <div>
                   <Search
+                    disabled={news}
                     placeholder="input search text"
                     onSearch={this.onsearch.bind(this)}
                     style={{ width: '80%' }}
                   />
-                  <Button onClick={this.AddRightTable.bind(this)}>添加</Button>
+                  <Button onClick={this.AddRightTable.bind(this)} disabled={news}>添加</Button>
                 </div>
               }
             />
@@ -220,19 +222,19 @@ class Person extends Component {
 }
 function mapStateToProps(state) {
   console.log(state);
-  
+
   return {
-      information:state.information
+    information: state.information
   }
 }
 
 function mapDispatchProps(dispatch) {
   return {
-      copyDataSource:(k)=>{
-          dispatch(copyDataSource(k))
-      }
+    copyDataSource: (k) => {
+      dispatch(copyDataSource(k))
+    }
   }
 }
 export default connect(
-  mapStateToProps,mapDispatchProps
+  mapStateToProps, mapDispatchProps
 )(Person);

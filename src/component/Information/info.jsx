@@ -55,14 +55,14 @@ class Info extends Component {
     }
     componentDidMount() {
         GET$(API('geti9msgall').http, (res) => {
-            console.log(res);
+            // console.log(res);
             this.setState({
                 data: res
             })
         })
     }
     OnChange = (rowKey, rows) => {
-        console.log(rowKey);
+        // console.log(rowKey);
         this.setState({
             selectedRowKeys: rowKey,
             selectedData: rows
@@ -105,7 +105,7 @@ class Info extends Component {
                         DeptName: global.msgcfg.fileurl
                     }],
                     tabBarShow: true,
-                    news: true
+                    news: false
                 })
                 this.props.copyDataSource({
                     PK: -1,
@@ -129,7 +129,7 @@ class Info extends Component {
                         activeKey: '2',
                         tabBarShow: true,
                         disabled: false,
-                        news: false
+                        news: this.state.selectedData[0].WorkFlowState === '-999' ? false : true
                     }) : message.warning('请选择数据')
                 break;
             case 'del':
@@ -234,7 +234,7 @@ class Info extends Component {
                     tabBarExtraContent={
                         this.state.tabBarShow ?
                             <div>
-                                <Button onClick={this.OnOk}>确认提交</Button>
+                                <Button onClick={this.OnOk} disabled={news}>确认提交</Button>
                             </div> : null
                     }>
                     <TabPane tab="列表选择" key='1'>

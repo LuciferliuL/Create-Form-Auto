@@ -25,7 +25,7 @@ class InformationPanel extends Component {
     if (SQLdata.length > 0) {
       let paneData = []
       SQLdata.forEach((e, i) => {
-        paneData.push({ title: e.name, content: <TabContent SQLdata={e} PaneSaveData={this.PaneSaveData} i={i}></TabContent>, key: `${i}` })
+        paneData.push({ title: e.name, content: <TabContent SQLdata={e} PaneSaveData={this.PaneSaveData} i={i} news={this.props.news}></TabContent>, key: `${i}` })
       })
 
       this.setState({
@@ -38,25 +38,21 @@ class InformationPanel extends Component {
 
   componentWillReceiveProps(pre) {
     let SQLdata = JSON.parse(pre.information.Sqls)
-    // console.log(SQLdata);
+    // console.log(pre.news);
 
-    // if (SQLdata.lenght > 0) {
     let paneData = []
     SQLdata.forEach((e, i) => {
-      paneData.push({ title: e.name, content: <TabContent SQLdata={e} PaneSaveData={this.PaneSaveData} i={i}></TabContent>, key: `${i}` })
+      paneData.push({ title: e.name, content: <TabContent SQLdata={e} PaneSaveData={this.PaneSaveData} i={i} news={pre.news}></TabContent>, key: `${i}` })
     })
     this.setState({
       panes: paneData,
       activeKey: this.props.activeKey,
       SQLdata: SQLdata
     })
-    // }else{
-
-    // }
   }
 
   onChange = (activeKey) => {
-    console.log(activeKey);
+    // console.log(activeKey);
     
     // this.setState({ activeKey });
     this.props.changeActiveKey(activeKey)
@@ -69,7 +65,7 @@ class InformationPanel extends Component {
   add = () => {
     const panes = this.state.panes;
     const activeKey = `${panes.length - 1}`;
-    panes.push({ title: 'New Tab', content: <TabContent SQLdata={{}} PaneSaveData={panes.length - 1} i={panes.length - 1}></TabContent>, key: activeKey });
+    panes.push({ title: 'New Tab', content: <TabContent SQLdata={{}} PaneSaveData={panes.length - 1} i={panes.length - 1} news={this.props.news}></TabContent>, key: activeKey });
     this.setState({ panes, activeKey });
     let Sqls_ = JSON.parse(this.props.information.Sqls)
     Sqls_.push({
@@ -81,22 +77,7 @@ class InformationPanel extends Component {
   }
 
   remove = (targetKey) => {
-    console.log(targetKey);
-    
-
-    // let activeKey = this.props.activeKey;
-    // let lastIndex;
-    // this.state.panes.forEach((pane, i) => {
-    //   if (pane.key === targetKey) {
-    //     lastIndex = i - 1;
-    //   }
-    // });
-    // const panes = this.state.panes.filter(pane => pane.key !== targetKey);
-    // if (lastIndex >= 0 && activeKey === targetKey) {
-    //   this.props.changeActiveKey(panes[lastIndex].key)
-    // }
-    // this.setState({ panes});
-
+    // console.log(targetKey);
     let Sqls_ = JSON.parse(this.props.information.Sqls)
     let Sqls__ = Sqls_.filter((e , i) => i !== (+targetKey))
 
@@ -109,7 +90,7 @@ class InformationPanel extends Component {
     return (
       <div>
         <div style={{ marginBottom: 16 }}>
-          <Button onClick={this.add}>添加SQL数据</Button>
+          <Button onClick={this.add} disabled={this.props.news}>添加SQL数据</Button>
         </div>
         <Tabs
           hideAdd
@@ -117,8 +98,9 @@ class InformationPanel extends Component {
           activeKey={this.props.activeKey}
           type="editable-card"
           onEdit={this.onEdit}
+          
         >
-          {this.state.panes.map(pane => <TabPane tab={pane.title} key={pane.key} >{pane.content}</TabPane>)}
+          {this.state.panes.map(pane => <TabPane tab={pane.title} key={pane.key}>{pane.content}</TabPane>)}
         </Tabs>
       </div>
     );
