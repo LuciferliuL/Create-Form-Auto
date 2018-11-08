@@ -69,7 +69,7 @@ class lookUpSelf extends Component {
     }//修改
     edit = () => {
         let { tabledata } = this.state;
-        if (tabledata.length == 0) {
+        if (tabledata.length === 0) {
             message.warning('请选择数据项！')
             return;
         }
@@ -82,7 +82,7 @@ class lookUpSelf extends Component {
     //删除
     del = () => {
         let { tabledata } = this.state;
-        if (tabledata.length == 0) {
+        if (tabledata.length === 0) {
             message.warning('请选择数据项！')
             return;
         }

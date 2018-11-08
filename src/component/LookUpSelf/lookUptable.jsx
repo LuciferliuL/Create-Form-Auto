@@ -34,7 +34,7 @@ export class LookUptable extends Component {
             type: 'radio'
         };
 
-        if (btnaction == "add" || btnaction == "del")
+        if (btnaction === "add" || btnaction === "del")
             rowSelection.selectedRowKeys = [];
 
         return (
