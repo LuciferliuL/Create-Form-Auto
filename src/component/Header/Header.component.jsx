@@ -80,16 +80,17 @@ class Headercomponent extends Component {
                         </Dropdown>
                     </div>
                     {this.props.R === 'R' ?
-                        <div style={{ position: 'relative', top: 25 }}>
-                            <Tabs
-                                type="editable-card"
-                                onChange={this.callback}
-                                activeKey={activeKey}
-                                onEdit={this.Edit}
-                                hideAdd>
-                                {this.props.TabsData.map((pane, i) => <TabPane tab={pane.Name} key={pane.Name + ',' + i}>{pane.Name}</TabPane>)}
-                            </Tabs>
-                        </div>
+                        // <div style={{ position: 'relative', top: 25 }}>
+                        //     <Tabs
+                        //         type="editable-card"
+                        //         onChange={this.callback}
+                        //         activeKey={activeKey}
+                        //         onEdit={this.Edit}
+                        //         hideAdd>
+                        //         {this.props.TabsData.map((pane, i) => <TabPane tab={pane.Name} key={pane.Name + ',' + i}>{pane.Name}</TabPane>)}
+                        //     </Tabs>
+                        // </div>
+                        null
                         : <div style={{ float: 'left' }}>你好！设计师</div>
                     }
 

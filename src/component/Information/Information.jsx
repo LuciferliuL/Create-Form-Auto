@@ -11,7 +11,7 @@ class Information extends Component {
 
     titleChange = (value) => {
         console.log(`selected ${value.target.value}`);
-        this.props.copyDataSource({ title: value.target.value })
+        this.props.copyDataSource({ Title: value.target.value })
     }
     render() {
         const { selectedData } = this.props
@@ -24,7 +24,7 @@ class Information extends Component {
                         bodyStyle={{ textAlign: 'center' }}
                         title='标题'>
                         <Input
-                            value={this.props.information.title}
+                            value={this.props.information.Title}
                             onChange={this.titleChange.bind(this)}
                             disabled={this.props.news}></Input>
                     </Card>

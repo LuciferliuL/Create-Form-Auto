@@ -22,6 +22,7 @@ class Info extends Component {
         activeKey: '1',
         selectedRowKeys: [],
         selectedData: [{
+            Title:'',
             PK: -1,
             Name: "测试",
             DataSource: "集中",//集中，分公司；
@@ -62,7 +63,7 @@ class Info extends Component {
         })
     }
     OnChange = (rowKey, rows) => {
-        // console.log(rowKey);
+        console.log(rows);
         this.setState({
             selectedRowKeys: rowKey,
             selectedData: rows
@@ -70,11 +71,11 @@ class Info extends Component {
     }
     title = () => (
         <div>
-            <Search
+            {/* <Search
                 placeholder="input search text"
                 onSearch={value => console.log(value)}
                 style={{ width: 200 }}
-            />
+            /> */}
             <ButtonGroup
                 style={{ marginLeft: 20 }}>
                 <Button onClick={this.edit.bind(this, 'add')}>新增</Button>
@@ -102,12 +103,14 @@ class Info extends Component {
                         Sqls: '[]',
                         Bytes: "",
                         DeptID: global.msgcfg.filepath,
-                        DeptName: global.msgcfg.fileurl
+                        DeptName: global.msgcfg.fileurl,
+                        Title:''
                     }],
                     tabBarShow: true,
                     news: false
                 })
                 this.props.copyDataSource({
+                    Title:'',
                     PK: -1,
                     Name: "测试",
                     DataSource: "集中",//集中，分公司；
@@ -153,17 +156,6 @@ class Info extends Component {
         }
     }
     callback = (key) => {
-        // console.log(key);
-        // if(key !== 1){
-        //     let s = this.state.selectedData[0];
-        //     let Radio = JSON.parse(sessionStorage.getItem('Radio')) 
-        //     let Dates = JSON.parse(sessionStorage.getItem('Dates'))  
-        //     let SQL = JSON.parse(sessionStorage.getItem('SQL')) 
-        //     let Person = JSON.parse(sessionStorage.getItem('Person'))
-
-        //     let data = Object.assign({},s,Radio,Dates,SQL,Person)
-        //     console.log(data);
-        // }
         this.setState({
             activeKey: key,
             tabBarShow: key === '1' ? false : true,
@@ -175,7 +167,7 @@ class Info extends Component {
             loading: true
         })
         let s = this.props.information;
-        // console.log(s);
+        console.log(s);
 
         s.DeptID = global.msgcfg.filepath;
         s.DeptName = global.msgcfg.fileurl;
@@ -185,26 +177,38 @@ class Info extends Component {
             Secret: global.msgcfg.appSecret,
         })
 
-        this.setState((pre) => (
-            {
-                selectedData: s
-            }
-        ), () => {
+        let title = s.Title
+        let sql = s.Sqls
+        let Rec = s.Receivers
+        console.log(title + '----' + sql + '-----' + Rec);
+        
+        if (title.length > 0 && sql.length > 2 && Rec.length > 2) {
+            this.setState((pre) => (
+                {
+                    selectedData: s
+                }
+            ), () => {
 
-            POST$(API('I9msg').http, s, (res) => {
-                console.log(res);
-
-                GET$(API('geti9msgall').http, (res) => {
+                POST$(API('I9msg').http, s, (res) => {
                     console.log(res);
-                    this.setState({
-                        data: res,
-                        activeKey: '1',
-                        disabled: true,
-                        loading: false
-                    }, () => { message.success('添加成功') })
+
+                    GET$(API('geti9msgall').http, (res) => {
+                        console.log(res);
+                        this.setState({
+                            data: res,
+                            activeKey: '1',
+                            disabled: true,
+                            loading: false
+                        }, () => { message.success('添加成功') })
+                    })
                 })
             })
-        })
+        } else {
+            this.setState({
+                loading:false
+            })
+            message.warning(title.length === 0 ? '标题必填' : sql.length === 2 ? 'SQL必填' : '人员必选')
+        }
 
     }
     //修改数据的方法
