@@ -22,6 +22,7 @@ class lookUpSelf extends Component {
         collapseActive: ['1'],
         tableChangeBool: true,
         tabledata: {},
+        btnaction: "add",
         tableDataSource: [],
         loading: false
     }
@@ -38,7 +39,8 @@ class lookUpSelf extends Component {
         // console.log(data);
         this.setState({
             tableChangeBool: bool,
-            tabledata: data
+            tabledata: data,
+            btnaction: "edit",
         })
     }
     //监听collapse改变
@@ -52,7 +54,8 @@ class lookUpSelf extends Component {
             this.setState({
                 tableDataSource: res,
                 collapseActive: [key],
-                loading: false
+                loading: false,
+                btnaction: "add",
             })
         })
     }
@@ -60,12 +63,20 @@ class lookUpSelf extends Component {
     add = () => {
         this.setState({
             collapseActive: ['2'],
+            btnaction: "add",
             tabledata: [],
         })
     }//修改
     edit = () => {
+        let { tabledata } = this.state;
+        if (tabledata.length == 0) {
+            message.warning('请选择数据项！')
+            return;
+        }
+
         this.setState({
-            collapseActive: ['2']
+            collapseActive: ['2'],
+            btnaction: "edit",
         })
     }
     //删除
@@ -88,6 +99,7 @@ class lookUpSelf extends Component {
                     // console.log(res);
 
                     this.setState({
+                        btnaction: "del",
                         tableDataSource: res,
                         loading: false
                     })
@@ -99,7 +111,7 @@ class lookUpSelf extends Component {
         })
     }
     render() {
-        const { collapseActive, tableChangeBool, tableDataSource, loading, tabledata } = this.state
+        const { collapseActive, tableChangeBool, tableDataSource, loading, tabledata, btnaction } = this.state
         return (
             <Spin spinning={loading}>
                 <ButtonGroup>
@@ -114,12 +126,12 @@ class lookUpSelf extends Component {
                     onChange={this.collapseChange}
                     accordion>
                     <Panel header="检索方案预览表格" key="1" >
-                        <LookUptable tableChange={this.tableChange} tableDataSource={tableDataSource}></LookUptable>
+                        <LookUptable tableChange={this.tableChange} btnaction={btnaction} tableDataSource={tableDataSource}></LookUptable>
                     </Panel>
                     <Panel header="检索方案详情" key="2" >
                         <LookUpForm tabledata={tabledata} collapseChange={this.collapseChange}></LookUpForm>
                     </Panel>
-                    <Panel header="待定" key="3"  >
+                    <Panel header="待定" key="3" style={{ display: 'none' }} >
                         <p>text</p>
                     </Panel>
                 </Collapse>

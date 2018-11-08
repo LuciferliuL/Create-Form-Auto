@@ -26,11 +26,17 @@ export class LookUptable extends Component {
 
     render() {
         const { selectedRowKeys } = this.state;
+        let btnaction = this.props.btnaction;
+
         const rowSelection = {
             selectedRowKeys,
             onChange: this.onSelectChange,
             type: 'radio'
         };
+
+        if (btnaction == "add" || btnaction == "del")
+            rowSelection.selectedRowKeys = [];
+
         return (
             <div>
                 <Table
