@@ -145,6 +145,7 @@ class TabContent extends Component {
                 let list = []
                 Tabledata !== undefined && Tabledata.length > 0 ?
                     Tabledata.forEach((e, i) => {
+                        list.push(e)
                         if (i === index) {
                             list.push({
                                 key: num,
@@ -153,7 +154,7 @@ class TabContent extends Component {
                                 width: '',
                             })
                         }
-                        list.push(e)
+
                     }) : list.push({
                         key: num,
                         title: num,

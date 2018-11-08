@@ -120,18 +120,25 @@ class LookUpForm extends React.Component {
         switch (name) {
             case 'add':
                 let num = Math.random().toFixed(4)
-                let list = [];
-
-                if (Tabledata !== undefined && Tabledata.length > 0)
+                let list = []
+                Tabledata !== undefined && Tabledata.length > 0 ?
                     Tabledata.forEach((e, i) => {
                         list.push(e)
-                    });
-                list.push({
-                    key: num,
-                    title: num,
-                    dataIndex: num,
-                    width: '',
-                });
+                        if (i === index) {
+                            list.push({
+                                key: num,
+                                title: num,
+                                dataIndex: num,
+                                width: '',
+                            })
+                        }
+
+                    }) : list.push({
+                        key: num,
+                        title: num,
+                        dataIndex: num,
+                        width: '',
+                    })
                 this.setState({
                     Tabledata: list,
                 })
