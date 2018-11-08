@@ -17,7 +17,7 @@ class InformationRadio extends Component {
 
     }
     componentWillReceiveProps(pre) {
-        // console.log(pre);
+        console.log(pre);
         const { selectedData, news } = pre
         if (!news) {
             this.setState({
@@ -30,11 +30,13 @@ class InformationRadio extends Component {
         }
     }
     onChange = (e) => {
-        console.log(e.target.value);
+        // console.log(e.target.value);
         this.setState({
             value: e.target.value
         })
-        this.props.EditSelectedRow({ 'DataSource': e.target.value === 0 ? '集中' : '分公司' })
+        let c = e.target.value === 0 ? '集中' : '分公司'
+        // this.props.EditSelectedRow({ 'DataSource': e.target.value === 0 ? '集中' : '分公司' })
+        sessionStorage.setItem('Radio', JSON.stringify({ DataSource: c }))
     }
     render() {
 

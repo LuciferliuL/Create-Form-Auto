@@ -64,8 +64,11 @@ class InformationPanel extends Component {
         
         this.setState({
           SQLdata:d
+        },()=>{
+          sessionStorage.setItem('SQL',JSON.stringify({'Sqls':JSON.stringify(this.state.SQLdata)}))
         })
-        this.props.EditSelectedRow({'Sqls':JSON.stringify(d)})
+        // this.props.EditSelectedRow()
+       
       }
       onChange = (activeKey) => {
         this.setState({ activeKey });

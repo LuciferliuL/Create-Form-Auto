@@ -25,6 +25,8 @@ class InformationDate extends Component {
     }
     componentWillReceiveProps(pre) {
         const { selectedData ,news} = pre
+        console.log(pre);
+        
         if (!news) {
             let type = selectedData[0].DueDatetype
             let date = selectedData[0].DueDateCorn
@@ -42,15 +44,16 @@ class InformationDate extends Component {
         }
     }
     onChange = (e) => {
-        console.log(e.target.value);
+        // console.log(e.target.value);
         this.setState({
             value: e.target.value
         })
         if(e.target.value === 0){
-            this.props.EditSelectedRow({
+            // this.props.EditSelectedRow()
+            sessionStorage.setItem('Date',JSON.stringify({
                 DueDatetype: '立即',
                 DueDateCorn: '立即'
-            })
+            }))
         }
     }
     range = (start, end) => {
@@ -78,14 +81,19 @@ class InformationDate extends Component {
             dateValue: date,
             dateString:dateString
         })
+
     }
     onOk = () => {
         let DueDatetype = this.state.value === 0 ? '立即' : '时间'
         let DueDateCorn = this.state.value === 0 ? '立即' :this.state.dateString
-        this.props.EditSelectedRow({
+        // this.props.EditSelectedRow({
+        //     DueDatetype: DueDatetype,
+        //     DueDateCorn: DueDateCorn
+        // })
+        sessionStorage.setItem('Dates',JSON.stringify({
             DueDatetype: DueDatetype,
             DueDateCorn: DueDateCorn
-        })
+        }))
     }
     render() {
         const { defaultValue, dateValue } = this.state

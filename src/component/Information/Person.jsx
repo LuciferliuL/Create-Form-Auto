@@ -71,7 +71,7 @@ class Person extends Component {
 
   }
   componentWillReceiveProps(pre) {
-    // console.log(pre);
+    console.log(pre);
     const { selectedData, news } = pre
     if (!news) {
       let l = []
@@ -135,7 +135,8 @@ class Person extends Component {
         o['RecName'] = e.name
         list.push(o)
       })
-      this.props.EditSelectedRow({ Receivers: JSON.stringify(list) })
+      // this.props.EditSelectedRow({ Receivers: JSON.stringify(list) })
+      sessionStorage.setItem('Person',JSON.stringify({ Receivers: JSON.stringify(list) }))
     })
 
   }
@@ -157,7 +158,8 @@ class Person extends Component {
         o['RecName'] = e.name
         list.push(o)
       })
-      this.props.EditSelectedRow({ Receivers: JSON.stringify(list) })
+      // this.props.EditSelectedRow()
+      sessionStorage.setItem('Person',JSON.stringify({ Receivers: JSON.stringify(list) }))
     })
   }
   render() {

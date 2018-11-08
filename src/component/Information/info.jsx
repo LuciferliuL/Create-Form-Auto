@@ -163,9 +163,23 @@ class Info extends Component {
             AppId: global.msgcfg.AppId,
             Secret: global.msgcfg.appSecret,
         })
+
+       let Radio = JSON.parse(sessionStorage.getItem('Radio')) 
+       let Dates = JSON.parse(sessionStorage.getItem('Dates'))  
+       let SQL = JSON.parse(sessionStorage.getItem('SQL')) 
+       let Person = JSON.parse(sessionStorage.getItem('Person'))
+
+    //    console.log(Radio);
+    //    console.log(Dates);
+    //    console.log(SQL);
+       
+       let data = Object.assign({},s,Radio,Dates,SQL,Person)
+       console.log(data);
+       
+       
         this.setState((pre) => (
             {
-                selectedData: [s]
+                selectedData: [data]
             }
         ), () => {
 
