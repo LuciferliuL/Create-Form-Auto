@@ -399,6 +399,23 @@ export function formatDate(sdt, format) {
     return format;
 };
 
-export const MathRandom = ()=>{
-    return Math.random().toFixed(4)*1000
+export const MathRandom = () => {
+    return Math.random().toFixed(4) * 1000
+}
+
+export const getUrlParam = (url, name) => {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+    var r = url.substr(1).match(reg);
+    // if (r!=null) return unescape(r[2]);
+    if (r != null) return r[2];
+    return null;
+}
+
+export const setUrlParam = (params) => {
+    let paramsArray = [], urlParam = ''
+    if (params) {
+        Object.keys(params).forEach(key => paramsArray.push(key + '=' + (typeof params[key] == 'string' ? params[key] : JSON.stringify(params[key]))));
+    }
+    urlParam = paramsArray.join('&')
+    return urlParam
 }

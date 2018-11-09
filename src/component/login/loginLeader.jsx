@@ -16,14 +16,14 @@ function mapStateToProps(state) {
 class loginLeader extends Component {
     state = {
         h: 0,
-        showOrHiden:true,
+        showOrHiden: true,
         data: [{
             IconType: "setting",//图标
             AvatarSrc: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",//人物头像
             MetaTitle: "CONFIGUI",//卡片抬头
             MetaDescription: "配置管理",//卡片描述
             // href: 'http://10.3.4.177:9003/ConfigUI',//跳转地址
-            href:'http://10.3.4.233:8090'
+            href: 'http://10.3.4.233:8090'
         }, {
             IconType: "zoom-in",//图标
             AvatarSrc: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",//人物头像
@@ -37,18 +37,24 @@ class loginLeader extends Component {
             MetaTitle: "DESGIN",//卡片抬头
             MetaDescription: "表单设计",//卡片描述<Icon type="" theme="outlined" />
             href: 'http://10.3.4.177:9003/Design'//跳转地址
-            }, {
-                IconType: "rocket",//图标
-                AvatarSrc: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",//人物头像
-                MetaTitle: "I9群信息",//卡片抬头
-                MetaDescription: "群体信息发送",//卡片描述<Icon type="" theme="outlined" />
-                href: 'http://10.3.4.177:9003/Information'//跳转地址
-            // }, {
-            //     IconType: "bulb",//图标
-            //     AvatarSrc: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",//人物头像
-            //     MetaTitle: "Card title",//卡片抬头<Icon type="" theme="outlined" />
-            //     MetaDescription: "This is the description",//卡片描述
-            //     href: 'www.baidu.com'//跳转地址
+        }, {
+            IconType: "rocket",//图标
+            AvatarSrc: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",//人物头像
+            MetaTitle: "I9群信息",//卡片抬头
+            MetaDescription: "群体信息发送",//卡片描述<Icon type="" theme="outlined" />
+            href: 'http://10.3.4.177:9003/Information'//跳转地址
+        }, {
+            IconType: "bulb",//图标
+            AvatarSrc: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",//人物头像
+            MetaTitle: "userManagement",//卡片抬头<Icon type="" theme="outlined" />
+            MetaDescription: "用户信息维护",//卡片描述
+            href: 'www.baidu.com'//跳转地址
+        }, {
+            IconType: "bulb",//图标
+            AvatarSrc: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",//人物头像
+            MetaTitle: "DBManagement",//卡片抬头<Icon type="" theme="outlined" />
+            MetaDescription: "数据库信息维护",//卡片描述
+            href: 'www.baidu.com'//跳转地址
         }]
     }
     componentDidMount() {
@@ -83,11 +89,15 @@ class loginLeader extends Component {
                             onClick={() => {
                                 if (e.MetaTitle === 'DESGIN') {
                                     this.props.history.push('/Design/er')
-                                } else if(e.MetaTitle === 'I9群信息'){
+                                } else if (e.MetaTitle === 'I9群信息') {
                                     this.setState({
-                                        showOrHiden:false
+                                        showOrHiden: false
                                     })
-                                }else {
+                                } else if (e.MetaTitle === 'userManagement') {
+                                    this.props.history.push('/BaseData/UserList')
+                                } else if (e.MetaTitle === 'DBManagement') {
+                                    this.props.history.push('/BaseData/DBList')
+                                } else {
                                     window.location.href = e.href
                                 }
                             }} />]}
@@ -106,14 +116,14 @@ class loginLeader extends Component {
                 <Header>Header</Header>
                 <Content>
                     {this.state.showOrHiden ?
-                    <Card style={{ height: h }}>
-                        <Row align='middle' justify='start' style={{ marginTop: '5%' }}>
-                            <Col span={2}></Col>
-                            {dataList}
-                            <Col span={2}></Col>
-                        </Row>
-                    </Card> :
-                    <Information height={h}></Information>}
+                        <Card style={{ height: h }}>
+                            <Row align='middle' justify='start' style={{ marginTop: '5%' }}>
+                                <Col span={2}></Col>
+                                {dataList}
+                                <Col span={2}></Col>
+                            </Row>
+                        </Card> :
+                        <Information height={h}></Information>}
                 </Content>
                 <Footer style={{ textAlign: 'center' }}>
                     ERP Design ©2018 Created by LEO
