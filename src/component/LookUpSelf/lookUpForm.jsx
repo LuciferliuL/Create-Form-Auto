@@ -6,10 +6,10 @@ import { POST$ } from '../../lib/MATH/math'
 
 const FormItem = Form.Item;
 const baseData = [
-    { label: '检索名称', id: 'label', message: '检索名称必填' },
     { label: 'ID', id: 'id', message: 'ID必填' },
-    { label: '默认显示的名称', id: 'uniquekey', message: '默认显示的名称必填' },
-    { label: '回传值的KEY', id: 'upkey', message: '回传值的KEY必填' },
+    { label: '检索名称', id: 'label', message: '检索名称必填' },
+    { label: '显示字符', id: 'uniqueKey', message: '显示字符字段必填' },
+    { label: '回传KEY', id: 'upKey', message: '回传KEY字段必填' },
 ]
 const { TextArea } = Input;
 
@@ -24,6 +24,7 @@ class LookUpForm extends React.Component {
         visible: false,
         SQL: '',
         name: '',
+        i: -1,
         columnsIndex: -1,
         Tabledata: [],
         columns: [
@@ -71,27 +72,30 @@ class LookUpForm extends React.Component {
                 }
             }, {
                 title: '操作',
-                dataIndex: '',
+                dataIndex: 'key',
                 render: (text, record, i) => {
                     // console.log(i);
-
-                    return (
-                        this.state.columnsIndex === -1 ?
+                    if (i === this.state.i) {
+                        return (
+                            <span>
+                                <Tag color="#f50" onClick={this.TagChange.bind(this, 'save', i)}>保存</Tag>
+                            </span>
+                        )
+                    } else {
+                        return (
                             <span>
                                 <Tag color="#87d068" onClick={this.TagChange.bind(this, 'add', i)}>添加</Tag>
                                 <Tag color="#2db7f5" onClick={this.TagChange.bind(this, 'edit', i)}>修改</Tag>
                                 <Tag color="#f50" onClick={this.TagChange.bind(this, 'del', i)}>删除</Tag>
-                            </span> :
-                            <span>
-                                <Tag color="#f50" onClick={this.TagChange.bind(this, 'save', i)}>保存</Tag>
                             </span>
-                    )
+                        )
+                    }
                 }
 
             }
         ]
     }
-    
+
     componentWillReceiveProps(pre) {
         this.setState({
             visible: false,
@@ -117,28 +121,32 @@ class LookUpForm extends React.Component {
             case 'add':
                 let num = Math.random().toFixed(4)
                 let list = []
-                 Tabledata !== undefined && Tabledata.length > 0 ?
-                Tabledata.forEach((e, i) => {
-                    if (i === index) {
-                        list.push({
-                            title: num,
-                            dataIndex: num,
-                            width: '',
-                        })
-                    }
-                    list.push(e)
-                }):list.push({
-                    title: num,
-                    dataIndex: num,
-                    width: '',
-                })
+                Tabledata !== undefined && Tabledata.length > 0 ?
+                    Tabledata.forEach((e, i) => {
+                        list.push(e)
+                        if (i === index) {
+                            list.push({
+                                key: num,
+                                title: num,
+                                dataIndex: num,
+                                width: '',
+                            })
+                        }
+
+                    }) : list.push({
+                        key: num,
+                        title: num,
+                        dataIndex: num,
+                        width: '',
+                    })
                 this.setState({
-                    Tabledata: list
+                    Tabledata: list,
                 })
                 break;
             case 'edit':
                 this.setState({
-                    columnsIndex: index
+                    columnsIndex: index,
+                    i: index
                 })
 
                 break
@@ -155,7 +163,8 @@ class LookUpForm extends React.Component {
                 break
             case 'save':
                 this.setState({
-                    columnsIndex: -1
+                    columnsIndex: -1,
+                    i: -1
                 })
                 break
             default:
@@ -199,7 +208,7 @@ class LookUpForm extends React.Component {
                         wrapperCol: { xs: { span: 24 }, sm: { span: 16 } }
                     }, tr: 0, values: '',
                     scroll: 1200,
-                    show: false, columns: [], SQL: '',  dataSource: []
+                    show: false, columns: [], SQL: '', dataSource: []
                 }
                 Object.assign(data, values)
                 // console.log(data);
@@ -297,7 +306,7 @@ class LookUpForm extends React.Component {
                                     dataSource={Tabledata}
                                     bordered={true}
                                     pagination={false}
-                                    rowKey='title'
+                                    rowKey='key'
                                     bodyStyle={{ padding: 5 }}
 
                                 ></Table>

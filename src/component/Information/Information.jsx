@@ -1,59 +1,78 @@
 import React, { Component } from 'react';
-import { Card, Row, Col, Select, Button } from 'antd'
+import { Card, Row, Col, Input } from 'antd'
 import InformationRadio from './InformationRadio'
 import InformationDate from './InformationDate'
 import InformationPanel from './InformationPanel'
+import { connect } from 'react-redux'
+import { copyDataSource } from './information.action'
 
 
-const Option = Select.Option
-const ButtonGroup = Button.Group
 class Information extends Component {
 
-    handleChange = (value) => {
-        console.log(`selected ${value}`);
+    titleChange = (value) => {
+        console.log(`selected ${value.target.value}`);
+        this.props.copyDataSource({ Title: value.target.value })
     }
     render() {
+        const { selectedData } = this.props
+        // console.log(this.props.news);
+        
         return (
             <Row>
                 <Col span={4}>
                     <Card
-                        style={{ height: this.props.height * 0.2 }}
                         bodyStyle={{ textAlign: 'center' }}
-                        title='选择公司'
-                    >
-                        <InformationRadio></InformationRadio>
+                        title='标题'>
+                        <Input
+                            value={this.props.information.Title}
+                            onChange={this.titleChange.bind(this)}
+                            disabled={this.props.news}></Input>
                     </Card>
                     <Card
-                        style={{ height: this.props.height * 0.8 }}
+                        bodyStyle={{ textAlign: 'center' }}
+                        title='选择数据源'
+                    >
+                        <InformationRadio
+                            selectedData={selectedData}
+                            EditSelectedRow={this.props.EditSelectedRow}
+                            news={this.props.news}></InformationRadio>
+                    </Card>
+                    <Card
                         title="选择时间"
                         bodyStyle={{ textAlign: 'center' }}>
-                        <InformationDate></InformationDate>
+                        <InformationDate
+                            selectedData={selectedData}
+                            EditSelectedRow={this.props.EditSelectedRow}
+                            news={this.props.news}></InformationDate>
                     </Card>
                 </Col>
                 <Col span={20}>
                     <Card
-                        title="SQL"
-                        style={{ height: this.props.height }}
-                        extra={<div>
-                            <Select defaultValue="lucy" style={{ width: 120 }} onChange={this.handleChange}>
-                                <Option value="jack">Jack</Option>
-                                <Option value="lucy">Lucy</Option>
-                                <Option value="disabled" disabled>Disabled</Option>
-                                <Option value="Yiminghe">yiminghe</Option>
-                            </Select>
-                            <ButtonGroup>
-                                <Button>新增</Button>
-                                <Button>查看</Button>
-                                <Button>删除</Button>
-                            </ButtonGroup>
-                        </div>}>
-                        <InformationPanel></InformationPanel>
+                        title="SQL">
+                        <InformationPanel
+                            selectedData={selectedData}
+                            EditSelectedRow={this.props.EditSelectedRow}
+                            news={this.props.news}></InformationPanel>
                     </Card>
                 </Col>
-
             </Row>
         );
     }
 }
 
-export default Information;
+function mapStateToProps(state) {
+    // console.log(state);
+
+    return {
+        information: state.information
+    }
+}
+
+function mapDispatchProps(dispatch) {
+    return {
+        copyDataSource: (k) => {
+            dispatch(copyDataSource(k))
+        }
+    }
+}
+export default connect(mapStateToProps, mapDispatchProps)(Information);

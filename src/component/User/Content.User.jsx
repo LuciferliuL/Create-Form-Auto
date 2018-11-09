@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Form, Pagination, Button, Icon, message } from 'antd'
+import { Card, Form, Pagination, Button, Icon, Radio } from 'antd'
 import { connect } from 'react-redux';
 import { formUpdataFromCurrent } from '../SliderRIght/action/Right.action'
 import PublicComponent from '../PublicComponent/Public.Component'
@@ -9,6 +9,7 @@ import { POST$, httprequest, getrequestparam, getDat, formatDate, getstartHours,
 import { _clear, _tableUpdataFromResults, tableTr0, fugai } from '../stylist/action/Stylist.action'
 import { tAddDown, tReduceUp } from '../PublicComponent/lookup/action/lookup.action';
 
+const RadioGroup = Radio.Group;
 const ButtonGroup = Button.Group;
 function mapStateToProps(State) {
     return {
@@ -23,6 +24,7 @@ function mapStateToProps(State) {
 class ContentUser extends Component {
     state = {
         data: [],
+        branchtype: "branch",
         domWidth: 0,
         totalpage: 0,
         flag: true,
@@ -134,7 +136,7 @@ class ContentUser extends Component {
                         "PageSize": 200,
                         isPage: true
                     }
-                    POST$(API('SQL').http, body, (res) => {
+                    POST$(API('SQL', this.state.branchtype).http, body, (res) => {
                         if (res.Results) {
                             pre.tableSource.dataSource = res.Results
                             pre.tableSource.tr = 0
@@ -255,8 +257,8 @@ class ContentUser extends Component {
                     Sql: SQL
                 };
 
-                var params = getrequestparam('exportsqldata', JSON.stringify(param));
-                httprequest(params, (result) => {
+                var params = getrequestparam('exportsqldata', JSON.stringify(param), this.state.branchtype);
+                httprequest(params, this.state.branchtype, (result) => {
                     var url = window.URL.createObjectURL(result)
                     var a = document.createElement('a')
                     a.href = url
@@ -363,7 +365,7 @@ class ContentUser extends Component {
             Sql: SQL
         };
 
-        var params = getrequestparam('exportsqldata', JSON.stringify(param));
+        var params = getrequestparam('exportsqldata', JSON.stringify(param), this.state.branchtype);
         httprequest(params, (result) => {
             var url = window.URL.createObjectURL(result)
             var a = document.createElement('a')
@@ -378,7 +380,7 @@ class ContentUser extends Component {
         oInput.focus();
         window.addEventListener('keyup', this.handleKeyDown)
 
-        var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.85
+        //var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.85
         let hflag = 0
         let height_ = 40
 
@@ -479,7 +481,7 @@ class ContentUser extends Component {
                 "PageSize": 200,
                 isPage: true
             }
-            POST$(API('SQL').http, body, (res) => {
+            POST$(API('SQL', this.state.branchtype).http, body, (res) => {
                 if (res.Results) {
                     this.props.tableSource.dataSource = res.Results;
                     this.props.tableSource.tr = 0;
@@ -539,10 +541,16 @@ class ContentUser extends Component {
         })
         this.SQLChecked(page)
     }
+    onChangeDs = (e) => {
+        this.setState({
+            branchtype: e.target.value
+        })
+    }
+
     render() {
         var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.93;
         const { tableSource } = this.props;
-        
+
         let Dr = []
         let width_ = this.state.domWidth / 24
         let height_ = 40
@@ -586,6 +594,12 @@ class ContentUser extends Component {
                                 导出 ALT+E
                                     </Button>
                         </ButtonGroup>
+
+                        <RadioGroup onChange={this.onChangeDs} value={this.state.branchtype} style={{ marginLeft: '10px' }}>
+                            <Radio value="zda">集中</Radio>
+                            <Radio value="branch">分公司</Radio>
+                        </RadioGroup>
+
                     </div>
                     <Form
                         style={{ padding: '5px', marginTop: '40px', position: 'relative' }}>{Dr}</Form>
@@ -600,7 +614,7 @@ class ContentUser extends Component {
                             current={this.state.current}
                             onChange={this.onChange}></Pagination>
                     </div>
-                </Card>
+                </Card >
             )
         } else {
             return (

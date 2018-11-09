@@ -154,9 +154,9 @@ export const GET$ = (URL, Callback) => {
 }
 
 export const POST$ = (URL, POSTBODY, CALLBACK) => {
-    // console.log('url.' + URL);
+    console.log('url.' + URL);
     POSTBODY = JSON.stringify(POSTBODY);
-    // console.log('data.' + POSTBODY);
+    console.log('data.' + POSTBODY);
 
     let token = sessionStorage.getItem('token')
     $.ajax({
@@ -301,7 +301,7 @@ export const DesignDataTree = (element) => {
 }
 
 
-export const getrequestparam = (k, body) => {
+export const getrequestparam = (k, body, branchtype = "") => {
 
     switch (k) {
         case "exportsqldata":
@@ -311,7 +311,7 @@ export const getrequestparam = (k, body) => {
                 auth: false,
                 body: body,
                 contenttype: 'application/json;charset=UTF-8',
-                httpurl: global.cfg.queryAPI + "/api/dataquery/ExportData"
+                httpurl: (branchtype === 'zda' ? global.cfg.centerQueryAPI : global.cfg.branchQueryAPI) + "/api/dataquery/ExportData"
             }
         case "gethost":
             return {
@@ -402,6 +402,7 @@ export function formatDate(sdt, format) {
 export const MathRandom = () => {
     return Math.random().toFixed(4) * 1000
 }
+<<<<<<< HEAD
 
 export const getUrlParam = (url, name) => {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
@@ -419,3 +420,5 @@ export const setUrlParam = (params) => {
     urlParam = paramsArray.join('&')
     return urlParam
 }
+=======
+>>>>>>> 8c9e2d38259338e7de9cb63f4e8ebc69b9403563

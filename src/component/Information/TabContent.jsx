@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import { Input, Modal, Button, Table, Icon, Tag } from 'antd'
-
-
+import { connect } from 'react-redux'
+import { copyDataSource } from './information.action'
 const TextArea = Input.TextArea
 class TabContent extends Component {
     state = {
         visible: false,
         SQL: '',
         name: '',
+        value: '',
+        i: -1,
         columnsIndex: -1,
         Tabledata: [],
         columns: [
@@ -55,35 +57,73 @@ class TabContent extends Component {
                 }
             }, {
                 title: '操作',
-                dataIndex: '',
+                dataIndex: 'key',
                 render: (text, record, i) => {
                     // console.log(i);
-
-                    return (
-                        this.state.columnsIndex === -1 ?
+                    if (i === this.state.i) {
+                        return (
+                            <span>
+                                <Tag color="#f50" onClick={this.TagChange.bind(this, 'save', i)}>保存</Tag>
+                            </span>
+                        )
+                    } else {
+                        return (
                             <span>
                                 <Tag color="#87d068" onClick={this.TagChange.bind(this, 'add', i)}>添加</Tag>
                                 <Tag color="#2db7f5" onClick={this.TagChange.bind(this, 'edit', i)}>修改</Tag>
                                 <Tag color="#f50" onClick={this.TagChange.bind(this, 'del', i)}>删除</Tag>
-                            </span> :
-                            <span>
-                                <Tag color="#f50" onClick={this.TagChange.bind(this, 'save', i)}>保存</Tag>
                             </span>
-                    )
+                        )
+                    }
                 }
 
             }
         ]
     }
+    componentDidMount() {
+        const { SQLdata } = this.props
+        // console.log(SQLdata);
+        if (Object.keys(SQLdata).length > 0) {
+            let obj = JSON.parse(SQLdata.cols)
+            // console.log(obj);
+            let dataSource = []
+            Object.keys(obj).forEach(e => {
+                let o = {}
+                o['title'] = obj[e]
+                o['dataIndex'] = e
+                dataSource.push(o)
+            })
+            this.setState({
+                SQL: SQLdata.sql,
+                Tabledata: dataSource,
+                value: SQLdata.name
+            })
+        }
 
+    }
     componentWillReceiveProps(pre) {
-        this.setState({
-            visible: false,
-            SQL: '',
-            name: '',
-            columnsIndex: -1,
-            Tabledata: [],
-        })
+        console.log(pre);
+        const { SQLdata } = pre
+        if (Object.keys(SQLdata).length > 0) {
+            let obj = JSON.parse(SQLdata.cols)
+            // console.log(obj);
+            let dataSource = []
+            Object.keys(obj).forEach(e => {
+                let o = {}
+                o['title'] = obj[e]
+                o['dataIndex'] = e
+                dataSource.push(o)
+            })
+            this.setState({
+                SQL: SQLdata.sql,
+                Tabledata: dataSource,
+                columnsIndex: -1,
+                visible: false,
+                name: '',
+                value: SQLdata.name
+            })
+        }
+
     }
     //用来修改表格得值
     inputChange = (name, e) => {
@@ -105,26 +145,30 @@ class TabContent extends Component {
                 let list = []
                 Tabledata !== undefined && Tabledata.length > 0 ?
                     Tabledata.forEach((e, i) => {
+                        list.push(e)
                         if (i === index) {
                             list.push({
+                                key: num,
                                 title: num,
                                 dataIndex: num,
                                 width: '',
                             })
                         }
-                        list.push(e)
+
                     }) : list.push({
+                        key: num,
                         title: num,
                         dataIndex: num,
                         width: '',
                     })
                 this.setState({
-                    Tabledata: list
+                    Tabledata: list,
                 })
                 break;
             case 'edit':
                 this.setState({
-                    columnsIndex: index
+                    columnsIndex: index,
+                    i: index
                 })
 
                 break
@@ -141,7 +185,8 @@ class TabContent extends Component {
                 break
             case 'save':
                 this.setState({
-                    columnsIndex: -1
+                    columnsIndex: -1,
+                    i: -1
                 })
                 break
             default:
@@ -161,6 +206,12 @@ class TabContent extends Component {
             visible: false,
         })
         // console.log(this.state.Tabledata);
+        // this.props.EditSelectedRow({
+        //     name:this.state.value,
+
+        // })
+        const { Tabledata, SQL, value } = this.state
+        this.ChangeSQL(Tabledata, SQL, value)
     }
     handleCancel = () => {
         this.setState({
@@ -170,20 +221,49 @@ class TabContent extends Component {
 
     inputChangeReset = (e) => {
         this.setState({
-            Tabledata:e.target.value
+            Tabledata: e.target.value
         })
     }
     textAreaChange = (e) => {
         this.setState({
-            SQL:e.target.value
+            SQL: e.target.value
         })
+        const { Tabledata, SQL, value } = this.state
+        this.ChangeSQL(Tabledata, e.target.value, value)
+    }
+    InputChange = (e) => {
+        this.setState({
+            value: e.target.value
+        })
+        const { Tabledata, SQL } = this.state
+        this.ChangeSQL(Tabledata, SQL, e.target.value)
+    }
+    ChangeSQL = (Tabledata, SQL, value) => {
+        let Obj = {}
+        Tabledata.forEach(e => {
+            Obj[e.dataIndex] = e.title
+        })
+        // this.props.PaneSaveData({
+        //     name: value,
+        //     cols: JSON.stringify(Obj),
+        //     sql: SQL
+        // }, this.props.i)
+
+        let Sqls_ = JSON.parse(this.props.information.Sqls)
+        Sqls_[this.props.i] = {
+            name: value,
+            cols: JSON.stringify(Obj),
+            sql: SQL
+        }
+        console.log(this.props.i)
+        this.props.copyDataSource({ 'Sqls': JSON.stringify(Sqls_) })
     }
     render() {
-        const { Tabledata, columns , SQL} = this.state
+        const { Tabledata, columns, SQL, value } = this.state
         return (
             <div>
                 <Modal
-                    title="SQL"
+                    title="列数据"
                     visible={this.state.visible}
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}
@@ -192,24 +272,28 @@ class TabContent extends Component {
                     width={800}
                     destroyOnClose={true}
                 >
-                    <Button onClick={this.TagChange.bind(this, 'add', 0)}>添加</Button>
+                    <Button onClick={this.TagChange.bind(this, 'add', 0)} disabled={this.props.news}>添加</Button>
                     <Table
                         columns={columns}
                         dataSource={Tabledata}
                         bordered={true}
                         pagination={false}
-                        rowKey='title'
+                        rowKey='key'
                         bodyStyle={{ padding: 5 }}
 
                     ></Table>
                 </Modal>
-                <span style={{padding:5,fontSize:20}}>SQL:</span>
-                <TextArea 
-                rows={10}
-                value={SQL}
-                onChange={this.textAreaChange.bind(this)}></TextArea>
-                <span style={{padding:5,fontSize:20}}>列选择项：</span>
+                <span style={{ padding: 5, fontSize: 20 }}>SQL名称:</span>
+                <Input value={value} onChange={this.InputChange} disabled={this.props.news}></Input>
+                <span style={{ padding: 5, fontSize: 20 }} disabled={this.props.news}>SQL:</span>
+                <TextArea
+                    disabled={this.props.news}
+                    rows={10}
+                    value={SQL}
+                    onChange={this.textAreaChange.bind(this)}></TextArea>
+                <span style={{ padding: 5, fontSize: 20 }}>列选择项：</span>
                 <Input
+                    disabled={this.props.news}
                     value={Tabledata}
                     onChange={this.inputChangeReset.bind(this)}
                     addonAfter={<span style={{ cursor: 'pointer' }}
@@ -219,5 +303,21 @@ class TabContent extends Component {
         );
     }
 }
+function mapStateToProps(state) {
+    console.log(state);
 
-export default TabContent;
+    return {
+        information: state.information
+    }
+}
+
+function mapDispatchProps(dispatch) {
+    return {
+        copyDataSource: (k) => {
+            dispatch(copyDataSource(k))
+        }
+    }
+}
+export default connect(mapStateToProps, mapDispatchProps)(TabContent);
+
+
