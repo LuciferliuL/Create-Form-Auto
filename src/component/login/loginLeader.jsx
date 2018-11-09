@@ -15,7 +15,6 @@ function mapStateToProps(state) {
 class loginLeader extends Component {
     state = {
         h: 0,
-        showOrHiden: true,
         data: [{
             IconType: "setting",//图标
             AvatarSrc: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",//人物头像
@@ -75,8 +74,9 @@ class loginLeader extends Component {
                 break;
             case 5:
                 colwidth = 4
-            default:
                 break;
+            default:
+                colwidth = 4
         }
 
         data.forEach((e, i) => {
@@ -89,16 +89,11 @@ class loginLeader extends Component {
                                 if (e.MetaTitle === 'DESGIN') {
                                     this.props.history.push('/Design/er')
                                 } else if (e.MetaTitle === 'I9群信息') {
-                                    this.setState({
-                                        showOrHiden: false
-                                    })
+                                    this.props.history.push('/Info')
                                 } else if (e.MetaTitle === 'userManagement') {
-                                    this.props.history.push('/BaseData/UserList')
+                                    this.props.history.push('/BaseData')
                                 } else if (e.MetaTitle === 'DBManagement') {
                                     this.props.history.push('/BaseData/DBList')
-                                }
-                                else if (e.MetaTitle === 'I9群信息') {
-                                    this.props.history.push('/Info')
                                 } else {
                                     window.location.href = e.href
                                 }
@@ -117,15 +112,15 @@ class loginLeader extends Component {
             <Layout>
                 <Header>Header</Header>
                 <Content>
-                    {this.state.showOrHiden ?
-                        <Card style={{ height: h }}>
-                            <Row align='middle' justify='start' style={{ marginTop: '5%' }}>
-                                <Col span={2}></Col>
-                                {dataList}
-                                <Col span={2}></Col>
-                            </Row>
-                        </Card> :
-                        <Information height={h}></Information>}
+                    {/* {this.state.showOrHiden ? */}
+                    <Card style={{ height: h }}>
+                        <Row align='middle' justify='start' style={{ marginTop: '5%' }}>
+                            {/* <Col span={2}></Col> */}
+                            {dataList}
+                            {/* <Col span={2}></Col> */}
+                        </Row>
+                    </Card>
+                    {/* // :<Information height={h}></Information>} */}
                 </Content>
                 <Footer style={{ textAlign: 'center' }}>
                     ERP Design ©2018 Created by LEO
