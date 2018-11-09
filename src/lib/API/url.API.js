@@ -10,10 +10,14 @@ global.cfg = {
 
 //i9消息发送配置；
 global.msgcfg = {
-    eId: "8070424",//eid
-    esecret: "ArqyyWkxcIl3jmXcUXwmxTqvtetoZvgG",//通讯录密钥
-    AppId: "500068278",
-    appSecret: "3n1toHGU5409tfuCPVHe",//app密钥
+    //eId: "8070424",//eid
+    //esecret: "ArqyyWkxcIl3jmXcUXwmxTqvtetoZvgG",//通讯录密钥
+    //AppId: "500068278",
+    //appSecret: "3n1toHGU5409tfuCPVHe",//app密钥
+    eId: "12400638",//
+    esecret: "fdphO8ouKda8zlx7UFhjj6GUqRJSlLAU",
+    AppId: "500040363",
+    appSecret: "erp",//
     corntemplateid: "I9MessageSend",
     autotemplateid: "I9MessageSend",
     filepath: "C:\\Program Files (x86)\\JZTERP\\QueryService\\design",//excel保存路径
@@ -32,6 +36,16 @@ else if (environment === 'product') {
     global.login = {
         api: 'http://10.3.4.233:20296/',
         environment: "product"
+    }
+    global.msgcfg = {
+        eId: "12400638",//
+        esecret: "fdphO8ouKda8zlx7UFhjj6GUqRJSlLAU",
+        AppId: "500040363",
+        appSecret: "erp",//
+        corntemplateid: "I9MessageSend",
+        autotemplateid: "I9MessageSend",
+        filepath: "C:\\Program Files (x86)\\JZTERP\\CenterQuerybuild",//design路径
+        fileurl: "http://10.3.4.233:9003/"//design站点
     }
 }
 else if (environment === 'develop') {
