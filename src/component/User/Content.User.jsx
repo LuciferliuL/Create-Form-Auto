@@ -595,10 +595,7 @@ class ContentUser extends Component {
                                     </Button>
                         </ButtonGroup>
 
-                        <RadioGroup onChange={this.onChangeDs} value={this.state.branchtype} style={{ marginLeft: '10px' }}>
-                            <Radio value="zda">集中</Radio>
-                            <Radio value="branch">分公司</Radio>
-                        </RadioGroup>
+                   
 
                     </div>
                     <Form
