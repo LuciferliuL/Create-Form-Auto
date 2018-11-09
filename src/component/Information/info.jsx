@@ -17,6 +17,14 @@ class Info extends Component {
     state = {
         news: false,
         tabBarShow: false,
+        databottom: [],
+        columnsbottom: [{
+            title: '状态',
+            dataIndex: 'Status'
+        }, {
+            title: '发送时间',
+            dataIndex: 'SendDate'
+        }],
         disabled: true,
         loading: false,
         activeKey: '1',
@@ -49,6 +57,17 @@ class Info extends Component {
         }, {
             title: '状态',
             dataIndex: 'Status',
+        }, {
+            title: '操作',
+            dataIndex: "CfgGuid",
+            render: (text, record) => {
+                return (
+                    <div>
+                        <Button onClick={this.checkedLog.bind(this, text)}>查看日志</Button>
+                    </div>
+
+                )
+            }
         }],
     }
     componentDidMount() {
@@ -56,6 +75,23 @@ class Info extends Component {
             // console.log(res);
             this.setState({
                 data: res
+            })
+        })
+    }
+    checkedLog = (e) => {
+        console.log(e);
+        let ss = {
+            cfgguid: e
+        }
+        let obj = {
+            PageIndex: 1,
+            PageSize: 200,
+            Param: JSON.stringify(ss),
+        };
+        POST$(API('geti9msgsendlist').http, obj, (res) => {
+            console.log(res);
+            this.setState({
+                databottom: res
             })
         })
     }
@@ -222,7 +258,7 @@ class Info extends Component {
         this.props.history.push('/loginLeader');
     }
     render() {
-        const { columns, data, activeKey, selectedRowKeys, selectedData, disabled, loading, news } = this.state
+        const { columns, data, activeKey, selectedRowKeys, selectedData, disabled, loading, news, columnsbottom, databottom } = this.state
         const rowSelection = {
             onChange: this.OnChange,
             type: 'radio',
@@ -253,12 +289,13 @@ class Info extends Component {
                             rowKey='PK'>
                         </Table>
                         <Card
+                            title='发送记录'
                             style={{ position: 'fixed', bottom: 0, width: '100%' }}>
                             <Table
-                                rowSelection={rowSelection}
+                                // rowSelection={rowSelection}
                                 bordered={true}
-                                columns={columns}
-                                dataSource={data}
+                                columns={columnsbottom}
+                                dataSource={databottom}
                                 pagination={{ pageSize: 6 }}
                                 rowKey='PK'>
                             </Table>
