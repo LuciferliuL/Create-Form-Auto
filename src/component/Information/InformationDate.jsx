@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { Radio } from 'antd'
+import { Radio,DatePicker } from 'antd'
 import moment from 'moment';
-import { DatePicker } from 'antd';
 import { connect } from 'react-redux'
 import { copyDataSource } from './information.action'
 
