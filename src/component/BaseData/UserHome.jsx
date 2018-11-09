@@ -24,15 +24,16 @@ class UserHome extends Component {
         this.props.history.push("/" + e.key);
     }
     render() {
+        var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.92
         return (
             <div>
-                <Layout style={{ background: "#fff" }}>
-                    <Sider style={{ background: "#fff" }}>
+                <Layout style={{ minHeight: '100vh' }} >
+                    <Sider >
                         <Menu
                             defaultSelectedKeys={['1']}
                             defaultOpenKeys={['sub1']}
                             mode="inline"
-                            theme="light"
+                            theme="dark"
                             onClick={this.TitleClick}
                         >
                             <Menu.Item key="BaseData/UserList">
@@ -45,7 +46,7 @@ class UserHome extends Component {
                     </Sider>
                     <Layout>
                         {/* <Header style={{ background: "#fff" }}>Header</Header> */}
-                        <Content>
+                        <Content style={{padding: 10, background: '#fff', minHeight: h }}>
                             <Route path="/BaseData/UserList" component={UserList}></Route>
                             <Route path="/BaseData/UserInfo" component={UserInfo}></Route>
                             <Route path="/BaseData/UserAuthorization" component={UserAuthorization}></Route>

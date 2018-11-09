@@ -42,16 +42,16 @@ class loginLeader extends Component {
             MetaDescription: "群体信息发送",//卡片描述<Icon type="" theme="outlined" />
             href: 'http://10.3.4.177:9003/Information'//跳转地址
         }, {
+        //     IconType: "bulb",//图标
+        //     AvatarSrc: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",//人物头像
+        //     MetaTitle: "userManagement",//卡片抬头<Icon type="" theme="outlined" />
+        //     MetaDescription: "用户信息维护",//卡片描述
+        //     href: 'www.baidu.com'//跳转地址
+        // }, {
             IconType: "bulb",//图标
             AvatarSrc: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",//人物头像
-            MetaTitle: "userManagement",//卡片抬头<Icon type="" theme="outlined" />
-            MetaDescription: "用户信息维护",//卡片描述
-            href: 'www.baidu.com'//跳转地址
-        }, {
-            IconType: "bulb",//图标
-            AvatarSrc: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",//人物头像
-            MetaTitle: "DBManagement",//卡片抬头<Icon type="" theme="outlined" />
-            MetaDescription: "数据库信息维护",//卡片描述
+            MetaTitle: "Management",//卡片抬头<Icon type="" theme="outlined" />
+            MetaDescription: "信息维护",//卡片描述
             href: 'www.baidu.com'//跳转地址
         }]
     }
@@ -67,13 +67,13 @@ class loginLeader extends Component {
         let colwidth = 0
         switch (data.length) {
             case 3:
-                colwidth = 6
+                colwidth = 8
                 break;
             case 4:
-                colwidth = 5
+                colwidth = 6
                 break;
             case 5:
-                colwidth = 4
+                colwidth = 6
                 break;
             default:
                 colwidth = 4
@@ -83,14 +83,14 @@ class loginLeader extends Component {
             return dataList.push(
                 <Col span={colwidth} key={i}>
                     <Card
-                        style={{ width: '85%' }}
+                        style={{ width: '85%',marginTop:20 }}
                         actions={[<Icon type={e.IconType}
                             onClick={() => {
                                 if (e.MetaTitle === 'DESGIN') {
                                     this.props.history.push('/Design/er')
                                 } else if (e.MetaTitle === 'I9群信息') {
                                     this.props.history.push('/Info')
-                                } else if (e.MetaTitle === 'userManagement') {
+                                } else if (e.MetaTitle === 'Management') {
                                     this.props.history.push('/BaseData/UserList')
                                 }  else {
                                     window.location.href = e.href
