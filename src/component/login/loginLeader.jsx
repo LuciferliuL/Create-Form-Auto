@@ -42,12 +42,12 @@ class loginLeader extends Component {
             MetaDescription: "群体信息发送",//卡片描述<Icon type="" theme="outlined" />
             href: 'http://10.3.4.177:9003/Information'//跳转地址
         }, {
-        //     IconType: "bulb",//图标
-        //     AvatarSrc: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",//人物头像
-        //     MetaTitle: "userManagement",//卡片抬头<Icon type="" theme="outlined" />
-        //     MetaDescription: "用户信息维护",//卡片描述
-        //     href: 'www.baidu.com'//跳转地址
-        // }, {
+            //     IconType: "bulb",//图标
+            //     AvatarSrc: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",//人物头像
+            //     MetaTitle: "userManagement",//卡片抬头<Icon type="" theme="outlined" />
+            //     MetaDescription: "用户信息维护",//卡片描述
+            //     href: 'www.baidu.com'//跳转地址
+            // }, {
             IconType: "bulb",//图标
             AvatarSrc: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",//人物头像
             MetaTitle: "Management",//卡片抬头<Icon type="" theme="outlined" />
@@ -78,24 +78,23 @@ class loginLeader extends Component {
             default:
                 colwidth = 4
         }
-
         data.forEach((e, i) => {
             return dataList.push(
                 <Col span={colwidth} key={i}>
                     <Card
-                        style={{ width: '85%',marginTop:20 }}
-                        actions={[<Icon type={e.IconType}
-                            onClick={() => {
-                                if (e.MetaTitle === 'DESGIN') {
-                                    this.props.history.push('/Design/er')
-                                } else if (e.MetaTitle === 'I9群信息') {
-                                    this.props.history.push('/Info')
-                                } else if (e.MetaTitle === 'Management') {
-                                    this.props.history.push('/BaseData/UserList')
-                                }  else {
-                                    window.location.href = e.href
-                                }
-                            }} />]}
+                        style={{ width: '85%', marginTop: 20 }}
+                        actions={e.MetaTitle === 'Management' ? [<Icon type={e.IconType}
+                            onClick={() => {this.props.history.push('/BaseData/UserList')}} /> ,<a href="http://obs.myhwclouds.com/jztmobile/JzterpDataPlugin.dll">PL/SQL插件</a> ] 
+                            : [<Icon type={e.IconType}
+                                onClick={() => {
+                                    if (e.MetaTitle === 'DESGIN') {
+                                        this.props.history.push('/Design/er')
+                                    } else if (e.MetaTitle === 'I9群信息') {
+                                        this.props.history.push('/Info')
+                                    } else {
+                                        window.location.href = e.href
+                                    }
+                                }} />]}
                     >
                         <Meta
                             avatar={<Avatar src={e.AvatarSrc} />}

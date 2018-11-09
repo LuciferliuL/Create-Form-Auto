@@ -124,7 +124,7 @@ class UserList extends React.Component {
         return (
             <Content style={{ padding: '0 10px 10px' }}>
                 <Breadcrumb style={{ margin: '16px 0', fontWeight: 'bold' }}>
-                    <Breadcrumb.Item style={{ color: '#cf1322' }}>用户人员列表</Breadcrumb.Item>
+                    <Breadcrumb.Item style={{ color: '#cf1322' }}>数据库列表</Breadcrumb.Item>
                 </Breadcrumb>
                 <div className="test-nav">
                     <div style={{ float: "right", display: "inline" }}>
