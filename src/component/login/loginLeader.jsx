@@ -91,10 +91,8 @@ class loginLeader extends Component {
                                 } else if (e.MetaTitle === 'I9群信息') {
                                     this.props.history.push('/Info')
                                 } else if (e.MetaTitle === 'userManagement') {
-                                    this.props.history.push('/BaseData')
-                                } else if (e.MetaTitle === 'DBManagement') {
-                                    this.props.history.push('/BaseData/DBList')
-                                } else {
+                                    this.props.history.push('/BaseData/UserList')
+                                }  else {
                                     window.location.href = e.href
                                 }
                             }} />]}
