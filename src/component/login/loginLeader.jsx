@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Row, Col, Card, Icon, Avatar, Layout } from 'antd'
-import { withRouter} from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 
 const { Meta } = Card;
 const { Header, Footer, Content } = Layout;
@@ -15,10 +15,7 @@ function mapStateToProps(state) {
 class loginLeader extends Component {
     state = {
         h: 0,
-<<<<<<< HEAD
         showOrHiden: true,
-=======
->>>>>>> 8c9e2d38259338e7de9cb63f4e8ebc69b9403563
         data: [{
             IconType: "setting",//图标
             AvatarSrc: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",//人物头像
@@ -91,7 +88,6 @@ class loginLeader extends Component {
                             onClick={() => {
                                 if (e.MetaTitle === 'DESGIN') {
                                     this.props.history.push('/Design/er')
-<<<<<<< HEAD
                                 } else if (e.MetaTitle === 'I9群信息') {
                                     this.setState({
                                         showOrHiden: false
@@ -100,12 +96,10 @@ class loginLeader extends Component {
                                     this.props.history.push('/BaseData/UserList')
                                 } else if (e.MetaTitle === 'DBManagement') {
                                     this.props.history.push('/BaseData/DBList')
-                                } else {
-=======
-                                } else if(e.MetaTitle === 'I9群信息'){
+                                }
+                                else if (e.MetaTitle === 'I9群信息') {
                                     this.props.history.push('/Info')
-                                }else {
->>>>>>> 8c9e2d38259338e7de9cb63f4e8ebc69b9403563
+                                } else {
                                     window.location.href = e.href
                                 }
                             }} />]}
@@ -123,7 +117,6 @@ class loginLeader extends Component {
             <Layout>
                 <Header>Header</Header>
                 <Content>
-<<<<<<< HEAD
                     {this.state.showOrHiden ?
                         <Card style={{ height: h }}>
                             <Row align='middle' justify='start' style={{ marginTop: '5%' }}>
@@ -133,17 +126,6 @@ class loginLeader extends Component {
                             </Row>
                         </Card> :
                         <Information height={h}></Information>}
-=======
-                    {/* {this.state.showOrHiden ? */}
-                    <Card style={{ height: h }}>
-                        <Row align='middle' justify='start' style={{ marginTop: '5%' }}>
-                            <Col span={2}></Col>
-                            {dataList}
-                            <Col span={2}></Col>
-                        </Row>
-                    </Card> 
-                    {/* // :<Information height={h}></Information>} */}
->>>>>>> 8c9e2d38259338e7de9cb63f4e8ebc69b9403563
                 </Content>
                 <Footer style={{ textAlign: 'center' }}>
                     ERP Design ©2018 Created by LEO

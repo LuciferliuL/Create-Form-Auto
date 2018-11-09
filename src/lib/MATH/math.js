@@ -402,7 +402,6 @@ export function formatDate(sdt, format) {
 export const MathRandom = () => {
     return Math.random().toFixed(4) * 1000
 }
-<<<<<<< HEAD
 
 export const getUrlParam = (url, name) => {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
@@ -420,5 +419,3 @@ export const setUrlParam = (params) => {
     urlParam = paramsArray.join('&')
     return urlParam
 }
-=======
->>>>>>> 8c9e2d38259338e7de9cb63f4e8ebc69b9403563
