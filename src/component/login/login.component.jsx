@@ -18,7 +18,7 @@ class NormalLoginForm extends React.Component {
             let SystemConnectList = res.SystemConnectList
             this.setState({
                 listObj: TreeMath(SystemConnectList),
-                loading: false
+                loading: false     
             })
             if (localStorage.getItem('company')) {
                 this.props.form.setFieldsValue({ 'scope': JSON.parse(localStorage.getItem('company')) })
