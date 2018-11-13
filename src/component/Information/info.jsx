@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Table, Input, Button, Tabs, message, Spin } from 'antd';
+import { Table, Input, Button, Tabs, message, Spin, Card } from 'antd';
 import { API } from '../../lib/API/I9'
 import '../../lib/API/url.API'
 import { GET$, POST$ } from '../../lib/MATH/math'
@@ -17,12 +17,20 @@ class Info extends Component {
     state = {
         news: false,
         tabBarShow: false,
+        databottom: [],
+        columnsbottom: [{
+            title: '状态',
+            dataIndex: 'Status'
+        }, {
+            title: '发送时间',
+            dataIndex: 'SendDate'
+        }],
         disabled: true,
         loading: false,
         activeKey: '1',
         selectedRowKeys: [],
         selectedData: [{
-            Title:'',
+            Title: '',
             PK: -1,
             Name: "测试",
             DataSource: "集中",//集中，分公司；
@@ -49,6 +57,17 @@ class Info extends Component {
         }, {
             title: '状态',
             dataIndex: 'Status',
+        }, {
+            title: '操作',
+            dataIndex: "CfgGuid",
+            render: (text, record) => {
+                return (
+                    <div>
+                        <Button onClick={this.checkedLog.bind(this, text)}>查看日志</Button>
+                    </div>
+
+                )
+            }
         }],
     }
     componentDidMount() {
@@ -56,6 +75,23 @@ class Info extends Component {
             // console.log(res);
             this.setState({
                 data: res
+            })
+        })
+    }
+    checkedLog = (e) => {
+        console.log(e);
+        let ss = {
+            cfgguid: e
+        }
+        let obj = {
+            PageIndex: 1,
+            PageSize: 200,
+            Param: JSON.stringify(ss),
+        };
+        POST$(API('geti9msgsendlist').http, obj, (res) => {
+            console.log(res);
+            this.setState({
+                databottom: res
             })
         })
     }
@@ -77,6 +113,7 @@ class Info extends Component {
                 style={{ marginLeft: 20 }}>
                 <Button onClick={this.edit.bind(this, 'add')}>新增</Button>
                 <Button onClick={this.edit.bind(this, 'edit')}>编辑</Button>
+                <Button onClick={this.edit.bind(this, 'look')}>查看</Button>
                 <Button onClick={this.edit.bind(this, 'del')}>删除</Button>
             </ButtonGroup>
         </div>
@@ -101,13 +138,13 @@ class Info extends Component {
                         Bytes: "",
                         DeptID: global.msgcfg.filepath,
                         DeptName: global.msgcfg.fileurl,
-                        Title:''
+                        Title: ''
                     }],
                     tabBarShow: true,
                     news: false
                 })
                 this.props.copyDataSource({
-                    Title:'',
+                    Title: '',
                     PK: -1,
                     Name: "测试",
                     DataSource: "集中",//集中，分公司；
@@ -129,7 +166,16 @@ class Info extends Component {
                         activeKey: '2',
                         tabBarShow: true,
                         disabled: false,
-                        news: this.state.selectedData[0].WorkFlowState === '-999' ? false : true
+                    }) : message.warning('请选择数据')
+                break;
+            case 'look':
+                this.props.copyDataSource(this.state.selectedData[0])//选择的数据
+                this.state.selectedData[0].PK !== -1 ?
+                    this.setState({
+                        activeKey: '2',
+                        tabBarShow: true,
+                        disabled: false,
+                        news: true
                     }) : message.warning('请选择数据')
                 break;
             case 'del':
@@ -164,7 +210,7 @@ class Info extends Component {
             loading: true
         })
         let s = this.props.information;
-        console.log(s);
+        // console.log(s);
 
         s.DeptID = global.msgcfg.filepath;
         s.DeptName = global.msgcfg.fileurl;
@@ -177,8 +223,8 @@ class Info extends Component {
         let title = s.Title
         let sql = s.Sqls
         let Rec = s.Receivers
-        console.log(title + '----' + sql + '-----' + Rec);
-        
+        // console.log(title + '----' + sql + '-----' + Rec);
+
         if (title.length > 0 && sql.length > 2 && Rec.length > 2) {
             this.setState((pre) => (
                 {
@@ -187,10 +233,10 @@ class Info extends Component {
             ), () => {
 
                 POST$(API('I9msg').http, s, (res) => {
-                    console.log(res);
+                    // console.log(res);
 
                     GET$(API('geti9msgall').http, (res) => {
-                        console.log(res);
+                        // console.log(res);
                         this.setState({
                             data: res,
                             activeKey: '1',
@@ -202,26 +248,17 @@ class Info extends Component {
             })
         } else {
             this.setState({
-                loading:false
+                loading: false
             })
             message.warning(title.length === 0 ? '标题必填' : sql.length === 2 ? 'SQL必填' : '人员必选')
         }
 
     }
-    //修改数据的方法
-    EditSelectedRow = (obj) => {
-        // console.log(obj);
-        let selectd = this.state.selectedData[0]
-        // console.log(selectd);
-
-        let newSelectdData = Object.assign({}, selectd, obj)
-        // console.log(newSelectdData);  
-        this.setState({
-            selectedData: [newSelectdData]
-        })
+    goBack = () => {
+        this.props.history.push('/loginLeader');
     }
     render() {
-        const { columns, data, activeKey, selectedRowKeys, selectedData, disabled, loading, news } = this.state
+        const { columns, data, activeKey, selectedRowKeys, selectedData, disabled, loading, news, columnsbottom, databottom } = this.state
         const rowSelection = {
             onChange: this.OnChange,
             type: 'radio',
@@ -236,7 +273,10 @@ class Info extends Component {
                         this.state.tabBarShow ?
                             <div>
                                 <Button onClick={this.OnOk} disabled={news}>确认提交</Button>
-                            </div> : null
+                            </div> :
+                            <div onClick={this.goBack}>
+                                <Button>回到首页</Button>
+                            </div>
                     }>
                     <TabPane tab="列表选择" key='1'>
                         <Table
@@ -245,14 +285,27 @@ class Info extends Component {
                             bordered={true}
                             columns={columns}
                             dataSource={data}
+                            pagination={{ pageSize: 10 }}
                             rowKey='PK'>
                         </Table>
+                        <Card
+                            title='发送记录'
+                            style={{ position: 'fixed', bottom: 0, width: '100%' }}>
+                            <Table
+                                // rowSelection={rowSelection}
+                                bordered={true}
+                                columns={columnsbottom}
+                                dataSource={databottom}
+                                pagination={{ pageSize: 6 }}
+                                rowKey='PK'>
+                            </Table>
+                        </Card>
                     </TabPane>
                     <TabPane tab="数据编辑" key='2' disabled={disabled}>
-                        <Information selectedData={selectedData} EditSelectedRow={this.EditSelectedRow} news={news}></Information>
+                        <Information selectedData={selectedData} news={news}></Information>
                     </TabPane>
                     <TabPane tab="人员选择" key='3' disabled={disabled}>
-                        <Person selectedData={selectedData} EditSelectedRow={this.EditSelectedRow} news={news}></Person>
+                        <Person selectedData={selectedData} news={news}></Person>
                     </TabPane>
                 </Tabs>
             </Spin>

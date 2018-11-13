@@ -19,7 +19,7 @@ class NormalLoginForm extends React.Component {
             localStorage.setItem('BranchIdList', JSON.stringify(res.SystemConnectList))
             this.setState({
                 listObj: TreeMath(SystemConnectList),
-                loading: false
+                loading: false     
             })
             if (localStorage.getItem('company')) {
                 this.props.form.setFieldsValue({ 'scope': JSON.parse(localStorage.getItem('company')) })

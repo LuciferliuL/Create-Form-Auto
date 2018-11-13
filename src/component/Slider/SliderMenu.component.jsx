@@ -17,7 +17,7 @@ class SliderMenucomponent extends Component {
                 e.children.forEach(value => {
                     datas.push(
                         <Menu.Item key={value.key}>
-                            <Link to='/Design/er'>
+                            <Link to={value.link}>
                                 <Icon type={value.type}></Icon>
                                 <span>{value.key}</span>
                             </Link>
@@ -74,24 +74,41 @@ function mapDispatchProps(dispatch) {
 export default connect(mapStateToProps, mapDispatchProps)(SliderMenucomponent);
 const sliderData = [
     {
-        key: '表单总览',
-        type: 'pie-chart',
-        children: [],
+        key: '网页方案',
+        type: 'windows',
+        children: [
+            {
+                key: '表单总览',
+                type: 'pie-chart',
+                children: [],
+                link: '/Design/er'
+            }, {
+                key: '表单设计',
+                type: 'desktop',
+                children: [],
+                link: '/Design/Stylist'
+            }, {
+                key: '表单权限',
+                type: 'lock',
+                children: [],
+                link: '/Design/Arch'
+            }, {
+                key: '检索方案',
+                type: 'question-circle',
+                children: [],
+                link: '/Design/LookUpSelf'
+            }
+        ],
         link: '/Design/er'
     }, {
-        key: '表单设计',
-        type: 'desktop',
-        children: [],
-        link: '/Design/Stylist'
-    }, {
-        key: '表单权限',
-        type: 'lock',
-        children: [],
-        link: '/Design/Arch'
-    }, {
-        key: '检索方案',
-        type: 'question-circle',
-        children: [],
-        link: '/Design/LookUpSelf'
+        key: '移动方案',
+        type: 'apple',
+        children: [{
+            key: '移动设计',
+            type: 'question-circle',
+            children: [],
+            link: '/Design/Iphone'
+        }],
+        link: '/Design/Iphone'
     }
 ]

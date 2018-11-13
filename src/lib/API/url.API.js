@@ -33,6 +33,16 @@ else if (environment === 'product') {
         api: 'http://10.3.4.233:20296/',
         environment: "product"
     }
+    global.msgcfg = {
+        eId: "12400638",//
+        esecret: "fdphO8ouKda8zlx7UFhjj6GUqRJSlLAU",
+        AppId: "500040363",
+        appSecret: "erp",//
+        corntemplateid: "I9MessageSend",
+        autotemplateid: "I9MessageSend",
+        filepath: "C:\\Program Files (x86)\\JZTERP\\CenterQuerybuild",//design路径
+        fileurl: "http://10.3.4.233:9003/"//design站点
+    }
 }
 else if (environment === 'develop') {
     //开发环境；

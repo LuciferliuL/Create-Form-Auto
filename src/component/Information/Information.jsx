@@ -10,7 +10,7 @@ import { copyDataSource } from './information.action'
 class Information extends Component {
 
     titleChange = (value) => {
-        console.log(`selected ${value.target.value}`);
+        // console.log(`selected ${value.target.value}`);
         this.props.copyDataSource({ Title: value.target.value })
     }
     render() {

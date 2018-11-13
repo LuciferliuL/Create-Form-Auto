@@ -8,6 +8,9 @@ import DesignTablecomponent from '../DesignTable/DesignTable.component'
 import Stylistcomponent from '../stylist/Stylist.component'
 import ReadForm from '../readForm/ReadForm'
 import LookUpSelf from '../LookUpSelf/lookUpSelf'
+import Iphone from '../Iphone/Iphone'
+
+
 const { Content, Sider } = Layout;
 
 class Desgincomponent extends Component {
@@ -45,6 +48,7 @@ class Desgincomponent extends Component {
                             <Route path='/Design/Stylist' component={Stylistcomponent}></Route>
                             <Route path='/Design/Arch' component={ReadForm}></Route>
                             <Route path='/Design/LookUpSelf' component={LookUpSelf}></Route>
+                            <Route path='/Design/Iphone' component={Iphone}></Route>
                         </div>
                     </Content>
                 </Layout>
