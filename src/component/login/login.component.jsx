@@ -16,6 +16,7 @@ class NormalLoginForm extends React.Component {
 
         GETFetch(API('login').http, (res) => {
             let SystemConnectList = res.SystemConnectList
+            localStorage.setItem('BranchIdList', JSON.stringify(res.SystemConnectList))
             this.setState({
                 listObj: TreeMath(SystemConnectList),
                 loading: false

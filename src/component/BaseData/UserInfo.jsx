@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Message, Form, Input, Select, Button, Breadcrumb, Layout, Row, Col, Checkbox } from 'antd';
+import { Message, Form, Input, Select, Button, Breadcrumb, Layout, Row, Col, Checkbox, Cascader } from 'antd';
 import { GETFetch, TreeMath, POSTFETCHNOBODY, POST$, httprequest, getUrlParam } from '../../lib/MATH/math'
 import { Object } from 'es6-shim';
 import { API } from '../../lib/API/baseData.API'
@@ -149,6 +149,20 @@ class AddOrEditUser extends Component {
                                         }],
                                     })(
                                         <Input type="text" />
+                                    )}
+                                </FormItem>
+                                <FormItem {...formItemLayout} label="请选择公司">
+                                    {getFieldDecorator('Branchid', {
+                                        rules: [{
+                                            required: true, message: '请选择公司!',
+                                        }],
+                                    })(
+                                        <Cascader
+                                        // options={this.state.listObj}
+                                        // onChange={this.onChange}
+                                        // changeOnSelect
+                                        // expandTrigger="hover"
+                                        />
                                     )}
                                 </FormItem>
                                 <FormItem {...formItemLayout} label="是否启用">

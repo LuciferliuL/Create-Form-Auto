@@ -78,14 +78,14 @@ class UserList extends React.Component {
                     }
                 })(i)
             }
-            if (arr.length > 0) {
-                param.push({
-                    PK: item.PK,
-                    Account: item.Account,
-                    DBINFO_PK: item.DBINFO_PK,
-                    Settings: JSON.stringify({ allow: arr })
-                })
-            }
+            //if (arr.length > 0) {
+            param.push({
+                PK: item.PK,
+                Account: item.Account,
+                DBINFO_PK: item.DBINFO_PK,
+                Settings: arr.length > 0 ? JSON.stringify({ allow: arr }) : ''
+            })
+            //}
         })
         console.log(param)
         POST$(API('saveAuthorInfo').http, param, (res) => {
