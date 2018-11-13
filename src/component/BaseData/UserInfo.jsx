@@ -12,6 +12,7 @@ const { Content } = Layout;
 class AddOrEditUser extends Component {
     constructor(props) {
         super(props);
+        this.BranchIdList = JSON.parse(localStorage.getItem('BranchIdList'))
         this.state = {
             id: getUrlParam(this.props.location.search, 'id') || '',
             Account: getUrlParam(this.props.location.search, 'Account') || '',
@@ -22,7 +23,8 @@ class AddOrEditUser extends Component {
                 Enabled: 0,
                 Note: '',
                 PK: ''
-            }
+            },
+            listObj: TreeMath(this.BranchIdList),
         }
         this.init()
 
@@ -158,7 +160,7 @@ class AddOrEditUser extends Component {
                                         }],
                                     })(
                                         <Cascader
-                                        // options={this.state.listObj}
+                                            options={this.state.listObj}
                                         // onChange={this.onChange}
                                         // changeOnSelect
                                         // expandTrigger="hover"
