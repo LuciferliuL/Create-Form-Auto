@@ -153,7 +153,7 @@ class AddOrEditUser extends Component {
                                         <Input type="text" />
                                     )}
                                 </FormItem>
-                                <FormItem {...formItemLayout} label="请选择公司">
+                                {/* <FormItem {...formItemLayout} label="请选择公司">
                                     {getFieldDecorator('Branchid', {
                                         rules: [{
                                             required: true, message: '请选择公司!',
@@ -166,7 +166,7 @@ class AddOrEditUser extends Component {
                                         // expandTrigger="hover"
                                         />
                                     )}
-                                </FormItem>
+                                </FormItem> */}
                                 <FormItem {...formItemLayout} label="是否启用">
                                     {getFieldDecorator('Enabled', {
                                         rules: [{
