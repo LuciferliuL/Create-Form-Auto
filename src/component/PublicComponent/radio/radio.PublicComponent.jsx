@@ -8,9 +8,14 @@ const FormItem = Form.Item
 class RadioPublicComponent extends Component {
     componentDidMount() {
         this.props.inputChange(this.props.PublicData.key, this.props.PublicData.GroupValue[0].value)
+        this.props.ChangeOn(this.props.PublicData.GroupValue[0].value, this.props.PublicData.key)
     }
     radioChange = (e) => {
-        this.props.inputChange(this.props.PublicData.key, e.target.value)
+        const { PublicData } = this.props
+
+        this.props.inputChange(PublicData.key, e.target.value)
+        PublicData.defaultValue = e.target.value
+        this.props.ChangeOn(PublicData, PublicData.key)
     }
     render() {
         const { disabled, label, GroupValue, groupname, layout } = this.props.PublicData

@@ -1,47 +1,103 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {Tag} from 'antd'
-import { addTabs, delTabs, addTable, delTable } from './User.action'
+import { Tabs } from 'antd'
+import { addTabs, delTabs, addTable, delTable, copyThis } from './User.action'
+import ContentUser from './Content.User'
+import { Object } from 'es6-shim';
+import { fugai, tableFugai } from '../stylist/action/Stylist.action'
 
-
-const CheckableTag = Tag.CheckableTag;
+const TabPane = Tabs.TabPane;
 
 
 class Tags extends Component {
-    state = {
-        selectedTags: [],
+    constructor(props) {
+        super(props);
+        const panes = [];
+        this.state = {
+            activeKey: '0',
+            panes,
+        };
     }
-    handleChange(tag, checked) {
-        this.setState({ selectedTags: [tag] });
-      }
+    componentDidMount(){
+        // console.log(this.props.dataContent);
+        this.setState({
+            activeKey:this.props.dataContent[0].Name
+        })
+    }
+    componentWillReceiveProps(pre) {
+        // console.log(pre);
+        // console.log(this.props);
+
+    }
+    onChange = (activeKey) => {
+        this.setState({ activeKey });
+        // console.log(activeKey);
+       //更新formdata
+        this.props.upData( this.props.TabsData.find(e => e.Name === activeKey).Source.FormData)
+    }
+
+    onEdit = (targetKey, action) => {
+        this[action](targetKey);
+    }
+
+    remove = (targetKey) => {
+        let activeKey = this.state.activeKey;
+        let lastIndex;
+        this.props.TabsData.forEach((pane, i) => {
+            if (pane.Name === targetKey) {
+                lastIndex = i - 1;
+            }
+        });
+        const panes = this.props.TabsData.filter(pane => pane.Name !== targetKey);
+        if (lastIndex >= 0 && activeKey === targetKey) {
+            activeKey = panes[lastIndex].Name;
+        }
+        // console.log(panes);
+        
+        this.props.copyThis(panes)
+        this.setState({ activeKey });
+    }
+
+    ChangeOn = (e, key) => {
+        // console.log(e);
+        const { activeKey } = this.state
+        const { TabsData } = this.props
+        // console.log(TabsData);
+        let source = TabsData.find(e => e.Name === activeKey)
+        let data = source.Source.FormData.find(e => e.key === key)
+        Object.assign(data, e)
+
+    }
     render() {
-        const {selectedTags} = this.state
-
-        let data = []
-        this.props.TabsData.map(tag => (
-            data.push(
-                <CheckableTag
-                key={tag['Name']}
-                checked={selectedTags[0] === tag['Name'] ? true : false}
-                onChange={checked => this.handleChange(tag['Name'], checked)}
-            >
-                {tag['Name']}
-            </CheckableTag>
-            )
-        ))
-
+        // console.log(this.props.TabsData);
 
         return (
-            <div>
-                {data}
-            </div>
+            <Tabs
+                hideAdd
+                onChange={this.onChange}
+                activeKey={this.state.activeKey}
+                type="editable-card"
+                onEdit={this.onEdit}
+            >
+                {this.props.TabsData.map(
+                    pane =>
+                        <TabPane tab={pane.Name} key={pane.Name}>
+                            <ContentUser
+                                pane={pane.Source}
+                                Loading={this.props.Loading}
+                                hidLoading={this.props.hidLoading}
+                                ChangeOn={this.ChangeOn.bind(this)}
+                            ></ContentUser>
+                        </TabPane>
+                )}
+            </Tabs>
 
         );
     }
 }
 
 function mapStateToProps(State) {
-    console.log(State);
+    // console.log(State);
 
     return {
         TableList: State.TableList,
@@ -61,9 +117,15 @@ const mapDispatchProps = (dispatch) => {
         },
         delTable: (key) => {
             dispatch(delTable(key))
-        }
+        },
+        copyThis: (List) => {
+            dispatch(copyThis(List))
+        },
+        upData: (k) => {
+            dispatch(fugai(k))
+        },
     }
 }
 
-export default connect(  mapStateToProps,mapDispatchProps
+export default connect(mapStateToProps, mapDispatchProps
 )(Tags);

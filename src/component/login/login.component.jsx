@@ -33,7 +33,7 @@ class NormalLoginForm extends React.Component {
         this.props.form.validateFields((err, values) => {
             //登入判断
             if (!err) {
-                console.log('Received values of form: ', values);
+                // console.log('Received values of form: ', values);
                 values.scope = values.scope[values.scope.length - 1];
                 //当前；
                 global.cfg.currentBranchId = values.scope;
@@ -76,18 +76,16 @@ class NormalLoginForm extends React.Component {
                                     POST$(API('getuserdata').http, uparam, (u) => {
 
                                         sessionStorage.setItem('udata', JSON.stringify(u));
-                                        this.props.history.push('/loginLeader');
-                                        sessionStorage.setItem('model', 'design');
-                                        // this.props.history.push('/USER');
-                                        // sessionStorage.setItem('model', 'runtime');
+                                        // this.props.history.push('/loginLeader');
+                                        // sessionStorage.setItem('model', 'design');
+                                        this.props.history.push('/USER');
+                                        sessionStorage.setItem('model', 'runtime');
                                     })
                                 }
                             });
-
                         });
                     });
                 });
-
             }
         });
     }

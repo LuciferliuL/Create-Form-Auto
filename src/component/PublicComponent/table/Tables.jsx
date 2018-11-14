@@ -20,15 +20,15 @@ class TABLECOMPONENT extends Component {
 
     componentWillReceiveProps(pre) {
 
-        console.log(pre.tableSource);
+        // console.log(pre);
         let row = []
-        pre.tableSource.columns.forEach(e => {
+        pre.PublicData.columns.forEach(e => {
             row.push(e)
         })
         //加新数据
         let colHeight = Math.floor(pre.heights / 24)
         let data = []
-        let Source = pre.tableSource.dataSource
+        let Source = pre.PublicData.dataSource
         if (Source.length < colHeight && Source.length > 0) {
 
             let keys = Object.keys(Source[0])
@@ -61,7 +61,7 @@ class TABLECOMPONENT extends Component {
                 {
                     data: data,
                     colHeight: colHeight,
-                    columnskeys: pre.tableSource.columns
+                    columnskeys: pre.PublicData.columns
                 }
             ))
         }
@@ -122,7 +122,7 @@ class TABLECOMPONENT extends Component {
         let widths = 0
         let columnsData = []
         let tbodyData = []
-        console.log(columnskeys);
+        // console.log(columnskeys);
         
         if (columnskeys) {
             columnskeys.map((e, i) => {

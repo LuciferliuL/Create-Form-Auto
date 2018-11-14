@@ -86,7 +86,7 @@ class TablePublicComponent extends Component {
 
     }
     componentWillReceiveProps(pre) {
-        console.log(pre)
+        // console.log(pre)
 
         let data = []
         if (pre.currentAttr.tr > this.state.tr) {

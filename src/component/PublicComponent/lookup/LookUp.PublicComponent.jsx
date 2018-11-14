@@ -49,7 +49,7 @@ class LookUpPublicComponent extends Component {
         })
     }
     ClickHandleKey = (key, page, pagesize, show) => {
-        let obj = this.props.UpdataFormData.find(e => e.key === key)
+        let obj = this.props.PublicData
         let body = {
             "Sql": obj.SQL,
             "Param": JSON.stringify(abbr),
@@ -80,7 +80,7 @@ class LookUpPublicComponent extends Component {
     }
 
     ParamChange = (e) => {
-        console.log(e);
+        // console.log(e);
         abbr['Abbr'] = e
     }
 
@@ -134,45 +134,55 @@ class LookUpPublicComponent extends Component {
             if (dataSource.length >= 1) {
                 // console.log(this.props.current.tr);
                 let dataSource_ = JSON.parse(JSON.stringify(dataSource[key]));
+                //对关联input的数据修改-----------------------------------------------------------
                 let agg = this.props.UpdataFormData.filter(e => e.type === 'INPUT' && e.isTrueInLookUp === this.props.current.id)
                 agg.forEach(e => {
                     e.defaultValue = dataSource_[e.typePoint]
-                    this.props.upForm(e)
-                })
+                    // console.log(dataSource_);
 
+                    this.props.upForm(e)
+                    this.props.ChangeOn(e, e.key)
+                })
+                //关联input数据修改结束-------------------------------------------------------------
                 let unqueData = this.props.UpdataFormData.find(e => e.key === this.props.PublicData.key)
                 unqueData.values = dataSource_
                 // unqueData.show = false
+
                 let keys = unqueData.uniqueKey
                 // console.log(keys);
-
+                this.props.ChangeOn(unqueData, this.props.PublicData.key)
                 this.setState({
                     shows: false,
                     value: dataSource_[keys]
                 })
             } else {
                 this.props.upForm(this.props.current)
+                this.props.ChangeOn(this.props.current, this.props.PublicData.key)
             }
         } else {
             if (dataSource.length >= 1) {
                 // console.log(this.props.current.tr);
                 let dataSource_ = JSON.parse(JSON.stringify(dataSource[this.props.current.tr]));
-
+                //关联数据input修改----------------------------------------------------------------
                 let agg = this.props.UpdataFormData.filter(e => e.type === 'INPUT' && e.isTrueInLookUp === this.props.current.id)
                 agg.forEach(e => {
                     e.defaultValue = dataSource_[e.typePoint]
+                    // console.log(dataSource_);
                     this.props.upForm(e)
+                    this.props.ChangeOn(e, e.key)
                 })
+                //关联数据修改结束--------------------------------------------------------------------
                 let unqueData = this.props.UpdataFormData.find(e => e.key === this.props.PublicData.key)
                 unqueData.values = dataSource_
                 let keys = unqueData.uniqueKey
-
+                this.props.ChangeOn(unqueData, this.props.PublicData.key)
                 this.setState({
                     shows: false,
                     value: dataSource_[keys]
                 })
             } else {
                 this.props.upForm(this.props.current)
+                this.props.ChangeOn(this.props.current, this.props.PublicData.key)
             }
         }
 
@@ -183,24 +193,24 @@ class LookUpPublicComponent extends Component {
             this.setState({
                 value: ''
             })
+            this.props.ChangeOn(data, data.key)
             this.props.UpdataFormData.find(e => e.key === data.key).values = ''
         } else {
             this.setState({
                 value: e.target.value
             })
         }
-
     }
     //失去焦点
     Blur = (e) => {
         let data = this.props.PublicData
         console.log(this.state.value);
         if (this.state.value === '') {
-            this.setState({
-
-            })
+            data.values = ''
+            this.props.ChangeOn(data, data.key)
             this.props.UpdataFormData.find(e => e.key === data.key).values = ''
         } else {
+            // this.props.ChangeOn(this.state.value, data.key)
             this.setState({
                 value: data.values[data.uniqueKey]
             })
@@ -246,6 +256,8 @@ class LookUpPublicComponent extends Component {
     }
 }
 const mapStateToProps = (state) => {
+    // console.log(state);
+    
     return {
         current: state.currentAttr,
         UpdataFormData: state.UpdataFormData

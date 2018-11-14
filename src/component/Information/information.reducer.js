@@ -15,7 +15,7 @@ export const information = (state={}, action) =>{
 }
 
 export const activeKey = (state='0', action) => {
-    console.log(action);
+    // console.log(action);
     
     switch (action.type) {
         case CHANGE_ACTIVEKEY:

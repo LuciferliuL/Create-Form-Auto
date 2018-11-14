@@ -9,7 +9,11 @@ const FormItem = Form.Item
 class DatePublicComponent extends Component {
     TimesChange = (date, dateString) => {
         // console.log(date, dateString);
-        this.props.inputChange(this.props.PublicData.key, dateString)
+        const {PublicData} = this.props
+        this.props.inputChange(PublicData.key, dateString)
+
+        PublicData.defaultValue = dateString
+        this.props.ChangeOn(PublicData, PublicData.key)
     }
     render() {
         const { disabled, label, layout, placeholder, defaultValue } = this.props.PublicData
@@ -51,7 +55,7 @@ class DatePublicComponent extends Component {
             formatwdate = y + '-' + m + '-' + d;
             days = moment(formatwdate, dateFormat)
         }
-        console.log(defaultValue);
+        // console.log(defaultValue);
 
         return (
             <FormItem
