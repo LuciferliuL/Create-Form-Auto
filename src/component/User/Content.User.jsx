@@ -551,7 +551,7 @@ class ContentUser extends Component {
     render() {
 
         console.log(this.props.pane);
-        
+
         var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.85;
         const { pane } = this.props;
 
@@ -571,11 +571,11 @@ class ContentUser extends Component {
             Dr.push(
                 <div key={e.key}
                     style={{ position: "absolute", top: PositionTop, left: PositionLeft, width: width, height: height }}>
-                    <PublicComponent 
-                    PublicData={e} 
-                    Read={'R'} 
-                    page={this.state.totalpage} 
-                    ChangeOn={this.props.ChangeOn}
+                    <PublicComponent
+                        PublicData={e}
+                        Read={'R'}
+                        page={this.state.totalpage}
+                        ChangeOn={this.props.ChangeOn}
                     />
                 </div>
             )
@@ -593,7 +593,7 @@ class ContentUser extends Component {
                                 <Icon type="security-scan" theme="outlined" />
                                 查询 ALT+Q
                                     </Button>
-                            <Button onClick={this.guanbi.bind(this)}>
+                            <Button onClick={this.guanbi.bind(this)} style={{ display: 'none' }}>
                                 <Icon type="export" theme="outlined" />
                                 关闭 ALT+C
                                     </Button>

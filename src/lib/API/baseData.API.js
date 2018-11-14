@@ -2,14 +2,14 @@ import './url.API'
 
 export const API = (key) => {
     // console.clear();
-    console.log(global.cfg);
-    console.log(global.login);
+    //console.log(global.cfg);
+    //console.log(global.login);
     // global.cfg.centerQueryAPI = 'http://10.2.110.25:4615/'
     switch (key) {
         // 用户列表查询
         case 'userList':
             return {
-                http:  'http://10.3.2.21:20296/api/DataBaseOperation/GetDBAccount'
+                http: 'http://10.3.2.21:20296/api/DataBaseOperation/GetDBAccount'
             }
         // 用户信息保存以及更新
         case 'saveUserInfo':
@@ -44,7 +44,7 @@ export const API = (key) => {
         case 'getActionList':
             return {
                 method: 'POST',
-                http:'http://10.3.2.21:20296/api/DataBaseOperation/SaveDbInfo'
+                http: 'http://10.3.2.21:20296/api/DataBaseOperation/SaveDbInfo'
             }
 
         default:

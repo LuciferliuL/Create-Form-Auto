@@ -18,22 +18,25 @@ class Tags extends Component {
             panes,
         };
     }
-    componentDidMount(){
+    componentDidMount() {
         // console.log(this.props.dataContent);
         this.setState({
-            activeKey:this.props.dataContent[0].Name
+            activeKey: this.props.dataContent[0].Name
         })
     }
     componentWillReceiveProps(pre) {
-        // console.log(pre);
+        console.log(pre);
+        this.setState({
+            activeKey: pre.dataContent[pre.dataContent.length - 1].Name
+        })
         // console.log(this.props);
 
     }
     onChange = (activeKey) => {
         this.setState({ activeKey });
         // console.log(activeKey);
-       //更新formdata
-        this.props.upData( this.props.TabsData.find(e => e.Name === activeKey).Source.FormData)
+        //更新formdata
+        this.props.upData(this.props.TabsData.find(e => e.Name === activeKey).Source.FormData)
     }
 
     onEdit = (targetKey, action) => {
@@ -53,7 +56,7 @@ class Tags extends Component {
             activeKey = panes[lastIndex].Name;
         }
         // console.log(panes);
-        
+
         this.props.copyThis(panes)
         this.setState({ activeKey });
     }
