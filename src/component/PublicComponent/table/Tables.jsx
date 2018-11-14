@@ -123,7 +123,7 @@ class TABLECOMPONENT extends Component {
         let columnsData = []
         let tbodyData = []
         // console.log(columnskeys);
-        
+
         if (columnskeys) {
             columnskeys.map((e, i) => {
                 if (e['width'] > 0) {
@@ -206,14 +206,17 @@ class TABLECOMPONENT extends Component {
                         </td>
                     </tr>
                     <tr>
-                        <div
-                            style={{ height: this.props.heights - 40, overflowY: 'auto' }}>
-                            <table style={{ tableLayout: "fixed", width: this.props.widths + 20 }}>
-                                <tbody>
-                                    {tbodyData}
-                                </tbody>
-                            </table>
-                        </div>
+                        <td>
+                            <div
+                                style={{ height: this.props.heights - 40, overflowY: 'auto' }}>
+                                <table style={{ tableLayout: "fixed", width: this.props.widths + 20 }}>
+                                    <tbody>
+                                        {tbodyData}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
+
                     </tr>
                 </table>
             </div>

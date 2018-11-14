@@ -2,8 +2,8 @@ import './url.API'
 
 export const API = (k, id) => {
     // console.clear();
-    console.log(global.cfg);
-    console.log(global.login);
+    //console.log(global.cfg);
+    //console.log(global.login);
 
     switch (k) {
         case "geti9msgall"://列表

@@ -1,9 +1,9 @@
 import './url.API'
 
 export const API = (key, branchtype = '') => {
-    console.clear();
-    console.log(global.cfg);
-    console.log(global.login);
+    //console.clear();
+    //console.log(global.cfg);
+    //console.log(global.login);
 
     switch (key) {
         case 'SaveForm':

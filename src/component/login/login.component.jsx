@@ -19,7 +19,7 @@ class NormalLoginForm extends React.Component {
             localStorage.setItem('BranchIdList', JSON.stringify(res.SystemConnectList))
             this.setState({
                 listObj: TreeMath(SystemConnectList),
-                loading: false     
+                loading: false
             })
             if (localStorage.getItem('company')) {
                 this.props.form.setFieldsValue({ 'scope': JSON.parse(localStorage.getItem('company')) })
@@ -76,10 +76,10 @@ class NormalLoginForm extends React.Component {
                                     POST$(API('getuserdata').http, uparam, (u) => {
 
                                         sessionStorage.setItem('udata', JSON.stringify(u));
-                                        // this.props.history.push('/loginLeader');
-                                        // sessionStorage.setItem('model', 'design');
-                                        this.props.history.push('/USER');
-                                        sessionStorage.setItem('model', 'runtime');
+                                        this.props.history.push('/loginLeader');
+                                        sessionStorage.setItem('model', 'design');
+                                        //this.props.history.push('/USER');
+                                        //sessionStorage.setItem('model', 'runtime');
                                     })
                                 }
                             });
