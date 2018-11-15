@@ -30,7 +30,7 @@ class Person extends Component {
         columns2: [{
             title: '姓名',
             dataIndex: 'name',
-            width: 300
+            width: "65%"
         }, {
             title: '操作',
             dataIndex: 'openId',

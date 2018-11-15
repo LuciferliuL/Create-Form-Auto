@@ -47,7 +47,7 @@ else if (environment === 'product') {
 else if (environment === 'develop') {
     //开发环境；
     global.login = {
-        api: 'http://10.3.4.233:20296/',
+        api: 'http://10.3.2.21:20296/',
         environment: "dev"
     }
     global.cfg = {
@@ -60,4 +60,7 @@ else if (environment === 'develop') {
         centerQueryAPI: 'http://10.2.132.215:7000/',//queryservice
         branchQueryAPI: 'http://10.2.132.215:7000/',//queryservice
     }
+
+    global.msgcfg.filepath = "E:\\mui\\ngsearch";
+    global.msgcfg.fileurl = "http://10.2.132.215:7001/";
 }
