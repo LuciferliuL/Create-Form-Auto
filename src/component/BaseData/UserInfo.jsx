@@ -12,6 +12,7 @@ const { Content } = Layout;
 class AddOrEditUser extends Component {
     constructor(props) {
         super(props);
+        this.BranchIdList = JSON.parse(localStorage.getItem('BranchIdList'))
         this.state = {
             id: getUrlParam(this.props.location.search, 'id') || '',
             Account: getUrlParam(this.props.location.search, 'Account') || '',
@@ -22,7 +23,8 @@ class AddOrEditUser extends Component {
                 Enabled: 0,
                 Note: '',
                 PK: ''
-            }
+            },
+            listObj: TreeMath(this.BranchIdList),
         }
         this.init()
 
@@ -151,20 +153,20 @@ class AddOrEditUser extends Component {
                                         <Input type="text" />
                                     )}
                                 </FormItem>
-                                <FormItem {...formItemLayout} label="请选择公司">
+                                {/* <FormItem {...formItemLayout} label="请选择公司">
                                     {getFieldDecorator('Branchid', {
                                         rules: [{
                                             required: true, message: '请选择公司!',
                                         }],
                                     })(
                                         <Cascader
-                                        // options={this.state.listObj}
+                                            options={this.state.listObj}
                                         // onChange={this.onChange}
                                         // changeOnSelect
                                         // expandTrigger="hover"
                                         />
                                     )}
-                                </FormItem>
+                                </FormItem> */}
                                 <FormItem {...formItemLayout} label="是否启用">
                                     {getFieldDecorator('Enabled', {
                                         rules: [{
