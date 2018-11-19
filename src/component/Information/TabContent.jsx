@@ -228,7 +228,7 @@ class TabContent extends Component {
         this.setState({
             SQL: e.target.value
         })
-        const { Tabledata, SQL, value } = this.state
+        const { Tabledata,  value } = this.state
         this.ChangeSQL(Tabledata, e.target.value, value)
     }
     InputChange = (e) => {

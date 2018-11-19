@@ -27,7 +27,7 @@ class loginLeader extends Component {
             AvatarSrc: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",//人物头像
             MetaTitle: "BPMADMIN",//卡片抬头
             MetaDescription: "流程管理",//卡片描述
-            href: 'http://10.3.4.177:9003/bpm-admin'//跳转地址
+            href: 'http://10.3.2.21:20427/'//跳转地址
             // href:'http://10.3.4.177:9003'
         }, {
             IconType: "radius-setting",//图标
@@ -51,7 +51,7 @@ class loginLeader extends Component {
             IconType: "bulb",//图标
             AvatarSrc: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",//人物头像
             MetaTitle: "Management",//卡片抬头<Icon type="" theme="outlined" />
-            MetaDescription: "信息维护",//卡片描述
+            MetaDescription: "数据库管理",//卡片描述
             href: 'www.baidu.com'//跳转地址
         }]
     }

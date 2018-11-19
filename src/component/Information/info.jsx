@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Table, Input, Button, Tabs, message, Spin, Card } from 'antd';
+import { Table,  Button, Tabs, message, Spin, Card } from 'antd';
 import { API } from '../../lib/API/I9'
 import '../../lib/API/url.API'
 import { GET$, POST$ } from '../../lib/MATH/math'
@@ -9,7 +9,7 @@ import Person from './Person'
 import { copyDataSource } from './information.action'
 
 
-const Search = Input.Search;
+
 const ButtonGroup = Button.Group
 const TabPane = Tabs.TabPane;
 

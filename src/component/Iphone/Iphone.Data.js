@@ -18,7 +18,7 @@ export class InputData extends BaseData {
 }
 
 export class RadioData extends BaseData {
-    constructor(id, value, defaultValue, data = [{ name: 'Radio', value: 0 }]) {
+    constructor(id, value, defaultValue, data = [{ name: 'Radio', value: '0' }]) {
         super(id, value, defaultValue)
         this.Type = 'Radio'//组件类型
         this.data = data
@@ -44,13 +44,39 @@ export class LookUp extends BaseData {
 }
 
 export class Title extends BaseData {
-    constructor(id, value, defaultValue,title='单据类型',show=true,control=[]){
+    constructor(id, value, defaultValue, title = '单据类型', show = true, control = []) {
         super(id, value, defaultValue)
         this.Type = 'Title'
         this.title = title
         this.show = show
         this.control = control
         this.Label = '表题'
+    }
+}
+
+//时间控件
+export class DateS extends BaseData {
+    constructor(id, value, defaultValue, data = { name: "时间", value: "" }) {
+        super(id, value, defaultValue)
+        this.Type = 'DateS'
+        this.data = data
+        this.Label = '时间控件'
+    }
+}
+
+export class SelectS extends BaseData {
+    constructor(id, value, defaultValue, data = [{ name: 'select', value: '0', default: "0", selected: true }]) {
+        super(id, value, defaultValue)
+        this.Type = 'SelectS'//组件类型
+        this.data = data
+        this.default = '0'
+        this.Label = '选择框'
+    }
+    add(e) {
+        this.data = [...this.data, e]
+    }
+    del(num) {
+        this.data = this.data.filter((e, i) => i !== num)
     }
 }
 

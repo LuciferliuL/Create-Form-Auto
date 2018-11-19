@@ -9,7 +9,6 @@ import { POST$, httprequest, getrequestparam, getDat, formatDate, getstartHours,
 import { _clear, _tableUpdataFromResults, tableTr0, fugai } from '../stylist/action/Stylist.action'
 import { tAddDown, tReduceUp } from '../PublicComponent/lookup/action/lookup.action';
 
-const RadioGroup = Radio.Group;
 const ButtonGroup = Button.Group;
 function mapStateToProps(State) {
     return {
@@ -40,9 +39,13 @@ class ContentUser extends Component {
     }
 
     componentWillReceiveProps(pre) {
+        console.log(pre);
+
         document.onkeydown = function (e) {
             var keyCode = e.keyCode || e.which || e.charCode;
             var altKey = e.altKey;
+            // console.log(e.keyCode);
+
             if (altKey && keyCode === 81) {
                 var oInput = document.getElementById("input");
                 oInput.focus();
@@ -54,6 +57,8 @@ class ContentUser extends Component {
                     if (e.type !== 'Table' && e.type !== 'Group') {
                         if (e.type === 'LookUp') {
                             valueList[e.id] = e.values[e.upKey] === undefined ? '' : e.values[e.upKey];
+                            console.log(valueList);
+
                         } else if (e.type === 'Input' && e.typePoint === 0) {
                             valueList[e.id] = e.defaultValue === undefined ? '' : e.defaultValue;
                         } else if (e.type === 'Input' && e.typePoint !== 0) {
@@ -128,41 +133,48 @@ class ContentUser extends Component {
                     }
                     return true
                 })
-                let post = new Promise((resolve, reject) => {
-                    let body = {
-                        "Sql": SQL,
-                        "Param": JSON.stringify(valueList),
-                        "PageIndex": 1,
-                        "PageSize": 200,
-                        isPage: true
-                    }
-                    POST$(API('SQL', this.state.branchtype).http, body, (res) => {
-                        if (res.Results) {
-                            pre.tableSource.dataSource = res.Results
-                            pre.tableSource.tr = 0
-                            pre.tableSource.pageSize = res.RecordCount
-                            pre.tableTr0(0)
-                            resolve(true)
-                        } else {
-                            reject(false)
-                        }
-                    })
-                })
-                let time = new Promise((resolve, reject) => {
-                    setTimeout(() => {
-                        reject(false)
-                    }, 10000);
-                })
 
-                Promise.race([post, time])
-                    .then((result) => {
+                // let post = new Promise((resolve, reject) => {
+
+                let body = {
+                    "Sql": SQL,
+                    "Param": JSON.stringify(valueList),
+                    "PageIndex": 1,
+                    "PageSize": 200,
+                    isPage: true
+                }
+                // console.log(body);
+                POST$(API('SQL', 'branch').http, body, (res) => {
+                    // console.log(res);
+
+                    if (res.Results) {
+                        pre.pane.TableData.dataSource = res.Results
+                        pre.pane.TableData.tr = 0
+                        pre.pane.TableData.pageSize = res.RecordCount
+                        pre.tableTr0(0)
+                        // resolve(true)
                         pre.hidLoading()
-                    })
-                    .catch((err) => {
-                        //debugger
-                        //message.error('获取数据超时')
+                    } else {
+                        // reject(false)
                         pre.hidLoading()
-                    })
+                    }
+                })
+                // })
+                // let time = new Promise((resolve, reject) => {
+                //     setTimeout(() => {
+                //         reject(false)
+                //     }, 10000);
+                // })
+
+                // Promise.race([post, time])
+                //     .then((result) => {
+                //         pre.hidLoading()
+                //     })
+                //     .catch((err) => {
+                //         //debugger
+                //         //message.error('获取数据超时')
+                //         pre.hidLoading()
+                //     })
             } else if (altKey && keyCode === 82) {
 
             } else if (altKey && keyCode === 67) {
@@ -265,10 +277,16 @@ class ContentUser extends Component {
                     a.download = "数据.xls"
                     a.click()
                 });
+            } else if (keyCode === 40) {
+                console.log(40);
+
+            } else if (keyCode === 38) {
+                console.log(38);
+
             } else {
+                e.preventDefault();
                 return true;
             }
-            e.preventDefault();
             return false;
         }
     }
@@ -483,6 +501,8 @@ class ContentUser extends Component {
                 isPage: true
             }
             POST$(API('SQL', this.state.branchtype).http, body, (res) => {
+                console.log(res);
+
                 if (res.Results) {
                     pane.TableData.dataSource = res.Results;
                     pane.TableData.tr = 0;
@@ -513,7 +533,10 @@ class ContentUser extends Component {
         this.props.clear()
     }
     handleKeyDown = (e) => {
-        const { dataSource, columns } = this.props.tableSource
+        const { dataSource} = this.props.tableSource
+        // console.log(e.keyCode);
+        console.log(this.props.pane);
+
         switch (e.keyCode) {
             case 40://下
                 if (this.props.tableSource.tr < dataSource.length - 1) {
@@ -550,7 +573,7 @@ class ContentUser extends Component {
 
     render() {
 
-        console.log(this.props.pane);
+        // console.log(this.props.pane);
 
         var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.85;
         const { pane } = this.props;
@@ -608,7 +631,12 @@ class ContentUser extends Component {
                         {Dr}
                     </Form>
                     <div style={{ position: 'relative', top: (hflag + 40) + 'px', height: (h - hflag) * 0.8 + 'px' }}>
-                        <input type="text" id='input' onBlur={this.ONBlur} style={{ display: 'none' }} />
+                        <input
+                            type="text"
+                            id='input'
+                            onBlur={this.ONBlur}
+                        //  style={{ display: 'none' }} 
+                        />
                         <TABLECOMPONENT PublicData={pane.TableData} style={{ marginTop: '40px' }} heights={(h - hflag) * 0.8} widths={this.state.domWidth}>
                         </TABLECOMPONENT>
                         <Pagination

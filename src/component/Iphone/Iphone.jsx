@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Row, Col, Card, Button, Input, Icon } from 'antd'
-import { InputData, RadioData, LookUp, Title } from './Iphone.Data'
+import { Row, Col, Card, Button, Icon } from 'antd'
+import { InputData, RadioData, LookUp, Title,DateS ,SelectS} from './Iphone.Data'
 import IphoneComponent from './Iphone.Component'
 import IphoneC from './Iphone.C'
-import { ReplaceArr, RightMoveArr, LeftMoveArr } from './Func'
+import {  RightMoveArr, LeftMoveArr } from './Func'
 
 const ButtonGroup = Button.Group
 function mapStateToProps(state) {
@@ -19,7 +19,9 @@ class Iphone extends Component {
             new InputData(),
             new RadioData(),
             new LookUp(),
-            new Title()
+            new Title(),
+            new DateS(),
+            new SelectS()
         ],
         IphoneData: [],
         CurrentData: {},
@@ -28,7 +30,7 @@ class Iphone extends Component {
     componentDidMount() {
         // console.log(this.state);
     }
-
+    //添加组件
     addCard = (type) => {
         // console.log(type);
         switch (type) {
@@ -51,15 +53,28 @@ class Iphone extends Component {
                 }))
                 break;
             case 'Title':
-                let title = new Title('ID','','')
+                let title = new Title('ID', '', '')
                 this.setState((pre) => ({
                     IphoneData: [...pre.IphoneData, title]
                 }))
                 break;
+            case 'DateS':
+                let dateS = new DateS('ID','','')
+                this.setState((pre) => ({
+                    IphoneData: [...pre.IphoneData, dateS]
+                }))
+                break;
+            case 'SelectS':
+            let selectS = new SelectS('ID','','')
+            this.setState((pre) => ({
+                IphoneData: [...pre.IphoneData, selectS]
+            }))
+            break;
             default:
                 break;
         }
     }
+    //点击组件
     ClickNode = (index) => {
         // console.log(index);
         this.setState({
@@ -67,15 +82,17 @@ class Iphone extends Component {
             CurrentIndex: index
         })
     }
+    //子组件修改数据
     AttributeChange = (attr, value) => {
         // console.log(attr + '-----' + value);
         let file = {}
         file[attr] = value
-        // console.log(file);
+        console.log(file);
         this.setState({
             CurrentData: Object.assign({}, this.state.CurrentData, file)
         })
     }
+    //确定
     OnOk = () => {
         const { IphoneData, CurrentData } = this.state
         let i = []
@@ -92,6 +109,7 @@ class Iphone extends Component {
             IphoneData: i
         })
     }
+    //删除
     OnDel = () => {
         const { IphoneData, CurrentData } = this.state
         let i = []
@@ -106,6 +124,7 @@ class Iphone extends Component {
             IphoneData: i
         })
     }
+    //排序
     UPDOWN = (key) => {
         const { CurrentIndex, IphoneData } = this.state
         if (key === 'up') {
@@ -145,6 +164,9 @@ class Iphone extends Component {
                 <Col span={12}>
                     <Card>
                         <IphoneComponent IphoneData={IphoneData} ClickNode={this.ClickNode.bind(this)}></IphoneComponent>
+                    </Card>
+                    <Card>
+                        
                     </Card>
                 </Col>
                 <Col span={6}>

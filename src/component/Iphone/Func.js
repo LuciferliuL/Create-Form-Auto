@@ -14,7 +14,7 @@ export const ReplaceArr = (arr, index1, index2) => {
  */
 export const RightMoveArr = (arr, index, length) => {
     // console.log('Right');
-    if (index + 1 != length) {
+    if (index + 1 !== length) {
         return ReplaceArr(arr, index, index + 1)
     } else {
         return arr
@@ -25,7 +25,7 @@ export const RightMoveArr = (arr, index, length) => {
  */
 export const LeftMoveArr = (arr, index, length) => {
     // console.log('Left');
-    if (index != 0) {
+    if (index !== 0) {
         return ReplaceArr(arr, index, index - 1);
     } else {
         return arr

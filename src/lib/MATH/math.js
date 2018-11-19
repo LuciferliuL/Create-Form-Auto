@@ -154,9 +154,9 @@ export const GET$ = (URL, Callback) => {
 }
 
 export const POST$ = (URL, POSTBODY, CALLBACK) => {
-    console.log('url.' + URL);
+    // console.log('url.' + URL);
     POSTBODY = JSON.stringify(POSTBODY);
-    console.log('data.' + POSTBODY);
+    // console.log('data.' + POSTBODY);
 
     let token = sessionStorage.getItem('token')
     $.ajax({
