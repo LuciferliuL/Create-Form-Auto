@@ -38,7 +38,15 @@ class IphoneC extends Component {
                 indexChoose: -1,
                 Type: CurrentData.Type
             })
-        } else {
+        } else if(CurrentData.Type === 'Table'){
+            const { columns } = CurrentData
+            this.setState({
+                data: columns,
+                listColumns: Object.keys(columns[0]),
+                indexChoose: -1,
+                Type: CurrentData.Type
+            })
+        }else {
             this.setState({
                 Type: CurrentData.Type
             })
@@ -58,6 +66,8 @@ class IphoneC extends Component {
 
         if (Type === 'LookUp' || Type === 'Input' || Type === 'DateS') {
             this.props.AttributeChange('data', data[0])
+        }else if(Type === 'Table'){
+            this.props.AttributeChange('columns', data)
         } else {
             this.props.AttributeChange('data', data)
         }
@@ -200,7 +210,8 @@ class IphoneC extends Component {
                 && e !== 'Type'
                 && e !== 'data'
                 && e !== 'show'
-                && e !== 'control') {
+                && e !== 'control'
+                && e !== 'columns') {
                 CurrentInput.push(
                     <FormItem {...formItemLayout} label={e} key={e + i}>
                         <Input
@@ -209,7 +220,7 @@ class IphoneC extends Component {
                             onChange={this.ValueChange.bind(this, e)}></Input>
                     </FormItem>
                 )
-            } else if (e === 'data') {
+            } else if (e === 'data' || e === 'columns') {
                 CurrentInput.push(
                     <FormItem {...formItemLayout} label={e} key={e + i}>
                         <Input

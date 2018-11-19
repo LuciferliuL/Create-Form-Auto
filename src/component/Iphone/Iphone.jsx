@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Row, Col, Card, Button, Icon } from 'antd'
-import { InputData, RadioData, LookUp, Title,DateS ,SelectS} from './Iphone.Data'
+import { Row, Col, Card, Button, Icon, Table } from 'antd'
+import { InputData, RadioData, LookUp, Title, DateS, SelectS } from './Iphone.Data'
 import IphoneComponent from './Iphone.Component'
 import IphoneC from './Iphone.C'
-import {  RightMoveArr, LeftMoveArr } from './Func'
+import { RightMoveArr, LeftMoveArr } from './Func'
+import Iphoneconfig from './Iphone.config'
 
 const ButtonGroup = Button.Group
 function mapStateToProps(state) {
@@ -25,7 +26,14 @@ class Iphone extends Component {
         ],
         IphoneData: [],
         CurrentData: {},
-        CurrentIndex: 0,
+        CurrentIndex: -1,
+        IphoneTableData: {
+            data: [],
+            columns: [{ title: '列名', dataIndex: '0' }],
+            title: '表格',
+            Type: 'Table',
+            SQL: ''
+        }
     }
     componentDidMount() {
         // console.log(this.state);
@@ -59,17 +67,17 @@ class Iphone extends Component {
                 }))
                 break;
             case 'DateS':
-                let dateS = new DateS('ID','','')
+                let dateS = new DateS('ID', '', '')
                 this.setState((pre) => ({
                     IphoneData: [...pre.IphoneData, dateS]
                 }))
                 break;
             case 'SelectS':
-            let selectS = new SelectS('ID','','')
-            this.setState((pre) => ({
-                IphoneData: [...pre.IphoneData, selectS]
-            }))
-            break;
+                let selectS = new SelectS('ID', '', '')
+                this.setState((pre) => ({
+                    IphoneData: [...pre.IphoneData, selectS]
+                }))
+                break;
             default:
                 break;
         }
@@ -85,12 +93,22 @@ class Iphone extends Component {
     //子组件修改数据
     AttributeChange = (attr, value) => {
         // console.log(attr + '-----' + value);
+        const { CurrentData } = this.state
         let file = {}
         file[attr] = value
-        console.log(file);
-        this.setState({
-            CurrentData: Object.assign({}, this.state.CurrentData, file)
-        })
+        // console.log(file);
+        if (CurrentData.Type === 'Table') {
+            //说明是表格
+            this.setState({
+                CurrentData: Object.assign({}, this.state.CurrentData, file),
+                IphoneTableData: Object.assign({}, this.state.IphoneTableData, file)
+            })
+        } else {
+            this.setState({
+                CurrentData: Object.assign({}, this.state.CurrentData, file)
+            })
+        }
+
     }
     //确定
     OnOk = () => {
@@ -143,8 +161,14 @@ class Iphone extends Component {
             })
         }
     }
+    ClickTable = () => {
+        this.setState({
+            CurrentData: this.state.IphoneTableData,
+            CurrentIndex: -1
+        })
+    }
     render() {
-        const { Source, IphoneData, CurrentData } = this.state
+        const { Source, IphoneData, CurrentData, IphoneTableData } = this.state
 
         let CardList = []
         Source.forEach(e => {
@@ -166,24 +190,38 @@ class Iphone extends Component {
                         <IphoneComponent IphoneData={IphoneData} ClickNode={this.ClickNode.bind(this)}></IphoneComponent>
                     </Card>
                     <Card>
-                        
+                        <div onClick={this.ClickTable.bind(this)}>
+                            <Table
+                                bordered={true}
+                                rowKey='name'
+                                title={() => IphoneTableData.title}
+                                dataSource={IphoneTableData.data}
+                                columns={IphoneTableData.columns}>
+                            </Table>
+                        </div>
+
                     </Card>
                 </Col>
                 <Col span={6}>
-                    <Card extra={
-                        <ButtonGroup style={{ float: "right" }}>
-                            <Button onClick={this.OnOk.bind(this)}>确定</Button>
-                            <Button>编辑</Button>
-                            <Button onClick={this.OnDel.bind(this)}>删除</Button>
-                            <Button onClick={this.UPDOWN.bind(this, 'up')}><Icon type="arrow-up" /></Button>
-                            <Button onClick={this.UPDOWN.bind(this, 'down')}><Icon type="arrow-down" /></Button>
-                        </ButtonGroup>
-                    }>
+                    <Card
+                        title='组件配置'
+                        extra={
+                            <ButtonGroup style={{ float: "right" }}>
+                                <Button onClick={this.OnOk.bind(this)}>确定</Button>
+                                <Button>编辑</Button>
+                                <Button onClick={this.OnDel.bind(this)} disabled={CurrentData.Type === 'Table' ? true : false}>删除</Button>
+                                <Button onClick={this.UPDOWN.bind(this, 'up')} disabled={CurrentData.Type === 'Table' ? true : false}><Icon type="arrow-up" /></Button>
+                                <Button onClick={this.UPDOWN.bind(this, 'down')} disabled={CurrentData.Type === 'Table' ? true : false}><Icon type="arrow-down" /></Button>
+                            </ButtonGroup>
+                        }>
                         <IphoneC
                             CurrentData={CurrentData}
                             AttributeChange={this.AttributeChange}>
                         </IphoneC>
                     </Card>
+          
+                        <Iphoneconfig></Iphoneconfig>
+                  
                 </Col>
             </Row>
 
