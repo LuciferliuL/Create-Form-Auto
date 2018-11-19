@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Tree } from 'antd';
+import { Tree, message } from 'antd';
 import { connect } from 'react-redux';
 import { fugai, tableFugai } from '../stylist/action/Stylist.action'
 import { updataValues } from '../PublicComponent/lookup/action/lookup.action'
@@ -28,7 +28,7 @@ class TreeUser extends Component {
     }
 
     onSelect = (keys, record) => {
-        console.log(record);
+        // console.log(record);
 
         if (!record.node.props.IsCategory) {
             let data = JSON.parse(record.node.props.Bytes)
@@ -36,10 +36,19 @@ class TreeUser extends Component {
                 e.isUserMove = false
             })
             let name = record.node.props.Name
-            this.props.addTabs({Source:data,Name:name})
-            this.props.upData(data.FormData)
-            // this.props.addTable(data.TableData)
-            this.props.tableFugai(data.TableData)
+            const { TabsData } = this.props
+            
+            let F = TabsData.find(e => e.Name === name)
+            console.log(F);
+            if(F === undefined){
+                this.props.addTabs({ Source: data, Name: name })
+                this.props.upData(data.FormData)
+                // this.props.addTable(data.TableData)
+                this.props.tableFugai(data.TableData)
+                this.props.dataChange({ Source: data, Name: name })
+            }else{
+                message.warn('已经选择了一个同样的表格')
+            }
         }
     }
     render() {
@@ -60,7 +69,7 @@ function mapStateToProps(State) {
     // console.log(State);
 
     return {
-      
+        TabsData: State.TabsData
     };
 }
 const mapDispatchProps = (dispatch) => {

@@ -19,7 +19,7 @@ class NormalLoginForm extends React.Component {
             localStorage.setItem('BranchIdList', JSON.stringify(res.SystemConnectList))
             this.setState({
                 listObj: TreeMath(SystemConnectList),
-                loading: false     
+                loading: false
             })
             if (localStorage.getItem('company')) {
                 this.props.form.setFieldsValue({ 'scope': JSON.parse(localStorage.getItem('company')) })
@@ -33,7 +33,7 @@ class NormalLoginForm extends React.Component {
         this.props.form.validateFields((err, values) => {
             //登入判断
             if (!err) {
-                console.log('Received values of form: ', values);
+                // console.log('Received values of form: ', values);
                 values.scope = values.scope[values.scope.length - 1];
                 //当前；
                 global.cfg.currentBranchId = values.scope;
@@ -78,16 +78,14 @@ class NormalLoginForm extends React.Component {
                                         sessionStorage.setItem('udata', JSON.stringify(u));
                                         this.props.history.push('/loginLeader');
                                         sessionStorage.setItem('model', 'design');
-                                        // this.props.history.push('/USER');
-                                        // sessionStorage.setItem('model', 'runtime');
+                                        //this.props.history.push('/USER');
+                                        //sessionStorage.setItem('model', 'runtime');
                                     })
                                 }
                             });
-
                         });
                     });
                 });
-
             }
         });
     }

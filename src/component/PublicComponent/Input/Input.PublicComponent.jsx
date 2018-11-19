@@ -7,8 +7,11 @@ const FormItem = Form.Item
 class InputPublicComponent extends Component {
     inputChange = (e) => {
         //console.log(e.target.value);
+        const { PublicData } = this.props
+        this.props.inputChange(PublicData.key, e.target.value)
 
-        this.props.inputChange(this.props.PublicData.key, e.target.value)
+        PublicData.defaultValue = e.target.value
+        this.props.ChangeOn(PublicData, PublicData.key)
     }
     render() {
         const { getFieldDecorator } = this.props.form

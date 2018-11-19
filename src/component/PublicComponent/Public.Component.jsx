@@ -38,27 +38,27 @@ class PublicComponent extends Component {
         switch (type) {
             case 'INPUT':
                 return (
-                    <InputPublicComponent PublicData={PublicData} Read={this.props.Read}></InputPublicComponent>
+                    <InputPublicComponent PublicData={PublicData} Read={this.props.Read} ChangeOn={this.props.ChangeOn}></InputPublicComponent>
                 )
             case 'RadioGroup':
                 return (
-                    <RadioPublicComponent PublicData={PublicData} Read={this.props.Read}></RadioPublicComponent>
+                    <RadioPublicComponent PublicData={PublicData} Read={this.props.Read} ChangeOn={this.props.ChangeOn}></RadioPublicComponent>
                 )
             case 'CheckBox':
                 return (
-                    <CheckboxPublicComponent PublicData={PublicData} Read={this.props.Read}></CheckboxPublicComponent>
+                    <CheckboxPublicComponent PublicData={PublicData} Read={this.props.Read} ChangeOn={this.props.ChangeOn}></CheckboxPublicComponent>
                 )
             case 'Select':
                 return (
-                    <SelectPublicComponent PublicData={PublicData} Read={this.props.Read}></SelectPublicComponent>
+                    <SelectPublicComponent PublicData={PublicData} Read={this.props.Read} ChangeOn={this.props.ChangeOn}></SelectPublicComponent>
                 )
             case 'Date':
                 return (
-                    <DatePublicComponent PublicData={PublicData} Read={this.props.Read}></DatePublicComponent>
+                    <DatePublicComponent PublicData={PublicData} Read={this.props.Read} ChangeOn={this.props.ChangeOn}></DatePublicComponent>
                 )
             case 'Range':
                 return (
-                    <RangePickerPublicComponent PublicData={PublicData} Read={this.props.Read}></RangePickerPublicComponent>
+                    <RangePickerPublicComponent PublicData={PublicData} Read={this.props.Read} ChangeOn={this.props.ChangeOn}></RangePickerPublicComponent>
                 )
             case 'Table':
                 return (
@@ -66,20 +66,31 @@ class PublicComponent extends Component {
                     PublicData={PublicData} 
                     Read={this.props.Read}
                     // ClickHandleKey={this.ClickHandleKey.bind(this)}
+                    ChangeOn={this.props.ChangeOn}
                     >
                     </TablePublicComponent>
                 )
             case 'LookUp':
                 return (
-                    <LookUpPublicComponent PublicData={PublicData} Read={this.props.Read} page={this.props.page}></LookUpPublicComponent>
+                    <LookUpPublicComponent 
+                    PublicData={PublicData} 
+                    Read={this.props.Read} 
+                    page={this.props.page}
+                    ChangeOn={this.props.ChangeOn}></LookUpPublicComponent>
                 )
             case 'Group':
                 return (
-                    <GroupPublicComponent PublicData={PublicData} Read={this.props.Read}></GroupPublicComponent>
+                    <GroupPublicComponent 
+                    PublicData={PublicData} 
+                    Read={this.props.Read}
+                    ChangeOn={this.props.ChangeOn}></GroupPublicComponent>
                 )
             case 'Switch':
                 return (
-                    <SwitchPublicComponent PublicData={PublicData} Read={this.props.Read}></SwitchPublicComponent>
+                    <SwitchPublicComponent 
+                    PublicData={PublicData} 
+                    Read={this.props.Read}
+                    ChangeOn={this.props.ChangeOn}></SwitchPublicComponent>
                 )
             default:
                 return (

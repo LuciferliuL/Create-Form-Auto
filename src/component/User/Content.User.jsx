@@ -375,6 +375,7 @@ class ContentUser extends Component {
         });
     }
     SQLChecked = (page) => {
+        const { pane } = this.props;
         //input获取焦点
         var oInput = document.getElementById("input");
         oInput.focus();
@@ -386,9 +387,9 @@ class ContentUser extends Component {
 
         this.props.Loading()
         let valueList = {}
-        let SQL = this.props.tableSource.SQL;
+        let SQL = pane.TableData.SQL;
 
-        this.props.data.map(e => {
+        pane.FormData.map(e => {
             if (e.type !== 'Table' && e.type !== 'Group') {
                 if (e.type === 'LookUp') {
                     valueList[e.id] = e.values[e.upKey] === undefined ? '' : e.values[e.upKey];
@@ -483,9 +484,9 @@ class ContentUser extends Component {
             }
             POST$(API('SQL', this.state.branchtype).http, body, (res) => {
                 if (res.Results) {
-                    this.props.tableSource.dataSource = res.Results;
-                    this.props.tableSource.tr = 0;
-                    this.props.tableSource.pageSize = res.RecordCount;
+                    pane.TableData.dataSource = res.Results;
+                    pane.TableData.tr = 0;
+                    pane.TableData.pageSize = res.RecordCount;
                     resolve(true);
                 } else {
                     reject(false);
@@ -548,14 +549,17 @@ class ContentUser extends Component {
     }
 
     render() {
-        var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.93;
-        const { tableSource } = this.props;
+
+        console.log(this.props.pane);
+
+        var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.85;
+        const { pane } = this.props;
 
         let Dr = []
         let width_ = this.state.domWidth / 24
         let height_ = 40
         let hflag = 0
-        this.props.UpdataFormData.forEach(e => {
+        pane.FormData.forEach((e, index) => {
             let width = e.w * width_
                 , height = e.h * height_
                 , PositionTop = e.GridY * height_
@@ -567,12 +571,16 @@ class ContentUser extends Component {
             Dr.push(
                 <div key={e.key}
                     style={{ position: "absolute", top: PositionTop, left: PositionLeft, width: width, height: height }}>
-                    <PublicComponent PublicData={e} Read={'R'} page={this.state.totalpage} />
+                    <PublicComponent
+                        PublicData={e}
+                        Read={'R'}
+                        page={this.state.totalpage}
+                        ChangeOn={this.props.ChangeOn}
+                    />
                 </div>
             )
         })
-
-        if (this.props.UpdataFormData.length > 0) {
+        if (pane.FormData.length > 0) {
             return (
                 <Card
                     ref={this.myRef}
@@ -585,7 +593,7 @@ class ContentUser extends Component {
                                 <Icon type="security-scan" theme="outlined" />
                                 查询 ALT+Q
                                     </Button>
-                            <Button onClick={this.guanbi.bind(this)}>
+                            <Button onClick={this.guanbi.bind(this)} style={{ display: 'none' }}>
                                 <Icon type="export" theme="outlined" />
                                 关闭 ALT+C
                                     </Button>
@@ -594,19 +602,18 @@ class ContentUser extends Component {
                                 导出 ALT+E
                                     </Button>
                         </ButtonGroup>
-
-                   
-
                     </div>
                     <Form
-                        style={{ padding: '5px', marginTop: '40px', position: 'relative' }}>{Dr}</Form>
+                        style={{ padding: '5px', marginTop: '40px', position: 'relative' }}>
+                        {Dr}
+                    </Form>
                     <div style={{ position: 'relative', top: (hflag + 40) + 'px', height: (h - hflag) * 0.8 + 'px' }}>
                         <input type="text" id='input' onBlur={this.ONBlur} style={{ display: 'none' }} />
-                        <TABLECOMPONENT PublicData={tableSource} style={{ marginTop: '40px' }} heights={(h - hflag) * 0.8} widths={this.state.domWidth}>
+                        <TABLECOMPONENT PublicData={pane.TableData} style={{ marginTop: '40px' }} heights={(h - hflag) * 0.8} widths={this.state.domWidth}>
                         </TABLECOMPONENT>
                         <Pagination
                             defaultCurrent={1}
-                            total={tableSource.pageSize}
+                            total={pane.TableData.pageSize}
                             pageSize={200}
                             current={this.state.current}
                             onChange={this.onChange}></Pagination>

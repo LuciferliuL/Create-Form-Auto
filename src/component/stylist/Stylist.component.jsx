@@ -150,6 +150,9 @@ class Stylistcomponent extends Component {
     handleChange = (value) => {
 
     }
+    ChangeOn = () => {
+        
+    }
     render() {
         var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.70
         const { getFieldDecorator } = this.props.form;
@@ -249,7 +252,10 @@ class Stylistcomponent extends Component {
                                                         type="minus-square"
                                                         theme="filled" />
                                                 </Popconfirm>
-                                                <PublicComponent PublicData={item} currentAttr={this.props.currentAttr} />
+                                                <PublicComponent 
+                                                PublicData={item} 
+                                                currentAttr={this.props.currentAttr} 
+                                                ChangeOn={this.ChangeOn.bind(this)}/>
                                             </div>
                                         )
                                     }}

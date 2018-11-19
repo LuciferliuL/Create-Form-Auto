@@ -1,4 +1,4 @@
-import { ADD_TABS, DEL_TABS, ADD_TABLE, DEL_TABLE, KEYS_CHANGE} from './User.action'
+import { ADD_TABS, DEL_TABS, ADD_TABLE, DEL_TABLE, KEYS_CHANGE, COPY_THIS } from './User.action'
 
 
 
@@ -10,7 +10,9 @@ export const TabsData = (state = [], action) => {
             state.push(action.value)
             return state;
         case DEL_TABS:
-            return  state.filter(e => e.Name !== action.key)
+            return state.filter(e => e.Name !== action.key)
+        case COPY_THIS:
+            return state = action.List
         default:
             return state;
     }

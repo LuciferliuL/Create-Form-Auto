@@ -3,42 +3,50 @@ export const DEL_TABS = 'DEL_TABS'
 export const DEL_TABLE = 'DEL_TABLE'
 export const ADD_TABLE = 'ADD_TABLE'
 export const KEYS_CHANGE = 'KEYS_CHANGE'
+export const COPY_THIS = 'COPY_THIS'
 
 //添加
-export const addTabs = (value)=> {
+export const addTabs = (value) => {
     return {
-        type:'ADD_TABS',
-        value:value
+        type: 'ADD_TABS',
+        value: value
     }
 }
 
 //删除
 export const delTabs = (key) => {
     return {
-        type:'DEL_TABS',
-        key:key
+        type: 'DEL_TABS',
+        key: key
     }
 }
 
 //添加表格
 export const addTable = (value) => {
     return {
-        type:"ADD_TABLE",
-        value:value
+        type: "ADD_TABLE",
+        value: value
     }
 }
 
 //删除表格
 export const delTable = (key) => {
     return {
-        type:"DEL_TABLE",
-        key:key
+        type: "DEL_TABLE",
+        key: key
     }
 }
 
 export const keyschange = (key) => {
     return {
-        type:'KEYS_CHANGE',
-        key:key
+        type: 'KEYS_CHANGE',
+        key: key
+    }
+}
+
+export const copyThis = (List) => {
+    return {
+        type: 'COPY_THIS',
+        List: List
     }
 }

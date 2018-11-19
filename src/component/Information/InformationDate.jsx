@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { Radio,DatePicker } from 'antd'
+import { Radio,  Select } from 'antd'
 import moment from 'moment';
 import { connect } from 'react-redux'
 import { copyDataSource } from './information.action'
 
-
+const Option = Select.Option
 const RadioGroup = Radio.Group
 class InformationDate extends Component {
     state = {
@@ -12,18 +12,7 @@ class InformationDate extends Component {
         dateValue: moment('2018-11-06 00:00', 'YYYY-MM-DD HH:mm'),
         dateString: ''
     }
-   
-    range = (start, end) => {
-        const result = [];
-        for (let i = start; i < end; i++) {
-            result.push(i);
-        }
-        return result;
-    }
-    disabledDate = (current) => {
-        // Can not select days before today and today
-        return current && current < moment().endOf('day');
-    }
+
     onChange = (e) => {
         this.setState({
             value: e.target.value
@@ -33,45 +22,40 @@ class InformationDate extends Component {
                 DueDatetype: '立即',
                 DueDateCorn: '立即'
             })
-        }else{
+        } else {
             this.props.copyDataSource({
                 DueDatetype: '时间',
-                DueDateCorn: moment(new Date(), 'YYYY-MM-DD HH:mm')
+                DueDateCorn: '0 0 0 * * ?'
             })
         }
     }
-    
-    Onchange = (date, dateString) => {
-        this.setState({
-            dateValue: date,
-            dateString: dateString
-        })
+    SeChange = (e) => {
+        // console.log(e);
         this.props.copyDataSource({
-            DueDateCorn: dateString
+            DueDateCorn: e
         })
     }
     render() {
         const { DueDateCorn, DueDatetype } = this.props.information
-
+        const SelectOptions = []
+        for (let i = 0; i < 24; i++) {
+            let index = `0 0 ${i} * * ?`
+            SelectOptions.push(<Option value={index} key={i}>{i}点</Option>)
+        }
         return (
             <div>
                 <RadioGroup onChange={this.onChange} value={DueDatetype === '立即' ? 0 : 1} disabled={this.props.news}>
-                    <Radio value={0}>立即发送</Radio>
-                    <Radio value={1}>指定时间</Radio>
+                    <Radio value={0} >立即发送</Radio>
+                    <Radio value={1} >每天</Radio>
                 </RadioGroup>
 
                 {DueDatetype === '时间' ?
                     <div>
-                        <p>请选择详细时间</p>
-                        <DatePicker
-                            onOk={this.onOk}
-                            onChange={this.Onchange}
-                            value={DueDateCorn=== '立即' 
-                            ? moment('2018-11-06 00:00', 'YYYY-MM-DD HH:mm') 
-                            : moment(DueDateCorn, 'YYYY-MM-DD HH:mm')}
-                            format="YYYY-MM-DD HH:mm"
-                            showTime={{ format: 'HH:mm' }}
-                        /> </div> : null}
+                        <h3>执行时间</h3>
+                        <Select style={{ width: '50%' }} onChange={this.SeChange} value={DueDateCorn}>
+                            {SelectOptions}
+                        </Select>
+                    </div> : null}
             </div>
         );
     }

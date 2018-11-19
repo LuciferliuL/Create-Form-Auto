@@ -10,13 +10,17 @@ const FormItem = Form.Item
 const dateFormat = 'YYYY-MM-DD';
 class RangePickerPublicComponent extends Component {
     TimesChange = (date, dateString) => {
-        console.log(date, dateString);
+        const { PublicData } = this.props
+        // console.log(date, dateString);
         this.props.inputChange(this.props.PublicData.key, dateString)
+
+        PublicData.defaultValue = dateString
+        this.props.ChangeOn(PublicData, PublicData.key)
     }
     render() {
         // const { getFieldDecorator } = this.props.form
         const { disabled, label, layout, defaultValue } = this.props.PublicData
-        console.log(defaultValue);
+        // console.log(defaultValue);
 
         let ds = new Date();
         let formatwdate = '';

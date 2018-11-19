@@ -6,9 +6,12 @@ import { checkboxvalue } from '../Public.action'
 const FormItem = Form.Item
 class CheckboxPublicComponent extends Component {
     CheckboxChange = (e) => {
-        console.log(e.target.checked);
-        this.props.checkboxvalue(this.props.PublicData.key, e.target.checked)
+        // console.log(e.target.checked);
+        const {PublicData} = this.props
+        this.props.checkboxvalue(PublicData.key, e.target.checked)
 
+        PublicData.checked = e.target.checked
+        this.props.ChangeOn(PublicData, PublicData.key)
 
     }
     render() {
