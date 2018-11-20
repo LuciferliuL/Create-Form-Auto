@@ -93,7 +93,7 @@ class Iphone extends Component {
     //子组件修改数据
     AttributeChange = (attr, value) => {
         // console.log(attr + '-----' + value);
-        const { CurrentData } = this.state
+        const { CurrentData, IphoneData } = this.state
         let file = {}
         file[attr] = value
         // console.log(file);
@@ -104,28 +104,23 @@ class Iphone extends Component {
                 IphoneTableData: Object.assign({}, this.state.IphoneTableData, file)
             })
         } else {
+            //修改得是组件
+            let Currentdata = Object.assign({}, this.state.CurrentData, file)
+            let Iphonedata = []
+            IphoneData.forEach(e => {
+                if (e.Key === Currentdata.Key) {
+                    Iphonedata.push(Currentdata)
+                } else {
+                    Iphonedata.push(e)
+                }
+            })
+
             this.setState({
-                CurrentData: Object.assign({}, this.state.CurrentData, file)
+                CurrentData: Currentdata,
+                IphoneData: Iphonedata
             })
         }
 
-    }
-    //确定
-    OnOk = () => {
-        const { IphoneData, CurrentData } = this.state
-        let i = []
-        IphoneData.forEach(e => {
-            if (e.Key === CurrentData.Key) {
-                i.push(CurrentData)
-
-            } else {
-                i.push(e)
-            }
-        })
-
-        this.setState({
-            IphoneData: i
-        })
     }
     //删除
     OnDel = () => {
@@ -203,12 +198,13 @@ class Iphone extends Component {
                     </Card>
                 </Col>
                 <Col span={6}>
+                    <Card>
+                        <Button>提交表单</Button>
+                    </Card>
                     <Card
                         title='组件配置'
                         extra={
                             <ButtonGroup style={{ float: "right" }}>
-                                <Button onClick={this.OnOk.bind(this)}>确定</Button>
-                                <Button>编辑</Button>
                                 <Button onClick={this.OnDel.bind(this)} disabled={CurrentData.Type === 'Table' ? true : false}>删除</Button>
                                 <Button onClick={this.UPDOWN.bind(this, 'up')} disabled={CurrentData.Type === 'Table' ? true : false}><Icon type="arrow-up" /></Button>
                                 <Button onClick={this.UPDOWN.bind(this, 'down')} disabled={CurrentData.Type === 'Table' ? true : false}><Icon type="arrow-down" /></Button>
@@ -219,9 +215,7 @@ class Iphone extends Component {
                             AttributeChange={this.AttributeChange}>
                         </IphoneC>
                     </Card>
-          
-                        <Iphoneconfig></Iphoneconfig>
-                  
+                    <Iphoneconfig></Iphoneconfig>
                 </Col>
             </Row>
 
