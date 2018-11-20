@@ -228,7 +228,7 @@ class TabContent extends Component {
         this.setState({
             SQL: e.target.value
         })
-        const { Tabledata,  value } = this.state
+        const { Tabledata, value } = this.state
         this.ChangeSQL(Tabledata, e.target.value, value)
     }
     InputChange = (e) => {
@@ -259,7 +259,9 @@ class TabContent extends Component {
         this.props.copyDataSource({ 'Sqls': JSON.stringify(Sqls_) })
     }
     render() {
-        const { Tabledata, columns, SQL, value } = this.state
+        const { Tabledata, columns, SQL, value } = this.state;
+        var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.60;
+
         return (
             <div>
                 <Modal
@@ -267,7 +269,7 @@ class TabContent extends Component {
                     visible={this.state.visible}
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}
-                    bodyStyle={{ overflow: 'auto', height: 700 }}
+                    bodyStyle={{ overflowY: 'scroll', minHeight: h + 'px', height: h + 'px' }}
                     maskClosable={false}
                     width={800}
                     destroyOnClose={true}
