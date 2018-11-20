@@ -42,7 +42,7 @@ class IphoneComponent extends Component {
                     let radios = []
                     if (el.data.length > 0) {
                         el.data.forEach((e, i) => (
-                            radios.push(<Radio value={e.value} key={i + el.key}>{e.name}</Radio>)
+                            radios.push(<Radio value={e.value} key={i + Math.random()}>{e.name}</Radio>)
                         ))
                     }
                     data.push(

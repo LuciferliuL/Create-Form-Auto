@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Card, Button } from 'antd'
+import { Card, Button, Checkbox } from 'antd'
 
-
-const ButtonGroup = Button.Group
+const plainOptions = ['BranchId', 'StaffId', 'IsAllCust'];
+const CheckboxGroup = Checkbox.Group;
 function mapStateToProps(state) {
     return {
 
@@ -11,17 +11,14 @@ function mapStateToProps(state) {
 }
 
 class Iphoneconfig extends Component {
+    onChange = (checkedValues) => {
+        console.log('checked = ', checkedValues);
+    }
     render() {
         return (
             <Card
-                title='全局配置'
-                extra={
-                    <ButtonGroup style={{ float: "right" }}>
-                        <Button>确定</Button>
-                        <Button>编辑</Button>
-                    </ButtonGroup>
-                }>
-                
+                title='全局配置'>
+                <CheckboxGroup options={plainOptions}  onChange={this.onChange} />
             </Card>
         );
     }
