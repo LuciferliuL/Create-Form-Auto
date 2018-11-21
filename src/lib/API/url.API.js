@@ -14,6 +14,8 @@ global.msgcfg = {
     esecret: "ArqyyWkxcIl3jmXcUXwmxTqvtetoZvgG",//通讯录密钥
     AppId: "500068278",
     appSecret: "3n1toHGU5409tfuCPVHe",//app密钥
+    pub: "XT-4ab2b772-1947-4d23-800f-9ffa29e1ee49",
+    pubsercet: "6387b41720c244e2d013ae0f0f3d579d",
     corntemplateid: "I9MessageSend",
     autotemplateid: "I9MessageSend",
     filepath: "C:\\Program Files (x86)\\JZTERP\\QueryService\\design",//excel保存路径
@@ -38,6 +40,8 @@ else if (environment === 'product') {
         esecret: "fdphO8ouKda8zlx7UFhjj6GUqRJSlLAU",
         AppId: "500040363",
         appSecret: "erp",//
+        pub: "XT-abd10904-f8d6-47cc-8be1-32c1cb18a229",
+        pubsercet: "11a8551ab4d10bf786faba3740934a89",
         corntemplateid: "I9MessageSend",
         autotemplateid: "I9MessageSend",
         filepath: "C:\\Program Files (x86)\\JZTERP\\CenterQuerybuild",//design路径
