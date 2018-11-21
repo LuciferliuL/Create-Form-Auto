@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Card, Button, Checkbox } from 'antd'
+import { Card, Checkbox } from 'antd'
 
 const plainOptions = ['BranchId', 'StaffId', 'IsAllCust'];
 const CheckboxGroup = Checkbox.Group;

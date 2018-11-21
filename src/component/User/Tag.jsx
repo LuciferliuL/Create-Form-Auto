@@ -4,7 +4,7 @@ import { Tabs } from 'antd'
 import { addTabs, delTabs, addTable, delTable, copyThis } from './User.action'
 import ContentUser from './Content.User'
 import { Object } from 'es6-shim';
-import { fugai, tableFugai } from '../stylist/action/Stylist.action'
+import { fugai} from '../stylist/action/Stylist.action'
 
 const TabPane = Tabs.TabPane;
 

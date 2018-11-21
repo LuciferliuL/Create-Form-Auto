@@ -414,7 +414,7 @@ export const getUrlParam = (url, name) => {
 export const setUrlParam = (params) => {
     let paramsArray = [], urlParam = ''
     if (params) {
-        Object.keys(params).forEach(key => paramsArray.push(key + '=' + (typeof params[key] == 'string' ? params[key] : JSON.stringify(params[key]))));
+        Object.keys(params).forEach(key => paramsArray.push(key + '=' + (typeof params[key] === 'string' ? params[key] : JSON.stringify(params[key]))));
     }
     urlParam = paramsArray.join('&')
     return urlParam

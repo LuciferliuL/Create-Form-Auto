@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { Layout, Menu, Dropdown, Tag, Tabs } from "antd";
+import { Layout, Menu, Dropdown, Tag } from "antd";
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { _clear, _tableUpdataFromResults, tableTr0, fugai, tableFugai } from '../stylist/action/Stylist.action'
 import { addTabs, delTabs, addTable, delTable, keyschange } from '../User/User.action'
 
-const TabPane = Tabs.TabPane;
 const { Header } = Layout
 class Headercomponent extends Component {
     state = {
@@ -40,7 +39,7 @@ class Headercomponent extends Component {
         this.props.tableFugai(fugaiData.Source.TableData)
     }
     render() {
-        const { userdata, activeKey } = this.state
+        const { userdata} = this.state
 
         const menu = (
             <Menu>

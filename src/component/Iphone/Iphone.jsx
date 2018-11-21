@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Row, Col, Card, Button, Icon, Table, message } from 'antd'
+import { Row, Col, Card, Button, Icon, Table, message, Form, Modal, Input, TreeSelect } from 'antd'
 import { InputData, RadioData, LookUp, Title, DateS, SelectS } from './Iphone.Data'
 import IphoneComponent from './Iphone.Component'
 import IphoneC from './Iphone.C'
 import { RightMoveArr, LeftMoveArr } from './Func'
 import Iphoneconfig from './Iphone.config'
+import {POST$} from '../../lib/MATH/math'
+import {API} from '../../lib/API/Iphone.API'
+import { selectkeysToHeader } from '../Slider/action/Header.action'
 
+const FormItem = Form.Item
 const ButtonGroup = Button.Group
-function mapStateToProps(state) {
-    return {
 
-    };
-}
+
 
 class Iphone extends Component {
     state = {
@@ -34,17 +35,25 @@ class Iphone extends Component {
             Type: 'Table',
             SQL: ''
         },
-        ConfigData: []
+        ConfigData: [],
+        visible: false,
+        treeData: [],
+        OriData:{},
+        lastData:{}
     }
     componentDidMount() {
         // console.log('did');
         var data = this.props.location.state;
         console.log(data);
         if (data) {
+            let Bytes = JSON.parse(data.Bytes)
+            console.log(Bytes);
+            
             this.setState({
-                ConfigData: data.globleConfig,
-                IphoneTableData: data.TableData,
-                IphoneData: data.componentData
+                ConfigData: Bytes.globleConfig,
+                IphoneTableData: Bytes.TableData,
+                IphoneData: Bytes.componentData,
+                OriData:data
             })
         }
 
@@ -183,10 +192,10 @@ class Iphone extends Component {
         })
     }
     submitForm = () => {
-        const { IphoneData, IphoneTableData, ConfigData } = this.state
+        const { IphoneData, IphoneTableData, ConfigData} = this.state
         //组件数据
         let count = -1 //用来记录title的个数
-        let lastData = {
+        let lastData_ = {
             globleConfig: ConfigData,
             componentData: [],
             TableData: IphoneTableData
@@ -194,18 +203,71 @@ class Iphone extends Component {
         if (IphoneData.length > 0 && IphoneData[0].Type === 'Title') {
             IphoneData.forEach(e => {
                 if (e.Type === 'Title') {
-                    lastData.componentData.push(e)
+                    lastData_.componentData.push(e)
                     count++
                 } else {
-                    lastData.componentData[count].control.push(e)
+                    lastData_.componentData[count].control.push(e)
                 }
             })
             // console.log(IphoneData);
             // console.log(IphoneTableData);
             // console.log(ConfigData);
-            console.log(lastData);
+            console.log(lastData_);
 
             this.setState({
+                visible:true,
+                lastData:lastData_
+            })
+        } else {
+            message.warning('必须以‘表题’为组件开始')
+        }
+
+
+
+    }
+    handleSubmit = (e) => {
+        const {OriData,lastData} = this.state
+        e.preventDefault();
+        this.props.form.validateFields((err, values) => {
+
+            // this.setState({
+            //     loading: true
+            // });
+            let save = {};
+            
+            if (OriData.PK !== -1) {
+                //编辑
+                save = Object.assign({},
+                    OriData,
+                    { 'Name': values.Name },
+                    { 'Sort': values.Sort },
+                    { 'ParentFormID': values.ParentFormID },
+                    { 'Bytes': JSON.stringify(lastData) })
+            } else {
+                //新建
+                let user = sessionStorage.getItem('values')
+                save = {
+                    BranchId: user.BranchId,
+                    Bytes: JSON.stringify(lastData),
+                    Category: '',
+                    ParentFormID: values.ParentFormID,
+                    FK: -1,
+                    Sort: values.Sort,
+                    Name: values.Name,
+                    PK: -1,
+                    Role: "",
+                    TelantId: "",
+                    PageSize: 15
+                }
+            }
+
+            POST$(API('DataFormSave_mobile').http, save, (res) => {
+                res.PK === -1 ? message.error('保存失败') : message.success('保存成功')
+                this.props.onTodoClick(['移动权限'])
+                this.props.history.push('/Design/IphoneArch')
+            })
+            this.setState({
+                visible: false,
                 IphoneData: [],
                 CurrentData: {},
                 CurrentIndex: -1,
@@ -216,18 +278,24 @@ class Iphone extends Component {
                     Type: 'Table',
                     SQL: ''
                 },
-                ConfigData: []
-            })
-        } else {
-            message.warning('必须以‘表题’为组件开始')
-        }
-
-
+                ConfigData: [],
+            });
+        });
+    }
+    //取消
+    handleCancel = (e) => {
+        this.props.form.resetFields(['formname'])
+        this.setState({
+            visible: false,
+        });
+    }
+    handleChange = (value) => {
 
     }
     render() {
         const { Source, IphoneData, CurrentData, IphoneTableData, ConfigData } = this.state
-        var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.70
+        const { getFieldDecorator } = this.props.form;
+        var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.68
         let CardList = []
         Source.forEach(e => {
             CardList.push(
@@ -238,6 +306,42 @@ class Iphone extends Component {
         })
         return (
             <Row>
+                <Modal
+                    title="保存表单"
+                    visible={this.state.visible}
+                    footer={null}
+                >
+                    <Form onSubmit={this.handleSubmit}>
+                        <FormItem>
+                            {getFieldDecorator('Name', {
+                                rules: [{ required: true, message: '请输入表单名称!' }],
+                            })(
+                                <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="表单名称" />
+                            )}
+                        </FormItem>
+                        <FormItem>
+                            {getFieldDecorator('ParentFormID', {
+                                rules: [{ required: true, message: '请选择存放菜单!' }],
+                            })(
+                                <TreeSelect
+                                    dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                                    treeData={this.state.treeData}
+                                    placeholder="请选择存放菜单"
+                                    onChange={this.handleChange}
+                                />
+                            )}
+                        </FormItem>
+                        <FormItem>
+                            {getFieldDecorator('Sort', {
+                                rules: [{ required: true, message: '请输入菜单排序!' }],
+                            })(
+                                <Input placeholder="排序" />
+                            )}
+                        </FormItem>
+                        <Button type="primary" htmlType="submit" className="login-form-button">确定</Button>
+                        <Button onClick={this.handleCancel.bind(this)}>取消</Button>
+                    </Form>
+                </Modal>
                 <Col span={6}>
                     <Card>
                         {CardList}
@@ -281,12 +385,36 @@ class Iphone extends Component {
                     <Iphoneconfig ConfigChange={this.ConfigChange} ConfigData={ConfigData}></Iphoneconfig>
                 </Col>
             </Row>
-
-
         );
     }
 }
+const mapStateToProps = (state) => {
+    return {
 
+    }
+}
+const mapDispatchProps = (dispatch) => {
+    return {
+        onTodoClick: (k) => {
+            dispatch(selectkeysToHeader(k))
+        }
+    }
+}
 export default connect(
-    mapStateToProps,
-)(Iphone);
+    mapStateToProps, mapDispatchProps
+)(Form.create(
+    {
+        mapPropsToFields(props) {
+            let Field = {}
+            console.log(props);
+            let PropsData = props.history.location.state
+            //length是否大于0  显示为 是否新建或编辑
+            if (PropsData && Object.keys(PropsData).length > 0) {
+                Field['Name'] = Form.createFormField({ value: PropsData.Name });
+                Field['Sort'] = Form.createFormField({ value: PropsData.Sort });
+                Field['ParentFormID'] = Form.createFormField({ value: PropsData.ParentFormID });
+            }
+            return Field
+        }
+    }
+)(Iphone));

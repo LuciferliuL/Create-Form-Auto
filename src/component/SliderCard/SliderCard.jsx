@@ -3,7 +3,7 @@ import { Card, Icon, Tabs } from 'antd'
 import { connect } from 'react-redux'
 import { currentTagsUpdata } from './action/SliderCard.action.js'
 import { LookUpApi } from '../../lib/API/lookUpList'
-import { GET$, POST$ } from '../../lib/MATH/math'
+import { GET$ } from '../../lib/MATH/math'
 
 
 const TabPane = Tabs.TabPane

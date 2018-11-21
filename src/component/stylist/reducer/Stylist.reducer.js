@@ -44,7 +44,9 @@ export const UpdataFormData = (state = [], action) => {
                         return item
                     }
                 })
-            } return state
+            }else{
+                return state
+            } 
         case FORM_UPDATA_FROM_CURRENT:
             return state.map(e => e.key === action.currentAttr.key
                 ? { ...e, ...action.currentAttr }

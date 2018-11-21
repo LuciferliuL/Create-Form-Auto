@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import TreeUser from './Tree.User.jsx'
-import ContentUser from './Content.User'
 import { Layout, Spin } from 'antd'
 import Headercomponent from '../Header/Header.component'
 import { withRouter } from 'react-router-dom'

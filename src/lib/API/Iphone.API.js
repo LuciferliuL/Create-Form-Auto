@@ -27,6 +27,11 @@ export const API = (key, branchtype = '') => {
                 method: 'POST',
                 httpu: global.cfg.centerQueryAPI + "/api/DataFormMobile/GetUserFunctions"
             }
+        case 'Delete'://del
+            return {
+                method: "POST",
+                http: global.cfg.centerQueryAPI + 'api/DataFormMobile/'
+            }
         default:
             break;
     }

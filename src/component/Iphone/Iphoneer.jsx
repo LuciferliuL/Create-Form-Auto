@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Table, Button, Popconfirm, Spin, message, Modal, Input, Form, Icon } from 'antd'
 import { connect } from 'react-redux'
-import { API } from '../../lib/API/check.API.js'
+import { API } from '../../lib/API/Iphone.API'
 import { POST$, downloadFile, DesignDataTree } from '../../lib/MATH/math.js'
 import { selectkeysToHeader } from '../Slider/action/Header.action'
 
@@ -83,7 +83,7 @@ class Iphoneer extends Component {
         }]
     }
     componentDidMount() {
-        POST$(API('POSTDATA').http, {}, (res) => {
+        POST$(API('GetDataFormNodes_mobile').http, {}, (res) => {
             res.forEach(e => {
                 DesignDataTree(e)
             })
@@ -94,7 +94,7 @@ class Iphoneer extends Component {
         })
     }
     componentWillReceiveProps() {
-        POST$(API('POSTDATA').http, {}, (res) => {
+        POST$(API('GetDataFormNodes_mobile').http, {}, (res) => {
             res.forEach(e => {
                 DesignDataTree(e)
             })
@@ -109,7 +109,7 @@ class Iphoneer extends Component {
 
         POST$(API('Delete').http + this.state.selectData.PK + '/Delete', {}, (e) => {
             if (e.result) {
-                POST$(API('POSTDATA').http, {}, (res) => {
+                POST$(API('GetDataFormNodes_mobile').http, {}, (res) => {
                     res.forEach(e => {
                         DesignDataTree(e)
                     })
@@ -203,10 +203,10 @@ class Iphoneer extends Component {
                 }
 
                 //新建菜单
-                POST$(API('SaveForm').http, save, (res) => {
+                POST$(API('DataFormSave_mobile').http, save, (res) => {
                     if (res.PK) {
 
-                        POST$(API('POSTDATA').http, {}, (res) => {
+                        POST$(API('GetDataFormNodes_mobile').http, {}, (res) => {
                             //console.log(res);
                             res.forEach(e => {
                                 DesignDataTree(e)
@@ -234,13 +234,26 @@ class Iphoneer extends Component {
 
         //mock的数据 新建表单或者获取表单要覆盖原来的
         if (dataSource === 'new') {
-            let path = {
-                pathname: '/Design/Iphone',
-                state: {
+            let save = {
+                BranchId: '',
+                Bytes: JSON.stringify({
                     globleConfig: [],
                     componentData: [],
                     TableData: {}
-                }
+                }),
+                Category: '',
+                ParentFormID: '',
+                FK: -1,
+                Sort: '',
+                Name: '',
+                PK: -1,
+                Role: "",
+                TelantId: "",
+                PageSize: 15
+            }
+            let path = {
+                pathname: '/Design/Iphone',
+                state: save
             }
             this.props.onTodoClick(['移动设计'])
             this.props.history.push(path)
@@ -273,13 +286,13 @@ class Iphoneer extends Component {
                     this.props.form.setFieldsValue({ 'Sort': this.state.selectData.Sort });
                 } else {
                     //表单
-                    let body = JSON.parse(this.state.selectData.Bytes)
+                    // let body = JSON.parse(this.state.selectData.Bytes)
                     // this.props.fugai(body.FormData) //添加表单的
                     // this.props.tableFugai(body.TableData)//添加表格的
                     // this.props.update(this.state.selectData)//用来确定是否新建
                     let path = {
                         pathname: '/Design/Iphone',
-                        state: body
+                        state: this.state.selectData
                     }
                     this.props.onTodoClick(['移动设计'])
                     this.props.history.push(path)
