@@ -12,13 +12,14 @@ function mapStateToProps(state) {
 
 class Iphoneconfig extends Component {
     onChange = (checkedValues) => {
-        console.log('checked = ', checkedValues);
+        // console.log('checked = ', checkedValues);
+        this.props.ConfigChange(checkedValues)
     }
     render() {
         return (
             <Card
                 title='全局配置'>
-                <CheckboxGroup options={plainOptions}  onChange={this.onChange} />
+                <CheckboxGroup options={plainOptions}  onChange={this.onChange} value={this.props.ConfigData}/>
             </Card>
         );
     }

@@ -104,10 +104,20 @@ const sliderData = [
         key: '移动方案',
         type: 'apple',
         children: [{
+            key: '移动总览',
+            type: 'book',
+            children: [],
+            link: '/Design/Iphoneer'
+        },{
             key: '移动设计',
             type: 'question-circle',
             children: [],
             link: '/Design/Iphone'
+        },{
+            key: '移动权限',
+            type: 'lock',
+            children: [],
+            link: '/Design/IphoneArch'
         }],
         link: '/Design/Iphone'
     }

@@ -86,8 +86,8 @@ class IphoneComponent extends Component {
                             onClick={this.Click.bind(this, index)}
                             key={el.Key}
                             style={{ padding: 10, border: '1px dashed black', float: "left", width: '50%' }}>
-                            <span>{el.data.name}</span>
-                            <DatePicker value={moment(new Date(), dateFormat)} disabled ></DatePicker>
+                            <span>{el.data.name}:</span>
+                            <DatePicker value={moment(new Date(), dateFormat)} disabled style={{width:'70%',marginLeft:10}}></DatePicker>
                         </div>
                     )
                     break;

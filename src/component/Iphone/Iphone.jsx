@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Row, Col, Card, Button, Icon, Table } from 'antd'
+import { Row, Col, Card, Button, Icon, Table, message } from 'antd'
 import { InputData, RadioData, LookUp, Title, DateS, SelectS } from './Iphone.Data'
 import IphoneComponent from './Iphone.Component'
 import IphoneC from './Iphone.C'
@@ -33,10 +33,25 @@ class Iphone extends Component {
             title: '表格',
             Type: 'Table',
             SQL: ''
-        }
+        },
+        ConfigData: []
     }
     componentDidMount() {
-        // console.log(this.state);
+        // console.log('did');
+        var data = this.props.location.state;
+        console.log(data);
+        if (data) {
+            this.setState({
+                ConfigData: data.globleConfig,
+                IphoneTableData: data.TableData,
+                IphoneData: data.componentData
+            })
+        }
+
+    }
+    componentWillReceiveProps(pre) {
+        // console.log('will');
+
     }
     //添加组件
     addCard = (type) => {
@@ -162,9 +177,57 @@ class Iphone extends Component {
             CurrentIndex: -1
         })
     }
-    render() {
-        const { Source, IphoneData, CurrentData, IphoneTableData } = this.state
+    ConfigChange = (e) => {
+        this.setState({
+            ConfigData: e
+        })
+    }
+    submitForm = () => {
+        const { IphoneData, IphoneTableData, ConfigData } = this.state
+        //组件数据
+        let count = -1 //用来记录title的个数
+        let lastData = {
+            globleConfig: ConfigData,
+            componentData: [],
+            TableData: IphoneTableData
+        }//最终的数据
+        if (IphoneData.length > 0 && IphoneData[0].Type === 'Title') {
+            IphoneData.forEach(e => {
+                if (e.Type === 'Title') {
+                    lastData.componentData.push(e)
+                    count++
+                } else {
+                    lastData.componentData[count].control.push(e)
+                }
+            })
+            // console.log(IphoneData);
+            // console.log(IphoneTableData);
+            // console.log(ConfigData);
+            console.log(lastData);
 
+            this.setState({
+                IphoneData: [],
+                CurrentData: {},
+                CurrentIndex: -1,
+                IphoneTableData: {
+                    data: [],
+                    columns: [{ title: '列名', dataIndex: '0' }],
+                    title: '表格',
+                    Type: 'Table',
+                    SQL: ''
+                },
+                ConfigData: []
+            })
+        } else {
+            message.warning('必须以‘表题’为组件开始')
+        }
+
+
+
+    }
+    render() {
+        const { Source, IphoneData, CurrentData, IphoneTableData, ConfigData } = this.state
+        var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.70
         let CardList = []
         Source.forEach(e => {
             CardList.push(
@@ -181,7 +244,7 @@ class Iphone extends Component {
                     </Card>
                 </Col>
                 <Col span={12}>
-                    <Card>
+                    <Card bodyStyle={{ overflowY: 'scroll', maxHeight: h }}>
                         <IphoneComponent IphoneData={IphoneData} ClickNode={this.ClickNode.bind(this)}></IphoneComponent>
                     </Card>
                     <Card>
@@ -199,7 +262,7 @@ class Iphone extends Component {
                 </Col>
                 <Col span={6}>
                     <Card>
-                        <Button>提交表单</Button>
+                        <Button onClick={this.submitForm}>提交表单</Button>
                     </Card>
                     <Card
                         title='组件配置'
@@ -215,7 +278,7 @@ class Iphone extends Component {
                             AttributeChange={this.AttributeChange}>
                         </IphoneC>
                     </Card>
-                    <Iphoneconfig></Iphoneconfig>
+                    <Iphoneconfig ConfigChange={this.ConfigChange} ConfigData={ConfigData}></Iphoneconfig>
                 </Col>
             </Row>
 

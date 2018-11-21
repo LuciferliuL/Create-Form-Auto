@@ -9,6 +9,8 @@ import Stylistcomponent from '../stylist/Stylist.component'
 import ReadForm from '../readForm/ReadForm'
 import LookUpSelf from '../LookUpSelf/lookUpSelf'
 import Iphone from '../Iphone/Iphone'
+import Iphoneer from '../Iphone/Iphoneer'
+import IphoneArch from '../Iphone/IphoneArch'
 
 
 const { Content, Sider } = Layout;
@@ -49,6 +51,8 @@ class Desgincomponent extends Component {
                             <Route path='/Design/Arch' component={ReadForm}></Route>
                             <Route path='/Design/LookUpSelf' component={LookUpSelf}></Route>
                             <Route path='/Design/Iphone' component={Iphone}></Route>
+                            <Route path='/Design/Iphoneer' component={Iphoneer}></Route>
+                            <Route path='/Design/IphoneArch' component={IphoneArch}></Route>
                         </div>
                     </Content>
                 </Layout>
