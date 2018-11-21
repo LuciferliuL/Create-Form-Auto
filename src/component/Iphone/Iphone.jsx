@@ -206,6 +206,14 @@ class Iphone extends Component {
                     lastData_.componentData.push(e)
                     count++
                 } else {
+                    //添加obj{}
+                    if(e.Type === 'LookUp' ){
+                        e.data['obj'] = {}
+                    }else if (e.Type === 'Radio'){
+                        e.data.forEach( x => {
+                            x['obj'] = {}
+                        })
+                    }
                     lastData_.componentData[count].control.push(e)
                 }
             })

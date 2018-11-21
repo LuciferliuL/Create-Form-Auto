@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Card, Col, Row, Table, Tree, Spin, message, Button } from 'antd'
-import { API } from '../../lib/API/check.API.js'
-import { GET$, POST$, treeData } from '../../lib/MATH/math.js'
-
+import { POST$, treeData } from '../../lib/MATH/math.js'
+import { API } from '../../lib/API/Iphone.API'
+import { selectkeysToHeader } from '../Slider/action/Header.action'
 
 class IphoneArch extends Component {
     state = {
@@ -16,7 +16,7 @@ class IphoneArch extends Component {
         columns: [
             {
                 title: '角色ID',
-                dataIndex: 'ROLEID',
+                dataIndex: 'STAFFID',
                 width: '30%',
                 render: (text) => {
                     return (
@@ -25,7 +25,7 @@ class IphoneArch extends Component {
                 }
             }, {
                 title: '角色名称',
-                dataIndex: 'ROLENAME',
+                dataIndex: 'STAFFNAME',
                 width: '70%',
                 render: (text) => {
                     return (
@@ -36,16 +36,10 @@ class IphoneArch extends Component {
         ]
     }
     componentDidMount() {
-        let body = {
-            "Sql": "select RoleName ,RoleId  from tb_sys_role where BRANCHID=:currentBranchId",
-            "Param": "{}",
-            "PageIndex": 1,
-            "PageSize": 20,
-            "isPage": false
-        }
+
         let p1 = new Promise(
             (resolve, reject) => {
-                POST$(API('CheckCurrentId').http, body, (res) => {
+                POST$(API('getusers').http, {}, (res) => {
                     if (res.Results) {
                         resolve(res.Results)
                     } else {
@@ -56,7 +50,7 @@ class IphoneArch extends Component {
         )
         let p2 = new Promise(
             (resolve, reject) => {
-                POST$(API('POSTDATA').http, {}, (res) => {
+                POST$(API('GetDataFormNodes_mobile').http, {}, (res) => {
                     if (res.length > 0) {
                         res.forEach((e) => {
                             treeData(e)
@@ -91,6 +85,8 @@ class IphoneArch extends Component {
     }
 
     handleChange = (keys, info) => {
+        // console.log(keys);
+
         this.setState({
             loading: true,
             keys: keys[0]
@@ -101,9 +97,17 @@ class IphoneArch extends Component {
             }, 10000);
         });
         let GET = new Promise((resolve, reject) => {
-            GET$(API('CheckId').http + ' ' + keys[0], (res) => {
+            let ss = {
+                targetid: keys[0],
+                targettype: "formmobile",
+                category: "STAFFFORMMOBILE"
+            };
+            let param = {
+                Param: JSON.stringify(ss),
+            };
+            POST$(API('getdataformrolelistbytargettype').http, param, (res) => {
                 let list = []
-                res.map(e => list.push(e.RoleId))
+                res.map(e => list.push(e.ResourceID))
                 resolve(list)
             })
         });
@@ -122,13 +126,33 @@ class IphoneArch extends Component {
             })
     }
     Add = () => {
-        this.state.rows.forEach(e => e.SOURCEID = this.state.keys)
-        POST$(API('Role').http, this.state.rows, (res) => {
-            if (res.length > 0) {
+        const { keys } = this.state
+        let rowsParams = []
+        this.state.rows.forEach(e => {
+            rowsParams.push(Object.assign({},
+                {
+                    ResourceID: e.STAFFID,
+                    ResourceType: "STAFF",
+                    Category: "STAFFFORMMOBILE",
+                    TargetID: keys,
+                    TargetType: "formmobile"
+                }))
+        })
+        // console.log(rowsParams);
+        POST$(API('savedataformrole').http, rowsParams, (res) => {
+            if (res) {
                 this.setState({
-                    loading: false
+                    loading: false,
+                    selectedRowKeys: [],
+                    loading: true,
+                    data: [],
+                    rows: [],
+                    treeData: [],
+                    keys: '',
                 })
                 message.success('添加成功')
+                this.props.onTodoClick(['移动总览'])
+                this.props.history.push('/Design/Iphoneer')
             } else {
                 message.error('数据错误')
             }
@@ -170,7 +194,7 @@ class IphoneArch extends Component {
                                 dataSource={data}
                                 columns={columns}
                                 rowSelection={rowSelection}
-                                rowKey='ROLEID'
+                                rowKey='STAFFID'
                                 pagination={{ defaultPageSize: 15 }}
                                 scroll={{ y: h * 0.8 }}
                             ></Table>
@@ -181,6 +205,18 @@ class IphoneArch extends Component {
         );
     }
 }
+const mapStateToProps = (state) => {
+    return {
 
+    }
+}
+const mapDispatchProps = (dispatch) => {
+    return {
+        onTodoClick: (k) => {
+            dispatch(selectkeysToHeader(k))
+        }
+    }
+}
 export default connect(
+    mapStateToProps, mapDispatchProps
 )(IphoneArch);
