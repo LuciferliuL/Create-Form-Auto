@@ -274,7 +274,6 @@ class Stylistcomponent extends Component {
                                     <TABLECOMPONENT PublicData={this.props.tableSource}>
                                     </TABLECOMPONENT>
                                 </div>
-
                             </Form>
                         </Card>
                     </Col>

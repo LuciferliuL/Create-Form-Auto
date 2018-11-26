@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Input, Form, Icon, Modal, List,  Button, Select } from 'antd'
+import { Input, Form, Icon, Modal, List, Button, Select } from 'antd'
 
 const FormItem = Form.Item
 const Option = Select.Option
@@ -144,10 +144,10 @@ class IphoneC extends Component {
         }
 
     }
-    TagsChange = (name,index, ev) => {
+    TagsChange = (name, index, ev) => {
         // console.log(name);
         // console.log(index);
-        
+
         const { data } = this.state
         let obj = []
         data.forEach((e, i) => {
@@ -325,13 +325,12 @@ class IphoneC extends Component {
                                                     <Option value={2}>月末</Option>
                                                 </Select>
                                             </div>
-
                                         )
                                     } else {
-
                                         listColumns.forEach(element => (
                                             Tags.push(
                                                 <Input
+                                                    addonBefore={element === 'name' ? '名称' : element === 'value' ? "数值" : element}
                                                     style={{ marginRight: 10 }}
                                                     key={element}
                                                     value={item[element]}
@@ -354,7 +353,6 @@ class IphoneC extends Component {
                             /> :
                             <Button onClick={this.itemClick.bind(this, -1, 'add')}>添加</Button>
                     }
-
                 </Modal>
             </div>
         )
