@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Table,  Button, Tabs, message, Spin, Card } from 'antd';
+import { Table, Button, Tabs, message, Spin, Card } from 'antd';
 import { API } from '../../lib/API/I9'
 import '../../lib/API/url.API'
 import { GET$, POST$ } from '../../lib/MATH/math'
@@ -218,6 +218,8 @@ class Info extends Component {
             eId: global.msgcfg.eId,
             AppId: global.msgcfg.AppId,
             Secret: global.msgcfg.appSecret,
+            Pub: global.msgcfg.pub,
+            Pubsercet: global.msgcfg.pubsercet
         })
 
         let title = s.Title
