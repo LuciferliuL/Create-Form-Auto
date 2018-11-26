@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Card, Icon, Popconfirm, Form, Button, Modal, Input, message, Spin, TreeSelect } from 'antd'
+import { Row, Col, Card, Icon, Popconfirm, Form, Button, Modal, Input, message, Spin, TreeSelect, Tabs, Table } from 'antd'
 import { connect } from 'react-redux'
 import { stylistDataSourceGet, formSourceData, currentAttr, formSourceDataUpdata, formSourceDataDelete, fugai } from './action/Stylist.action'
 import './Stylist.css'
@@ -19,6 +19,9 @@ const getblockStyle = isDragging => {
         background: isDragging ? '#1890ff' : 'white'
     }
 }
+
+let TabTableIndex = 0
+const TabPane = Tabs.TabPane;
 const FormItem = Form.Item
 class Stylistcomponent extends Component {
     state = {
@@ -28,6 +31,42 @@ class Stylistcomponent extends Component {
         edit: false,
         loading: false,
         treeData: [],
+        indexTable: 0,
+        tableSourceData: [{
+            GridX: 0, GridY: 0, w: 24, h: 8, key: 'tablesKey' + TabTableIndex, pageSize: 200, scroll: 1200,
+            icons: 'table', label: '简单表格', type: 'Table', id: 'tables', float: 0,
+            SQL: 'select * where', groupname: '', tr: 0, pageNum: 1,
+            columns: [
+                {
+                    title: '',
+                    dataIndex: ''
+                }, {
+                    title: '',
+                    dataIndex: ''
+                }, {
+                    title: '',
+                    dataIndex: ''
+                }],
+            dataSource: []
+        }],
+        baseTable: {
+            GridX: 0, GridY: 0, w: 24, h: 8, key: 'tablesKey' + TabTableIndex, pageSize: 200, scroll: 1200,
+            icons: 'table', label: '简单表格', type: 'Table', id: 'tables', float: 0,
+            SQL: 'select * where', groupname: '', tr: 0, pageNum: 1,
+            columns: [
+                {
+                    title: '',
+                    dataIndex: ''
+                }, {
+                    title: '',
+                    dataIndex: ''
+                }, {
+                    title: '',
+                    dataIndex: ''
+                }],
+            dataSource: []
+        }
+
     }
     myRef = React.createRef()
     componentDidMount() {
@@ -55,10 +94,20 @@ class Stylistcomponent extends Component {
         }
     }
     confirm = (e) => {
+        // console.log(e);
+
         //记录组件位置
         this.props.FormDataUpata(this.dragact.getLayout())
         //更新右边栏
-        this.props.rightUpdata(e)
+        if (e.length > 0 && e[0].key.slice(0, 9) === 'tablesKey') {
+            // let sourceData = e.find(e => e.key === this.state.indexTable)
+            // console.log(this.state.indexTable);
+            let d = JSON.parse(JSON.stringify(e[this.state.indexTable]))
+            this.props.rightUpdata(d)
+        } else {
+            this.props.rightUpdata(e)
+        }
+
     }
     cancel = (e) => {
         this.props.FormDataDelete(e)
@@ -151,11 +200,73 @@ class Stylistcomponent extends Component {
 
     }
     ChangeOn = () => {
-        
+
+    }
+    callback = (key) => {
+        console.log(key);
+        this.setState({
+            indexTable: key
+        })
+    }
+    //添加table
+    ClickAdd = (ev) => {
+        let t = Object.assign({}, ev)
+        TabTableIndex++
+        t.key = 'tablesKey' + TabTableIndex
+        this.setState((pre) => ({
+            tableSourceData: [...pre.tableSourceData, t],
+        }))
+        // this.props.addTable(ev)
+        console.log(this.state.tableSourceData);
+
+    }
+    tableedit = (ev) => {
+        console.log(ev);
+        const { tableSourceData, indexTable } = this.state
+        let list = []
+        console.log(tableSourceData);
+
+        tableSourceData.forEach((e, i) => {
+            if (i === Number(indexTable)) {
+                list.push(ev)
+            } else {
+                console.log(e);
+
+                list.push(e)
+            }
+        })
+
+        this.setState({
+            tableSourceData: list
+        })
     }
     render() {
+        console.log(this.state.tableSourceData);
+        
         var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.70
         const { getFieldDecorator } = this.props.form;
+        let tabs_ = []
+        this.state.tableSourceData.forEach((e, i) => {
+            // let tableColumns = []
+            // e.columns.forEach((event, index) => {
+            //     tableColumns.push(<th key={index + event.title}>{event.title}</th>)
+            // })
+
+
+            tabs_.push(
+                <TabPane tab={`${e.label}`} key={`${i}`}>
+                    <Table columns={e.columns}></Table>
+                    {/* <table>
+                        <thead>
+                            <tr>
+                                {tableColumns}
+                            </tr>
+                        </thead>
+                    </table> */}
+                </TabPane>
+            )
+        })
+        const operations = <Button onClick={this.ClickAdd.bind(this, this.state.baseTable)}>添加Table</Button>;
         return (
             <Spin spinning={this.state.loading}>
                 <Modal
@@ -252,10 +363,10 @@ class Stylistcomponent extends Component {
                                                         type="minus-square"
                                                         theme="filled" />
                                                 </Popconfirm>
-                                                <PublicComponent 
-                                                PublicData={item} 
-                                                currentAttr={this.props.currentAttr} 
-                                                ChangeOn={this.ChangeOn.bind(this)}/>
+                                                <PublicComponent
+                                                    PublicData={item}
+                                                    currentAttr={this.props.currentAttr}
+                                                    ChangeOn={this.ChangeOn.bind(this)} />
                                             </div>
                                         )
                                     }}
@@ -264,21 +375,22 @@ class Stylistcomponent extends Component {
                                     <Popconfirm title="你要干什么？"
                                         icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
                                         okText="编辑"
-                                        onConfirm={this.confirm.bind(this, this.props.tableSource)}>
+                                        onConfirm={this.confirm.bind(this, this.state.tableSourceData)}>
                                         <Icon
                                             className="Delete"
                                             style={this.state.read ? { display: 'unset' } : { display: 'none' }}
                                             type="minus-square"
                                             theme="filled" />
                                     </Popconfirm>
-                                    <TABLECOMPONENT PublicData={this.props.tableSource}>
-                                    </TABLECOMPONENT>
+                                    <Tabs defaultActiveKey="1" onChange={this.callback} tabBarExtraContent={operations}>
+                                        {tabs_}
+                                    </Tabs>
                                 </div>
                             </Form>
                         </Card>
                     </Col>
                     <Col span={this.state.read ? 5 : 0}>
-                        <SliderRightcomponent currentAttr={this.props.currentAttr}></SliderRightcomponent>
+                        <SliderRightcomponent currentAttr={this.props.currentAttr} tableedit={this.tableedit.bind(this)}></SliderRightcomponent>
                     </Col>
                 </Row>
             </Spin>
@@ -341,3 +453,5 @@ export default connect(mapStateToProps, mapDispatchProps)(Form.create({
         return Field
     }
 })(Stylistcomponent));
+
+

@@ -107,7 +107,7 @@ class SliderRightcomponent extends Component {
                 case 'GroupValue':
                     uniqueList.push(
                         <div key={pre.currentAttr.key + 'GroupValue'}>
-                            <Drawercomponent></Drawercomponent>
+                            <Drawercomponent tableedit={this.props.tableedit}></Drawercomponent>
                             <FormItem
                                 label='组数据'
                                 {...formItemLayout}
@@ -135,7 +135,7 @@ class SliderRightcomponent extends Component {
                 case 'columns':
                     uniqueList.push(
                         <div key={pre.currentAttr.key + 'columns'}>
-                            <Drawercomponent></Drawercomponent>
+                            <Drawercomponent tableedit={this.props.tableedit}></Drawercomponent>
                             <FormItem
                                 label='列数据'
                                 {...formItemLayout}
@@ -150,7 +150,7 @@ class SliderRightcomponent extends Component {
                 case 'columnsTable':
                     uniqueList.push(
                         <div key={pre.currentAttr.key + 'columnsTable'}>
-                            <Drawercomponent></Drawercomponent>
+                            <Drawercomponent tableedit={this.props.tableedit}></Drawercomponent>
                             <FormItem
                                 label='列数据'
                                 {...formItemLayout}
@@ -181,7 +181,7 @@ class SliderRightcomponent extends Component {
                 case 'SQL':
                     uniqueList.push(
                         <div key={pre.currentAttr.key + 'SQL'}>
-                            <Drawercomponent></Drawercomponent>
+                            <Drawercomponent tableedit={this.props.tableedit}></Drawercomponent>
                             <FormItem
                                 label='select语句'
                                 {...formItemLayout}
@@ -409,6 +409,7 @@ class SliderRightcomponent extends Component {
                             }
                         </TabPane>
                     </Tabs>
+                    {/* <Button type='submit'>确认修改</Button> */}
                 </Form>
             </Card>
         );
@@ -435,18 +436,25 @@ const mapDispatchProps = (dispatch) => {
         },
         inputChange: (key, value) => {
             dispatch(inputChange(key, value))
-        }
+        },
+        // editTable:(key) => {
+        //     dispatch(editTable(key))
+        // }
     }
 }
 export default connect(mapPropsToState, mapDispatchProps)(Form.create({
     onFieldsChange(props, changedFields) {
+        console.log(1);
+        
         let value = changedFields[Object.keys(changedFields)[0]]['value']
         let label = changedFields[Object.keys(changedFields)[0]]['name']
         let obj = {}
         obj[label] = value;
         Object.assign(props.currentAttr, obj);
-        props.updata(props.currentAttr);
-        props.upForm(props.currentAttr);
+        props.updata(props.currentAttr);//修改current
+        props.upForm(props.currentAttr);//修改表单
+        // props.editTable(props.currentAttr)
+        props.tableedit(props.currentAttr)
     },
     mapPropsToFields(props) {
         const { currentAttr } = props

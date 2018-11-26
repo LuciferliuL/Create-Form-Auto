@@ -16,9 +16,14 @@ class Drawercomponent extends Component {
         this.props.hidefun(false);
     };
     onSure = (e) => {
+        // console.log(this.props.currentAttr.key.slice(0,9));
+        
         //修改的结果在这里
-        if (this.props.currentAttr.key === 'tablesKey') {
-            this.props.tableFugai(this.props.currentAttr);
+        if (this.props.currentAttr.key.slice(0,9) === 'tablesKey') {
+
+            // console.log(1);
+            this.props.tableedit(this.props.currentAttr)
+            // this.props.tableFugai(this.props.currentAttr);
         } else if (this.props.currentAttr.type === 'LookUp' && this.props.currentAttr.dataSource.length === 0) {
             let abbr = {};
             let body = {
@@ -113,7 +118,7 @@ class Drawercomponent extends Component {
             if (this.props.currentAttr.columns) {
                 this.props.currentAttr.columns.forEach((e, i) => {
                     content.push(
-                        <div key={i}>
+                        <div key={Math.random()}>
                             <InputGroup style={{ padding: '5px' }} >
                                 <Col span={6}>
                                     <Input value={e.title} onChange={this.InputChange.bind(this, i, 'title')} />
@@ -206,13 +211,12 @@ class Drawercomponent extends Component {
     }
 }
 const mapStateToProps = (state) => {
-    console.log(state);
+    // console.log(state);
 
     return {
         hide: state.hide,
         currentAttr: state.currentAttr,
         flag: state.flag,
-        tableSource: state.tableSource
     };
 }
 const mapDispatchProps = (dispatch) => {

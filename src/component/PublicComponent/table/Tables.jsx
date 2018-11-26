@@ -20,7 +20,7 @@ class TABLECOMPONENT extends Component {
 
     componentWillReceiveProps(pre) {
 
-        // console.log(pre);
+        console.log(pre);
         let row = []
         pre.PublicData.columns.forEach(e => {
             row.push(e)
@@ -188,7 +188,7 @@ class TABLECOMPONENT extends Component {
                 )
             })
         } else {
-            tbodyData.push(<tr key={123321543253463463}>没有数据</tr>)
+            tbodyData.push(<tr key={Math.random()}>没有数据</tr>)
         }
 
         return (
@@ -224,6 +224,8 @@ class TABLECOMPONENT extends Component {
     }
 }
 const mapStateToProps = (state) => {
+    console.log(state);
+    
     return {
         tableSource: state.tableSource
     }

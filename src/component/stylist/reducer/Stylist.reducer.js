@@ -1,6 +1,6 @@
 import { STYLIST_DATASOURCE_GET, FORM_UPDATA_FUGAI, CLEAR_FORM, TABLE_UPDATA_FROM_RESULTS, TABLE_FUGAI, TABLE_RESET } from '../action/Stylist.action'
 import { FORM_SOURCE_DATA, FORM_SOURCE_DATA_UPDATA, FORM_SOURCE_DATA_DELETE, TABLE_TR_0 } from '../action/Stylist.action'
-import { CURRENT_ATTR } from '../action/Stylist.action'
+import { CURRENT_ATTR, EDIT_TABLE } from '../action/Stylist.action'
 import { CURRENT_ATTR_UPDATA, FORM_UPDATA_FROM_CURRENT } from '../../SliderRIght/action/Right.action'
 import {
     TR_ADD_DOWN, TR_REDUCE_UP, SHOWS, UPDATA_VALUES, UPDATA_CURRENt_DATASOURCE, T_ADD_DOWN
@@ -44,9 +44,9 @@ export const UpdataFormData = (state = [], action) => {
                         return item
                     }
                 })
-            }else{
+            } else {
                 return state
-            } 
+            }
         case FORM_UPDATA_FROM_CURRENT:
             return state.map(e => e.key === action.currentAttr.key
                 ? { ...e, ...action.currentAttr }
@@ -160,7 +160,7 @@ export const currentAttr = (state = {}, action) => {
     }
 }
 
-export const tableSource = (state = table, action) => {
+export const tableSource = (state = [table], action) => {
     switch (action.type) {
         case TABLE_UPDATA_FROM_RESULTS:
             return {
@@ -176,6 +176,11 @@ export const tableSource = (state = table, action) => {
             return { ...state, tr: action.initial }
         case TABLE_RESET:
             return { ...state, ...table }
+        case EDIT_TABLE:
+            state.map(e => e.key === action.value.key
+                ? { ...e, ...action.value }
+                : e)
+            return state
         default:
             return state;
     }
@@ -183,7 +188,7 @@ export const tableSource = (state = table, action) => {
 
 
 const table = {
-    GridX: 0, GridY: 0, w: 24, h: 8, key: 'tablesKey', pageSize: 200, scroll: 1200,
+    GridX: 0, GridY: 0, w: 24, h: 8, key: 'tablesKey' + Math.random(), pageSize: 200, scroll: 1200,
     icons: 'table', label: '简单表格', type: 'Table', id: 'tables', float: 0,
     SQL: 'select * where', groupname: '', tr: 0, pageNum: 1,
     columns: [

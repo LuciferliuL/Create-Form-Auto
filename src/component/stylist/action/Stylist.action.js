@@ -9,6 +9,7 @@ export const TABLE_UPDATA_FROM_RESULTS = 'TABLE_UPDATA_FROM_RESULTS'
 export const TABLE_FUGAI = 'TABLE_FUGAI'
 export const TABLE_TR_0 = 'TABLE_TR_0'
 export const TABLE_RESET = 'TABLE_RESET'
+export const EDIT_TABLE = 'ADD_TABLE'
 
 
 //需要编辑选中的元素
@@ -94,4 +95,11 @@ export const tableReset = (init) => {
     }
 }
 
+//添加table
+export const editTable = (value) => {
+    return {
+        type:EDIT_TABLE,
+        value:value
+    }
+}
 
