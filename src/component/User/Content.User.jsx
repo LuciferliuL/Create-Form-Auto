@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Form, Pagination, Button, Icon } from 'antd'
+import { Card, Form, Pagination, Button, Icon, Tabs } from 'antd'
 import { connect } from 'react-redux';
 import { formUpdataFromCurrent } from '../SliderRIght/action/Right.action'
 import PublicComponent from '../PublicComponent/Public.Component'
@@ -9,10 +9,13 @@ import { POST$, httprequest, getrequestparam, getDat, formatDate, getstartHours,
 import { _clear, _tableUpdataFromResults, tableTr0, fugai } from '../stylist/action/Stylist.action'
 import { tAddDown, tReduceUp } from '../PublicComponent/lookup/action/lookup.action';
 
+
+
+const TabPane = Tabs.TabPane;
 const ButtonGroup = Button.Group;
 function mapStateToProps(State) {
     console.log(State);
-    
+
     return {
         data: State.UpdataFormData,
         InitStylistData: State.InitStylistData.InitStylistData,
@@ -29,7 +32,8 @@ class ContentUser extends Component {
         domWidth: 0,
         totalpage: 0,
         flag: true,
-        current: 1
+        current: 1,
+        currentTabsIndex:0
     }
 
     myRef = React.createRef();
@@ -42,7 +46,7 @@ class ContentUser extends Component {
 
     componentWillReceiveProps(pre) {
         console.log(pre);
-
+        const {currentTabsIndex} = this.state
         document.onkeydown = function (e) {
             var keyCode = e.keyCode || e.which || e.charCode;
             var altKey = e.altKey;
@@ -54,7 +58,7 @@ class ContentUser extends Component {
                 window.addEventListener('keyup', this.handleKeyDown)
                 pre.Loading()
                 let valueList = {}
-                let SQL = pre.tableSource.SQL
+                let SQL = pre.tableSource[this.state.currentTabsIndex].SQL
                 pre.data.map(e => {
                     if (e.type !== 'Table' && e.type !== 'Group') {
                         if (e.type === 'LookUp') {
@@ -150,9 +154,9 @@ class ContentUser extends Component {
                     // console.log(res);
 
                     if (res.Results) {
-                        pre.pane.TableData.dataSource = res.Results
-                        pre.pane.TableData.tr = 0
-                        pre.pane.TableData.pageSize = res.RecordCount
+                        pre.pane.TableData[currentTabsIndex].dataSource = res.Results
+                        pre.pane.TableData[currentTabsIndex].tr = 0
+                        pre.pane.TableData[currentTabsIndex].pageSize = res.RecordCount
                         pre.tableTr0(0)
                         // resolve(true)
                         pre.hidLoading()
@@ -184,7 +188,7 @@ class ContentUser extends Component {
             } else if (altKey && keyCode === 69) {
 
                 let valueList = {};
-                let SQL = pre.tableSource.SQL;
+                let SQL = pre.tableSource[this.state.currentTabsIndex].SQL;
                 pre.data.map(e => {
                     if (e.type !== 'Table' && e.type !== 'Group') {
                         if (e.type === 'LookUp') {
@@ -259,7 +263,7 @@ class ContentUser extends Component {
                     return true
                 });
                 let cols = {};
-                pre.tableSource.columns.forEach(e => {
+                pre.tableSource[this.state.currentTabsIndex].columns.forEach(e => {
                     cols[e.dataIndex] = e.title
                 });
                 let param = {
@@ -396,6 +400,7 @@ class ContentUser extends Component {
     }
     SQLChecked = (page) => {
         const { pane } = this.props;
+        const {currentTabsIndex} = this.state
         //input获取焦点
         var oInput = document.getElementById("input");
         oInput.focus();
@@ -407,7 +412,7 @@ class ContentUser extends Component {
 
         this.props.Loading()
         let valueList = {}
-        let SQL = pane.TableData.SQL;
+        let SQL = pane.TableData[currentTabsIndex].SQL;
 
         pane.FormData.map(e => {
             if (e.type !== 'Table' && e.type !== 'Group') {
@@ -506,9 +511,9 @@ class ContentUser extends Component {
                 console.log(res);
 
                 if (res.Results) {
-                    pane.TableData.dataSource = res.Results;
-                    pane.TableData.tr = 0;
-                    pane.TableData.pageSize = res.RecordCount;
+                    pane.TableData[currentTabsIndex].dataSource = res.Results;
+                    pane.TableData[currentTabsIndex].tr = 0;
+                    pane.TableData[currentTabsIndex].pageSize = res.RecordCount;
                     resolve(true);
                 } else {
                     reject(false);
@@ -535,7 +540,7 @@ class ContentUser extends Component {
         this.props.clear()
     }
     handleKeyDown = (e) => {
-        const { dataSource} = this.props.tableSource
+        const { dataSource } = this.props.tableSource
         // console.log(e.keyCode);
         console.log(this.props.pane);
 
@@ -573,12 +578,19 @@ class ContentUser extends Component {
         })
     }
 
+    callback = (key) => {
+        console.log(key);
+        this.setState({
+            currentTabsIndex:Number(key)
+        })
+    }
     render() {
 
         // console.log(this.props.pane);
 
         var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.85;
         const { pane } = this.props;
+        console.log(pane);
 
         let Dr = []
         let width_ = this.state.domWidth / 24
@@ -605,51 +617,69 @@ class ContentUser extends Component {
                 </div>
             )
         })
-        // if (pane.FormData.length > 0) {
-            return (
-                <Card
-                    ref={this.myRef}
-                    style={{ minHeight: h + 'px', borderTop: '1px solid #eae7e7' }}
-                    bodyStyle={{ padding: 5 }}  >
 
-                    <div style={{ float: 'left', width: '100%' }}>
-                        <ButtonGroup>
-                            <Button onClick={this.SQLChecked.bind(this, 1)}>
-                                <Icon type="security-scan" theme="outlined" />
-                                查询 ALT+Q
-                                    </Button>
-                            <Button onClick={this.guanbi.bind(this)} style={{ display: 'none' }}>
-                                <Icon type="export" theme="outlined" />
-                                关闭 ALT+C
-                                    </Button>
-                            <Button onClick={this.DAOCHU.bind(this)}>
-                                <Icon type="usb" theme="outlined" />
-                                导出 ALT+E
-                                    </Button>
-                        </ButtonGroup>
-                    </div>
-                    <Form
-                        style={{ padding: '5px', marginTop: '40px', position: 'relative' }}>
-                        {Dr}
-                    </Form>
-                    <div style={{ position: 'relative', top: (hflag + 40) + 'px', height: (h - hflag) * 0.8 + 'px' }}>
-                        <input
-                            type="text"
-                            id='input'
-                            onBlur={this.ONBlur}
-                        //  style={{ display: 'none' }} 
-                        />
-                        <TABLECOMPONENT PublicData={pane.TableData} style={{ marginTop: '40px' }} heights={(h - hflag) * 0.8} widths={this.state.domWidth}>
-                        </TABLECOMPONENT>
-                        <Pagination
-                            defaultCurrent={1}
-                            total={pane.TableData.pageSize}
-                            pageSize={200}
-                            current={this.state.current}
-                            onChange={this.onChange}></Pagination>
-                    </div>
-                </Card >
+        //多table
+        let tableTabs = []
+        pane.TableData.forEach((e, i) => {
+            tableTabs.push(
+                <TabPane tab={e.label} key={i}>
+                    <TABLECOMPONENT
+                        PublicData={e}
+                        style={{ marginTop: '40px' }}
+                        heights={(h - hflag) * 0.7}
+                        widths={this.state.domWidth}>
+                    </TABLECOMPONENT>
+                    <Pagination
+                        defaultCurrent={1}
+                        total={e.pageSize}
+                        pageSize={200}
+                        current={this.state.current}
+                        onChange={this.onChange}>
+                    </Pagination>
+                </TabPane>
             )
+        })
+        // if (pane.FormData.length > 0) {
+        return (
+            <Card
+                ref={this.myRef}
+                style={{ minHeight: h + 'px', borderTop: '1px solid #eae7e7' }}
+                bodyStyle={{ padding: 5 }}  >
+
+                <div style={{ float: 'left', width: '100%' }}>
+                    <ButtonGroup>
+                        <Button onClick={this.SQLChecked.bind(this, 1)}>
+                            <Icon type="security-scan" theme="outlined" />
+                            查询 ALT+Q
+                                    </Button>
+                        <Button onClick={this.guanbi.bind(this)} style={{ display: 'none' }}>
+                            <Icon type="export" theme="outlined" />
+                            关闭 ALT+C
+                                    </Button>
+                        <Button onClick={this.DAOCHU.bind(this)}>
+                            <Icon type="usb" theme="outlined" />
+                            导出 ALT+E
+                                    </Button>
+                    </ButtonGroup>
+                </div>
+                <Form
+                    style={{ padding: '5px', marginTop: '40px', position: 'relative' }}>
+                    {Dr}
+                </Form>
+                <div style={{ position: 'relative', top: (hflag + 40) + 'px', height: (h - hflag) * 0.8 + 'px' }}>
+                    <input
+                        type="text"
+                        id='input'
+                        onBlur={this.ONBlur}
+                     style={{ display: 'none' }} 
+                    />
+
+                    <Tabs defaultActiveKey="0" onChange={this.callback}>
+                        {tableTabs}
+                    </Tabs>
+                </div>
+            </Card >
+        )
         // } else {
         //     return (
         //         <Card
