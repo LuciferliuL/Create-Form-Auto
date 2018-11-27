@@ -43,6 +43,8 @@ class IphoneArch extends Component {
         let p1 = new Promise(
             (resolve, reject) => {
                 POST$(API('getusers').http, {}, (res) => {
+                    console.log(res);
+                    
                     if (res.Results) {
                         resolve(res.Results)
                     } else {
