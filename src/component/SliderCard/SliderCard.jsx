@@ -80,7 +80,7 @@ class SliderCard extends Component {
                 // console.log(cardDatas);
                 
                 z.push(
-                    <CardGrid style={gridStyle} key={cardDatas.icons} draggable="true" onDragStart={this.drag.bind(this, cardDatas)}>
+                    <CardGrid style={gridStyle} key={cardDatas.icons + Math.random()} draggable="true" onDragStart={this.drag.bind(this, cardDatas)}>
                         <Icon type={cardDatas.icons} theme="outlined" />
                         <span style={pointer}>{cardDatas.label}</span>
                     </CardGrid>

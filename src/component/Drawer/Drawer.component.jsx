@@ -118,7 +118,7 @@ class Drawercomponent extends Component {
             if (this.props.currentAttr.columns) {
                 this.props.currentAttr.columns.forEach((e, i) => {
                     content.push(
-                        <div key={Math.random()}>
+                        <div key={i + '123123123'}>
                             <InputGroup style={{ padding: '5px' }} >
                                 <Col span={6}>
                                     <Input value={e.title} onChange={this.InputChange.bind(this, i, 'title')} />

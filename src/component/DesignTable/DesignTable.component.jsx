@@ -235,7 +235,11 @@ class DesignTablecomponent extends Component {
             this.props.update({})
             this.props.onTodoClick(['表单设计'])
             this.props.tableReset()
-            this.props.history.push('/Design/Stylist')
+            let path = {
+                pathname:'/Design/Stylist',
+                state:[]
+            }
+            this.props.history.push(path)
         } else if (dataSource === 'Edit') {
             let selectData = this.state.selectData;
             if (selectData === 0) {
@@ -270,7 +274,11 @@ class DesignTablecomponent extends Component {
                     this.props.tableFugai(body.TableData)//添加表格的
                     this.props.update(this.state.selectData)//用来确定是否新建
                     this.props.onTodoClick(['表单设计'])
-                    this.props.history.push('/Design/Stylist')
+                    let path = {
+                        pathname:'/Design/Stylist',
+                        state:body.TableData
+                    }
+                    this.props.history.push(path)
                 }
             }
         }

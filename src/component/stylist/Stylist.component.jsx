@@ -70,9 +70,20 @@ class Stylistcomponent extends Component {
     }
     myRef = React.createRef()
     componentDidMount() {
+        let bodyTable = this.props.location.state
+        // console.log(bodyTable);
+        if(bodyTable && bodyTable.length > 0){
+            this.setState({
+                tableSourceData:bodyTable
+            })
+        }
         this.times = setTimeout(() => {
             this.changeWidth()
         }, 10)
+    }
+    componentWillReceiveProps(pre){
+        
+        
     }
     changeWidth = () => {
         const dom = (this.myRef.current.container.clientWidth) - 20
@@ -156,7 +167,9 @@ class Stylistcomponent extends Component {
             let save = {};
             let body = {};
             body.FormData = this.props.UpdataFormData;
-            body.TableData = this.props.tableSource;
+            body.TableData = this.state.tableSourceData;
+            console.log(body);
+            
             if (this.props.InitStylistData.PK) {
                 //编辑
                 save = Object.assign({},
@@ -224,7 +237,7 @@ class Stylistcomponent extends Component {
         console.log(ev);
         const { tableSourceData, indexTable } = this.state
         let list = []
-        console.log(tableSourceData);
+        // console.log(tableSourceData);
 
         tableSourceData.forEach((e, i) => {
             if (i === Number(indexTable)) {
@@ -247,22 +260,9 @@ class Stylistcomponent extends Component {
         const { getFieldDecorator } = this.props.form;
         let tabs_ = []
         this.state.tableSourceData.forEach((e, i) => {
-            // let tableColumns = []
-            // e.columns.forEach((event, index) => {
-            //     tableColumns.push(<th key={index + event.title}>{event.title}</th>)
-            // })
-
-
             tabs_.push(
                 <TabPane tab={`${e.label}`} key={`${i}`}>
                     <Table columns={e.columns}></Table>
-                    {/* <table>
-                        <thead>
-                            <tr>
-                                {tableColumns}
-                            </tr>
-                        </thead>
-                    </table> */}
                 </TabPane>
             )
         })
