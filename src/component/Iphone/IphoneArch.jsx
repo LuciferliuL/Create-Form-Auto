@@ -18,7 +18,7 @@ class IphoneArch extends Component {
         keys: '',
         columns: [
             {
-                title: '角色ID',
+                title: '员工ID',
                 dataIndex: 'STAFFID',
                 width: '30%',
                 render: (text) => {
@@ -27,7 +27,7 @@ class IphoneArch extends Component {
                     )
                 }
             }, {
-                title: '角色名称',
+                title: '员工名称',
                 dataIndex: 'STAFFNAME',
                 width: '70%',
                 render: (text) => {
@@ -42,11 +42,16 @@ class IphoneArch extends Component {
 
         let p1 = new Promise(
             (resolve, reject) => {
-                POST$(API('getusers').http, {}, (res) => {
-                    console.log(res);
-                    
-                    if (res.Results) {
-                        resolve(res.Results)
+
+                let ss = {
+                    branchid: sessionStorage.getItem('currentBranchId')
+                };
+                let param = {
+                    Param: JSON.stringify(ss),
+                };
+                POST$(API('getusers').http, param, (res) => {
+                    if (res.Result) {
+                        resolve(res.Result)
                     } else {
                         reject(500)
                     }
@@ -55,7 +60,14 @@ class IphoneArch extends Component {
         )
         let p2 = new Promise(
             (resolve, reject) => {
-                POST$(API('GetDataFormNodes_mobile').http, {}, (res) => {
+
+                let ss = {
+                    branchid: sessionStorage.getItem('currentBranchId')
+                };
+                let param = {
+                    Param: JSON.stringify(ss),
+                };
+                POST$(API('GetDataFormNodes_mobile').http, param, (res) => {
                     if (res.length > 0) {
                         res.forEach((e) => {
                             treeData(e)
@@ -105,6 +117,7 @@ class IphoneArch extends Component {
         let GET = new Promise((resolve, reject) => {
             let ss = {
                 targetid: keys[0],
+                branchid: sessionStorage.getItem('currentBranchId'),
                 targettype: "formmobile",
                 category: "STAFFFORMMOBILE"
             };

@@ -445,16 +445,22 @@ const mapDispatchProps = (dispatch) => {
 export default connect(mapPropsToState, mapDispatchProps)(Form.create({
     onFieldsChange(props, changedFields) {
         console.log(1);
-        
+
         let value = changedFields[Object.keys(changedFields)[0]]['value']
         let label = changedFields[Object.keys(changedFields)[0]]['name']
         let obj = {}
         obj[label] = value;
         Object.assign(props.currentAttr, obj);
         props.updata(props.currentAttr);//修改current
-        props.upForm(props.currentAttr);//修改表单
+
         // props.editTable(props.currentAttr)
-        props.tableedit(props.currentAttr)
+        if (props.currentAttr.type === 'Table') {
+            props.tableedit(props.currentAttr)
+        } else {
+            props.upForm(props.currentAttr);//修改表单
+        }
+
+
     },
     mapPropsToFields(props) {
         const { currentAttr } = props
