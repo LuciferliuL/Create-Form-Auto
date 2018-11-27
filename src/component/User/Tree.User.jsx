@@ -39,7 +39,7 @@ class TreeUser extends Component {
             const { TabsData } = this.props
             
             let F = TabsData.find(e => e.Name === name)
-            console.log(F);
+            // console.log(F);
             if(F === undefined){
                 this.props.addTabs({ Source: data, Name: name })
                 this.props.upData(data.FormData)

@@ -118,7 +118,7 @@ class TABLECOMPONENT extends Component {
     }
     render() {
         const { colHeight, data, columnskeys } = this.state
-        const { columns, pageSize } = this.props.PublicData
+        const { columns, pageSize,tr } = this.props.PublicData
         let widths = 0
         let columnsData = []
         let tbodyData = []
@@ -182,7 +182,7 @@ class TABLECOMPONENT extends Component {
                     )
                 })
                 tbodyData.push(
-                    <tr key={e.indexs + 'tr'} className={this.props.tableSource.tr === i ? 'black' : ''}>
+                    <tr key={e.indexs + 'tr'} className={tr === i ? 'black' : ''}>
                         {tbodytd}
                     </tr>
                 )
