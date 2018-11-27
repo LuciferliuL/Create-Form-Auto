@@ -1,15 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Card, Col, Row, Table, Tree, Spin, message, Button } from 'antd'
+import { Card, Col, Row, Table, Tree, Spin, message, Button, Input } from 'antd'
 import { POST$, treeData } from '../../lib/MATH/math.js'
 import { API } from '../../lib/API/Iphone.API'
 import { selectkeysToHeader } from '../Slider/action/Header.action'
 
+
+const Search = Input.Search;
 class IphoneArch extends Component {
     state = {
         selectedRowKeys: [],
         loading: true,
         data: [],
+        searchdata:[],
         rows: [],
         treeData: [],
         keys: '',
@@ -66,6 +69,7 @@ class IphoneArch extends Component {
             .then((Results) => {
                 this.setState({
                     data: Results[0],
+                    searchdata:Results[0],
                     treeData: Results[1],
                     loading: false
                 })
@@ -149,6 +153,7 @@ class IphoneArch extends Component {
                     rows: [],
                     treeData: [],
                     keys: '',
+                    searchdata:[]
                 })
                 message.success('添加成功')
                 this.props.onTodoClick(['移动总览'])
@@ -158,9 +163,27 @@ class IphoneArch extends Component {
             }
         })
     }
+    search = (el) => {
+        
+        const {data} = this.state
+        // console.log(data);
+        var len = data.length;//总数据
+        var arr = [];
+        for(var i=0;i<len;i++){
+            //如果字符串中不包含目标字符会返回-1
+            if(JSON.stringify(data[i]).indexOf(el)>=0){
+                arr.push(data[i]);
+            }
+        }
+        this.setState({
+            searchdata:arr
+        })
+        // console.log(arr);
+        
+    }
     render() {
         var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.8
-        const { loading, data, columns, selectedRowKeys } = this.state
+        const { loading, columns, selectedRowKeys ,searchdata} = this.state
         const rowSelection = {
             onChange: this.rowSelectionChange,
             getCheckboxProps: record => ({
@@ -188,10 +211,16 @@ class IphoneArch extends Component {
                         <Card title="选择权限"
                             bordered={true}
                             bodyStyle={{ padding: '5px' }}
-                            extra={<Button onClick={this.Add.bind(this)}>添加权限</Button>}>
+                            extra={<div>
+                                <Search
+                                    placeholder="input search text"
+                                    onSearch={this.search.bind(this)}
+                                    style={{ width: 200 }}
+                                /><Button onClick={this.Add.bind(this)}>添加权限</Button>
+                            </div>}>
                             <Table
                                 bordered
-                                dataSource={data}
+                                dataSource={searchdata}
                                 columns={columns}
                                 rowSelection={rowSelection}
                                 rowKey='STAFFID'

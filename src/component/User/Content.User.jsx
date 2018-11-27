@@ -11,6 +11,8 @@ import { tAddDown, tReduceUp } from '../PublicComponent/lookup/action/lookup.act
 
 const ButtonGroup = Button.Group;
 function mapStateToProps(State) {
+    console.log(State);
+    
     return {
         data: State.UpdataFormData,
         InitStylistData: State.InitStylistData.InitStylistData,
@@ -603,7 +605,7 @@ class ContentUser extends Component {
                 </div>
             )
         })
-        if (pane.FormData.length > 0) {
+        // if (pane.FormData.length > 0) {
             return (
                 <Card
                     ref={this.myRef}
@@ -648,15 +650,15 @@ class ContentUser extends Component {
                     </div>
                 </Card >
             )
-        } else {
-            return (
-                <Card
-                    ref={this.myRef}
-                    style={{ minHeight: h + 'px', borderTop: '1px solid #eae7e7' }}>
-                    欢迎使用通用表单查询管理系统
-                </Card>
-            )
-        }
+        // } else {
+        //     return (
+        //         <Card
+        //             ref={this.myRef}
+        //             style={{ minHeight: h + 'px', borderTop: '1px solid #eae7e7' }}>
+        //             欢迎使用通用表单查询管理系统
+        //         </Card>
+        //     )
+        // }
     }
 }
 
