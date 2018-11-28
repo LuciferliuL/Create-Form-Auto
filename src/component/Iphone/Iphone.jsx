@@ -6,9 +6,10 @@ import IphoneComponent from './Iphone.Component'
 import IphoneC from './Iphone.C'
 import { RightMoveArr, LeftMoveArr } from './Func'
 import Iphoneconfig from './Iphone.config'
-import {POST$} from '../../lib/MATH/math'
-import {API} from '../../lib/API/Iphone.API'
+import { POST$ } from '../../lib/MATH/math'
+import { API } from '../../lib/API/Iphone.API'
 import { selectkeysToHeader } from '../Slider/action/Header.action'
+import { Object } from 'es6-shim';
 
 const FormItem = Form.Item
 const ButtonGroup = Button.Group
@@ -30,16 +31,16 @@ class Iphone extends Component {
         CurrentIndex: -1,
         IphoneTableData: {
             data: [],
-            columns: [{ title: '列名', dataIndex: '0' }],
+            columns: [{ title: '列名', dataIndex: '0', type: 'String', enum: []}],
             title: '表格',
-            Type: 'Table',
+            type: 'table',
             SQL: ''
         },
         ConfigData: [],
         visible: false,
         treeData: [],
-        OriData:{},
-        lastData:{}
+        OriData: {},
+        lastData: {}
     }
     componentDidMount() {
         // console.log('did');
@@ -48,15 +49,30 @@ class Iphone extends Component {
         if (data) {
             let Bytes = JSON.parse(data.Bytes)
             console.log(Bytes);
-            
+            let qq = []
+            let tablebase = {}
+            Bytes.componentData.forEach(e => {
+                let objTitle = JSON.parse(JSON.stringify(e))
+                objTitle.control = []
+                qq.push(objTitle)
+                e.control.forEach(x => {
+                    qq.push(x)
+                })
+            })
+            // console.log(qq);
+
+            if (Object.keys(Bytes.TableData).length > 0) {
+                tablebase = Bytes.TableData
+                console.log(tablebase);
+
+            }
             this.setState({
                 ConfigData: Bytes.globleConfig,
-                IphoneTableData: Bytes.TableData,
-                IphoneData: Bytes.componentData,
-                OriData:data
+                IphoneTableData: tablebase,
+                IphoneData: qq,
+                OriData: data
             })
         }
-
     }
     componentWillReceiveProps(pre) {
         // console.log('will');
@@ -66,37 +82,37 @@ class Iphone extends Component {
     addCard = (type) => {
         // console.log(type);
         switch (type) {
-            case 'Input':
+            case 'input':
                 let input = new InputData('ID', '', '')
                 this.setState((pre) => ({
                     IphoneData: [...pre.IphoneData, input]
                 }))
                 break;
-            case 'Radio':
+            case 'radio':
                 let radio = new RadioData('ID', '', '')
                 this.setState((pre) => ({
                     IphoneData: [...pre.IphoneData, radio]
                 }))
                 break;
-            case 'LookUp':
+            case 'lookup':
                 let lookup = new LookUp('ID', '', '')
                 this.setState((pre) => ({
                     IphoneData: [...pre.IphoneData, lookup]
                 }))
                 break;
-            case 'Title':
+            case 'title':
                 let title = new Title('ID', '', '')
                 this.setState((pre) => ({
                     IphoneData: [...pre.IphoneData, title]
                 }))
                 break;
-            case 'DateS':
+            case 'date':
                 let dateS = new DateS('ID', '', '')
                 this.setState((pre) => ({
                     IphoneData: [...pre.IphoneData, dateS]
                 }))
                 break;
-            case 'SelectS':
+            case 'select':
                 let selectS = new SelectS('ID', '', '')
                 this.setState((pre) => ({
                     IphoneData: [...pre.IphoneData, selectS]
@@ -120,8 +136,8 @@ class Iphone extends Component {
         const { CurrentData, IphoneData } = this.state
         let file = {}
         file[attr] = value
-        // console.log(file);
-        if (CurrentData.Type === 'Table') {
+        console.log(file);
+        if (CurrentData.type === 'table') {
             //说明是表格
             this.setState({
                 CurrentData: Object.assign({}, this.state.CurrentData, file),
@@ -192,7 +208,7 @@ class Iphone extends Component {
         })
     }
     submitForm = () => {
-        const { IphoneData, IphoneTableData, ConfigData} = this.state
+        const { IphoneData, IphoneTableData, ConfigData } = this.state
         //组件数据
         let count = -1 //用来记录title的个数
         let lastData_ = {
@@ -200,17 +216,17 @@ class Iphone extends Component {
             componentData: [],
             TableData: IphoneTableData
         }//最终的数据
-        if (IphoneData.length > 0 && IphoneData[0].Type === 'Title') {
+        if (IphoneData.length > 0 && IphoneData[0].type === 'title') {
             IphoneData.forEach(e => {
-                if (e.Type === 'Title') {
+                if (e.type === 'title') {
                     lastData_.componentData.push(e)
                     count++
                 } else {
                     //添加obj{}
-                    if(e.Type === 'LookUp' ){
+                    if (e.type === 'lookup') {
                         e.data['obj'] = {}
-                    }else if (e.Type === 'Radio'){
-                        e.data.forEach( x => {
+                    } else if (e.type === 'radio') {
+                        e.data.forEach(x => {
                             x['obj'] = {}
                         })
                     }
@@ -223,8 +239,8 @@ class Iphone extends Component {
             console.log(lastData_);
 
             this.setState({
-                visible:true,
-                lastData:lastData_
+                visible: true,
+                lastData: lastData_
             })
         } else {
             message.warning('必须以‘表题’为组件开始')
@@ -234,7 +250,7 @@ class Iphone extends Component {
 
     }
     handleSubmit = (e) => {
-        const {OriData,lastData} = this.state
+        const { OriData, lastData } = this.state
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
 
@@ -242,7 +258,7 @@ class Iphone extends Component {
             //     loading: true
             // });
             let save = {};
-            
+
             if (OriData.PK !== -1) {
                 //编辑
                 save = Object.assign({},
@@ -281,9 +297,9 @@ class Iphone extends Component {
                 CurrentIndex: -1,
                 IphoneTableData: {
                     data: [],
-                    columns: [{ title: '列名', dataIndex: '0' }],
+                    columns: [{ title: '列名', dataIndex: '0', type: 'String', enum: []}],
                     title: '表格',
-                    Type: 'Table',
+                    type: 'table',
                     SQL: ''
                 },
                 ConfigData: [],
@@ -309,9 +325,10 @@ class Iphone extends Component {
             CardList.push(
                 <Card key={e.Key}>
                     {e.Label}
-                    <Button style={{ float: "right" }} onClick={this.addCard.bind(this, e.Type)}>+</Button>
+                    <Button style={{ float: "right" }} onClick={this.addCard.bind(this, e.type)}>+</Button>
                 </Card>)
         })
+
         return (
             <Row>
                 <Modal

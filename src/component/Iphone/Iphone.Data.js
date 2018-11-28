@@ -11,7 +11,7 @@ class BaseData {
 export class InputData extends BaseData {
     constructor(id, value, defaultValue, paramtype, data = { name: '测试输入框', value: '' }, mode = 'default') {
         super(id, value, defaultValue, paramtype)
-        this.Type = 'Input'//组件类型
+        this.type = 'input'//组件类型
         this.data = data//组件名称
         this.mode = mode//输入类型  //mode:number,money
         this.Label = '输入框'
@@ -20,10 +20,10 @@ export class InputData extends BaseData {
 
 export class RadioData extends BaseData {
     constructor(id, value, defaultValue, paramtype,
-        data = [{ name: 'Radio', value: '0'}]
+        data = []
         , sqlname = '', selectname = '', selectvalue = '', isObj = false) {
         super(id, value, defaultValue, paramtype)
-        this.Type = 'Radio'//组件类型
+        this.type = 'radio'//组件类型
         this.data = data
         this.default = '0'
         this.Label = '单选框'
@@ -44,7 +44,7 @@ export class RadioData extends BaseData {
 export class LookUp extends BaseData {
     constructor(id, value, defaultValue, paramtype, data = { name: "客户", value: "", key: ""}, mode = 'cust', isObj = false) {
         super(id, value, defaultValue, paramtype)
-        this.Type = 'LookUp'
+        this.type = 'lookup'
         this.data = data
         this.Label = 'LookUp'
         this.mode = mode
@@ -55,7 +55,7 @@ export class LookUp extends BaseData {
 export class Title extends BaseData {
     constructor(id, value, defaultValue, paramtype, title = '单据类型', show = true, control = []) {
         super(id, value, defaultValue, paramtype)
-        this.Type = 'Title'
+        this.type = 'title'
         this.title = title
         this.show = show
         this.control = control
@@ -67,16 +67,16 @@ export class Title extends BaseData {
 export class DateS extends BaseData {
     constructor(id, value, defaultValue, paramtype, data = { name: "时间", value: 0 }) {
         super(id, value, defaultValue, paramtype)
-        this.Type = 'DateS'
+        this.type = 'date'
         this.data = data
         this.Label = '时间控件'
     }
 }
 
 export class SelectS extends BaseData {
-    constructor(id, value, defaultValue, paramtype, data = [{ name: 'select', value: '0', default: "0", selected: true }]) {
+    constructor(id, value, defaultValue, paramtype, data = { name: 'select', value: '0', default: "0", selected: true }) {
         super(id, value, defaultValue, paramtype)
-        this.Type = 'SelectS'//组件类型
+        this.type = 'select'//组件类型
         this.data = data
         this.default = '0'
         this.Label = '选择框'
