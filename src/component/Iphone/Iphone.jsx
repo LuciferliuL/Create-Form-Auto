@@ -65,6 +65,14 @@ class Iphone extends Component {
                 tablebase = Bytes.TableData
                 console.log(tablebase);
 
+            }else{
+                tablebase = {
+                    data: [],
+                    columns: [{ title: '列名', dataIndex: '0', type: 'String', enum: []}],
+                    title: '表格',
+                    type: 'table',
+                    SQL: ''
+                }
             }
             this.setState({
                 ConfigData: Bytes.globleConfig,
