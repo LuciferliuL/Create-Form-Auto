@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Input, Form, Icon, Modal, List, Button, Select, Popover } from 'antd'
+import { Input, Form, Icon, Modal, List, Button, Select } from 'antd'
 
 const FormItem = Form.Item
 const Option = Select.Option
@@ -19,7 +19,7 @@ class IphoneC extends Component {
         Type: '',
         POPvisible: false,
         ButtonColor: 'success',
-        POPIndex:-1
+        POPIndex: -1
     }
     componentWillReceiveProps(pre) {
         // console.log(pre);
@@ -111,9 +111,17 @@ class IphoneC extends Component {
                         list.push(e)
                         if (i === index) {
                             let filed = {}
-                            Object.keys(e).forEach(e => {
-                                filed[e] = ' '
+                            Object.keys(e).forEach(el => {
+                                if (el === 'enum') {
+                                    filed[el] = []
+                                }else if(e === 'type'){
+                                    filed[e] = 'String'
+                                } else {
+                                    filed[e] = ''
+                                }
+
                             })
+                            filed['enum'] = []
                             list.push(filed)
                         }
                     })
@@ -127,7 +135,14 @@ class IphoneC extends Component {
                     //添加到队列最后
                     let filed = {}
                     listColumns.forEach(e => {
-                        filed[e] = ' '
+                        if (e === 'enum') {
+                            filed[e] = []
+                        }else if(e === 'type'){
+                            filed[e] = 'String'
+                        } else {
+                            filed[e] = ''
+                        }
+
                     })
                     data.push(filed)
                     this.setState({
@@ -154,14 +169,14 @@ class IphoneC extends Component {
     TagsChange = (name, index, ev) => {
         // console.log(name);
         // console.log(index);
-        console.log(ev);
+        // console.log(ev);
 
         const { data } = this.state
         let obj = []
         data.forEach((e, i) => {
             if (i === index) {
                 let d = {}
-                d[name] = typeof ev === 'string' ?  Trim(ev) : Trim(ev.target.value)
+                d[name] = typeof ev === 'string' ? Trim(ev) : Trim(ev.target.value)
                 let filed = Object.assign({}, e, d)
                 // console.log(filed);
                 obj.push(filed)
@@ -200,12 +215,12 @@ class IphoneC extends Component {
         });
     }
 
-    handleVisibleChange = (index,POPvisible) => {
+    handleVisibleChange = (index, POPvisible) => {
         // console.log(POPvisible);
-        
-        this.setState({ 
-            POPvisible:true ,
-            POPIndex:index
+
+        this.setState({
+            POPvisible: true,
+            POPIndex: index
         });
     }
     handlePOP = () => {
@@ -215,59 +230,54 @@ class IphoneC extends Component {
         });
     }
     TagsChange_ = (name, index, ev) => {
-        console.log(name);
-        console.log(index);
-        console.log(ev);
-
-        const { data ,POPIndex} = this.state
-        let obj = []
+        // console.log(name);
+        // console.log(index);
+        // console.log(ev);
+        //POPIndex 用来定位
+        const { data, POPIndex } = this.state
         data[POPIndex].enum.forEach((e, i) => {
             if (i === index) {
                 let d = {}
-                d[name] =  ev.target.value
+                d[name] = Trim(ev.target.value)
                 let filed = Object.assign({}, e, d)
-                // console.log(filed);
-                obj.push(filed)
-            } else {
-                obj.push(e)
+                // // console.log(filed);
+                // obj.push(filed)
+                data[POPIndex].enum[index] = filed
             }
         })
+        // console.log(data);
+
         this.setState({
-            data: obj
+            data: data
         })
     }
     itemClick_ = (i, key) => {
-        console.log(i, key);
+        // console.log(i, key);
         const { data, POPIndex } = this.state
         let list = []
         switch (key) {
             case 'add':
-                if (i !== -1) {
-                    //添加到队列里面
-                    data.forEach((e, index) => {
-                        list.push(e)
-                        if (POPIndex === index) {
-                            e.enum.push({key:'',value:''})
-                            list.push(e)
-                        }
-                    })
-                    // console.log(data);
+                // if (i !== -1) {
+                //添加到队列里面
+                data[POPIndex].enum.push({ key: '', value: "" })
+                // console.log(data);
 
-                    this.setState({
-                        data: list
-                    })
+                this.setState({
+                    data: data
+                })
 
-                } 
+                // } 
                 break;
             case 'del':
-                data.forEach((e, k) => {
+                data[POPIndex].enum.forEach((e, k) => {
                     if (k !== i) {
                         list.push(e)
                     }
                 })
+                data[POPIndex].enum = list
                 this.setState({
                     indexChoose: -1,
-                    data: list
+                    data: data
                 })
                 break;
             default:
@@ -277,8 +287,8 @@ class IphoneC extends Component {
     }
     render() {
         const { CurrentData } = this.props
-        const { data, listColumns, Type } = this.state
-        // console.log(CurrentData);
+        const { data, listColumns, Type, POPIndex } = this.state
+        console.log(data[POPIndex]);
         let CurrentInput = []
         const formItemLayout = {
             labelCol: {
@@ -412,7 +422,7 @@ class IphoneC extends Component {
                                 bordered
                                 dataSource={data}
                                 renderItem={(item, index) => {
-                                    console.log(item);
+                                    // console.log(item);
 
                                     let Tags = []
                                     if (Type === 'date') {
@@ -455,7 +465,7 @@ class IphoneC extends Component {
                                                     <Option value='Date'>时间类型</Option>
                                                     <Option value='Enum'>枚举类型</Option>
                                                 </Select>
-                                                <Button type={this.state.ButtonColor} onClick={this.handleVisibleChange.bind(this,index)}>添加枚举</Button>
+                                                <Button type={this.state.ButtonColor} onClick={this.handleVisibleChange.bind(this, index)}>添加枚举</Button>
                                             </div>
                                         )
                                     } else {
@@ -496,37 +506,37 @@ class IphoneC extends Component {
                         // header={<div>Header</div>}
                         // footer={<div>Footer</div>}
                         bordered
-                        dataSource={data.enum}
-                        renderItem={(item, index) => {
-                            console.log(item);
-
-                            let Tags_ = []
-                            if (Type === ' table') {
-                                item.enum.forEach(element => {
-                                    Tags_.push(
+                        dataSource={data[POPIndex] ? data[POPIndex].enum : data[POPIndex]}
+                        renderItem={
+                            // if (Type === ' table') {
+                            (element, j) => {
+                                console.log(element);
+                                return <div key={j + 'enum'} style={{ width: '100%' }}>
+                                    <List.Item actions={
+                                        [<span
+                                            onClick={this.itemClick_.bind(this, j, 'add')}
+                                        >添加</span>,
+                                        <span onClick={this.itemClick_.bind(this, j, 'del')}
+                                        >删除</span>]}>
                                         <Input
-                                            addonBefore={element === 'key' ? '名称' : "值"}
+                                            addonBefore={'名称'}
                                             style={{ marginRight: 10 }}
-                                            key={element}
-                                            value={item[element]}
-                                            onChange={this.TagsChange_.bind(this, element, index)}>
+                                            value={element['key']}
+                                            onChange={this.TagsChange_.bind(this, 'key', j)}>
                                         </Input>
-                                    )
-                                })
+                                        <Input
+                                            addonBefore={"值"}
+                                            style={{ marginRight: 10 }}
+                                            value={element['value']}
+                                            onChange={this.TagsChange_.bind(this, 'value', j)}>
+                                        </Input>
+                                    </List.Item>
+                                </div>
+
                             }
-
-
-                            return <List.Item actions={
-                                [<span
-                                    onClick={this.itemClick_.bind(this, index, 'add')}
-                                >添加</span>,
-                                <span onClick={this.itemClick_.bind(this, index, 'del')}
-                                >删除</span>]}>
-                                {Tags_}
-                            </List.Item>
-                        }}>
+                        }>
                     </List>
-                    <Button onClick={this.itemClick_.bind(this, -1, 'add')}>添加</Button>
+                    <Button onClick={this.itemClick_.bind(this, 0, 'add')}>添加</Button>
 
                 </Modal>
             </div>
@@ -539,8 +549,7 @@ export default connect(
 )(IphoneC);
 
 //去除空格
-function Trim(str)
-{ 
- return str.replace(/(^\s*)|(\s*$)/g, ""); 
+function Trim(str) {
+    return str.replace(/(^\s*)|(\s*$)/g, "");
 }
 
