@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Input, Radio, Card, Tag, Divider, DatePicker, Select } from 'antd'
+import { Input, Radio, Card, Tag, Divider, DatePicker, Select , Checkbox} from 'antd'
 import moment from 'moment';
 
 
 const RadioGroup = Radio.Group
 const dateFormat = 'YYYY-MM-DD';
-const { Option } = Select
+const CheckboxGroup = Checkbox.Group;
 
 function mapStateToProps(state) {
     return {
@@ -60,6 +60,22 @@ class IphoneComponent extends Component {
                         </div>
                     )
                     break;
+                case 'check':
+                    let check = []
+                    el.data.forEach(e=>{
+                        check.push(e.name)
+                    })
+                    data.push(
+                        <div
+                            key={el.Key}
+                            onClick={this.Click.bind(this, index)}
+                            style={{ padding: 10, border: '1px dashed black', float: "left", width: '100%', textAlign: 'center' }}>
+                            <Tag>{el.Label}</Tag>
+                            <CheckboxGroup 
+                            options={check}   />
+                        </div>
+                    )
+                    break;
                 case 'lookup':
                     data.push(
                         <div
@@ -81,28 +97,28 @@ class IphoneComponent extends Component {
                     )
                     break;
                 case 'date':
-                        let dates = null
-                        let nowDate = new Date()
-                        let fullyear = nowDate.getFullYear()
-                        let month = nowDate.getMonth() + 1
-                        if( el.data.value === 0){
-                            dates = nowDate
-                        }else if( el.data.value === 1){
-                            dates = `${fullyear}-${month}-01`
-                        }else{
-                            let n = new Date()
-                            nowDate.setDate(1)
-                            nowDate.setMonth(n.getMonth()+1)
-                            nowDate.setDate(n.getDate()-1)
-                            dates = `${fullyear}-${month}-${nowDate.getDate()}`
-                        }
+                    let dates = null
+                    let nowDate = new Date()
+                    let fullyear = nowDate.getFullYear()
+                    let month = nowDate.getMonth() + 1
+                    if (el.data.value === 0) {
+                        dates = nowDate
+                    } else if (el.data.value === 1) {
+                        dates = `${fullyear}-${month}-01`
+                    } else {
+                        let n = new Date()
+                        nowDate.setDate(1)
+                        nowDate.setMonth(n.getMonth() + 1)
+                        nowDate.setDate(n.getDate() - 1)
+                        dates = `${fullyear}-${month}-${nowDate.getDate()}`
+                    }
                     data.push(
                         <div
                             onClick={this.Click.bind(this, index)}
                             key={el.Key}
                             style={{ padding: 10, border: '1px dashed black', float: "left", width: '50%' }}>
                             <span>{el.data.name}:</span>
-                            <DatePicker value={moment(dates, dateFormat)} disabled style={{width:'70%',marginLeft:10}}></DatePicker>
+                            <DatePicker value={moment(dates, dateFormat)} disabled style={{ width: '70%', marginLeft: 10 }}></DatePicker>
                         </div>
                     )
                     break;
@@ -112,7 +128,7 @@ class IphoneComponent extends Component {
                     //     select.push(<Option value={e.value} key={el.Key + e.value}>{e.name}</Option>)
                     // ))
                     console.log(el);
-                    
+
                     data.push(
                         <div
                             onClick={this.Click.bind(this, index)}

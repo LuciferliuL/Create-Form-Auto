@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Row, Col, Card, Button, Icon, Table, message, Form, Modal, Input, TreeSelect } from 'antd'
-import { InputData, RadioData, LookUp, Title, DateS, SelectS } from './Iphone.Data'
+import { InputData, RadioData, LookUp, Title, DateS, SelectS,CheckboxS } from './Iphone.Data'
 import IphoneComponent from './Iphone.Component'
 import IphoneC from './Iphone.C'
 import { RightMoveArr, LeftMoveArr } from './Func'
@@ -24,14 +24,15 @@ class Iphone extends Component {
             new LookUp(),
             new Title(),
             new DateS(),
-            new SelectS()
+            new SelectS(),
+            new CheckboxS()
         ],
         IphoneData: [],
         CurrentData: {},
         CurrentIndex: -1,
         IphoneTableData: {
             data: [],
-            columns: [{ title: '列名', dataIndex: '0', type: 'String', enum: []}],
+            columns: [{ title: '列名', dataIndex: '0', type: 'String', enum: [] }],
             title: '表格',
             type: 'table',
             SQL: ''
@@ -65,10 +66,10 @@ class Iphone extends Component {
                 tablebase = Bytes.TableData
                 console.log(tablebase);
 
-            }else{
+            } else {
                 tablebase = {
                     data: [],
-                    columns: [{ title: '列名', dataIndex: '0', type: 'String', enum: []}],
+                    columns: [{ title: '列名', dataIndex: '0', type: 'String', enum: [] }],
                     title: '表格',
                     type: 'table',
                     SQL: ''
@@ -88,7 +89,7 @@ class Iphone extends Component {
     }
     //添加组件
     addCard = (type) => {
-        // console.log(type);
+        console.log(new CheckboxS());
         switch (type) {
             case 'input':
                 let input = new InputData('ID', '', '')
@@ -124,6 +125,12 @@ class Iphone extends Component {
                 let selectS = new SelectS('ID', '', '')
                 this.setState((pre) => ({
                     IphoneData: [...pre.IphoneData, selectS]
+                }))
+                break;
+            case 'check':
+                let Check = new CheckboxS()
+                this.setState((pre) => ({
+                    IphoneData: [...pre.IphoneData, Check]
                 }))
                 break;
             default:
@@ -233,7 +240,7 @@ class Iphone extends Component {
                     //添加obj{}
                     if (e.type === 'lookup') {
                         e.data['obj'] = {}
-                    } else if (e.type === 'radio') {
+                    } else if (e.type === 'radio' || e.type === 'check') {
                         e.data.forEach(x => {
                             x['obj'] = {}
                         })
@@ -305,7 +312,7 @@ class Iphone extends Component {
                 CurrentIndex: -1,
                 IphoneTableData: {
                     data: [],
-                    columns: [{ title: '列名', dataIndex: '0', type: 'String', enum: []}],
+                    columns: [{ title: '列名', dataIndex: '0', type: 'String', enum: [] }],
                     title: '表格',
                     type: 'table',
                     SQL: ''

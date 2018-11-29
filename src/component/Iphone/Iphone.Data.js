@@ -89,6 +89,28 @@ export class SelectS extends BaseData {
     }
 }
 
+export class CheckboxS extends BaseData {
+    constructor(id, value, defaultValue, paramtype,
+        data = []
+        , sqlname = '', selectname = '', selectvalue = '', isObj = false) {
+        super(id, value, defaultValue, paramtype)
+        this.type = 'check'//组件类型
+        this.data = data
+        this.default = '0'
+        this.Label = '多选框'
+        this.sqlname = sqlname
+        this.selectname = selectname
+        this.selectvalue = selectvalue
+        this.isObj = isObj
+    }
+    add(e) {
+        this.data = [...this.data, e]
+    }
+    del(num) {
+        this.data = this.data.filter((e, i) => i !== num)
+    }
+}
+
 // GUID生产
 function guid() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {

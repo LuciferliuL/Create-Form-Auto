@@ -128,3 +128,13 @@ VALUE
     </View>
     </TouchableOpacity>
   </View>
+
+
+
+  {id:"check",type:"check",paramtype:"String",sqlname:"",
+  selectname:"",selectvalue:"",isObj:false,default:"0",
+  data:[
+        {name:"全部",value:"1",obj:{name:"1"},selected:true},
+        {name:"消费品",value:"2",obj:{name:"2"}},
+        {name:"可混开",value:"3",obj:{name:"3"}},
+     ]}

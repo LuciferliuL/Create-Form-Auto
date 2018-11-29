@@ -24,7 +24,7 @@ class IphoneC extends Component {
     componentWillReceiveProps(pre) {
         // console.log(pre);
         const { CurrentData } = pre
-        if (CurrentData.type === 'radio') {
+        if (CurrentData.type === 'radio'||CurrentData.type === 'check') {
             const { data } = CurrentData
             this.setState({
                 data: data,
@@ -288,7 +288,7 @@ class IphoneC extends Component {
     render() {
         const { CurrentData } = this.props
         const { data, listColumns, Type, POPIndex } = this.state
-        console.log(data[POPIndex]);
+        // console.log(data[POPIndex]);
         let CurrentInput = []
         const formItemLayout = {
             labelCol: {
