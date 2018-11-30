@@ -58,7 +58,8 @@ class USER extends Component {
             <Spin spinning={loading} size='large'>
                 <Layout>
                     <Sider
-                        style={{ overflow: 'auto', height: '100vh', left: 0, backgroundColor: '#fafafa' }}  >
+                        style={{ overflow: 'auto', height: '100vh', left: 0}}
+                          >
                         <TreeUser dataChange={this.dataChange}></TreeUser>
                     </Sider>
                     <Layout >

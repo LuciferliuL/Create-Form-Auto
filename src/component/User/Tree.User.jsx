@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Tree, message } from 'antd';
+import { Tree, message, Menu, Icon } from 'antd';
 import { connect } from 'react-redux';
 import { fugai, tableFugai } from '../stylist/action/Stylist.action'
 import { updataValues } from '../PublicComponent/lookup/action/lookup.action'
@@ -8,6 +8,7 @@ import { API } from '../../lib/API/check.API'
 import { POST$, treeData } from '../../lib/MATH/math'
 import { withRouter } from 'react-router-dom'
 import { addTabs, delTabs, addTable, delTable } from './User.action'
+import SubMenu from 'antd/lib/menu/SubMenu';
 
 class TreeUser extends Component {
     state = {
@@ -37,30 +38,81 @@ class TreeUser extends Component {
             })
             let name = record.node.props.Name
             const { TabsData } = this.props
-            
+
             let F = TabsData.find(e => e.Name === name)
             // console.log(F);
-            if(F === undefined){
+            if (F === undefined) {
                 this.props.addTabs({ Source: data, Name: name })
                 this.props.upData(data.FormData)
                 // this.props.addTable(data.TableData)
                 this.props.tableFugai(data.TableData)
                 this.props.dataChange({ Source: data, Name: name })
-            }else{
+            } else {
                 message.warn('已经选择了一个同样的表格')
             }
         }
     }
+    //递归插入menu
+    menu = (data, list = []) => {
+        // console.log(data.children);
+
+        if (data.children && data.children.length > 0) {
+            data.forEach(data => {
+                list.push(
+                       <SubMenu key={Math.random()} title={<span>{data.Name}</span>}>
+                            {this.menu(data.children)}
+                        </SubMenu>
+                    )
+            })
+            
+        } else {
+            console.log(data);
+            data.forEach( data => {
+                list.push(<Menu.Item key={Math.random()}>{data.Name}</Menu.Item>)
+            })
+        }
+        return list
+    }
     render() {
         const { treeData } = this.state
+        console.log(treeData);
+        let M = []
+        treeData.forEach((e, index) => {
+            // let M_ = []
+            // e.children.forEach((k, i) => {
+            //     M_.push(
+            //         <Menu.Item
+            //             key={i}>
+            //             <span>
+            //                 {k.Name}
+            //             </span>
+            //         </Menu.Item>
+            //     )
+            // })
+            M.push(
+                <SubMenu key={index + 'submenu'} title={<span>{e.Name}</span>}>
+                    {this.menu(e.children)}
+                </SubMenu>
+            )
+        })
+
+
 
         return (
             treeData.length > 0 ?
-                <Tree
-                    style={{ width: 300, color: 'white' }}
-                    treeData={treeData}
-                    onSelect={this.onSelect}
-                />
+                // <Tree
+                //     style={{ width: 300, color: 'white' }}
+                //     treeData={treeData}
+                //     onSelect={this.onSelect}
+                // />
+                <Menu
+                    mode="inline"
+                    theme="dark">
+                    {M}
+                </Menu>
+
+
+
                 : null
         );
     }
