@@ -7,6 +7,7 @@ import { upDataCurrentDataSource } from '../PublicComponent/lookup/action/lookup
 import { tableFugai } from '../stylist/action/Stylist.action'
 import { API } from '../../lib/API/check.API'
 import { POST$ } from '../../lib/MATH/math'
+import { Object } from 'es6-shim';
 
 
 const InputGroup = Input.Group
@@ -17,12 +18,46 @@ class Drawercomponent extends Component {
     };
     onSure = (e) => {
         // console.log(this.props.currentAttr.key.slice(0,9));
-        
+
         //修改的结果在这里
-        if (this.props.currentAttr.key.slice(0,9) === 'tablesKey') {
+        if (this.props.currentAttr.key.slice(0, 9) === 'tablesKey') {
 
             // console.log(1);
-            this.props.tableedit(this.props.currentAttr)
+
+            console.log(this.props.currentAttr);
+            const { currentAttr } = this.props
+            let columns = currentAttr.columns
+            if (columns[0].title === '') {
+
+                let abbr = {};
+                let body = {
+                    "Sql": this.props.currentAttr.SQL,
+                    "Param": JSON.stringify(abbr),
+                    "PageIndex": 1,
+                    "PageSize": 100,
+                    isPage: true
+                };
+                POST$(API('GetSqlColumns').http, body, (res) => {
+                    // console.log(res);
+                    let data = []
+                    res.forEach(e => {
+                        let key = {
+                            title: e.ColumnName,
+                            dataIndex: e.ColumnName,
+                            width: 200,
+                        }
+                        data.push(key)
+                    })
+                    this.props.currentAttr.columns = data
+                    this.props.tableedit(this.props.currentAttr)
+                });
+            } else {
+                this.props.tableedit(this.props.currentAttr)
+            }
+
+
+
+
             // this.props.tableFugai(this.props.currentAttr);
         } else if (this.props.currentAttr.type === 'LookUp' && this.props.currentAttr.dataSource.length === 0) {
             let abbr = {};
@@ -80,6 +115,8 @@ class Drawercomponent extends Component {
     }
     SQLChange = (e) => {
         this.props.sqlValueChange(e.target.value);
+        console.log(e);
+
     }
     render() {
         let content = []
