@@ -29,7 +29,7 @@ class TreeUser extends Component {
     }
 
     onSelect = (keys, record) => {
-        // console.log(record);
+        console.log(record);
 
         if (!record.node.props.IsCategory) {
             let data = JSON.parse(record.node.props.Bytes)
@@ -52,43 +52,52 @@ class TreeUser extends Component {
             }
         }
     }
+    menuClick = (record,e) => {
+        console.log(record);
+        if (!record.IsCategory) {
+            let data = JSON.parse(record.Bytes)
+            data.FormData.forEach(e => {
+                e.isUserMove = false
+            })
+            let name = record.Name
+            const { TabsData } = this.props
+
+            let F = TabsData.find(e => e.Name === name)
+            // console.log(F);
+            if (F === undefined) {
+                this.props.addTabs({ Source: data, Name: name })
+                this.props.upData(data.FormData)
+                // this.props.addTable(data.TableData)
+                this.props.tableFugai(data.TableData)
+                this.props.dataChange({ Source: data, Name: name })
+            } else {
+                message.warn('已经选择了一个同样的表格')
+            }
+        }
+    }
     //递归插入menu
     menu = (data, list = []) => {
         // console.log(data.children);
-
-        if (data.children && data.children.length > 0) {
-            data.forEach(data => {
+        data.forEach(data => {
+            if (data.children && data.children.length > 0) {
                 list.push(
-                       <SubMenu key={Math.random()} title={<span>{data.Name}</span>}>
-                            {this.menu(data.children)}
-                        </SubMenu>
-                    )
-            })
-            
-        } else {
-            console.log(data);
-            data.forEach( data => {
-                list.push(<Menu.Item key={Math.random()}>{data.Name}</Menu.Item>)
-            })
-        }
+                    <SubMenu key={Math.random()} title={<span>{data.Name}</span>}>
+                        {this.menu(data.children)}
+                    </SubMenu>
+                )
+            } else {
+                // console.log(data);
+                list.push(<Menu.Item key={Math.random()} onClick={this.menuClick.bind(this,data)}>{data.Name}</Menu.Item>)
+            }
+          
+        })
         return list
     }
     render() {
         const { treeData } = this.state
-        console.log(treeData);
+        // console.log(treeData);
         let M = []
         treeData.forEach((e, index) => {
-            // let M_ = []
-            // e.children.forEach((k, i) => {
-            //     M_.push(
-            //         <Menu.Item
-            //             key={i}>
-            //             <span>
-            //                 {k.Name}
-            //             </span>
-            //         </Menu.Item>
-            //     )
-            // })
             M.push(
                 <SubMenu key={index + 'submenu'} title={<span>{e.Name}</span>}>
                     {this.menu(e.children)}

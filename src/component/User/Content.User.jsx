@@ -14,7 +14,7 @@ import { tAddDown, tReduceUp } from '../PublicComponent/lookup/action/lookup.act
 const TabPane = Tabs.TabPane;
 const ButtonGroup = Button.Group;
 function mapStateToProps(State) {
-    console.log(State);
+    // console.log(State);
 
     return {
         data: State.UpdataFormData,
@@ -45,7 +45,7 @@ class ContentUser extends Component {
     }
 
     componentWillReceiveProps(pre) {
-        console.log(pre);
+        // console.log(pre);
         const {currentTabsIndex} = this.state
         document.onkeydown = function (e) {
             var keyCode = e.keyCode || e.which || e.charCode;
