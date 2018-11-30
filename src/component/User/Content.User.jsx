@@ -33,7 +33,7 @@ class ContentUser extends Component {
         totalpage: 0,
         flag: true,
         current: 1,
-        currentTabsIndex:0
+        currentTabsIndex: 0
     }
 
     myRef = React.createRef();
@@ -46,7 +46,7 @@ class ContentUser extends Component {
 
     componentWillReceiveProps(pre) {
         // console.log(pre);
-        const {currentTabsIndex} = this.state
+        const { currentTabsIndex } = this.state
         document.onkeydown = function (e) {
             var keyCode = e.keyCode || e.which || e.charCode;
             var altKey = e.altKey;
@@ -400,7 +400,7 @@ class ContentUser extends Component {
     }
     SQLChecked = (page) => {
         const { pane } = this.props;
-        const {currentTabsIndex} = this.state
+        const { currentTabsIndex } = this.state
         //input获取焦点
         var oInput = document.getElementById("input");
         oInput.focus();
@@ -581,7 +581,7 @@ class ContentUser extends Component {
     callback = (key) => {
         console.log(key);
         this.setState({
-            currentTabsIndex:Number(key)
+            currentTabsIndex: Number(key)
         })
     }
     render() {
@@ -619,7 +619,14 @@ class ContentUser extends Component {
         })
 
         //多table
-        let tableTabs = []
+        let tableTabs = [];
+
+        if (pane.TableData.length == undefined) {
+            var sss = pane.TableData;
+            pane.TableData = [];
+            pane.TableData.push(sss);
+        }
+
         pane.TableData.forEach((e, i) => {
             tableTabs.push(
                 <TabPane tab={e.label} key={i}>
@@ -671,7 +678,7 @@ class ContentUser extends Component {
                         type="text"
                         id='input'
                         onBlur={this.ONBlur}
-                     style={{ display: 'none' }} 
+                        style={{ display: 'none' }}
                     />
 
                     <Tabs defaultActiveKey="0" onChange={this.callback}>
