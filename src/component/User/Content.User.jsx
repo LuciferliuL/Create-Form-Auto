@@ -621,7 +621,8 @@ class ContentUser extends Component {
         //多table
         let tableTabs = [];
 
-        if (pane.TableData.length == undefined) {
+        //数组，
+        if (!Array.isArray(pane.TableData)) {
             var sss = pane.TableData;
             pane.TableData = [];
             pane.TableData.push(sss);
