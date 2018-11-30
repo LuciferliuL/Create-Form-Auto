@@ -41,6 +41,11 @@ export const API = (key, branchtype = '') => {
                 method: 'POST',
                 http: (branchtype === 'zda' ? global.cfg.centerQueryAPI : global.cfg.branchQueryAPI) + 'api/dataquery/GetDataBySqlName'
             }
+        case 'GetSqlColumns'://根据SQL得到列
+            return {
+                method: "POST",
+                http: global.cfg.centerQueryAPI + 'api/dataquery/GetColumnsBySqlScript'
+            }
         case 'CheckCurrentId':
             return {
                 method: "POST",
