@@ -117,8 +117,8 @@ class TABLECOMPONENT extends Component {
         }
     }
     render() {
-        const { colHeight, data, columnskeys } = this.state
-        const { columns, pageSize,tr } = this.props.PublicData
+        const { data, columnskeys } = this.state
+        const { tr } = this.props.PublicData
         let widths = 0
         let columnsData = []
         let tbodyData = []
@@ -194,30 +194,34 @@ class TABLECOMPONENT extends Component {
         return (
             <div style={{ marginRight: 0, overflowX: 'auto', width: this.props.widths + 40 }}>
                 <table>
-                    <tr>
-                        <td>
-                            <table style={{ tableLayout: "fixed", marginRight: 17, width: this.props.widths + 20, zIndex: 999, background: '#0e7cff4f' }}>
-                                <thead >
-                                    <tr>
-                                        {columnsData}
-                                    </tr>
-                                </thead>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div
-                                style={{ height: this.props.heights - 40, overflowY: 'auto' }}>
-                                <table style={{ tableLayout: "fixed", width: this.props.widths + 20 }}>
-                                    <tbody>
-                                        {tbodyData}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </td>
+                    <tbody>
 
-                    </tr>
+                        <tr>
+                            <td>
+                                <table style={{ tableLayout: "fixed", marginRight: 17, width: this.props.widths + 20, zIndex: 999, background: '#0e7cff4f' }}>
+                                    <thead >
+                                        <tr>
+                                            {columnsData}
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div
+                                    style={{ height: this.props.heights - 40, overflowY: 'auto' }}>
+                                    <table style={{ tableLayout: "fixed", width: this.props.widths + 20 }}>
+                                        <tbody>
+                                            {tbodyData}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </td>
+
+                        </tr>
+
+                    </tbody>
                 </table>
             </div>
         )
@@ -225,7 +229,7 @@ class TABLECOMPONENT extends Component {
 }
 const mapStateToProps = (state) => {
     console.log(state);
-    
+
     return {
         tableSource: state.tableSource
     }

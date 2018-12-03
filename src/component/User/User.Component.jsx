@@ -86,7 +86,7 @@ class USER extends Component {
                                         removedata={this.removedata}
                                         dataContent={dataContent}>
                                     </Tags>
-                                    : <h3>欢迎使用通用表单查询管理系统</h3>
+                                    : <h3 style={{ paddingLeft: '5px' }}>欢迎使用通用表单查询管理系统</h3>
                             }
 
                         </Content>
