@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Form, Pagination, Button, Icon, Tabs } from 'antd'
+import { Card, Form, Pagination, Button, Icon, Tabs, Spin } from 'antd'
 import { connect } from 'react-redux';
 import { formUpdataFromCurrent } from '../SliderRIght/action/Right.action'
 import PublicComponent from '../PublicComponent/Public.Component'
@@ -33,7 +33,8 @@ class ContentUser extends Component {
         totalpage: 0,
         flag: true,
         current: 1,
-        currentTabsIndex: 0
+        currentTabsIndex: 0,
+        loading: false
     }
 
     myRef = React.createRef();
@@ -400,7 +401,10 @@ class ContentUser extends Component {
     }
     SQLChecked = (page) => {
         const { pane } = this.props;
-        const { currentTabsIndex } = this.state
+        const { currentTabsIndex, loading } = this.state
+        this.setState({
+            loading:true
+        })
         //input获取焦点
         var oInput = document.getElementById("input");
         oInput.focus();
@@ -410,7 +414,7 @@ class ContentUser extends Component {
         let hflag = 0
         let height_ = 40
 
-        this.props.Loading()
+        // this.props.Loading()
         let valueList = {}
         let SQL = pane.TableData[currentTabsIndex].SQL;
 
@@ -528,12 +532,16 @@ class ContentUser extends Component {
 
         Promise.race([post, time])
             .then((result) => {
-                this.props.hidLoading()
+                this.setState({
+                    loading:false
+                })
             })
             .catch((err) => {
                 //debugger
                 //message.error('获取数据超时')
-                this.props.hidLoading()
+                this.setState({
+                    loading:false
+                })
             })
     }
     guanbi = () => {
@@ -649,44 +657,46 @@ class ContentUser extends Component {
         })
         // if (pane.FormData.length > 0) {
         return (
-            <Card
-                ref={this.myRef}
-                style={{ minHeight: h + 'px', borderTop: '1px solid #eae7e7' }}
-                bodyStyle={{ padding: 5 }}  >
+            <Spin spinning={this.state.loading}>
+                <Card
+                    ref={this.myRef}
+                    style={{ minHeight: h + 'px', borderTop: '1px solid #eae7e7' }}
+                    bodyStyle={{ padding: 5 }}  >
 
-                <div style={{ float: 'left', width: '100%' }}>
-                    <ButtonGroup>
-                        <Button onClick={this.SQLChecked.bind(this, 1)}>
-                            <Icon type="security-scan" theme="outlined" />
-                            查询 ALT+Q
+                    <div style={{ float: 'left', width: '100%' }}>
+                        <ButtonGroup>
+                            <Button onClick={this.SQLChecked.bind(this, 1)}>
+                                <Icon type="security-scan" theme="outlined" />
+                                查询 ALT+Q
                                     </Button>
-                        <Button onClick={this.guanbi.bind(this)} style={{ display: 'none' }}>
-                            <Icon type="export" theme="outlined" />
-                            关闭 ALT+C
+                            <Button onClick={this.guanbi.bind(this)} style={{ display: 'none' }}>
+                                <Icon type="export" theme="outlined" />
+                                关闭 ALT+C
                                     </Button>
-                        <Button onClick={this.DAOCHU.bind(this)}>
-                            <Icon type="usb" theme="outlined" />
-                            导出 ALT+E
+                            <Button onClick={this.DAOCHU.bind(this)}>
+                                <Icon type="usb" theme="outlined" />
+                                导出 ALT+E
                                     </Button>
-                    </ButtonGroup>
-                </div>
-                <Form
-                    style={{ padding: '5px', marginTop: '40px', position: 'relative' }}>
-                    {Dr}
-                </Form>
-                <div style={{ position: 'relative', top: (hflag + 40) + 'px', height: (h - hflag) * 0.8 + 'px' }}>
-                    <input
-                        type="text"
-                        id='input'
-                        onBlur={this.ONBlur}
-                        style={{ display: 'none' }}
-                    />
+                        </ButtonGroup>
+                    </div>
+                    <Form
+                        style={{ padding: '5px', marginTop: '40px', position: 'relative' }}>
+                        {Dr}
+                    </Form>
+                    <div style={{ position: 'relative', top: (hflag + 40) + 'px', height: (h - hflag) * 0.8 + 'px' }}>
+                        <input
+                            type="text"
+                            id='input'
+                            onBlur={this.ONBlur}
+                            style={{ display: 'none' }}
+                        />
 
-                    <Tabs defaultActiveKey="0" onChange={this.callback}>
-                        {tableTabs}
-                    </Tabs>
-                </div>
-            </Card >
+                        <Tabs defaultActiveKey="0" onChange={this.callback}>
+                            {tableTabs}
+                        </Tabs>
+                    </div>
+                </Card >
+            </Spin>
         )
         // } else {
         //     return (

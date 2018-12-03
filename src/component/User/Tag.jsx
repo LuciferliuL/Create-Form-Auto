@@ -16,6 +16,7 @@ class Tags extends Component {
         this.state = {
             activeKey: '0',
             panes,
+            loading:false
         };
     }
     componentDidMount() {
@@ -72,30 +73,32 @@ class Tags extends Component {
         Object.assign(data, e)
 
     }
+ 
     render() {
         // console.log(this.props.TabsData);
 
         return (
-            <Tabs
-                hideAdd
-                onChange={this.onChange}
-                activeKey={this.state.activeKey}
-                type="editable-card"
-                onEdit={this.onEdit}
-            >
-                {this.props.TabsData.map(
-                    pane =>
-                        <TabPane tab={pane.Name} key={pane.Name}>
-                            <ContentUser
-                                pane={pane.Source}
-                                Loading={this.props.Loading}
-                                hidLoading={this.props.hidLoading}
-                                ChangeOn={this.ChangeOn.bind(this)}
-                            ></ContentUser>
-                        </TabPane>
-                )}
-            </Tabs>
-
+        
+                <Tabs
+                    hideAdd
+                    onChange={this.onChange}
+                    activeKey={this.state.activeKey}
+                    type="editable-card"
+                    onEdit={this.onEdit}
+                >
+                    {this.props.TabsData.map(
+                        pane =>
+                            <TabPane tab={pane.Name} key={pane.Name}>
+                                <ContentUser
+                                    pane={pane.Source}
+                                    Loading={this.props.Loading}
+                
+                                    ChangeOn={this.ChangeOn.bind(this)}
+                                ></ContentUser>
+                            </TabPane>
+                    )}
+                </Tabs>
+     
         );
     }
 }
