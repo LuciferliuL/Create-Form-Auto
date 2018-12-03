@@ -51,6 +51,20 @@ class USER extends Component {
         // console.log(this.state.dataContent);
     }
 
+    removedata = (ss) => {
+        //
+        console.log(ss);
+
+        const { dataContent } = this.state;
+        let _sss = dataContent.filter(e => e.Name !== ss);
+        this.setState({
+            dataContent: _sss
+        }, () => {
+            console.log(_sss);
+        });
+
+    }
+
     render() {
         const { user, loading, dataContent } = this.state
 
@@ -58,8 +72,8 @@ class USER extends Component {
             <Spin spinning={loading} size='large'>
                 <Layout>
                     <Sider
-                        style={{ overflow: 'auto', height: '100vh', left: 0}}
-                          >
+                        style={{ overflow: 'auto', height: '100vh', left: 0 }}
+                    >
                         <TreeUser dataChange={this.dataChange}></TreeUser>
                     </Sider>
                     <Layout >
@@ -71,6 +85,7 @@ class USER extends Component {
                                     <Tags
                                         Loading={this.Loading.bind(this)}
                                         hidLoading={this.hidLoading.bind(this)}
+                                        removedata={this.removedata}
                                         dataContent={dataContent}>
                                     </Tags>
                                     : <h3>欢迎使用通用表单查询管理系统</h3>

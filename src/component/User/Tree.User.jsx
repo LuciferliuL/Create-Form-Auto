@@ -48,11 +48,12 @@ class TreeUser extends Component {
                 this.props.tableFugai(data.TableData)
                 this.props.dataChange({ Source: data, Name: name })
             } else {
-                message.warn('已经选择了一个同样的表格')
+                //message.warn('已经选择了一个同样的表格')
+                //this.props.dataChange({ Source: data, Name: name });
             }
         }
     }
-    menuClick = (record,e) => {
+    menuClick = (record, e) => {
         console.log(record);
         if (!record.IsCategory) {
             let data = JSON.parse(record.Bytes)
@@ -71,7 +72,8 @@ class TreeUser extends Component {
                 this.props.tableFugai(data.TableData)
                 this.props.dataChange({ Source: data, Name: name })
             } else {
-                message.warn('已经选择了一个同样的表格')
+                //message.warn('已经选择了一个同样的表格')
+                this.props.dataChange({ Source: data, Name: name });
             }
         }
     }
@@ -87,9 +89,9 @@ class TreeUser extends Component {
                 )
             } else {
                 // console.log(data);
-                list.push(<Menu.Item key={Math.random()} onClick={this.menuClick.bind(this,data)}>{data.Name}</Menu.Item>)
+                list.push(<Menu.Item key={Math.random()} onClick={this.menuClick.bind(this, data)}>{data.Name}</Menu.Item>)
             }
-          
+
         })
         return list
     }
