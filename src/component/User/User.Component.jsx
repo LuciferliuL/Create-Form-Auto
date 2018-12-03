@@ -52,15 +52,13 @@ class USER extends Component {
     }
 
     removedata = (ss) => {
-        //
-        console.log(ss);
+        //删除
+        // console.log(ss);
 
         const { dataContent } = this.state;
         let _sss = dataContent.filter(e => e.Name !== ss);
         this.setState({
             dataContent: _sss
-        }, () => {
-            console.log(_sss);
         });
 
     }
