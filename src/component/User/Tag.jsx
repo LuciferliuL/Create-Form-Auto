@@ -4,7 +4,7 @@ import { Tabs } from 'antd'
 import { addTabs, delTabs, addTable, delTable, copyThis } from './User.action'
 import ContentUser from './Content.User'
 import { Object } from 'es6-shim';
-import { fugai } from '../stylist/action/Stylist.action'
+import { fugai,tableFugai } from '../stylist/action/Stylist.action'
 
 const TabPane = Tabs.TabPane;
 
@@ -16,7 +16,8 @@ class Tags extends Component {
         this.state = {
             activeKey: '0',
             panes,
-            loading:false
+            loading:false,
+            CurrentIndex:0
         };
     }
     componentDidMount() {
@@ -34,12 +35,19 @@ class Tags extends Component {
 
     }
     onChange = (activeKey) => {
-        this.setState({ activeKey });
+        this.setState({ activeKey ,   CurrentIndex:0});
+
         // console.log(activeKey);
         //更新formdata
         this.props.upData(this.props.TabsData.find(e => e.Name === activeKey).Source.FormData)
+        this.props.tableFugai(this.props.TabsData.find(e => e.Name === activeKey).Source.TableData)
     }
-
+    //改变tableTab的选中下表
+    currentTableTab = (key) => {
+        this.setState({
+            CurrentIndex:key
+        })
+    }
     onEdit = (targetKey, action) => {
         this[action](targetKey);
     }
@@ -92,8 +100,9 @@ class Tags extends Component {
                                 <ContentUser
                                     pane={pane.Source}
                                     Loading={this.props.Loading}
-                
+                                    currentTableTab={this.currentTableTab}
                                     ChangeOn={this.ChangeOn.bind(this)}
+                                    CurrentIndex={this.state.CurrentIndex}
                                 ></ContentUser>
                             </TabPane>
                     )}
@@ -131,6 +140,9 @@ const mapDispatchProps = (dispatch) => {
         upData: (k) => {
             dispatch(fugai(k))
         },
+        tableFugai:(k) => {
+            dispatch(tableFugai(k))
+        }
     }
 }
 

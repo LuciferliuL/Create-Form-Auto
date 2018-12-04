@@ -20,7 +20,7 @@ class TABLECOMPONENT extends Component {
 
     componentWillReceiveProps(pre) {
 
-        console.log(pre);
+        // console.log(pre);
         let row = []
         pre.PublicData.columns.forEach(e => {
             row.push(e)
@@ -228,7 +228,7 @@ class TABLECOMPONENT extends Component {
     }
 }
 const mapStateToProps = (state) => {
-    console.log(state);
+    // console.log(state);
 
     return {
         tableSource: state.tableSource

@@ -13,6 +13,7 @@ import { tAddDown, tReduceUp } from '../PublicComponent/lookup/action/lookup.act
 
 const TabPane = Tabs.TabPane;
 const ButtonGroup = Button.Group;
+// let  indexCurrentContst = 0
 function mapStateToProps(State) {
     // console.log(State);
 
@@ -44,9 +45,13 @@ class ContentUser extends Component {
             domWidth: dom
         });
     }
-
+ 
     componentWillReceiveProps(pre) {
-        // console.log(pre);
+        // console.log(indexCurrentContst);
+        console.log(pre.CurrentIndex);
+        // console.log(this.props);
+        let Prop = this.props
+        let returnData = {}
         const { currentTabsIndex } = this.state
         document.onkeydown = function (e) {
             var keyCode = e.keyCode || e.which || e.charCode;
@@ -57,14 +62,17 @@ class ContentUser extends Component {
                 var oInput = document.getElementById("input");
                 oInput.focus();
                 window.addEventListener('keyup', this.handleKeyDown)
-                pre.Loading()
+                
                 let valueList = {}
-                let SQL = pre.tableSource[this.state.currentTabsIndex].SQL
+                // console.log(pre.tableSource);
+                let SQL = pre.tableSource[pre.CurrentIndex].SQL
+                
+                
                 pre.data.map(e => {
                     if (e.type !== 'Table' && e.type !== 'Group') {
                         if (e.type === 'LookUp') {
                             valueList[e.id] = e.values[e.upKey] === undefined ? '' : e.values[e.upKey];
-                            console.log(valueList);
+                            // console.log(valueList);
 
                         } else if (e.type === 'Input' && e.typePoint === 0) {
                             valueList[e.id] = e.defaultValue === undefined ? '' : e.defaultValue;
@@ -152,36 +160,22 @@ class ContentUser extends Component {
                 }
                 // console.log(body);
                 POST$(API('SQL', 'branch').http, body, (res) => {
-                    // console.log(res);
-
+                   
+                    // console.log(this.props);
+                    // console.log('post');
+                    returnData = res
                     if (res.Results) {
-                        pre.pane.TableData[currentTabsIndex].dataSource = res.Results
-                        pre.pane.TableData[currentTabsIndex].tr = 0
-                        pre.pane.TableData[currentTabsIndex].pageSize = res.RecordCount
-                        pre.tableTr0(0)
+                        pre.tableSource[pre.CurrentIndex].dataSource = res.Results
+                        pre.tableSource[pre.CurrentIndex].tr = 0
+                        pre.tableSource[pre.CurrentIndex].pageSize = res.RecordCount
+                        Prop.tableTr0(0)
+                        console.log(pre.CurrentIndex);
+                        
                         // resolve(true)
-                        pre.hidLoading()
-                    } else {
-                        // reject(false)
-                        pre.hidLoading()
-                    }
+                    } 
                 })
-                // })
-                // let time = new Promise((resolve, reject) => {
-                //     setTimeout(() => {
-                //         reject(false)
-                //     }, 10000);
-                // })
-
-                // Promise.race([post, time])
-                //     .then((result) => {
-                //         pre.hidLoading()
-                //     })
-                //     .catch((err) => {
-                //         //debugger
-                //         //message.error('获取数据超时')
-                //         pre.hidLoading()
-                //     })
+               console.log(returnData);
+               
             } else if (altKey && keyCode === 82) {
 
             } else if (altKey && keyCode === 67) {
@@ -401,7 +395,7 @@ class ContentUser extends Component {
     }
     SQLChecked = (page) => {
         const { pane } = this.props;
-        const { currentTabsIndex, loading } = this.state
+        const { currentTabsIndex } = this.state
         this.setState({
             loading:true
         })
@@ -550,7 +544,7 @@ class ContentUser extends Component {
     handleKeyDown = (e) => {
         const { dataSource } = this.props.tableSource
         // console.log(e.keyCode);
-        console.log(this.props.pane);
+        console.log(this.props.tableSource);
 
         switch (e.keyCode) {
             case 40://下
@@ -591,6 +585,8 @@ class ContentUser extends Component {
         this.setState({
             currentTabsIndex: Number(key)
         })
+        // indexCurrentContst = Number(key)
+        this.props.currentTableTab(Number(key))
     }
     render() {
 
@@ -655,7 +651,6 @@ class ContentUser extends Component {
                 </TabPane>
             )
         })
-        // if (pane.FormData.length > 0) {
         return (
             <Spin spinning={this.state.loading}>
                 <Card
@@ -698,15 +693,6 @@ class ContentUser extends Component {
                 </Card >
             </Spin>
         )
-        // } else {
-        //     return (
-        //         <Card
-        //             ref={this.myRef}
-        //             style={{ minHeight: h + 'px', borderTop: '1px solid #eae7e7' }}>
-        //             欢迎使用通用表单查询管理系统
-        //         </Card>
-        //     )
-        // }
     }
 }
 
@@ -733,12 +719,12 @@ const mapDispatchProps = (dispatch) => {
         tReduceUp: (k, i) => {
             dispatch(tReduceUp(k, i))
         },
+       
     }
 }
 export default connect(
     mapStateToProps, mapDispatchProps
 )(Form.create({
     mapPropsToFields(props) {
-        // console.log(props);
     }
 })(ContentUser));

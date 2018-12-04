@@ -167,7 +167,7 @@ export const tableSource = (state = [table], action) => {
                 ...state, dataSource: action.initial
             }
         case TABLE_FUGAI:
-            return { ...state, ...action['initial'] }
+            return [  ...action['initial'] ]
         case T_ADD_DOWN:
             return { ...state, tr: action.current + action.step }
         case T_REDUCE_UP:
