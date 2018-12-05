@@ -523,7 +523,7 @@ class ContentUser extends Component {
         let time = new Promise((resolve, reject) => {
             setTimeout(() => {
                 reject(false)
-            }, 5000);
+            }, 8000);
         })
 
         Promise.race([post, time])
