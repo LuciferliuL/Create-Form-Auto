@@ -173,10 +173,15 @@ class TABLECOMPONENT extends Component {
             data.forEach((e, i) => {
                 let tbodytd = []
                 columnskeys.forEach((key, index) => {
+                    let datacontent = e[key.dataIndex];
+                    if (isNaN(datacontent) && !isNaN(Date.parse(datacontent))) {
+                        datacontent = datacontent.substr(0, 10);//取短日期；
+                    }
+
                     tbodytd.push(
                         <td key={e.indexs + index}
                             style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', border: '1px solid #ddd', width: key.width }}>
-                            <span >  {e[key.dataIndex]}</span>
+                            <span >  {datacontent}</span>
 
                         </td>
                     )
