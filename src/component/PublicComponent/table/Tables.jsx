@@ -118,11 +118,14 @@ class TABLECOMPONENT extends Component {
     }
     render() {
         const { data, columnskeys } = this.state
-        const { tr } = this.props.PublicData
+        const { activetr } = this.props;
+
+        console.log(activetr);
+
         let widths = 0
         let columnsData = []
         let tbodyData = []
-        // console.log(columnskeys);
+
 
         if (columnskeys) {
             columnskeys.map((e, i) => {
@@ -187,7 +190,7 @@ class TABLECOMPONENT extends Component {
                     )
                 })
                 tbodyData.push(
-                    <tr key={e.indexs + 'tr'} className={tr === i ? 'black' : ''}>
+                    <tr key={e.indexs + 'tr'} className={activetr === i ? 'black' : ''}>
                         {tbodytd}
                     </tr>
                 )

@@ -35,7 +35,8 @@ class ContentUser extends Component {
         flag: true,
         current: 1,
         currentTabsIndex: 0,
-        loading: false
+        loading: false,
+        activetr: 0
     }
 
     myRef = React.createRef();
@@ -52,7 +53,13 @@ class ContentUser extends Component {
         // console.log(pre);
         let Prop = this.props
         let returnData = {}
-        const { currentTabsIndex } = this.state
+        const { currentTabsIndex } = this.state;
+
+        console.log(pre.tableSource[pre.CurrentIndex]);
+        this.setState({
+            activetr: pre.tableSource[pre.CurrentIndex].tr
+        });
+
         document.onkeydown = function (e) {
             var keyCode = e.keyCode || e.which || e.charCode;
             var altKey = e.altKey;
@@ -548,16 +555,24 @@ class ContentUser extends Component {
         console.log(this.props);
         const { pane } = this.props;
         const { currentTabsIndex } = this.state
+        const { activetr } = this.state;
+
 
         switch (e.keyCode) {
             case 40://下
                 if (pane.TableData[currentTabsIndex].tr < pane.TableData[currentTabsIndex].dataSource.length - 1) {
                     pane.TableData[currentTabsIndex].tr = pane.TableData[currentTabsIndex].tr + 1;
+                    this.setState({
+                        activetr: activetr + 1
+                    });
                 }
                 break;
             case 38://上
                 if (pane.TableData[currentTabsIndex].tr > 0) {
                     this.props.tReduceUp(pane.TableData[currentTabsIndex].tr, 1)
+                    this.setState({
+                        activetr: activetr - 1
+                    });
                 }
                 break;
             case 37:
@@ -596,7 +611,8 @@ class ContentUser extends Component {
     }
     render() {
 
-        // console.log(this.props.pane);
+        const { activetr } = this.state;
+        console.log(activetr);
 
         var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.85;
         const { pane } = this.props;
@@ -643,6 +659,7 @@ class ContentUser extends Component {
                 <TabPane tab={e.label} key={i}>
                     <TABLECOMPONENT
                         PublicData={e}
+                        activetr={activetr}
                         style={{ marginTop: '40px' }}
                         heights={(h - hflag) * 0.7}
                         widths={this.state.domWidth}>
