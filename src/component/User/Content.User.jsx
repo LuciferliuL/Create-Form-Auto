@@ -48,15 +48,15 @@ class ContentUser extends Component {
  
     componentWillReceiveProps(pre) {
         // console.log(indexCurrentContst);
-        console.log(pre.CurrentIndex);
-        // console.log(this.props);
+        // console.log(pre.CurrentIndex);
+        // console.log(pre);
         let Prop = this.props
         let returnData = {}
         const { currentTabsIndex } = this.state
         document.onkeydown = function (e) {
             var keyCode = e.keyCode || e.which || e.charCode;
             var altKey = e.altKey;
-            // console.log(e.keyCode);
+            
 
             if (altKey && keyCode === 81) {
                 var oInput = document.getElementById("input");
@@ -285,9 +285,11 @@ class ContentUser extends Component {
                 console.log(38);
 
             } else {
-                e.preventDefault();
+                // console.log(e.keyCode);
+                // e.preventDefault();
                 return true;
             }
+            // e.preventDefault();
             return false;
         }
     }

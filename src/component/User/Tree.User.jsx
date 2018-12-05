@@ -29,7 +29,7 @@ class TreeUser extends Component {
     }
 
     onSelect = (keys, record) => {
-        console.log(record);
+        // console.log(record);
 
         if (!record.node.props.IsCategory) {
             let data = JSON.parse(record.node.props.Bytes)
@@ -38,7 +38,8 @@ class TreeUser extends Component {
             })
             let name = record.node.props.Name
             const { TabsData } = this.props
-
+            // console.log(data.TableData);
+            
             let F = TabsData.find(e => e.Name === name)
             // console.log(F);
             if (F === undefined) {
@@ -65,11 +66,16 @@ class TreeUser extends Component {
 
             let F = TabsData.find(e => e.Name === name)
             // console.log(F);
+            console.log(data.TableData);
+            
             if (F === undefined) {
                 this.props.addTabs({ Source: data, Name: name })
                 this.props.upData(data.FormData)
                 // this.props.addTable(data.TableData)
-                this.props.tableFugai(data.TableData)
+                console.log();
+                data.TableData.length ? this.props.tableFugai(data.TableData) : this.props.tableFugai([data.TableData])
+
+                
                 this.props.dataChange({ Source: data, Name: name })
             } else {
                 //message.warn('已经选择了一个同样的表格')
@@ -129,10 +135,11 @@ class TreeUser extends Component {
     }
 }
 function mapStateToProps(State) {
-    // console.log(State);
+    console.log(State);
 
     return {
-        TabsData: State.TabsData
+        TabsData: State.TabsData,
+        tableSource:State.tableSource
     };
 }
 const mapDispatchProps = (dispatch) => {

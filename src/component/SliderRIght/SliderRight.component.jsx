@@ -329,14 +329,14 @@ class SliderRightcomponent extends Component {
                     <Tabs defaultActiveKey="1">
                         <TabPane tab="基础属性" key="1">
                             {inputList}
-                            <FormItem
+                            {/* <FormItem
                                 label='必填'
                                 {...formItemLayout}
                             >
                                 {getFieldDecorator('required')(
                                     <Switch checked={currentAttr.required}></Switch>
                                 )}
-                            </FormItem>
+                            </FormItem> */}
                             <FormItem
                                 label='禁止'
                                 {...formItemLayout}
