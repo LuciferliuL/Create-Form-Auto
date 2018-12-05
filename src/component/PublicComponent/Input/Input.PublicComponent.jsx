@@ -6,7 +6,7 @@ import { inputChange } from '../Public.action'
 const FormItem = Form.Item
 class InputPublicComponent extends Component {
     inputChange = (e) => {
-        console.log(e.target.value);
+        // console.log(e.target.value);
         const { PublicData } = this.props
         this.props.inputChange(PublicData.key, e.target.value)
 
