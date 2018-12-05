@@ -45,7 +45,7 @@ class ContentUser extends Component {
             domWidth: dom
         });
     }
- 
+
     componentWillReceiveProps(pre) {
         // console.log(indexCurrentContst);
         // console.log(pre.CurrentIndex);
@@ -56,18 +56,18 @@ class ContentUser extends Component {
         document.onkeydown = function (e) {
             var keyCode = e.keyCode || e.which || e.charCode;
             var altKey = e.altKey;
-            
+
 
             if (altKey && keyCode === 81) {
                 var oInput = document.getElementById("input");
                 oInput.focus();
                 window.addEventListener('keyup', this.handleKeyDown)
-                
+
                 let valueList = {}
                 // console.log(pre.tableSource);
                 let SQL = pre.tableSource[pre.CurrentIndex].SQL
-                
-                
+
+
                 pre.data.map(e => {
                     if (e.type !== 'Table' && e.type !== 'Group') {
                         if (e.type === 'LookUp') {
@@ -160,7 +160,7 @@ class ContentUser extends Component {
                 }
                 // console.log(body);
                 POST$(API('SQL', 'branch').http, body, (res) => {
-                   
+
                     // console.log(this.props);
                     // console.log('post');
                     returnData = res
@@ -170,12 +170,12 @@ class ContentUser extends Component {
                         pre.tableSource[pre.CurrentIndex].pageSize = res.RecordCount
                         Prop.tableTr0(0)
                         console.log(pre.CurrentIndex);
-                        
+
                         // resolve(true)
-                    } 
+                    }
                 })
-               console.log(returnData);
-               
+                console.log(returnData);
+
             } else if (altKey && keyCode === 82) {
 
             } else if (altKey && keyCode === 67) {
@@ -399,7 +399,7 @@ class ContentUser extends Component {
         const { pane } = this.props;
         const { currentTabsIndex } = this.state
         this.setState({
-            loading:true
+            loading: true
         })
         //input获取焦点
         var oInput = document.getElementById("input");
@@ -529,14 +529,14 @@ class ContentUser extends Component {
         Promise.race([post, time])
             .then((result) => {
                 this.setState({
-                    loading:false
+                    loading: false
                 })
             })
             .catch((err) => {
                 //debugger
                 //message.error('获取数据超时')
                 this.setState({
-                    loading:false
+                    loading: false
                 })
             })
     }
@@ -544,19 +544,20 @@ class ContentUser extends Component {
         this.props.clear()
     }
     handleKeyDown = (e) => {
-        const { dataSource } = this.props.tableSource
-        // console.log(e.keyCode);
-        console.log(this.props.tableSource);
+        //debugger;
+        console.log(this.props);
+        const { pane } = this.props;
+        const { currentTabsIndex } = this.state
 
         switch (e.keyCode) {
             case 40://下
-                if (this.props.tableSource.tr < dataSource.length - 1) {
-                    this.props.tAddDown(this.props.tableSource.tr, 1)
+                if (pane.TableData[currentTabsIndex].tr < pane.TableData[currentTabsIndex].dataSource.length - 1) {
+                    pane.TableData[currentTabsIndex].tr = pane.TableData[currentTabsIndex].tr + 1;
                 }
                 break;
             case 38://上
-                if (this.props.tableSource.tr > 0) {
-                    this.props.tReduceUp(this.props.tableSource.tr, 1)
+                if (pane.TableData[currentTabsIndex].tr > 0) {
+                    this.props.tReduceUp(pane.TableData[currentTabsIndex].tr, 1)
                 }
                 break;
             case 37:
@@ -566,6 +567,9 @@ class ContentUser extends Component {
             default:
                 break;
         }
+
+        console.log(this.props);
+        return false;
     }
     ONBlur = () => {
         window.removeEventListener('keyup', this.handleKeyDown)
@@ -721,7 +725,7 @@ const mapDispatchProps = (dispatch) => {
         tReduceUp: (k, i) => {
             dispatch(tReduceUp(k, i))
         },
-       
+
     }
 }
 export default connect(
