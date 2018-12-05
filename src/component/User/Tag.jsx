@@ -72,10 +72,10 @@ class Tags extends Component {
     }
 
     ChangeOn = (e, key) => {
-        // console.log(e);
+        console.log(e);
         const { activeKey } = this.state
         const { TabsData } = this.props
-        // console.log(TabsData);
+        console.log(TabsData);
         let source = TabsData.find(e => e.Name === activeKey)
         let data = source.Source.FormData.find(e => e.key === key)
         Object.assign(data, e)
