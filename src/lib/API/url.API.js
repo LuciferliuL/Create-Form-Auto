@@ -22,7 +22,7 @@ global.msgcfg = {
     fileurl: "http://10.3.2.21:9003/"//excel保存站点
 }
 
-sessionStorage.setItem('environment', 'product');//test,product,develop
+sessionStorage.setItem('environment', 'test');//test,product,develop
 const environment = sessionStorage.getItem('environment');
 if (environment === 'test') {
     global.login = {

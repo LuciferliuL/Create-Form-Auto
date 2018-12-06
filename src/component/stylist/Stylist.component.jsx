@@ -72,18 +72,18 @@ class Stylistcomponent extends Component {
     componentDidMount() {
         let bodyTable = this.props.location.state
         // console.log(bodyTable);
-        if(bodyTable && bodyTable.length > 0){
+        if (bodyTable && bodyTable.length > 0) {
             this.setState({
-                tableSourceData:bodyTable
+                tableSourceData: bodyTable
             })
         }
         this.times = setTimeout(() => {
             this.changeWidth()
         }, 10)
     }
-    componentWillReceiveProps(pre){
-        
-        
+    componentWillReceiveProps(pre) {
+
+
     }
     changeWidth = () => {
         const dom = (this.myRef.current.container.clientWidth) - 20
@@ -118,11 +118,28 @@ class Stylistcomponent extends Component {
         } else {
             this.props.rightUpdata(e)
         }
+    }
 
-    }
+
     cancel = (e) => {
-        this.props.FormDataDelete(e)
+        if (e.length > 0 && e[0].key.slice(0, 9) === 'tablesKey') {
+            let d = JSON.parse(JSON.stringify(e[this.state.indexTable]));
+            const { tableSourceData } = this.state
+            let list = []
+            tableSourceData.forEach((e, i) => {
+                if (d.key !== e.key)
+                    list.push(e)
+            });
+            this.setState({
+                tableSourceData: list
+            })
+        }
+        else {
+            this.props.FormDataDelete(e)
+        }
     }
+
+
     //固定位置
     time = () => {
         this.props.FormDataUpata(this.dragact.getLayout())
@@ -169,7 +186,7 @@ class Stylistcomponent extends Component {
             body.FormData = this.props.UpdataFormData;
             body.TableData = this.state.tableSourceData;
             console.log(body);
-            
+
             if (this.props.InitStylistData.PK) {
                 //编辑
                 save = Object.assign({},
@@ -223,9 +240,10 @@ class Stylistcomponent extends Component {
     }
     //添加table
     ClickAdd = (ev) => {
-        let t = Object.assign({}, ev)
-        TabTableIndex++
-        t.key = 'tablesKey' + TabTableIndex
+        let t = Object.assign({}, ev);
+
+        //TabTableIndex++
+        t.key = 'tablesKey' + '' + new Date().getTime();
         this.setState((pre) => ({
             tableSourceData: [...pre.tableSourceData, t],
         }))
@@ -243,8 +261,6 @@ class Stylistcomponent extends Component {
             if (i === Number(indexTable)) {
                 list.push(ev)
             } else {
-                console.log(e);
-
                 list.push(e)
             }
         })
@@ -255,7 +271,7 @@ class Stylistcomponent extends Component {
     }
     render() {
         console.log(this.state.tableSourceData);
-        
+
         var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.70
         const { getFieldDecorator } = this.props.form;
         let tabs_ = []
@@ -375,7 +391,9 @@ class Stylistcomponent extends Component {
                                     <Popconfirm title="你要干什么？"
                                         icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
                                         okText="编辑"
-                                        onConfirm={this.confirm.bind(this, this.state.tableSourceData)}>
+                                        cancelText="删除"
+                                        onConfirm={this.confirm.bind(this, this.state.tableSourceData)}
+                                        onCancel={this.cancel.bind(this, this.state.tableSourceData)}>
                                         <Icon
                                             className="Delete"
                                             style={this.state.read ? { display: 'unset' } : { display: 'none' }}
