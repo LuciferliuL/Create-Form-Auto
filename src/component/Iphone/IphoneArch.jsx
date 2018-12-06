@@ -12,7 +12,7 @@ class IphoneArch extends Component {
         selectedRowKeys: [],
         loading: true,
         data: [],
-        searchdata:[],
+        searchdata: [],
         rows: [],
         treeData: [],
         keys: '',
@@ -50,10 +50,11 @@ class IphoneArch extends Component {
                     Param: JSON.stringify(ss),
                 };
                 POST$(API('getusers').http, param, (res) => {
-                    if (res.Result) {
+                    if (res.error) {
+                        reject(res)
+                    }
+                    else {
                         resolve(res.Result)
-                    } else {
-                        reject(500)
                     }
                 })
             }
@@ -68,14 +69,22 @@ class IphoneArch extends Component {
                     Param: JSON.stringify(ss),
                 };
                 POST$(API('GetDataFormNodes_mobile').http, param, (res) => {
-                    if (res.length > 0) {
-                        res.forEach((e) => {
-                            treeData(e)
-                        })
-                        resolve(res)
-                    } else {
-                        reject(500)
+
+                    if (res.error) {
+                        reject(res)
                     }
+                    else {
+                        if (res.length > 0) {
+                            res.forEach((e) => {
+                                treeData(e)
+                            })
+                            resolve(res)
+                        }
+                        else {
+                            resolve([]);
+                        }
+                    }
+
                 })
             }
         )
@@ -83,13 +92,15 @@ class IphoneArch extends Component {
             .then((Results) => {
                 this.setState({
                     data: Results[0],
-                    searchdata:Results[0],
+                    searchdata: Results[0],
                     treeData: Results[1],
                     loading: false
                 })
             })
-            .catch((reject) => {
-                //message.error(reject)
+            .catch((err) => {
+                if (err.status !== 500)
+                    message.error(err.errormsg.substring(0, 200));
+
                 this.setState({
                     loading: false
                 })
@@ -109,11 +120,13 @@ class IphoneArch extends Component {
             loading: true,
             keys: keys[0]
         });
-        let get = new Promise((resolve, reject) => {
-            setTimeout(() => {
-                //reject('500 error')
-            }, 10000);
-        });
+
+        //let get = new Promise((resolve, reject) => {
+        //    setTimeout(() => {
+        //reject('500 error')
+        //    }, 10000);
+        //});
+
         let GET = new Promise((resolve, reject) => {
             let ss = {
                 targetid: keys[0],
@@ -125,12 +138,19 @@ class IphoneArch extends Component {
                 Param: JSON.stringify(ss),
             };
             POST$(API('getdataformrolelistbytargettype').http, param, (res) => {
-                let list = []
-                res.map(e => list.push(e.ResourceID))
-                resolve(list)
+                if (res.error) {
+                    reject(res);
+                }
+                else {
+                    let list = []
+                    res.map(e => list.push(e.ResourceID))
+                    resolve(list)
+                }
+
             })
         });
-        Promise.race([get, GET])
+
+        Promise.race([GET])
             .then((Result) => {
                 this.setState({
                     loading: false,
@@ -138,7 +158,9 @@ class IphoneArch extends Component {
                 })
             })
             .catch((err) => {
-                //message.error(err)
+                if (err.status !== 500)
+                    message.error(err.errormsg.substring(0, 200));
+
                 this.setState({
                     loading: false
                 })
@@ -168,7 +190,7 @@ class IphoneArch extends Component {
                     rows: [],
                     treeData: [],
                     keys: '',
-                    searchdata:[]
+                    searchdata: []
                 })
                 message.success('添加成功')
                 this.props.onTodoClick(['移动总览'])
@@ -179,26 +201,26 @@ class IphoneArch extends Component {
         })
     }
     search = (el) => {
-        
-        const {data} = this.state
+
+        const { data } = this.state
         // console.log(data);
         var len = data.length;//总数据
         var arr = [];
-        for(var i=0;i<len;i++){
+        for (var i = 0; i < len; i++) {
             //如果字符串中不包含目标字符会返回-1
-            if(JSON.stringify(data[i]).indexOf(el)>=0){
+            if (JSON.stringify(data[i]).indexOf(el) >= 0) {
                 arr.push(data[i]);
             }
         }
         this.setState({
-            searchdata:arr
+            searchdata: arr
         })
         // console.log(arr);
-        
+
     }
     render() {
         var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.8
-        const { loading, columns, selectedRowKeys ,searchdata} = this.state
+        const { loading, columns, selectedRowKeys, searchdata } = this.state
         const rowSelection = {
             onChange: this.rowSelectionChange,
             getCheckboxProps: record => ({

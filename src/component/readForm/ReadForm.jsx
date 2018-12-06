@@ -80,7 +80,7 @@ class ReadForm extends Component {
                 })
             })
             .catch((reject) => {
-                //message.error(reject)
+
                 this.setState({
                     loading: false
                 })
@@ -98,19 +98,21 @@ class ReadForm extends Component {
             loading: true,
             keys: keys[0]
         });
-        let get = new Promise((resolve, reject) => {
-            setTimeout(() => {
-                //reject('500 error')
-            }, 10000);
-        });
+
         let GET = new Promise((resolve, reject) => {
             GET$(API('CheckId').http + ' ' + keys[0], (res) => {
-                let list = []
-                res.map(e => list.push(e.RoleId))
-                resolve(list)
+                if (res.error) {
+                    reject(res);
+                }
+                else {
+                    let list = []
+                    res.map(e => list.push(e.RoleId))
+                    resolve(list);
+                }
             })
         });
-        Promise.race([get, GET])
+
+        Promise.race([GET])
             .then((Result) => {
                 this.setState({
                     loading: false,
@@ -118,7 +120,9 @@ class ReadForm extends Component {
                 })
             })
             .catch((err) => {
-                //message.error(err)
+                if (err.status !== 500)
+                    message.error(err.errormsg.substring(0, 200));
+
                 this.setState({
                     loading: false
                 })

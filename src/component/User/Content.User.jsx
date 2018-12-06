@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Form, Pagination, Button, Icon, Tabs, Spin } from 'antd'
+import { Card, Form, Pagination, Button, Icon, Tabs, Spin, message } from 'antd'
 import { connect } from 'react-redux';
 import { formUpdataFromCurrent } from '../SliderRIght/action/Right.action'
 import PublicComponent from '../PublicComponent/Public.Component'
@@ -520,7 +520,7 @@ class ContentUser extends Component {
                     pane.TableData[currentTabsIndex].pageSize = res.RecordCount;
                     resolve(true);
                 } else {
-                    reject(false);
+                    reject(res);
                 }
             })
         });
@@ -532,6 +532,10 @@ class ContentUser extends Component {
                 })
             })
             .catch((err) => {
+
+                if (err.status !== 500)
+                    message.error(err.errormsg.substring(0, 200));
+
                 this.setState({
                     loading: false
                 })
