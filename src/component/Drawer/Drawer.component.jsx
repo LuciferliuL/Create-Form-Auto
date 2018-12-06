@@ -101,10 +101,13 @@ class Drawercomponent extends Component {
     InputChange = (i, title, e) => {
         if (title === 'dataIndex') {
             this.props.inputValueChange(i, title, e.target.value.toUpperCase());
-        } else {
-            this.props.inputValueChange(i, title, e.target.value);
         }
-
+        else if (title === 'title') {
+            this.props.inputValueChange(i, title, e.target.value);
+        } else {
+            let _value = isNaN(parseFloat(e.target.value)) ? '' : parseFloat(e.target.value);
+            this.props.inputValueChange(i, title, _value);
+        }
     }
     GroupChange = (i, title, e) => {
         if (title === 'dataIndex') {
