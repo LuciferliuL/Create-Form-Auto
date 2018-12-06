@@ -55,7 +55,7 @@ class ContentUser extends Component {
         let returnData = {}
         const { currentTabsIndex } = this.state;
 
-        console.log(pre.tableSource[pre.CurrentIndex]);
+        //console.log(pre.tableSource[pre.CurrentIndex]);
         this.setState({
             activetr: pre.tableSource[pre.CurrentIndex].tr
         });
@@ -63,7 +63,6 @@ class ContentUser extends Component {
         document.onkeydown = function (e) {
             var keyCode = e.keyCode || e.which || e.charCode;
             var altKey = e.altKey;
-
 
             if (altKey && keyCode === 81) {
                 var oInput = document.getElementById("input");
@@ -176,12 +175,12 @@ class ContentUser extends Component {
                         pre.tableSource[pre.CurrentIndex].tr = 0
                         pre.tableSource[pre.CurrentIndex].pageSize = res.RecordCount
                         Prop.tableTr0(0)
-                        console.log(pre.CurrentIndex);
+                        //console.log(pre.CurrentIndex);
 
                         // resolve(true)
                     }
                 })
-                console.log(returnData);
+                //console.log(returnData);
 
             } else if (altKey && keyCode === 82) {
 
@@ -292,11 +291,8 @@ class ContentUser extends Component {
                 console.log(38);
 
             } else {
-                // console.log(e.keyCode);
-                // e.preventDefault();
                 return true;
             }
-            // e.preventDefault();
             return false;
         }
     }
@@ -518,8 +514,6 @@ class ContentUser extends Component {
                 isPage: true
             }
             POST$(API('SQL', this.state.branchtype).http, body, (res) => {
-                console.log(res);
-
                 if (res.Results) {
                     pane.TableData[currentTabsIndex].dataSource = res.Results;
                     pane.TableData[currentTabsIndex].tr = 0;
@@ -529,22 +523,15 @@ class ContentUser extends Component {
                     reject(false);
                 }
             })
-        })
-        let time = new Promise((resolve, reject) => {
-            setTimeout(() => {
-                reject(false)
-            }, 8000);
-        })
+        });
 
-        Promise.race([post, time])
+        Promise.race([post])
             .then((result) => {
                 this.setState({
                     loading: false
                 })
             })
             .catch((err) => {
-                //debugger
-                //message.error('获取数据超时')
                 this.setState({
                     loading: false
                 })

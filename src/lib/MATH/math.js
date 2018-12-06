@@ -2,6 +2,7 @@ import 'isomorphic-fetch'
 import $ from 'jquery'
 import { notification } from 'antd'
 import '../API/url.API'
+import { func } from 'prop-types';
 
 /**
  * 
@@ -147,8 +148,10 @@ export const GET$ = (URL, Callback) => {
         dataType: "json",
         beforeSend: function (xhr) { xhr.setRequestHeader("Authorization", "Bearer " + token) },
         success: function (res) {
-            // console.log('data.' + JSON.stringify(res));
             Callback(res)
+        },
+        error: function (res) {
+            Callback(res);
         }
     })
 }
@@ -169,7 +172,9 @@ export const POST$ = (URL, POSTBODY, CALLBACK) => {
             xhr.setRequestHeader("Authorization", "Bearer " + token)
         },
         success: function (res) {
-            // console.log('data.' + JSON.stringify(res));
+            CALLBACK(res);
+        },
+        error: function (res) {
             CALLBACK(res);
         }
     })

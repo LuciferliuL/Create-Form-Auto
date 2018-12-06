@@ -282,7 +282,7 @@ class Stylistcomponent extends Component {
                 </TabPane>
             )
         })
-        const operations = <Button onClick={this.ClickAdd.bind(this, this.state.baseTable)}>添加Table</Button>;
+        const operations = <Button style={this.state.read ? { display: 'unset' } : { display: 'none' }} onClick={this.ClickAdd.bind(this, this.state.baseTable)}>添加Table</Button>;
         return (
             <Spin spinning={this.state.loading}>
                 <Modal
