@@ -120,15 +120,17 @@ class TABLECOMPONENT extends Component {
         const { data, columnskeys } = this.state
         const { activetr } = this.props;
 
-        console.log(activetr);
+        console.log(columnskeys);
 
         let widths = 0
         let columnsData = []
         let tbodyData = []
 
-
         if (columnskeys) {
             columnskeys.map((e, i) => {
+                let _width = isNaN(parseFloat(e['width'])) ? 200 : parseFloat(e['width']);
+                e['width'] = _width;
+
                 if (e['width'] > 0) {
                     widths += e['width']
                     columnsData.push(
@@ -180,6 +182,7 @@ class TABLECOMPONENT extends Component {
                     if (isNaN(datacontent) && !isNaN(Date.parse(datacontent))) {
                         datacontent = datacontent.substr(0, 10);//取短日期；
                     }
+
 
                     tbodytd.push(
                         <td key={e.indexs + index}

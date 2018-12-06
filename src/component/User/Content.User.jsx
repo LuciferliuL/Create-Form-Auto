@@ -306,9 +306,12 @@ class ContentUser extends Component {
         }, 50);
     }
     DAOCHU = () => {
-        let valueList = {}
-        let SQL = this.props.tableSource.SQL
-        this.props.data.map(e => {
+        let valueList = {};
+        const { pane } = this.props;
+        const { currentTabsIndex } = this.state;
+
+        let SQL = pane.TableData[currentTabsIndex].SQL;
+        pane.FormData.map(e => {
             if (e.type !== 'Table' && e.type !== 'Group') {
                 if (e.type === 'LookUp') {
                     valueList[e.id] = e.values[e.upKey] === undefined ? '' : e.values[e.upKey];
@@ -381,7 +384,7 @@ class ContentUser extends Component {
             return true
         })
         let cols = {}
-        this.props.tableSource.columns.forEach(e => {
+        pane.TableData[currentTabsIndex].columns.forEach(e => {
             cols[e.dataIndex] = e.title
         })
         let param = {
