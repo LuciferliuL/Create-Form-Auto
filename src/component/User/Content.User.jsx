@@ -36,6 +36,7 @@ class ContentUser extends Component {
         current: 1,
         currentTabsIndex: 0,
         loading: false
+    
     }
 
     myRef = React.createRef();
