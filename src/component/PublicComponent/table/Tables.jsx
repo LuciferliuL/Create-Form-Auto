@@ -118,14 +118,19 @@ class TABLECOMPONENT extends Component {
     }
     render() {
         const { data, columnskeys } = this.state
-        const { tr } = this.props.PublicData
+        const { activetr } = this.props;
+
+        console.log(columnskeys);
+
         let widths = 0
         let columnsData = []
         let tbodyData = []
-        // console.log(columnskeys);
 
         if (columnskeys) {
             columnskeys.map((e, i) => {
+                let _width = isNaN(parseFloat(e['width'])) ? 200 : parseFloat(e['width']);
+                e['width'] = _width;
+
                 if (e['width'] > 0) {
                     widths += e['width']
                     columnsData.push(
@@ -178,6 +183,7 @@ class TABLECOMPONENT extends Component {
                         datacontent = datacontent.substr(0, 10);//取短日期；
                     }
 
+
                     tbodytd.push(
                         <td key={e.indexs + index}
                             style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', border: '1px solid #ddd', width: key.width }}>
@@ -187,7 +193,7 @@ class TABLECOMPONENT extends Component {
                     )
                 })
                 tbodyData.push(
-                    <tr key={e.indexs + 'tr'} className={tr === i ? 'black' : ''}>
+                    <tr key={e.indexs + 'tr'} className={activetr === i ? 'black' : ''}>
                         {tbodytd}
                     </tr>
                 )

@@ -2,6 +2,7 @@ import 'isomorphic-fetch'
 import $ from 'jquery'
 import { notification } from 'antd'
 import '../API/url.API'
+import { func } from 'prop-types';
 
 /**
  * 
@@ -147,16 +148,25 @@ export const GET$ = (URL, Callback) => {
         dataType: "json",
         beforeSend: function (xhr) { xhr.setRequestHeader("Authorization", "Bearer " + token) },
         success: function (res) {
-            // console.log('data.' + JSON.stringify(res));
             Callback(res)
+        },
+        error: function (res) {
+            console.log("get.error");
+            console.log(res);
+
+            let er = {
+                error: true,
+                status: res.status,
+                errorjson: res.responseJSON,
+                errormsg: res.responseText
+            };
+            Callback(er);
         }
     })
 }
 
 export const POST$ = (URL, POSTBODY, CALLBACK) => {
-    // console.log('url.' + URL);
     POSTBODY = JSON.stringify(POSTBODY);
-    // console.log('data.' + POSTBODY);
 
     let token = sessionStorage.getItem('token')
     $.ajax({
@@ -169,8 +179,19 @@ export const POST$ = (URL, POSTBODY, CALLBACK) => {
             xhr.setRequestHeader("Authorization", "Bearer " + token)
         },
         success: function (res) {
-            // console.log('data.' + JSON.stringify(res));
             CALLBACK(res);
+        },
+        error: function (res) {
+            console.log("post.error");
+            console.log(res);
+
+            let er = {
+                error: true,
+                status: res.status,
+                errorjson: res.responseJSON,
+                errormsg: res.responseText
+            };
+            CALLBACK(er);
         }
     })
 }

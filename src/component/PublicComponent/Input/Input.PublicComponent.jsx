@@ -22,7 +22,7 @@ class InputPublicComponent extends Component {
                 {...layout}
             >
                 {getFieldDecorator(key, {
-                    rules: [{ required: { required }, message: { message } }],
+                    rules: [],
                 })(
                     <Input
                         disabled={disabled}
