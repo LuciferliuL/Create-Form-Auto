@@ -30,25 +30,35 @@ class USER extends Component {
 
     }
 
-    hidLoading = () => {
-        this.setState((pre) => ({
-            loading: false
-        }));
-    }
-
-    Loading = () => {
-
-        this.setState((pre) => ({
-            loading: !pre.loading
-        }));
-    }
 
     dataChange = (e) => {
+
+        console.log(e);
+
+        // let list = [];
+        // if (this.state.dataContent.length > 0) {
+        //     this.state.dataContent.forEach(c => {
+        //         if (c.Name === e.Name) {
+        //             list.push(e);
+        //         }
+        //         else {
+        //             list.push(c);
+        //         }
+        //     })
+        // }
+        // else {
+        //     list.push(e);
+        // }
+
+        // this.setState({
+        //     dataContent: list
+        // })
+
 
         this.setState((pre) => ({
             dataContent: [...pre.dataContent, e]
         }))
-        // console.log(this.state.dataContent);
+
     }
 
     removedata = (ss) => {
@@ -66,6 +76,8 @@ class USER extends Component {
     render() {
         const { user, loading, dataContent } = this.state
 
+        console.log(dataContent);
+
         return (
             <Spin spinning={loading} size='large'>
                 <Layout>
@@ -81,8 +93,8 @@ class USER extends Component {
                             {
                                 dataContent.length > 0 ?
                                     <Tags
-                                        Loading={this.Loading.bind(this)}
-                                        hidLoading={this.hidLoading.bind(this)}
+                                        //Loading={this.Loading.bind(this)}
+                                        //hidLoading={this.hidLoading.bind(this)}
                                         removedata={this.removedata}
                                         dataContent={dataContent}>
                                     </Tags>

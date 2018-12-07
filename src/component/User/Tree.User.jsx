@@ -28,32 +28,6 @@ class TreeUser extends Component {
         })
     }
 
-    onSelect = (keys, record) => {
-        // console.log(record);
-
-        if (!record.node.props.IsCategory) {
-            let data = JSON.parse(record.node.props.Bytes)
-            data.FormData.forEach(e => {
-                e.isUserMove = false
-            })
-            let name = record.node.props.Name
-            const { TabsData } = this.props
-            // console.log(data.TableData);
-            
-            let F = TabsData.find(e => e.Name === name)
-            // console.log(F);
-            if (F === undefined) {
-                this.props.addTabs({ Source: data, Name: name })
-                this.props.upData(data.FormData)
-                // this.props.addTable(data.TableData)
-                this.props.tableFugai(data.TableData)
-                this.props.dataChange({ Source: data, Name: name })
-            } else {
-                //message.warn('已经选择了一个同样的表格')
-                //this.props.dataChange({ Source: data, Name: name });
-            }
-        }
-    }
     menuClick = (record, e) => {
         console.log(record);
         if (!record.IsCategory) {
@@ -67,25 +41,22 @@ class TreeUser extends Component {
             let F = TabsData.find(e => e.Name === name)
             // console.log(F);
             console.log(data.TableData);
-            
-            if (F === undefined) {
-                this.props.addTabs({ Source: data, Name: name })
-                this.props.upData(data.FormData)
-                // this.props.addTable(data.TableData)
-                console.log();
-                data.TableData.length ? this.props.tableFugai(data.TableData) : this.props.tableFugai([data.TableData])
 
-                
-                this.props.dataChange({ Source: data, Name: name })
+            if (F === undefined) {
+                this.props.addTabs({ Source: data, Name: name });
+                this.props.upData(data.FormData);
+                data.TableData.length ? this.props.tableFugai(data.TableData) : this.props.tableFugai([data.TableData]);
+                this.props.dataChange({ Source: data, Name: name });
             } else {
-                //message.warn('已经选择了一个同样的表格')
+                this.props.upData(data.FormData);
+                data.TableData.length ? this.props.tableFugai(data.TableData) : this.props.tableFugai([data.TableData]);
                 this.props.dataChange({ Source: data, Name: name });
             }
         }
     }
+
     //递归插入menu
     menu = (data, list = []) => {
-        // console.log(data.children);
         data.forEach(data => {
             if (data.children && data.children.length > 0) {
                 list.push(
@@ -94,7 +65,6 @@ class TreeUser extends Component {
                     </SubMenu>
                 )
             } else {
-                // console.log(data);
                 list.push(<Menu.Item key={Math.random()} onClick={this.menuClick.bind(this, data)}>{data.Name}</Menu.Item>)
             }
 
@@ -103,7 +73,6 @@ class TreeUser extends Component {
     }
     render() {
         const { treeData } = this.state
-        // console.log(treeData);
         let M = []
         treeData.forEach((e, index) => {
             M.push(
@@ -113,15 +82,9 @@ class TreeUser extends Component {
             )
         })
 
-
-
         return (
             treeData.length > 0 ?
-                // <Tree
-                //     style={{ width: 300, color: 'white' }}
-                //     treeData={treeData}
-                //     onSelect={this.onSelect}
-                // />
+
                 <Menu
                     mode="inline"
                     theme="dark">
@@ -139,7 +102,7 @@ function mapStateToProps(State) {
 
     return {
         TabsData: State.TabsData,
-        tableSource:State.tableSource
+        tableSource: State.tableSource
     };
 }
 const mapDispatchProps = (dispatch) => {

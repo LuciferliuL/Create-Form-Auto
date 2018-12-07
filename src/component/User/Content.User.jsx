@@ -15,9 +15,10 @@ const TabPane = Tabs.TabPane;
 const ButtonGroup = Button.Group;
 // let  indexCurrentContst = 0
 function mapStateToProps(State) {
-    // console.log(State);
+    console.log(State);
 
     return {
+
         data: State.UpdataFormData,
         InitStylistData: State.InitStylistData.InitStylistData,
         currentTagsUpdata: State.currentTagsUpdata.InitialTags,
@@ -47,267 +48,29 @@ class ContentUser extends Component {
         });
     }
 
-    componentWillReceiveProps(pre) {
-        // console.log(indexCurrentContst);
-        // console.log(pre.CurrentIndex);
-        // console.log(pre);
-        let Prop = this.props
-        let returnData = {}
-        const { currentTabsIndex } = this.state;
-
-        //console.log(pre.tableSource[pre.CurrentIndex]);
-        this.setState({
-            activetr: pre.tableSource[pre.CurrentIndex].tr
-        });
-
-        document.onkeydown = function (e) {
-            var keyCode = e.keyCode || e.which || e.charCode;
-            var altKey = e.altKey;
-
-            if (altKey && keyCode === 81) {
-                var oInput = document.getElementById("input");
-                oInput.focus();
-                window.addEventListener('keyup', this.handleKeyDown)
-
-                let valueList = {}
-                // console.log(pre.tableSource);
-                let SQL = pre.tableSource[pre.CurrentIndex].SQL
-
-
-                pre.data.map(e => {
-                    if (e.type !== 'Table' && e.type !== 'Group') {
-                        if (e.type === 'LookUp') {
-                            valueList[e.id] = e.values[e.upKey] === undefined ? '' : e.values[e.upKey];
-                            // console.log(valueList);
-
-                        } else if (e.type === 'Input' && e.typePoint === 0) {
-                            valueList[e.id] = e.defaultValue === undefined ? '' : e.defaultValue;
-                        } else if (e.type === 'Input' && e.typePoint !== 0) {
-                            valueList[e.typePoint] = e.defaultValue === undefined ? '' : e.defaultValue;
-                        } else if (e.type === "Range") {
-                            let days = ['', ''];
-                            let oneweekdate = new Date();
-                            let ds = new Date();
-
-                            if (e.defaultValue === -1) {
-                                //当天
-                                oneweekdate = new Date()
-                                days = [formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours(), getDat() + getendHours()]
-                            } else if (e.defaultValue === 1) {
-                                //前一天
-                                ds = new Date();
-                                oneweekdate = new Date(ds - 24 * 3600 * 1000);
-                                days = [formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours(), getDat() + getendHours()];
-                            } else if (e.defaultValue === 7) {
-                                ds = new Date();
-                                oneweekdate = new Date(ds - 7 * 24 * 3600 * 1000);
-                                days = [formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours(), getDat() + getendHours()];
-                            } else if (e.defaultValue === 30) {
-                                ds = new Date();
-                                ds.setMonth(ds.getMonth() - 1);
-                                days = [formatDate(ds, 'yyyy-MM-dd') + getstartHours(), getDat() + getendHours()];
-                            }
-                            else if (e.defaultValue.length > 0 && e.defaultValue[0] !== '') {
-                                days = [formatDate(new Date(e.defaultValue[0]), 'yyyy-MM-dd') + getstartHours(), formatDate(new Date(e.defaultValue[1]), 'yyyy-MM-dd') + getendHours()]
-                            }
-                            valueList[e.id] = days;
-                        } else if (e.type === 'RadioGroup') {
-                            valueList[e.id] = e.defaultValue === '-1' ? ' ' : e.defaultValue;
-                        } else if (e.type === 'Date') {
-                            let days = '';
-                            var oneweekdate;
-                            var ds;
-
-                            if (e.defaultValue === -1) {
-                                //当天
-                                oneweekdate = new Date()
-                                days = formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours()
-                            } else if (e.defaultValue === 1) {
-                                //前一天
-                                ds = new Date()
-                                oneweekdate = new Date(ds - 24 * 3600 * 1000);
-                                days = formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours()
-                            } else if (e.defaultValue === 7) {
-                                ds = new Date()
-                                oneweekdate = new Date(ds - 7 * 24 * 3600 * 1000);
-                                days = formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours()
-                            } else if (e.defaultValue === 30) {
-                                ds = new Date()
-                                ds.setMonth(ds.getMonth() - 1);
-                                days = formatDate(ds, 'yyyy-MM-dd') + getstartHours()
-                            }
-                            else if (e.defaultValue !== '') {
-                                oneweekdate = new Date(e.defaultValue)
-                                days = formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours()
-                            }
-                            valueList[e.id] = days
-                        } else if (e.type === 'CheckBox') {
-                            if (e.checked) {
-                                valueList[e.id] = e.defaultValue
-                            } else {
-                                valueList[e.id] = ''
-                            }
-                        }
-                        else {
-                            valueList[e.id] = e.defaultValue === undefined ? '' : e.defaultValue;
-                        }
-                    }
-                    return true
-                })
-
-                // let post = new Promise((resolve, reject) => {
-
-                let body = {
-                    "Sql": SQL,
-                    "Param": JSON.stringify(valueList),
-                    "PageIndex": 1,
-                    "PageSize": 200,
-                    isPage: true
-                }
-                // console.log(body);
-                POST$(API('SQL', 'branch').http, body, (res) => {
-
-                    // console.log(this.props);
-                    // console.log('post');
-                    returnData = res
-                    if (res.Results) {
-                        pre.tableSource[pre.CurrentIndex].dataSource = res.Results
-                        pre.tableSource[pre.CurrentIndex].tr = 0
-                        pre.tableSource[pre.CurrentIndex].pageSize = res.RecordCount
-                        Prop.tableTr0(0)
-                        //console.log(pre.CurrentIndex);
-
-                        // resolve(true)
-                    }
-                })
-                //console.log(returnData);
-
-            } else if (altKey && keyCode === 82) {
-
-            } else if (altKey && keyCode === 67) {
-                pre.clear()
-            } else if (altKey && keyCode === 69) {
-
-                let valueList = {};
-                let SQL = pre.tableSource[this.state.currentTabsIndex].SQL;
-                pre.data.map(e => {
-                    if (e.type !== 'Table' && e.type !== 'Group') {
-                        if (e.type === 'LookUp') {
-                            valueList[e.id] = e.values[e.upKey] === undefined ? '' : e.values[e.upKey];
-                        } else if (e.type === 'Input' && e.typePoint === 0) {
-                            valueList[e.id] = e.defaultValue === undefined ? '' : e.defaultValue;
-                        } else if (e.type === 'Input' && e.typePoint !== 0) {
-                            valueList[e.typePoint] = e.defaultValue === undefined ? '' : e.defaultValue;
-                        } else if (e.type === "Range") {
-                            let days = ['', ''];
-                            let oneweekdate = new Date();
-                            let ds = new Date();
-
-                            if (e.defaultValue === -1) {
-                                //当天
-                                oneweekdate = new Date()
-                                days = [formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours(), getDat() + getendHours()]
-                            } else if (e.defaultValue === 1) {
-                                //前一天
-                                ds = new Date()
-                                oneweekdate = new Date(ds - 24 * 3600 * 1000);
-                                days = [formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours(), getDat() + getendHours()]
-                            } else if (e.defaultValue === 7) {
-                                ds = new Date()
-                                oneweekdate = new Date(ds - 7 * 24 * 3600 * 1000);
-                                days = [formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours(), getDat() + getendHours()]
-                            } else if (e.defaultValue === 30) {
-                                ds = new Date()
-                                ds.setMonth(ds.getMonth() - 1);
-                                days = [formatDate(ds, 'yyyy-MM-dd') + getstartHours(), getDat() + getendHours()]
-                            }
-                            else if (e.defaultValue.length > 0 && e.defaultValue[0] !== '') {
-                                days = [formatDate(new Date(e.defaultValue[0]), 'yyyy-MM-dd') + getstartHours(), formatDate(new Date(e.defaultValue[1]), 'yyyy-MM-dd') + getendHours()]
-                            }
-                            valueList[e.id] = days
-                        } else if (e.type === 'RadioGroup') {
-                            valueList[e.id] = e.defaultValue === '-1' ? ' ' : e.defaultValue;
-                        }
-                        else if (e.type === 'Date') {
-                            let days = '';
-                            var ds;
-                            var oneweekdate;
-
-                            if (e.defaultValue === -1) {
-                                //当天
-                                oneweekdate = new Date()
-                                days = formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours()
-                            } else if (e.defaultValue === 1) {
-                                //前一天
-                                ds = new Date()
-                                oneweekdate = new Date(ds - 24 * 3600 * 1000);
-                                days = formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours()
-                            } else if (e.defaultValue === 7) {
-                                ds = new Date()
-                                oneweekdate = new Date(ds - 7 * 24 * 3600 * 1000);
-                                days = formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours()
-                            } else if (e.defaultValue === 30) {
-                                ds = new Date()
-                                ds.setMonth(ds.getMonth() - 1);
-                                days = formatDate(ds, 'yyyy-MM-dd') + getstartHours()
-                            }
-                            else if (e.defaultValue !== '') {
-                                oneweekdate = new Date(e.defaultValue)
-                                days = formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours()
-                            }
-                            valueList[e.id] = days;
-                        }
-                        else {
-                            valueList[e.id] = e.defaultValue === undefined ? '' : e.defaultValue;
-                        }
-                    }
-                    return true
-                });
-                let cols = {};
-                pre.tableSource[this.state.currentTabsIndex].columns.forEach(e => {
-                    cols[e.dataIndex] = e.title
-                });
-                let param = {
-                    Param: JSON.stringify(valueList),
-                    Columns: JSON.stringify(cols),
-                    IsPage: true,
-                    PageIndex: 1,
-                    PageSize: 350,
-                    Sql: SQL
-                };
-
-                var params = getrequestparam('exportsqldata', JSON.stringify(param), this.state.branchtype);
-                httprequest(params, this.state.branchtype, (result) => {
-                    var url = window.URL.createObjectURL(result)
-                    var a = document.createElement('a')
-                    a.href = url
-                    a.download = "数据.xls"
-                    a.click()
-                });
-            } else if (keyCode === 40) {
-                console.log(40);
-
-            } else if (keyCode === 38) {
-                console.log(38);
-
-            } else {
-                return true;
-            }
-            return false;
-        }
-    }
     componentDidMount() {
         setTimeout(() => {
             this.changeWidth()
         }, 50);
+        this.props.onRef(this)
     }
+
+    componentWillReceiveProps(pre) {
+        //let Prop = this.props
+        //let returnData = {}
+        //const { currentTabsIndex } = this.state;
+        //this.setState({
+        //    activetr: pre.tableSource[pre.CurrentIndex].tr
+        //});
+        //console.log(pre.tableSource[pre.CurrentIndex]);
+    }
+
     DAOCHU = () => {
         let valueList = {};
-        const { pane } = this.props;
-        const { currentTabsIndex } = this.state;
+        const { tableSource, data, CurrentIndex } = this.props;
 
-        let SQL = pane.TableData[currentTabsIndex].SQL;
-        pane.FormData.map(e => {
+        let SQL = tableSource[CurrentIndex].SQL;
+        data.map(e => {
             if (e.type !== 'Table' && e.type !== 'Group') {
                 if (e.type === 'LookUp') {
                     valueList[e.id] = e.values[e.upKey] === undefined ? '' : e.values[e.upKey];
@@ -380,7 +143,7 @@ class ContentUser extends Component {
             return true
         })
         let cols = {}
-        pane.TableData[currentTabsIndex].columns.forEach(e => {
+        tableSource[CurrentIndex].columns.forEach(e => {
             cols[e.dataIndex] = e.title
         })
         let param = {
@@ -401,26 +164,22 @@ class ContentUser extends Component {
             a.click()
         });
     }
-    SQLChecked = (page) => {
-        const { pane } = this.props;
-        const { currentTabsIndex } = this.state
-        this.setState({
-            loading: true
-        })
-        //input获取焦点
-        var oInput = document.getElementById("input");
-        oInput.focus();
-        window.addEventListener('keyup', this.handleKeyDown)
 
-        //var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.85
+    SQLChecked = (page) => {
+
+        const { tableSource, data, CurrentIndex } = this.props;
+        // this.setState({
+        //     loading: true
+        // })
+        this.props.Loading();
+
         let hflag = 0
         let height_ = 40
 
-        // this.props.Loading()
         let valueList = {}
-        let SQL = pane.TableData[currentTabsIndex].SQL;
+        let SQL = tableSource[CurrentIndex].SQL;
 
-        pane.FormData.map(e => {
+        data.map(e => {
             if (e.type !== 'Table' && e.type !== 'Group') {
                 if (e.type === 'LookUp') {
                     valueList[e.id] = e.values[e.upKey] === undefined ? '' : e.values[e.upKey];
@@ -515,9 +274,12 @@ class ContentUser extends Component {
             }
             POST$(API('SQL', this.state.branchtype).http, body, (res) => {
                 if (res.Results) {
-                    pane.TableData[currentTabsIndex].dataSource = res.Results;
-                    pane.TableData[currentTabsIndex].tr = 0;
-                    pane.TableData[currentTabsIndex].pageSize = res.RecordCount;
+                    tableSource[CurrentIndex].dataSource = res.Results;
+                    tableSource[CurrentIndex].tr = 0;
+                    tableSource[CurrentIndex].pageSize = res.RecordCount;
+
+
+
                     resolve(true);
                 } else {
                     reject(res);
@@ -527,47 +289,49 @@ class ContentUser extends Component {
 
         Promise.race([post])
             .then((result) => {
-                this.setState({
-                    loading: false
-                })
+                this.props.hidLoading();
             })
             .catch((err) => {
+
+                console.log(err);
 
                 if (err.status !== 500)
                     message.error(err.errormsg.substring(0, 200));
 
-                this.setState({
-                    loading: false
-                })
+                this.props.hidLoading();
             })
     }
+
     guanbi = () => {
         this.props.clear()
     }
+
     handleKeyDown = (e) => {
         //debugger;
-        console.log(this.props);
-        const { pane } = this.props;
-        const { currentTabsIndex } = this.state
+        const { tableSource, data, CurrentIndex } = this.props;
         const { activetr } = this.state;
-
+        let _tabledata = tableSource[CurrentIndex];
 
         switch (e.keyCode) {
             case 40://下
-                if (pane.TableData[currentTabsIndex].tr < pane.TableData[currentTabsIndex].dataSource.length - 1) {
-                    pane.TableData[currentTabsIndex].tr = pane.TableData[currentTabsIndex].tr + 1;
+                if (_tabledata.tr < _tabledata.dataSource.length - 1) {
+                    this.props.tAddDown(_tabledata.tr, 1);
                     this.setState({
                         activetr: activetr + 1
                     });
                 }
+
                 break;
             case 38://上
-                if (pane.TableData[currentTabsIndex].tr > 0) {
-                    this.props.tReduceUp(pane.TableData[currentTabsIndex].tr, 1)
-                    this.setState({
-                        activetr: activetr - 1
-                    });
+                if (_tabledata.tr > 0) {
+                    this.props.tReduceUp(_tabledata.tr, 1)
                 }
+
+                let _tr = activetr - 1;
+                this.setState({
+                    activetr: _tr < 0 ? 0 : _tr
+                });
+
                 break;
             case 37:
                 break
@@ -576,19 +340,18 @@ class ContentUser extends Component {
             default:
                 break;
         }
-
-        console.log(this.props);
+        //console.log(this.state);
         return false;
     }
-    ONBlur = () => {
-        window.removeEventListener('keyup', this.handleKeyDown)
-    }
+
+
     onChange = (page) => {
         this.setState({
             current: page
         })
         this.SQLChecked(page)
     }
+
     onChangeDs = (e) => {
         this.setState({
             branchtype: e.target.value
@@ -600,9 +363,9 @@ class ContentUser extends Component {
         this.setState({
             currentTabsIndex: Number(key)
         })
-        // indexCurrentContst = Number(key)
         this.props.currentTableTab(Number(key))
     }
+
     render() {
 
         const { activetr } = this.state;
@@ -610,7 +373,7 @@ class ContentUser extends Component {
 
         var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.85;
         const { pane } = this.props;
-        console.log(pane);
+        console.log(this.props);
 
         let Dr = []
         let width_ = this.state.domWidth / 24
@@ -696,12 +459,7 @@ class ContentUser extends Component {
                         {Dr}
                     </Form>
                     <div style={{ position: 'relative', top: (hflag + 40) + 'px', height: (h - hflag) * 0.8 + 'px' }}>
-                        <input
-                            type="text"
-                            id='input'
-                            onBlur={this.ONBlur}
-                            style={{ display: 'none' }}
-                        />
+
 
                         <Tabs defaultActiveKey="0" onChange={this.callback}>
                             {tableTabs}

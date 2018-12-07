@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Tabs } from 'antd'
+import { Tabs, Spin } from 'antd'
 import { addTabs, delTabs, addTable, delTable, copyThis } from './User.action'
 import ContentUser from './Content.User'
 import { Object } from 'es6-shim';
-import { fugai,tableFugai } from '../stylist/action/Stylist.action'
-
+import { fugai, tableFugai } from '../stylist/action/Stylist.action'
 const TabPane = Tabs.TabPane;
-
 
 class Tags extends Component {
     constructor(props) {
@@ -15,39 +13,92 @@ class Tags extends Component {
         const panes = [];
         this.state = {
             activeKey: '0',
+            activetr: 0,
             panes,
-            loading:false,
-            CurrentIndex:0
+            loading: false,
+            CurrentIndex: 0
         };
+
+        this._handleKeydown = this.handleKeydown.bind(this);
+        this._handleKeyup = this.handleKeyup.bind(this);
     }
+
+    onRef = (ref) => {
+        this.child = ref;
+    }
+
     componentDidMount() {
         // console.log(this.props.dataContent);
         this.setState({
             activeKey: this.props.dataContent[0].Name
-        })
+        });
+
+        document.body.addEventListener('keydown', this._handleKeydown, false);
+        document.body.addEventListener('keyup', this._handleKeyup, false);
     }
+
+    componentWillUnmount() {
+        document.body.removeEventListener('keydown', this._handleKeydown, false);
+        document.body.removeEventListener('keyup', this._handleKeyup, false);
+    }
+
+    handleKeydown = (e) => {
+        var keyCode = e.keyCode || e.which || e.charCode;
+        var altKey = e.altKey;
+        if (altKey && keyCode === 81) {
+            this.child.SQLChecked(1);
+        } else if (altKey && keyCode === 69) {
+            this.child.DAOCHU();
+        }
+        return false;
+    }
+
+    handleKeyup = (e) => {
+        this.child.handleKeyDown(e);
+    };
+
     componentWillReceiveProps(pre) {
-        console.log(pre);
         this.setState({
             activeKey: pre.dataContent[pre.dataContent.length - 1].Name
         })
-        // console.log(this.props);
-
     }
-    onChange = (activeKey) => {
-        this.setState({ activeKey ,   CurrentIndex:0});
 
-        // console.log(activeKey);
+    onChange = (activeKey) => {
+        console.log(this.props);
+        this.setState({ activeKey, CurrentIndex: 0, activetr: 0 });
+
         //更新formdata
         this.props.upData(this.props.TabsData.find(e => e.Name === activeKey).Source.FormData)
         this.props.tableFugai(this.props.TabsData.find(e => e.Name === activeKey).Source.TableData)
     }
+
     //改变tableTab的选中下表
     currentTableTab = (key) => {
         this.setState({
-            CurrentIndex:key
-        })
+            CurrentIndex: key
+        });
     }
+
+    hidLoading = () => {
+        this.setState((pre) => ({
+            loading: false
+        }));
+    }
+
+    Loading = () => {
+
+        this.setState((pre) => ({
+            loading: !pre.loading
+        }));
+    }
+
+    //行选中
+    currentTableTr = (trindex) => {
+        this.setState({
+            activetr: trindex
+        });
+    }
+
     onEdit = (targetKey, action) => {
         this[action](targetKey);
     }
@@ -81,12 +132,12 @@ class Tags extends Component {
         Object.assign(data, e)
 
     }
- 
+
     render() {
-        // console.log(this.props.TabsData);
+        console.log(this.props);
 
         return (
-        
+            <Spin spinning={this.state.loading}>
                 <Tabs
                     hideAdd
                     onChange={this.onChange}
@@ -99,15 +150,19 @@ class Tags extends Component {
                             <TabPane tab={pane.Name} key={pane.Name}>
                                 <ContentUser
                                     pane={pane.Source}
-                                    Loading={this.props.Loading}
+                                    Loading={this.Loading.bind(this)}
+                                    hidLoading={this.hidLoading.bind(this)}
+                                    currentTableTr={this.currentTableTr}
                                     currentTableTab={this.currentTableTab}
                                     ChangeOn={this.ChangeOn.bind(this)}
                                     CurrentIndex={this.state.CurrentIndex}
+                                    onRef={this.onRef}
                                 ></ContentUser>
                             </TabPane>
                     )}
                 </Tabs>
-     
+            </Spin>
+
         );
     }
 }
@@ -140,7 +195,7 @@ const mapDispatchProps = (dispatch) => {
         upData: (k) => {
             dispatch(fugai(k))
         },
-        tableFugai:(k) => {
+        tableFugai: (k) => {
             dispatch(tableFugai(k))
         }
     }
