@@ -128,7 +128,7 @@ class Tags extends Component {
     }
 
     ChangeOn = (e, key) => {
-        console.log(this.state.panes);
+        // console.log(this.state.panes);
         const { activeKey } = this.state
         const { TabsData } = this.props
         // console.log(TabsData);
@@ -142,7 +142,7 @@ class Tags extends Component {
     }
 
     render() {
-        console.log(this.props);
+        // console.log(this.props);
 
         return (
             <Spin spinning={this.state.loading}>
