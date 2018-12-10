@@ -23,7 +23,10 @@ class Info extends Component {
             dataIndex: 'Status'
         }, {
             title: '发送时间',
-            dataIndex: 'SendDate'
+            dataIndex: 'SendDate',
+            render: (text, record) => {
+                return text.substr(0, 16).replace('T', ' ');
+            }
         }],
         disabled: true,
         loading: false,
@@ -54,6 +57,9 @@ class Info extends Component {
         }, {
             title: '创建时间',
             dataIndex: 'CreateTime',
+            render: (text, record) => {
+                return text.substr(0, 10);
+            }
         }, {
             title: '状态',
             dataIndex: 'Status',
@@ -277,7 +283,7 @@ class Info extends Component {
                                 <Button onClick={this.OnOk} disabled={news}>确认提交</Button>
                             </div> :
                             <div onClick={this.goBack}>
-                                <Button>回到首页</Button>
+                                <Button>返回首页</Button>
                             </div>
                     }>
                     <TabPane tab="列表选择" key='1'>
