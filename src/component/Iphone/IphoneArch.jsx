@@ -98,12 +98,12 @@ class IphoneArch extends Component {
                 })
             })
             .catch((err) => {
-                if (err.status !== 500)
-                    message.error(err.errormsg.substring(0, 200));
-
                 this.setState({
                     loading: false
                 })
+
+                if (err != null && err.status !== 500 && err.errormsg)
+                    message.error(err.errormsg.substring(0, 200));
             })
     }
     rowSelectionChange = (rowKeys, rows) => {
@@ -158,12 +158,12 @@ class IphoneArch extends Component {
                 })
             })
             .catch((err) => {
-                if (err.status !== 500)
-                    message.error(err.errormsg.substring(0, 200));
-
                 this.setState({
                     loading: false
                 })
+
+                if (err != null && err.status !== 500 && err.errormsg)
+                    message.error(err.errormsg.substring(0, 200));
             })
     }
     Add = () => {

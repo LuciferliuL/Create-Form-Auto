@@ -59,9 +59,9 @@ class ContentUser extends Component {
         //let Prop = this.props
         //let returnData = {}
         //const { currentTabsIndex } = this.state;
-        //this.setState({
-        //    activetr: pre.tableSource[pre.CurrentIndex].tr
-        //});
+        this.setState({
+            activetr: pre.tableSource[pre.CurrentIndex].tr
+        });
         //console.log(pre.tableSource[pre.CurrentIndex]);
     }
 
@@ -278,8 +278,6 @@ class ContentUser extends Component {
                     tableSource[CurrentIndex].tr = 0;
                     tableSource[CurrentIndex].pageSize = res.RecordCount;
 
-
-
                     resolve(true);
                 } else {
                     reject(res);
@@ -292,13 +290,12 @@ class ContentUser extends Component {
                 this.props.hidLoading();
             })
             .catch((err) => {
+                this.props.hidLoading();
 
                 console.log(err);
 
-                if (err.status !== 500)
+                if (err != null && err.status !== 500 && err.errormsg)
                     message.error(err.errormsg.substring(0, 200));
-
-                this.props.hidLoading();
             })
     }
 
