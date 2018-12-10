@@ -70,6 +70,8 @@ export const UpdataFormData = (state = [], action) => {
 
 export const currentAttr = (state = {}, action) => {
     switch (action.type) {
+        case INPUT_CHANGE:
+            return { ...state, defaultValue: action.value }
         case CURRENT_ATTR:
             return state = action.currentAttr
         case CURRENT_ATTR_UPDATA:

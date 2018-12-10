@@ -23,12 +23,14 @@ class SliderRightcomponent extends Component {
     }
 
     componentWillReceiveProps(pre) {
+        console.log(pre);
+        
         const { getFieldDecorator } = pre.form;
         let dateChange = 0
 
         if (pre.currentAttr.type === 'Range' || pre.currentAttr.type === 'Date') {
             if (pre.currentAttr.defaultValue) {
-                if (pre.currentAttr.defaultValue === '') {
+                if (pre.currentAttr.defaultValue === 3) {
                     dateChange = 3 //无
                 } else if (pre.currentAttr.defaultValue === -1) {
                     dateChange = 1 //最新时间
@@ -265,6 +267,8 @@ class SliderRightcomponent extends Component {
         });
     }
     radioChange = (key, e) => {
+        // console.log(e.target.value);
+        
         this.setState({
             value: e.target.value
         })
@@ -272,7 +276,7 @@ class SliderRightcomponent extends Component {
             let times = -1
             this.props.inputChange(this.props.currentAttr.key, times)
         } else if (e.target.value === 3) {
-            let times = ''
+            let times = 3
             this.props.inputChange(this.props.currentAttr.key, times)
         } else {
             this.props.inputChange(this.props.currentAttr.key, 1)
@@ -321,7 +325,8 @@ class SliderRightcomponent extends Component {
                 </FormItem>
             )
         })
-
+        // console.log(this.state.value);
+        
 
         return (
             <Card bodyStyle={{ padding: 5 }}>
@@ -417,6 +422,8 @@ class SliderRightcomponent extends Component {
 }
 
 const mapPropsToState = (state) => {
+    console.log(state);
+    
     return {
     }
 }
