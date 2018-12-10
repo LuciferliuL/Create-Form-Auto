@@ -76,7 +76,7 @@ class USER extends Component {
     render() {
         const { user, loading, dataContent } = this.state
 
-        console.log(dataContent);
+        // console.log(dataContent);
 
         return (
             <Spin spinning={loading} size='large'>

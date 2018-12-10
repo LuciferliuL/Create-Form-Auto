@@ -16,6 +16,8 @@ class InputPublicComponent extends Component {
     render() {
         const { getFieldDecorator } = this.props.form
         const { placeholder, disabled, label, key, required, message, layout } = this.props.PublicData
+        console.log( this.props.PublicData);
+        
         return (
             <FormItem
                 label={label}
@@ -49,7 +51,7 @@ const mapDispatchProps = (dispatch) => {
 }
 export default InputPublicComponent = connect(mapStateToProps, mapDispatchProps)(Form.create({
     mapPropsToFields(props) {
-        // console.log(props);
+        console.log(props);
         if (props.Read === 'R') {
             let Field = {}
             Field[props.PublicData.key] = Form.createFormField({ value: props.PublicData.defaultValue })

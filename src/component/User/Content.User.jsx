@@ -366,11 +366,11 @@ class ContentUser extends Component {
     render() {
 
         const { activetr } = this.state;
-        console.log(activetr);
+        // console.log(activetr);
 
         var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.85;
         const { pane } = this.props;
-        console.log(this.props);
+        console.log(this.props.pane.FormData);
 
         let Dr = []
         let width_ = this.state.domWidth / 24

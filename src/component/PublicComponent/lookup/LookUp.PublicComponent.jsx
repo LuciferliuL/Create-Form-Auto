@@ -204,7 +204,7 @@ class LookUpPublicComponent extends Component {
     //失去焦点
     Blur = (e) => {
         let data = this.props.PublicData
-        console.log(this.state.value);
+        // console.log(this.state.value);
         if (this.state.value === '') {
             data.values = ''
             this.props.ChangeOn(data, data.key)
@@ -219,6 +219,8 @@ class LookUpPublicComponent extends Component {
     render() {
         const { label, layout } = this.props.PublicData
         const { shows } = this.state
+        // console.log(this.props.PublicData);
+        
         return (
 
             <div className="certain-category-search-wrapper" style={{ width: '100%' }}>

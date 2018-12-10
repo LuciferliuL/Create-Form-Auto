@@ -28,6 +28,8 @@ class Tags extends Component {
     }
 
     componentDidMount() {
+        // console.log(this.props);
+        
         // console.log(this.props.dataContent);
         this.setState({
             activeKey: this.props.dataContent[0].Name
@@ -58,13 +60,15 @@ class Tags extends Component {
     };
 
     componentWillReceiveProps(pre) {
+        // console.log(pre);
+        
         this.setState({
             activeKey: pre.dataContent[pre.dataContent.length - 1].Name
         })
     }
 
     onChange = (activeKey) => {
-        console.log(this.props);
+        // console.log(this.props);
         this.setState({ activeKey, CurrentIndex: 0, activetr: 0 });
 
         //更新formdata
@@ -123,10 +127,10 @@ class Tags extends Component {
     }
 
     ChangeOn = (e, key) => {
-        console.log(e);
+        // console.log(e);
         const { activeKey } = this.state
         const { TabsData } = this.props
-        console.log(TabsData);
+        // console.log(TabsData);
         let source = TabsData.find(e => e.Name === activeKey)
         let data = source.Source.FormData.find(e => e.key === key)
         Object.assign(data, e)
@@ -145,7 +149,7 @@ class Tags extends Component {
                     type="editable-card"
                     onEdit={this.onEdit}
                 >
-                    {this.props.TabsData.map(
+                    {this.props.dataContent.map(
                         pane =>
                             <TabPane tab={pane.Name} key={pane.Name}>
                                 <ContentUser
