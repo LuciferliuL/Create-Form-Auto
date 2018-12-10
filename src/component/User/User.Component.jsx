@@ -35,29 +35,34 @@ class USER extends Component {
 
         console.log(e);
 
-        // let list = [];
-        // if (this.state.dataContent.length > 0) {
-        //     this.state.dataContent.forEach(c => {
-        //         if (c.Name === e.Name) {
-        //             list.push(e);
-        //         }
-        //         else {
-        //             list.push(c);
-        //         }
-        //     })
-        // }
-        // else {
-        //     list.push(e);
-        // }
+        let list = [];
+        let flag = true
+        if (this.state.dataContent.length > 0) {
+            this.state.dataContent.forEach(c => {
+                if (c.Name === e.Name) {
+                    list.push(e);
+                    flag = false
+                }
+                else {
+                    list.push(c);
+                }
+            })
+            if(flag){
+                list.push(e)
+            }
+        }
+        else {
+            list.push(e);
+        }
 
-        // this.setState({
-        //     dataContent: list
-        // })
+        this.setState({
+            dataContent: list
+        })
 
 
-        this.setState((pre) => ({
-            dataContent: [...pre.dataContent, e]
-        }))
+        // this.setState((pre) => ({
+        //     dataContent: [...pre.dataContent, e]
+        // }))
 
     }
 

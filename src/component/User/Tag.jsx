@@ -135,7 +135,7 @@ class Tags extends Component {
         let source = TabsData.find(e => e.Name === activeKey)
         let data = source.Source.FormData.find(e => e.key === key)
         Object.assign(data, e)
-        this.props.updata(TabsData)
+        // this.props.updata(TabsData)
         this.setState({
             tf:!this.state.tf
         })
