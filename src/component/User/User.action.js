@@ -4,6 +4,7 @@ export const DEL_TABLE = 'DEL_TABLE'
 export const ADD_TABLE = 'ADD_TABLE'
 export const KEYS_CHANGE = 'KEYS_CHANGE'
 export const COPY_THIS = 'COPY_THIS'
+export const UPDATA = 'UPDATA'
 
 //添加
 export const addTabs = (value) => {
@@ -48,5 +49,12 @@ export const copyThis = (List) => {
     return {
         type: 'COPY_THIS',
         List: List
+    }
+}
+
+export const updata = (k) => {
+    return {
+        type: 'UPDATA',
+        value:k
     }
 }

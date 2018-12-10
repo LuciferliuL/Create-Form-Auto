@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Tabs, Spin } from 'antd'
-import { addTabs, delTabs, addTable, delTable, copyThis } from './User.action'
+import { addTabs, delTabs, addTable, delTable, copyThis, updata } from './User.action'
 import ContentUser from './Content.User'
 import { Object } from 'es6-shim';
 import { fugai, tableFugai } from '../stylist/action/Stylist.action'
@@ -16,7 +16,8 @@ class Tags extends Component {
             activetr: 0,
             panes,
             loading: false,
-            CurrentIndex: 0
+            CurrentIndex: 0,
+            tf:true
         };
 
         this._handleKeydown = this.handleKeydown.bind(this);
@@ -127,14 +128,17 @@ class Tags extends Component {
     }
 
     ChangeOn = (e, key) => {
-        // console.log(e);
+        console.log(this.state.panes);
         const { activeKey } = this.state
         const { TabsData } = this.props
         // console.log(TabsData);
         let source = TabsData.find(e => e.Name === activeKey)
         let data = source.Source.FormData.find(e => e.key === key)
         Object.assign(data, e)
-
+        this.props.updata(TabsData)
+        this.setState({
+            tf:!this.state.tf
+        })
     }
 
     render() {
@@ -201,6 +205,9 @@ const mapDispatchProps = (dispatch) => {
         },
         tableFugai: (k) => {
             dispatch(tableFugai(k))
+        },
+        updata:(k)=>{
+            dispatch(updata(k))
         }
     }
 }
