@@ -131,7 +131,7 @@ class ContentUser extends Component {
                         ds.setMonth(ds.getMonth() - 1);
                         days = formatDate(ds, 'yyyy-MM-dd') + getstartHours()
                     }
-                    else if (e.defaultValue !== '') {
+                    else if (e.defaultValue !== 3) {
                         oneweekdate = new Date(e.defaultValue)
                         days = formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours()
                     }
@@ -240,7 +240,7 @@ class ContentUser extends Component {
                         ds.setMonth(ds.getMonth() - 1);
                         days = formatDate(ds, 'yyyy-MM-dd') + getstartHours()
                     }
-                    else if (e.defaultValue !== '') {
+                    else if (e.defaultValue !== 3) {
                         oneweekdate = new Date(e.defaultValue)
                         days = formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours()
                     }
