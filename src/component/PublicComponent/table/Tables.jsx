@@ -120,7 +120,7 @@ class TABLECOMPONENT extends Component {
         const { data, columnskeys } = this.state
         const { activetr } = this.props;
 
-        console.log(activetr);
+        // console.log(activetr);
 
         let widths = 0
         let columnsData = []

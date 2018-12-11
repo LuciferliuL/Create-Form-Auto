@@ -128,21 +128,21 @@ class Tags extends Component {
     }
 
     ChangeOn = (e, key) => {
-        console.log(this.state.panes);
+        // console.log(this.state.panes);
         const { activeKey } = this.state
         const { TabsData } = this.props
         // console.log(TabsData);
         let source = TabsData.find(e => e.Name === activeKey)
         let data = source.Source.FormData.find(e => e.key === key)
         Object.assign(data, e)
-        this.props.updata(TabsData)
+        // this.props.updata(TabsData)
         this.setState({
             tf:!this.state.tf
         })
     }
 
     render() {
-        console.log(this.props);
+        // console.log(this.props);
 
         return (
             <Spin spinning={this.state.loading}>

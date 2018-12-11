@@ -48,6 +48,8 @@ class TreeUser extends Component {
                 data.TableData.length ? this.props.tableFugai(data.TableData) : this.props.tableFugai([data.TableData]);
                 this.props.dataChange({ Source: data, Name: name });
             } else {
+                console.log(2);
+                
                 this.props.upData(data.FormData);
                 data.TableData.length ? this.props.tableFugai(data.TableData) : this.props.tableFugai([data.TableData]);
                 this.props.dataChange({ Source: data, Name: name });

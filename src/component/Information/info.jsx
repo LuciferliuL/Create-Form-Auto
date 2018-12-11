@@ -63,17 +63,6 @@ class Info extends Component {
         }, {
             title: '状态',
             dataIndex: 'Status',
-        }, {
-            title: '操作',
-            dataIndex: "CfgGuid",
-            render: (text, record) => {
-                return (
-                    <div>
-                        <Button onClick={this.checkedLog.bind(this, text)}>查看日志</Button>
-                    </div>
-
-                )
-            }
         }],
     }
     componentDidMount() {
@@ -84,10 +73,10 @@ class Info extends Component {
             })
         })
     }
-    checkedLog = (e) => {
-        console.log(e);
+    checkedLog = () => {
+        console.log(this.state.selectedData);
         let ss = {
-            cfgguid: e
+            cfgguid: this.state.selectedData[0].CfgGuid
         }
         let obj = {
             PageIndex: 1,
@@ -96,9 +85,13 @@ class Info extends Component {
         };
         POST$(API('geti9msgsendlist').http, obj, (res) => {
             console.log(res);
-            this.setState({
-                databottom: res
-            })
+            if (res.error) {
+                message.warning('数据错误，请重新选')
+            } else {
+                this.setState({
+                    databottom: res
+                })
+            }
         })
     }
     OnChange = (rowKey, rows) => {
@@ -121,6 +114,7 @@ class Info extends Component {
                 <Button onClick={this.edit.bind(this, 'edit')}>编辑</Button>
                 <Button onClick={this.edit.bind(this, 'look')}>查看</Button>
                 <Button onClick={this.edit.bind(this, 'del')}>删除</Button>
+                <Button onClick={this.checkedLog.bind(this)}>查看日志</Button>
             </ButtonGroup>
         </div>
     )
