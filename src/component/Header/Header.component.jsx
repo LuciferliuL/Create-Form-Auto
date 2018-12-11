@@ -10,11 +10,17 @@ class Headercomponent extends Component {
     state = {
         user: JSON.parse(sessionStorage.getItem('values')),
         userdata: JSON.parse(sessionStorage.getItem('udata')),
+        model: sessionStorage.getItem("model"),
         selectedTags: [],
         activeKey: '1'
     }
     enter = () => {
-        this.props.history.push('/')
+
+        if (this.state.model === "design")
+            this.props.history.push('/loginLeader')
+        else
+            this.props.history.push('/')
+
         this.props.fugai([])
     }
     handleChange(tag, checked) {
@@ -39,7 +45,7 @@ class Headercomponent extends Component {
         this.props.tableFugai(fugaiData.Source.TableData)
     }
     render() {
-        const { userdata} = this.state
+        const { userdata } = this.state
 
         const menu = (
             <Menu>
@@ -50,7 +56,9 @@ class Headercomponent extends Component {
                     <a target="_blank">个人中心</a>
                 </Menu.Item>
                 <Menu.Item>
-                    <a onClick={this.enter.bind(this)}>退出登入</a>
+                    <a onClick={this.enter.bind(this)}>                    {
+                        this.state.model === "design" ? "返回首页" : "退出登录"
+                    }</a>
                 </Menu.Item>
             </Menu>
         );
@@ -108,7 +116,7 @@ const mapStateToProps = (state) => {
         tableSource: state.tableSource,
         TableList: state.TableList,
         TabsData: state.TabsData,
-        KEYS:state.KEYS
+        KEYS: state.KEYS
     }
 }
 const mapDispatchProps = (dispatch) => {
@@ -140,7 +148,7 @@ const mapDispatchProps = (dispatch) => {
         keyschange: (key) => {
             dispatch(keyschange(key))
         },
-        tableFugai:(k) => {
+        tableFugai: (k) => {
             dispatch(tableFugai(k))
         }
     }

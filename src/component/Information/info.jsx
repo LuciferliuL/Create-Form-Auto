@@ -17,13 +17,17 @@ class Info extends Component {
     state = {
         news: false,
         tabBarShow: false,
+        showdatalog: false,
         databottom: [],
         columnsbottom: [{
             title: '状态',
             dataIndex: 'Status'
         }, {
             title: '发送时间',
-            dataIndex: 'SendDate'
+            dataIndex: 'SendDate',
+            render: (text, record) => {
+                return text.substr(0, 16).replace('T', ' ');
+            }
         }],
         disabled: true,
         loading: false,
@@ -54,6 +58,9 @@ class Info extends Component {
         }, {
             title: '创建时间',
             dataIndex: 'CreateTime',
+            render: (text, record) => {
+                return text.substr(0, 10);
+            }
         }, {
             title: '状态',
             dataIndex: 'Status',
@@ -83,7 +90,8 @@ class Info extends Component {
                 message.warning('数据错误，请重新选')
             } else {
                 this.setState({
-                    databottom: res
+                    databottom: res,
+                    showdatalog: true
                 })
             }
         })
@@ -124,7 +132,7 @@ class Info extends Component {
                         Name: "测试",
                         DataSource: "集中",//集中，分公司；
                         DueDatetype: "立即",
-                        DueDateCorn: "立即",//
+                        DueDateCorn: "",//
                         MsgTemplateId: global.msgcfg.autotemplateid,
                         Receivers: '[]',
                         Sender: null,
@@ -143,7 +151,7 @@ class Info extends Component {
                     Name: "测试",
                     DataSource: "集中",//集中，分公司；
                     DueDatetype: "立即",
-                    DueDateCorn: "立即",//
+                    DueDateCorn: "",//
                     MsgTemplateId: global.msgcfg.autotemplateid,
                     Receivers: '[]',
                     Sender: null,
@@ -206,6 +214,13 @@ class Info extends Component {
         let s = this.props.information;
         // console.log(s);
 
+        if (s.DueDatetype == '立即') {
+            s.MsgTemplateId = global.msgcfg.autotemplateid;
+        }
+        else {
+            s.MsgTemplateId = global.msgcfg.corntemplateid;
+        }
+
         s.DeptID = global.msgcfg.filepath;
         s.DeptName = global.msgcfg.fileurl;
         s.Sender = JSON.stringify({
@@ -219,7 +234,9 @@ class Info extends Component {
         let title = s.Title
         let sql = s.Sqls
         let Rec = s.Receivers
-        // console.log(title + '----' + sql + '-----' + Rec);
+
+        //console.log(s);
+        //return;
 
         if (title.length > 0 && sql.length > 2 && Rec.length > 2) {
             this.setState((pre) => (
@@ -254,7 +271,7 @@ class Info extends Component {
         this.props.history.push('/loginLeader');
     }
     render() {
-        const { columns, data, activeKey, selectedRowKeys, selectedData, disabled, loading, news, columnsbottom, databottom } = this.state
+        const { columns, data, activeKey, showdatalog, selectedRowKeys, selectedData, disabled, loading, news, columnsbottom, databottom } = this.state
         const rowSelection = {
             onChange: this.OnChange,
             type: 'radio',
@@ -271,7 +288,7 @@ class Info extends Component {
                                 <Button onClick={this.OnOk} disabled={news}>确认提交</Button>
                             </div> :
                             <div onClick={this.goBack}>
-                                <Button>回到首页</Button>
+                                <Button>返回首页</Button>
                             </div>
                     }>
                     <TabPane tab="列表选择" key='1'>
@@ -286,7 +303,8 @@ class Info extends Component {
                         </Table>
                         <Card
                             title='发送记录'
-                            style={{ position: 'fixed', bottom: 0, width: '100%' }}>
+
+                            style={{ position: 'fixed', display: showdatalog ? '' : "none", bottom: 0, width: '100%' }} >
                             <Table
                                 // rowSelection={rowSelection}
                                 bordered={true}
