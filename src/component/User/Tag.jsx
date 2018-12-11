@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Tabs, Spin } from 'antd'
 import { addTabs, delTabs, addTable, delTable, copyThis, updata } from './User.action'
+import { changeActiveKey } from '../Information/information.action'
 import ContentUser from './Content.User'
 import { Object } from 'es6-shim';
 import { fugai, tableFugai } from '../stylist/action/Stylist.action'
@@ -12,12 +13,12 @@ class Tags extends Component {
         super(props);
         const panes = [];
         this.state = {
-            activeKey: '0',
+            //activeKey: '0',
             activetr: 0,
             panes,
             loading: false,
             CurrentIndex: 0,
-            tf:true
+            tf: true
         };
 
         this._handleKeydown = this.handleKeydown.bind(this);
@@ -30,11 +31,11 @@ class Tags extends Component {
 
     componentDidMount() {
         // console.log(this.props);
-        
+
         // console.log(this.props.dataContent);
-        this.setState({
-            activeKey: this.props.dataContent[0].Name
-        });
+        //this.setState({
+        //   activeKey: this.props.dataContent[0].Name
+        //});
 
         document.body.addEventListener('keydown', this._handleKeydown, false);
         document.body.addEventListener('keyup', this._handleKeyup, false);
@@ -62,15 +63,17 @@ class Tags extends Component {
 
     componentWillReceiveProps(pre) {
         // console.log(pre);
-        
-        this.setState({
-            activeKey: pre.dataContent[pre.dataContent.length - 1].Name
-        })
+
+        //this.setState({
+        //    activeKey: pre.dataContent[pre.dataContent.length - 1].Name
+        //})
     }
 
     onChange = (activeKey) => {
         // console.log(this.props);
-        this.setState({ activeKey, CurrentIndex: 0, activetr: 0 });
+        this.setState({ CurrentIndex: 0, activetr: 0 });
+
+        this.props.changeActiveKey(activeKey);
 
         //更新formdata
         this.props.upData(this.props.TabsData.find(e => e.Name === activeKey).Source.FormData)
@@ -109,7 +112,7 @@ class Tags extends Component {
     }
 
     remove = (targetKey) => {
-        let activeKey = this.state.activeKey;
+        let activeKey = this.props.activeKey;
         let lastIndex;
         this.props.TabsData.forEach((pane, i) => {
             if (pane.Name === targetKey) {
@@ -123,33 +126,38 @@ class Tags extends Component {
         // console.log(panes);
 
         this.props.removedata(targetKey);
-        this.props.copyThis(panes)
-        this.setState({ activeKey });
+        this.props.copyThis(panes);
+
+        this.props.changeActiveKey(activeKey);
+
+        //this.setState({ activeKey });
     }
 
     ChangeOn = (e, key) => {
         // console.log(this.state.panes);
-        const { activeKey } = this.state
+        const { activeKey } = this.props
         const { TabsData } = this.props
         // console.log(TabsData);
         let source = TabsData.find(e => e.Name === activeKey)
         let data = source.Source.FormData.find(e => e.key === key)
         Object.assign(data, e)
-        // this.props.updata(TabsData)
-        this.setState({
-            tf:!this.state.tf
-        })
+        //this.props.updata(TabsData)
+        setTimeout(() => {
+            this.setState({
+                tf: !this.state.tf
+            })
+        }, 200);
     }
 
     render() {
-        // console.log(this.props);
+        console.log(this.props);
 
         return (
             <Spin spinning={this.state.loading}>
                 <Tabs
                     hideAdd
                     onChange={this.onChange}
-                    activeKey={this.state.activeKey}
+                    activeKey={this.props.activeKey}
                     type="editable-card"
                     onEdit={this.onEdit}
                 >
@@ -180,7 +188,8 @@ function mapStateToProps(State) {
 
     return {
         TableList: State.TableList,
-        TabsData: State.TabsData
+        TabsData: State.TabsData,
+        activeKey: State.activeKey
     };
 }
 const mapDispatchProps = (dispatch) => {
@@ -206,8 +215,11 @@ const mapDispatchProps = (dispatch) => {
         tableFugai: (k) => {
             dispatch(tableFugai(k))
         },
-        updata:(k)=>{
+        updata: (k) => {
             dispatch(updata(k))
+        },
+        changeActiveKey: (k) => {
+            dispatch(changeActiveKey(k))
         }
     }
 }

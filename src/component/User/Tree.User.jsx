@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { fugai, tableFugai } from '../stylist/action/Stylist.action'
 import { updataValues } from '../PublicComponent/lookup/action/lookup.action'
 import { formUpdataFromCurrent } from '../SliderRIght/action/Right.action'
+import { changeActiveKey } from '../Information/information.action'
 import { API } from '../../lib/API/check.API'
 import { POST$, treeData } from '../../lib/MATH/math'
 import { withRouter } from 'react-router-dom'
@@ -40,20 +41,23 @@ class TreeUser extends Component {
 
             let F = TabsData.find(e => e.Name === name)
             // console.log(F);
-            console.log(data.TableData);
+            //console.log(data.TableData);
 
             if (F === undefined) {
                 this.props.addTabs({ Source: data, Name: name });
                 this.props.upData(data.FormData);
                 data.TableData.length ? this.props.tableFugai(data.TableData) : this.props.tableFugai([data.TableData]);
                 this.props.dataChange({ Source: data, Name: name });
+
             } else {
-                console.log(2);
-                
+                //console.log(2);
+
                 this.props.upData(data.FormData);
                 data.TableData.length ? this.props.tableFugai(data.TableData) : this.props.tableFugai([data.TableData]);
-                this.props.dataChange({ Source: data, Name: name });
+                //this.props.dataChange({ Source: data, Name: name });
             }
+
+            this.props.changeActiveKey(name);
         }
     }
 
@@ -104,7 +108,8 @@ function mapStateToProps(State) {
 
     return {
         TabsData: State.TabsData,
-        tableSource: State.tableSource
+        tableSource: State.tableSource,
+        activeKey: State.activeKey
     };
 }
 const mapDispatchProps = (dispatch) => {
@@ -132,6 +137,9 @@ const mapDispatchProps = (dispatch) => {
         },
         delTable: (key) => {
             dispatch(delTable(key))
+        },
+        changeActiveKey: (k) => {
+            dispatch(changeActiveKey(k))
         }
     }
 }

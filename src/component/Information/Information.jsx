@@ -16,7 +16,7 @@ class Information extends Component {
     render() {
         const { selectedData } = this.props
         // console.log(this.props.news);
-        
+
         return (
             <Row>
                 <Col span={4}>
@@ -39,7 +39,7 @@ class Information extends Component {
                     </Card>
                     <Card
                         title="选择时间"
-                        bodyStyle={{ textAlign: 'center' }}>
+                        bodyStyle={{ textAlign: 'left' }}>
                         <InformationDate
                             selectedData={selectedData}
                             EditSelectedRow={this.props.EditSelectedRow}
