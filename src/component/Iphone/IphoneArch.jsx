@@ -185,7 +185,7 @@ class IphoneArch extends Component {
                 this.setState({
                     loading: false,
                     selectedRowKeys: [],
-                    loading: true,
+                    // loading: true,
                     data: [],
                     rows: [],
                     treeData: [],

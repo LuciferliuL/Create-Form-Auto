@@ -4,6 +4,7 @@ import { Input, Form, Icon, Modal, List, Button, Select } from 'antd'
 
 const FormItem = Form.Item
 const Option = Select.Option
+const { TextArea } = Input;
 
 function mapStateToProps(state) {
     return {
@@ -19,17 +20,20 @@ class IphoneC extends Component {
         Type: '',
         POPvisible: false,
         ButtonColor: 'success',
-        POPIndex: -1
+        POPIndex: -1,
+        SQLvisible: false,
+        text: ''
     }
     componentWillReceiveProps(pre) {
-        // console.log(pre);
+        console.log(pre);
         const { CurrentData } = pre
-        if (CurrentData.type === 'radio'||CurrentData.type === 'check') {
+        if (CurrentData.type === 'radio' || CurrentData.type === 'check') {
             const { data } = CurrentData
             this.setState({
                 data: data,
                 listColumns: ['name', 'value'],
-                Type: CurrentData.type
+                Type: CurrentData.type,
+                text: CurrentData.type === 'radio' ? CurrentData.sqlname : ''
             })
         } else if (CurrentData.type === 'lookup' || CurrentData.type === 'input' || CurrentData.type === 'date' || CurrentData.type === 'select') {
             const { data } = CurrentData
@@ -40,12 +44,13 @@ class IphoneC extends Component {
             })
         } else if (CurrentData.type === 'table') {
             const { columns } = CurrentData
-            console.log(columns);
+            // console.log(columns);
 
             this.setState({
                 data: columns,
                 listColumns: Object.keys(columns[0]),
-                Type: CurrentData.type
+                Type: CurrentData.type,
+                text: CurrentData.SQL
             })
         } else {
             this.setState({
@@ -114,7 +119,7 @@ class IphoneC extends Component {
                             Object.keys(e).forEach(el => {
                                 if (el === 'enum') {
                                     filed[el] = []
-                                }else if(e === 'type'){
+                                } else if (e === 'type') {
                                     filed[e] = 'String'
                                 } else {
                                     filed[e] = ''
@@ -137,7 +142,7 @@ class IphoneC extends Component {
                     listColumns.forEach(e => {
                         if (e === 'enum') {
                             filed[e] = []
-                        }else if(e === 'type'){
+                        } else if (e === 'type') {
                             filed[e] = 'String'
                         } else {
                             filed[e] = ''
@@ -285,6 +290,22 @@ class IphoneC extends Component {
         }
 
     }
+    handleSQL = () => {
+        // console.log(this.props);
+        const { CurrentData } = this.props
+        let v =  this.state.text.replace(/\n/g,' ')
+        this.props.AttributeChange(CurrentData.type === 'table' ? 'SQL' : 'sqlname', v)
+        this.setState({
+            SQLvisible: false
+        })
+    }
+    textChange = (e) => {
+        // console.log(e.target.value);
+        
+        this.setState({
+            text: e.target.value
+        })
+    }
     render() {
         const { CurrentData } = this.props
         const { data, listColumns, Type, POPIndex } = this.state
@@ -370,7 +391,7 @@ class IphoneC extends Component {
                 )
             } else if (e === 'isObj') {
                 CurrentInput.push(
-                    <FormItem {...formItemLayout} label='传值是否是对象' key={e + i}>
+                    <FormItem {...formItemLayout} label='传值是否对象' key={e + i}>
                         <Select
                             value={JSON.stringify(CurrentData[e])}
                             onChange={this.SelectChange.bind(this, e)}
@@ -378,6 +399,16 @@ class IphoneC extends Component {
                             <Option value='true'>true</Option>
                             <Option value='false'>false</Option>
                         </Select>
+                    </FormItem>
+                )
+            } else if (e === 'SQL' || e === 'sqlname') {
+                CurrentInput.push(
+                    <FormItem {...formItemLayout} label={'SQL语句'} key={e + i}>
+                        <Input
+                            value={JSON.stringify(CurrentData[e])}
+                            readOnly={true}
+                            addonAfter={<Icon type="setting" onClick={() => { this.setState({ SQLvisible: true }) }} />}
+                        ></Input>
                     </FormItem>
                 )
             } else if (e !== 'Label'
@@ -390,10 +421,8 @@ class IphoneC extends Component {
                 CurrentInput.push(
                     <FormItem {...formItemLayout}
                         label={e === 'id' ? '组件字段'
-                            : e === 'sqlname' ? 'SQL名'
-                                : e === 'selectname' ? '选择名'
-                                    : e === 'selectvalue' ? '选择值'
-                                        : e === 'SQL' ? 'SQL名' : '默认标记'}
+                            : e === 'selectname' ? '选择名'
+                                : e === 'selectvalue' ? '选择值' : '默认标记'}
                         key={e + i}>
                         <Input
                             value={CurrentData[e]}
@@ -538,6 +567,17 @@ class IphoneC extends Component {
                     </List>
                     <Button onClick={this.itemClick_.bind(this, 0, 'add')}>添加</Button>
 
+                </Modal>
+                <Modal
+                    title="SQL设置"
+                    visible={this.state.SQLvisible}
+                    onOk={this.handleSQL}
+                    onCancel={() => { this.setState({ SQLvisible: false }) }}
+                    width={900}>
+                    <TextArea
+                     rows={30} 
+                     onChange={this.textChange.bind(this)} 
+                     value={this.state.text}></TextArea>
                 </Modal>
             </div>
         )

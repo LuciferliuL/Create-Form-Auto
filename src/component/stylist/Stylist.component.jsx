@@ -7,12 +7,13 @@ import PublicComponent from '../PublicComponent/Public.Component'
 import SliderCard from '../SliderCard/SliderCard'
 import SliderRightcomponent from '../SliderRIght/SliderRight.component'
 import { Dragact } from 'dragact'
-import { formUpdataFromCurrent } from '../SliderRIght/action/Right.action'
+import { formUpdataFromCurrent} from '../SliderRIght/action/Right.action'
 import { updataValues } from '../PublicComponent/lookup/action/lookup.action'
 import { POST$, treeData } from '../../lib/MATH/math'
 import { API } from '../../lib/API/check.API'
 import { selectkeysToHeader } from '../Slider/action/Header.action'
 import TABLECOMPONENT from '../PublicComponent/table/Table'
+import {RightMoveArr,LeftMoveArr} from '../Iphone/Func'
 
 const getblockStyle = isDragging => {
     return {
@@ -31,7 +32,7 @@ class Stylistcomponent extends Component {
         edit: false,
         loading: false,
         treeData: [],
-        indexTable: 0,
+        indexTable: '0',
         tableSourceData: [{
             GridX: 0, GridY: 0, w: 24, h: 8, key: 'tablesKey' + TabTableIndex, pageSize: 200, scroll: 1200,
             icons: 'table', label: '简单表格', type: 'Table', id: 'tables', float: 0,
@@ -248,8 +249,46 @@ class Stylistcomponent extends Component {
             tableSourceData: [...pre.tableSourceData, t],
         }))
         // this.props.addTable(ev)
-        console.log(this.state.tableSourceData);
+        // console.log(this.state.tableSourceData);
 
+    }
+    //删除table
+    ClickRemove = () => {
+        // console.log(this.state.indexTable);
+        // console.log(this.state.tableSourceData);
+        const { indexTable, tableSourceData } = this.state
+        let data = tableSourceData.filter((e, i) => { if (i !== Number(indexTable)) { return e } })
+        // console.log(data);
+
+        this.setState({
+            tableSourceData: data
+        })
+        // this.props.currentAttr = {}
+        this.props.rightUpdata({})
+    }
+    //table位置
+    Clickmove = (e) => {
+        const { indexTable, tableSourceData } = this.state
+        let indexTableNumber = Number(indexTable)
+        // console.log(e);
+        if(e === 'left'){
+            let i = indexTableNumber - 1 > 0 ? indexTableNumber - 1 : 0
+            let data = LeftMoveArr(tableSourceData,indexTableNumber,tableSourceData.length)
+            // console.log(String(i));
+            this.callback(String(i))
+            this.setState({
+                // indexTable:i,
+                tableSourceData:data
+            })
+        }else{
+            let i = indexTableNumber + 1 < tableSourceData.length - 1 ? indexTableNumber + 1 : tableSourceData.length - 1
+            let data = RightMoveArr(tableSourceData,indexTableNumber,tableSourceData.length)
+            this.callback(String(i))
+            this.setState({
+                // indexTable:i,
+                tableSourceData:data
+            })
+        }
     }
     tableedit = (ev) => {
         console.log(ev);
@@ -270,10 +309,11 @@ class Stylistcomponent extends Component {
         })
     }
     render() {
-        console.log(this.state.tableSourceData);
+        // console.log(this.state.tableSourceData);
 
         var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.70
         const { getFieldDecorator } = this.props.form;
+        const {indexTable} = this.state
         let tabs_ = []
         this.state.tableSourceData.forEach((e, i) => {
             tabs_.push(
@@ -282,7 +322,28 @@ class Stylistcomponent extends Component {
                 </TabPane>
             )
         })
-        const operations = <Button style={this.state.read ? { display: 'unset' } : { display: 'none' }} onClick={this.ClickAdd.bind(this, this.state.baseTable)}>添加Table</Button>;
+        const operations = <Button.Group>
+            <Button
+                style={this.state.read ? { display: 'unset' } : { display: 'none' }}
+                onClick={this.Clickmove.bind(this,'left')}>
+                <Icon type="swap-left" />
+            </Button>
+            <Button
+                style={this.state.read ? { display: 'unset' } : { display: 'none' }}
+                onClick={this.Clickmove.bind(this,'right')}>
+                <Icon type="swap-right" />
+            </Button>
+            <Button
+                style={this.state.read ? { display: 'unset' } : { display: 'none' }}
+                onClick={this.ClickRemove.bind(this, this.state.baseTable)}>
+                删除Table
+            </Button>
+            <Button
+                style={this.state.read ? { display: 'unset' } : { display: 'none' }}
+                onClick={this.ClickAdd.bind(this, this.state.baseTable)}>
+                添加Table
+            </Button>
+        </Button.Group>;
         return (
             <Spin spinning={this.state.loading}>
                 <Modal
@@ -393,14 +454,15 @@ class Stylistcomponent extends Component {
                                         okText="编辑"
                                         cancelText="删除"
                                         onConfirm={this.confirm.bind(this, this.state.tableSourceData)}
-                                        onCancel={this.cancel.bind(this, this.state.tableSourceData)}>
+                                    // onCancel={this.cancel.bind(this, this.state.tableSourceData)}
+                                    >
                                         <Icon
                                             className="Delete"
                                             style={this.state.read ? { display: 'unset' } : { display: 'none' }}
                                             type="minus-square"
                                             theme="filled" />
                                     </Popconfirm>
-                                    <Tabs defaultActiveKey="1" onChange={this.callback} tabBarExtraContent={operations}>
+                                    <Tabs defaultActiveKey="1" onChange={this.callback} tabBarExtraContent={operations} activeKey={indexTable}>
                                         {tabs_}
                                     </Tabs>
                                 </div>

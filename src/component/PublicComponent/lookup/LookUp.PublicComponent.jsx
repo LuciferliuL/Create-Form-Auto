@@ -188,13 +188,18 @@ class LookUpPublicComponent extends Component {
 
     }
     LookUpChange = (e) => {
+        // console.log(e.target.value);
+        
         if (e.target.value === '') {
             let data = this.props.PublicData
             this.setState({
                 value: ''
             })
+          
+            data.values = ''
             this.props.ChangeOn(data, data.key)
             this.props.UpdataFormData.find(e => e.key === data.key).values = ''
+            console.log(this.props.UpdataFormData);
         } else {
             this.setState({
                 value: e.target.value
