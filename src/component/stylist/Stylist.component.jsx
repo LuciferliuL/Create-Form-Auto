@@ -7,7 +7,7 @@ import PublicComponent from '../PublicComponent/Public.Component'
 import SliderCard from '../SliderCard/SliderCard'
 import SliderRightcomponent from '../SliderRIght/SliderRight.component'
 import { Dragact } from 'dragact'
-import { formUpdataFromCurrent } from '../SliderRIght/action/Right.action'
+import { formUpdataFromCurrent} from '../SliderRIght/action/Right.action'
 import { updataValues } from '../PublicComponent/lookup/action/lookup.action'
 import { POST$, treeData } from '../../lib/MATH/math'
 import { API } from '../../lib/API/check.API'
@@ -263,6 +263,8 @@ class Stylistcomponent extends Component {
         this.setState({
             tableSourceData: data
         })
+        // this.props.currentAttr = {}
+        this.props.rightUpdata({})
     }
     //table位置
     Clickmove = (e) => {
