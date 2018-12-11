@@ -270,7 +270,7 @@ class Stylistcomponent extends Component {
         })
     }
     render() {
-        console.log(this.state.tableSourceData);
+        // console.log(this.state.tableSourceData);
 
         var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.70
         const { getFieldDecorator } = this.props.form;
@@ -282,7 +282,14 @@ class Stylistcomponent extends Component {
                 </TabPane>
             )
         })
-        const operations = <Button style={this.state.read ? { display: 'unset' } : { display: 'none' }} onClick={this.ClickAdd.bind(this, this.state.baseTable)}>添加Table</Button>;
+        const operations = <Button.Group>
+            <Button>删除Table</Button>
+            <Button
+                style={this.state.read ? { display: 'unset' } : { display: 'none' }}
+                onClick={this.ClickAdd.bind(this, this.state.baseTable)}>
+                添加Table
+            </Button>
+        </Button.Group>;
         return (
             <Spin spinning={this.state.loading}>
                 <Modal

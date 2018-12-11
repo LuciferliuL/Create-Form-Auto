@@ -128,7 +128,7 @@ class Tags extends Component {
     }
 
     ChangeOn = (e, key) => {
-        // console.log(this.state.panes);
+        console.log(e);
         const { activeKey } = this.state
         const { TabsData } = this.props
         // console.log(TabsData);
