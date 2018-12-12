@@ -131,9 +131,35 @@ class DesignTablecomponent extends Component {
             <Popconfirm title="确定删除？" onConfirm={this.handleDelete.bind(this)}>
                 <Button type='danger'>删除</Button>
             </Popconfirm>
-            <Loadup ></Loadup>
+            <Loadup readUploadFiled={this.readUploadFiled.bind(this)}></Loadup>
         </Button.Group>
     )
+    readUploadFiled = (filed) => {
+        // console.log(filed);
+        let body = JSON.parse(filed)
+        console.log(body);
+
+        //表单
+        // let body = JSON.parse(this.state.selectData.Bytes)
+        var pretabledaa = body.TableData;
+
+        //数组
+        if (!Array.isArray(pretabledaa)) {
+            body.TableData = [];
+            body.TableData.push(pretabledaa);
+        }
+
+        this.props.fugai(body.FormData) //添加表单的
+        this.props.tableFugai(body.TableData)//添加表格的
+        this.props.update(this.state.selectData)//用来确定是否新建
+        this.props.onTodoClick(['表单设计'])
+        let path = {
+            pathname: '/Design/Stylist',
+            state: body.TableData
+        }
+        this.props.history.push(path)
+
+    }
     daochu = (record) => {
         downloadFile(record.Name, record.Bytes)
     }
@@ -283,7 +309,7 @@ class DesignTablecomponent extends Component {
 
                     this.props.fugai(body.FormData) //添加表单的
                     this.props.tableFugai(body.TableData)//添加表格的
-                    this.props.update(this.state.selectData)//用来确定是否新建
+                    this.props.update({})//用来确定是否新建
                     this.props.onTodoClick(['表单设计'])
                     let path = {
                         pathname: '/Design/Stylist',
