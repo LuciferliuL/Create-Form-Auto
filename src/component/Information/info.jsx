@@ -162,12 +162,14 @@ class Info extends Component {
                 })//选择的数据
                 break;
             case 'edit':
+                console.log(this.state);
                 this.props.copyDataSource(this.state.selectedData[0])//选择的数据
                 this.state.selectedData[0].PK !== -1 ?
                     this.setState({
                         activeKey: '2',
                         tabBarShow: true,
                         disabled: false,
+                        news: false
                     }) : message.warning('请选择数据')
                 break;
             case 'look':
@@ -186,9 +188,11 @@ class Info extends Component {
                     if (res.result) {
                         message.success('删除成功')
                         GET$(API('geti9msgall').http, (res) => {
-                            // console.log(res);
+                            console.log(res);
                             this.setState({
-                                data: res
+                                data: res,
+                                selectedData: [{ PK: -1 }],
+                                selectedRowKeys: []
                             })
                         })
                     } else {
@@ -241,7 +245,7 @@ class Info extends Component {
         if (title.length > 0 && sql.length > 2 && Rec.length > 2) {
             this.setState((pre) => (
                 {
-                    selectedData: s
+                    selectedData: [s]
                 }
             ), () => {
 
@@ -253,7 +257,10 @@ class Info extends Component {
                         this.setState({
                             data: res,
                             activeKey: '1',
+                            selectedData: [{ PK: -1 }],
+                            selectedRowKeys: [],
                             disabled: true,
+                            news: false,
                             loading: false
                         }, () => { message.success('添加成功') })
                     })
