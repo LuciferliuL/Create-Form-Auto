@@ -5,6 +5,8 @@ import { selectkeysToHeader } from '../Slider/action/Header.action'
 import { stylistDataSourceAsync, fugai, tableFugai, tableReset } from '../stylist/action/Stylist.action'
 import { API } from '../../lib/API/check.API.js'
 import { POST$, downloadFile, DesignDataTree } from '../../lib/MATH/math.js'
+import Loadup from '../Upload/Upload'
+
 
 const FormItem = Form.Item
 class DesignTablecomponent extends Component {
@@ -129,6 +131,7 @@ class DesignTablecomponent extends Component {
             <Popconfirm title="确定删除？" onConfirm={this.handleDelete.bind(this)}>
                 <Button type='danger'>删除</Button>
             </Popconfirm>
+            <Loadup ></Loadup>
         </Button.Group>
     )
     daochu = (record) => {
@@ -171,7 +174,7 @@ class DesignTablecomponent extends Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                console.log('Received values of form: ', values);
+                // console.log('Received values of form: ', values);
                 let seldata = this.state.selectData;
 
                 let save = {}
