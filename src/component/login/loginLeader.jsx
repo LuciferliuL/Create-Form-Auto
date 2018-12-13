@@ -45,12 +45,12 @@ class loginLeader extends Component {
             MetaDescription: "群体信息发送",//卡片描述<Icon type="" theme="outlined" />
             href: 'http://10.3.4.177:9003/Information'//跳转地址
         }, {
-            //     IconType: "bulb",//图标
-            //     AvatarSrc: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",//人物头像
-            //     MetaTitle: "userManagement",//卡片抬头<Icon type="" theme="outlined" />
-            //     MetaDescription: "用户信息维护",//卡片描述
-            //     href: 'www.baidu.com'//跳转地址
-            // }, {
+                IconType: "bulb",//图标
+                AvatarSrc: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",//人物头像
+                MetaTitle: "Iphone",//卡片抬头<Icon type="" theme="outlined" />
+                MetaDescription: "移动商务打包上传",//卡片描述
+                href: 'www.baidu.com'//跳转地址
+            }, {
             IconType: "bulb",//图标
             AvatarSrc: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",//人物头像
             MetaTitle: "Management",//卡片抬头<Icon type="" theme="outlined" />
@@ -107,7 +107,9 @@ class loginLeader extends Component {
                                         this.props.history.push('/Design/er')
                                     } else if (e.MetaTitle === 'I9群信息') {
                                         this.props.history.push('/Info')
-                                    } else {
+                                    }else if(e.MetaTitle === 'Iphone'){
+                                        this.props.history.push('/iphoneUpload')
+                                    }else {
                                         window.location.href = e.href
                                     }
                                 }} />]}

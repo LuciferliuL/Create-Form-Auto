@@ -69,9 +69,9 @@ class Person extends Component {
 
     }
     componentWillReceiveProps(pre) {
-        console.log(pre);
+        // console.log(pre);
         let Receivers = JSON.parse(pre.information.Receivers)
-        console.log(Receivers);
+        // console.log(Receivers);
 
         if (Receivers.length > 0) {
             let l = []
@@ -89,7 +89,7 @@ class Person extends Component {
         } else {
             this.setState({
                 data2: [],
-                data: [],
+                // data: [],
                 selectedRowKeys: [],
             })
         }
@@ -215,7 +215,7 @@ class Person extends Component {
     }
 }
 function mapStateToProps(state) {
-    console.log(state);
+    // console.log(state);
 
     return {
         information: state.information
