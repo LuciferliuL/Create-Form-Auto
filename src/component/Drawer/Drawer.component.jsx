@@ -148,13 +148,13 @@ class Drawercomponent extends Component {
 
             content.push(
                 <div key={1314165182}>
-                    <Col span={6}>
+                    <Col span={8}>
                         <Tag>显示名称</Tag>
                     </Col>
-                    <Col span={6}>
+                    <Col span={8}>
                         <Tag>实际名称</Tag>
                     </Col>
-                    <Col span={6}>
+                    <Col span={4}>
                         <Tag>占位宽度</Tag>
                     </Col>
                     <Col>
@@ -168,16 +168,16 @@ class Drawercomponent extends Component {
                     content.push(
                         <div key={i + '123123123'}>
                             <InputGroup style={{ padding: '5px' }} >
-                                <Col span={6}>
+                                <Col span={8}>
                                     <Input value={e.title} onChange={this.InputChange.bind(this, i, 'title')} />
                                 </Col>
-                                <Col span={6}>
+                                <Col span={8}>
                                     <Input value={e.dataIndex} onChange={this.InputChange.bind(this, i, 'dataIndex')} />
                                 </Col>
-                                <Col span={6}>
+                                <Col span={4}>
                                     <Input value={e.width} onChange={this.InputChange.bind(this, i, 'width')} />
                                 </Col>
-                                <Col span={6}>
+                                <Col span={4}>
                                     <Tag onClick={this.TagAdd.bind(this, i)}>添加</Tag>
                                     <Tag onClick={this.TagCancel.bind(this, i)}>删除</Tag>
                                 </Col>
