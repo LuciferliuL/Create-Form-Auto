@@ -127,6 +127,7 @@ class Info extends Component {
                     activeKey: '2',
                     selectedRowKeys: [],
                     disabled: false,
+                    showdatalog: false,
                     selectedData: [{
                         PK: -1,
                         Name: "测试",
@@ -191,6 +192,7 @@ class Info extends Component {
                             console.log(res);
                             this.setState({
                                 data: res,
+                                showdatalog: false,
                                 selectedData: [{ PK: -1 }],
                                 selectedRowKeys: []
                             })
@@ -208,7 +210,7 @@ class Info extends Component {
         this.setState({
             activeKey: key,
             tabBarShow: key === '1' ? false : true,
-            disabled: key === '1' ? true : false,
+            disabled: key === '1' ? true : false
         })
     }
     OnOk = () => {
@@ -261,6 +263,7 @@ class Info extends Component {
                             selectedRowKeys: [],
                             disabled: true,
                             news: false,
+                            showdatalog: false,
                             loading: false
                         }, () => { message.success('添加成功') })
                     })

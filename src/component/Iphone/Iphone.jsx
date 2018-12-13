@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Row, Col, Card, Button, Icon, Table, message, Form, Modal, Input, TreeSelect } from 'antd'
-import { InputData, RadioData, LookUp, Title, DateS, SelectS,CheckboxS } from './Iphone.Data'
+import { InputData, RadioData, LookUp, Title, DateS, SelectS, CheckboxS } from './Iphone.Data'
 import IphoneComponent from './Iphone.Component'
 import IphoneC from './Iphone.C'
 import { RightMoveArr, LeftMoveArr } from './Func'
@@ -194,7 +194,10 @@ class Iphone extends Component {
     }
     //排序
     UPDOWN = (key) => {
-        const { CurrentIndex, IphoneData } = this.state
+        const { CurrentIndex, IphoneData } = this.state;
+        if (IphoneData.length < 2)
+            return;
+
         if (key === 'up') {
             let i = CurrentIndex - 1 > 0 ? CurrentIndex - 1 : 0
             let currentQ = LeftMoveArr(IphoneData, CurrentIndex, IphoneData.length)

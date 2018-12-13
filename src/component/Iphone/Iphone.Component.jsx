@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Input, Radio, Card, Tag, Divider, DatePicker, Select , Checkbox} from 'antd'
+import { Input, Radio, Card, Tag, Divider, DatePicker, Select, Checkbox } from 'antd'
 import moment from 'moment';
 
 
@@ -23,6 +23,8 @@ class IphoneComponent extends Component {
     render() {
         const { IphoneData } = this.props
         console.log(IphoneData);
+        //debugger;
+
         let data = []
         IphoneData.forEach((el, index) => {
             // console.log(el);
@@ -62,7 +64,7 @@ class IphoneComponent extends Component {
                     break;
                 case 'check':
                     let check = []
-                    el.data.forEach(e=>{
+                    el.data.forEach(e => {
                         check.push(e.name)
                     })
                     data.push(
@@ -71,8 +73,8 @@ class IphoneComponent extends Component {
                             onClick={this.Click.bind(this, index)}
                             style={{ padding: 10, border: '1px dashed black', float: "left", width: '100%', textAlign: 'center' }}>
                             <Tag>{el.Label}</Tag>
-                            <CheckboxGroup 
-                            options={check}   />
+                            <CheckboxGroup
+                                options={check} />
                         </div>
                     )
                     break;

@@ -266,7 +266,7 @@ export { getHours }
 function downloadFile(fileName, content) {
     // 创建隐藏的可下载链接
     var eleLink = document.createElement('a');
-    eleLink.download = fileName;
+    eleLink.download = fileName + ".log";
     eleLink.style.display = 'none';
     // 字符内容转变成blob地址
     var blob = new Blob([content]);

@@ -1,20 +1,38 @@
 import React, { Component } from 'react';
 import { Menu, Icon } from "antd";
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { selectkeysToHeader } from './action/Header.action'
+import { stylistDataSourceAsync, fugai, tableReset } from '../stylist/action/Stylist.action'
 const SubMenu = Menu.SubMenu;
 
 class SliderMenucomponent extends Component {
     onSelect = (item) => {
+        sessionStorage.setItem('C', 'N')
+        this.props.fugai([])
+        this.props.update({})
+        this.props.tableReset()
         this.props.onTodoClick(item.selectedKeys);
     }
+
+    componentDidMount() {
+        console.log(this.props.history);
+    }
+
     render() {
+
+        const { history } = this.props;
+        let _path = history.location.pathname;
+
         const menudata = []
         sliderData.forEach(e => {
             if (e.children.length > 0) {
                 let datas = []
                 e.children.forEach(value => {
+                    if (_path === value.link) {
+                        this.props.onTodoClick(value.key);
+                    }
+
                     datas.push(
                         <Menu.Item key={value.key}>
                             <Link to={value.link}>
@@ -32,6 +50,10 @@ class SliderMenucomponent extends Component {
                     </SubMenu>
                 )
             } else {
+                if (_path === e.link) {
+                    this.props.onTodoClick(e.key);
+                }
+
                 menudata.push(
                     <Menu.Item key={e.key}>
                         <Link to={e.link}>
@@ -46,7 +68,6 @@ class SliderMenucomponent extends Component {
         return (
             <Menu
                 forceSubMenuRender={true}
-                defaultOpenKeys={['网页方案']}
                 selectedKeys={this.props.selectedKeys}
                 theme="dark"
                 defaultSelectedKeys={this.props.selectedKeys}
@@ -68,11 +89,20 @@ function mapDispatchProps(dispatch) {
     return {
         onTodoClick: (k) => {
             dispatch(selectkeysToHeader(k))
+        },
+        update: (k) => {
+            dispatch(stylistDataSourceAsync(k))
+        },
+        fugai: (k) => {
+            dispatch(fugai(k))
+        },
+        tableReset: () => {
+            dispatch(tableReset())
         }
     }
 }
 
-export default connect(mapStateToProps, mapDispatchProps)(SliderMenucomponent);
+export default connect(mapStateToProps, mapDispatchProps)(withRouter(SliderMenucomponent));
 const sliderData = [
     {
         key: '网页方案',

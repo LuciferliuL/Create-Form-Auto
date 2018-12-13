@@ -261,6 +261,8 @@ class LookUpForm extends React.Component {
     render() {
         const { Tabledata, columns } = this.state
         const { getFieldDecorator } = this.props.form;
+        var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.8
+
         const layout = {
             labelCol: { xs: { span: 24 }, sm: { span: 6 }, },
             wrapperCol: { xs: { span: 24 }, sm: { span: 18 } }
@@ -284,8 +286,9 @@ class LookUpForm extends React.Component {
                     title="SQL"
                     visible={this.state.visible}
                     onOk={this.handleOk}
+                    centered={true}
                     onCancel={this.handleCancel}
-                    bodyStyle={{ overflow: 'auto', height: 700 }}
+                    bodyStyle={{ overflow: 'auto', height: h }}
                     maskClosable={false}
                     width={800}
                     destroyOnClose={true}

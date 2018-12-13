@@ -293,7 +293,7 @@ class IphoneC extends Component {
     handleSQL = () => {
         // console.log(this.props);
         const { CurrentData } = this.props
-        let v =  this.state.text.replace(/\n/g,' ')
+        let v = this.state.text.replace(/\n/g, ' ')
         this.props.AttributeChange(CurrentData.type === 'table' ? 'SQL' : 'sqlname', v)
         this.setState({
             SQLvisible: false
@@ -301,7 +301,7 @@ class IphoneC extends Component {
     }
     textChange = (e) => {
         // console.log(e.target.value);
-        
+
         this.setState({
             text: e.target.value
         })
@@ -309,6 +309,8 @@ class IphoneC extends Component {
     render() {
         const { CurrentData } = this.props
         const { data, listColumns, Type, POPIndex } = this.state
+        var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.80;
+
         // console.log(data[POPIndex]);
         let CurrentInput = []
         const formItemLayout = {
@@ -572,12 +574,16 @@ class IphoneC extends Component {
                     title="SQL设置"
                     visible={this.state.SQLvisible}
                     onOk={this.handleSQL}
-                    onCancel={() => { this.setState({ SQLvisible: false }) }}
-                    width={900}>
+                    bodyStyle={{ overflowY: 'scroll', minHeight: h + 'px', height: h + 'px' }}
+                    maskClosable={false}
+                    centered={true}
+                    width={800}
+                    destroyOnClose={true}
+                    onCancel={() => { this.setState({ SQLvisible: false }) }} >
                     <TextArea
-                     rows={30} 
-                     onChange={this.textChange.bind(this)} 
-                     value={this.state.text}></TextArea>
+                        rows={25}
+                        onChange={this.textChange.bind(this)}
+                        value={this.state.text}></TextArea>
                 </Modal>
             </div>
         )

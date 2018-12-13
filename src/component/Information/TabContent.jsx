@@ -260,7 +260,7 @@ class TabContent extends Component {
     }
     render() {
         const { Tabledata, columns, SQL, value } = this.state;
-        var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.60;
+        var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.80;
 
         return (
             <div>
