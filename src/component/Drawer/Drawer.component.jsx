@@ -38,23 +38,27 @@ class Drawercomponent extends Component {
                     isPage: true
                 };
                 POST$(API('GetSqlColumns').http, body, (res) => {
-                    // console.log(res);
-                    let data = []
-                    res.forEach(e => {
-                        let key = {
-                            title: e.ColumnName,
-                            dataIndex: e.ColumnName,
-                            width: 200,
-                        }
-                        data.push(key)
-                    })
-                    this.props.currentAttr.columns = data
-                    this.props.tableedit(this.props.currentAttr)
+                    if (res.error) {
+
+                    }
+                    else {
+                        // console.log(res);
+                        let data = []
+                        res.forEach(e => {
+                            let key = {
+                                title: e.ColumnName,
+                                dataIndex: e.ColumnName,
+                                width: 200,
+                            }
+                            data.push(key)
+                        })
+                        this.props.currentAttr.columns = data
+                        this.props.tableedit(this.props.currentAttr)
+                    }
                 });
             } else {
                 this.props.tableedit(this.props.currentAttr)
             }
-
 
 
 
@@ -69,8 +73,12 @@ class Drawercomponent extends Component {
                 isPage: true
             };
             POST$(API('SQL').http, body, (res) => {
-                this.props.upDataCurrentDataSource(res.Results, res.RecordCount);
-                this.props.upForm(this.props.currentAttr);
+                if (res.error) {
+                }
+                else {
+                    this.props.upDataCurrentDataSource(res.Results, res.RecordCount);
+                    this.props.upForm(this.props.currentAttr);
+                }
             });
         }
         else {

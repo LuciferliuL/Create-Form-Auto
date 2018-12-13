@@ -22,7 +22,6 @@ class Tags extends Component {
         };
 
         this._handleKeydown = this.handleKeydown.bind(this);
-        this._handleKeyup = this.handleKeyup.bind(this);
     }
 
     onRef = (ref) => {
@@ -38,12 +37,10 @@ class Tags extends Component {
         //});
 
         document.body.addEventListener('keydown', this._handleKeydown, false);
-        document.body.addEventListener('keyup', this._handleKeyup, false);
     }
 
     componentWillUnmount() {
         document.body.removeEventListener('keydown', this._handleKeydown, false);
-        document.body.removeEventListener('keyup', this._handleKeyup, false);
     }
 
     handleKeydown = (e) => {
@@ -56,10 +53,6 @@ class Tags extends Component {
         }
         return false;
     }
-
-    handleKeyup = (e) => {
-        this.child.handleKeyDown(e);
-    };
 
     componentWillReceiveProps(pre) {
         // console.log(pre);

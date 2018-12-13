@@ -179,6 +179,12 @@ class IphoneArch extends Component {
                     TargetType: "formmobile"
                 }))
         })
+
+        if (rowsParams.length === 0) {
+            message.error('请选择项信息！');
+            return;
+        }
+
         // console.log(rowsParams);
         POST$(API('savedataformrole').http, rowsParams, (res) => {
             if (res) {

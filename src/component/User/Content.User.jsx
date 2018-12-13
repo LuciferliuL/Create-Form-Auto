@@ -59,9 +59,9 @@ class ContentUser extends Component {
         //let Prop = this.props
         //let returnData = {}
         //const { currentTabsIndex } = this.state;
-        this.setState({
-            activetr: pre.tableSource[pre.CurrentIndex].tr
-        });
+        //this.setState({
+        //    activetr: pre.tableSource[pre.CurrentIndex].tr
+        //});
         //console.log(pre.tableSource[pre.CurrentIndex]);
     }
 
@@ -171,6 +171,13 @@ class ContentUser extends Component {
         // this.setState({
         //     loading: true
         // })
+
+        //input获取焦点
+        var oInput = document.getElementById("input");
+        oInput.focus();
+        window.addEventListener('keyup', this.handleKeyDown)
+
+
         this.props.Loading();
 
         let hflag = 0
@@ -343,6 +350,9 @@ class ContentUser extends Component {
         return false;
     }
 
+    ONBlur = () => {
+        window.removeEventListener('keyup', this.handleKeyDown)
+    }
 
     onChange = (page) => {
         this.setState({
@@ -459,7 +469,12 @@ class ContentUser extends Component {
                         {Dr}
                     </Form>
                     <div style={{ position: 'relative', top: (hflag + 40) + 'px', height: (h - hflag) * 0.8 + 'px' }}>
-
+                        <input
+                            type="text"
+                            id='input'
+                            onBlur={this.ONBlur}
+                            style={{ display: 'none' }}
+                        />
 
                         <Tabs defaultActiveKey="0" onChange={this.callback}>
                             {tableTabs}
