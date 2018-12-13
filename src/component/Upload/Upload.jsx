@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-    Button, Icon,
+    Button, Icon, message,
 } from 'antd';
 
 
@@ -16,19 +16,22 @@ function mapStateToProps(state) {
 class Loadup extends Component {
     readFile = () => {
         var file = document.getElementById("file").files[0];
-        var reader = new FileReader();
-        var fileText
-        //将文件以文本形式读入页面
-        reader.readAsText(file, "utf-8");
-        reader.onload = function (e) {
-            fileText = e.target.result.split("\n");
-            // console.log(this.props);
-            this.props.readUploadFiled(fileText)
-        }.bind(this)
+        // console.log(file);
+        if(file){
+            var reader = new FileReader();
+            var fileText
+            //将文件以文本形式读入页面
+            reader.readAsText(file, "utf-8");
+            reader.onload = function (e) {
+                fileText = e.target.result.split("\n");
+                // console.log(this.props);
+                this.props.readUploadFiled(fileText)
+            }.bind(this)
+        }else{
+            message.warning('请加载配置文件')
+        }
     }
     render() {
-        // console.log(this.props);
-
         return (
             <div style={{ display: "inline-block" ,marginLeft:10}}>
                 <Button onClick={this.readFile.bind(this)}>
