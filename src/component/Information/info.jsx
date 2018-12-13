@@ -56,10 +56,10 @@ class Info extends Component {
             title: '数据源',
             dataIndex: 'DataSource',
         }, {
-            title: '创建时间',
-            dataIndex: 'CreateTime',
+            title: '最后修改时间',
+            dataIndex: 'LastModifyTime',
             render: (text, record) => {
-                return text.substr(0, 10);
+                return text.replace('T', ' ');
             }
         }, {
             title: '状态',

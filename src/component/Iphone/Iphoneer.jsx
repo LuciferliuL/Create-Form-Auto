@@ -61,7 +61,7 @@ class Iphoneer extends Component {
             key: 'LastModifyTime',
             render: (text, record) => {
                 return (
-                    <div style={{ padding: '10px' }}>{text.slice(0, 10)}</div>
+                    <div style={{ padding: '10px' }}>{text.replace('T', ' ')}</div>
                 )
             }
         }, {

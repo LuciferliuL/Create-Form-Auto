@@ -11,7 +11,7 @@ const TabPane = Tabs.TabPane
 const FormItem = Form.Item
 const HTMLTitle = [
     { label: 'id', name: 'ID', content: <Input></Input> },
-    { label: 'message', name: '错误提示', content: <Input></Input> },
+    // { label: 'message', name: '错误提示', content: <Input></Input> },
     { label: 'label', name: '标题', content: <Input></Input> }
 ]
 class SliderRightcomponent extends Component {
@@ -24,7 +24,7 @@ class SliderRightcomponent extends Component {
 
     componentWillReceiveProps(pre) {
         console.log(pre);
-        
+
         const { getFieldDecorator } = pre.form;
         let dateChange = 0
 
@@ -268,7 +268,7 @@ class SliderRightcomponent extends Component {
     }
     radioChange = (key, e) => {
         // console.log(e.target.value);
-        
+
         this.setState({
             value: e.target.value
         })
@@ -326,7 +326,7 @@ class SliderRightcomponent extends Component {
             )
         })
         // console.log(this.state.value);
-        
+
 
         return (
             <Card bodyStyle={{ padding: 5 }}>
@@ -423,7 +423,7 @@ class SliderRightcomponent extends Component {
 
 const mapPropsToState = (state) => {
     console.log(state);
-    
+
     return {
     }
 }

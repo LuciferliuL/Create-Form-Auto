@@ -9,7 +9,7 @@ const columns = [{
     dataIndex: 'LastModifyTime',
     render: (text, record) => {
         return (
-            <div >{text.slice(0, 10)}</div>
+            <div >{text.replace('T', ' ')}</div>
         )
     }
 }, {
