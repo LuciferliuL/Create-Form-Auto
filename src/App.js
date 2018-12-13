@@ -8,6 +8,7 @@ import loginLeader from './component/login/loginLeader'
 
 import Info from './component/Information/info.jsx'
 import UserHome from './component/BaseData/UserHome.jsx'
+import iphoneUpload from './component/IphoneUpload/iphoneUpload'
 
 class App extends React.Component {
     render() {
@@ -20,6 +21,7 @@ class App extends React.Component {
                     <Route path="/loginLeader" component={loginLeader}></Route>
                     <Route path='/BaseData' component={UserHome}></Route>
                     <Route path="/Info" component={Info}></Route>
+                    <Route path='/iphoneUpload' component={iphoneUpload}></Route>
                     <Redirect to='/'></Redirect>
                 </Switch>
             </HashRouter >

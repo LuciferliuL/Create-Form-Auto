@@ -67,7 +67,7 @@ class Headercomponent extends Component {
         } else {
             return (
                 <Header
-                    style={{ background: '#fff', lineHeight: 'inherit', padding: '0' }}>
+                    style={{ background: '#fff', lineHeight: 'inherit', padding: 15 }}>
                     <div className='slidertitle'>
                         <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" style={{ width: '32px', height: '32px', verticalAlign: 'middle' }}>
                             <defs>
@@ -98,7 +98,7 @@ class Headercomponent extends Component {
                         //     </Tabs>
                         // </div>
                         null
-                        : <div style={{ float: 'left' }}>你好！设计师</div>
+                        : <div style={{ float: 'left' , marginTop: '5px'}}>你好！设计师</div>
                     }
 
 
