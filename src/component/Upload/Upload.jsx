@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-     Button, Icon,
+    Button, Icon,
 } from 'antd';
 
 
@@ -25,20 +25,17 @@ class Loadup extends Component {
             // console.log(this.props);
             this.props.readUploadFiled(fileText)
         }.bind(this)
-        
     }
     render() {
         // console.log(this.props);
-        
+
         return (
-            <div>
-                <input type="file" id="file" name="myfile" />
+            <div style={{ display: "inline-block" ,marginLeft:10}}>
                 <Button onClick={this.readFile.bind(this)}>
                     <Icon type="upload" /> 读取
                 </Button>
+                <input type="file" id="file" name="myfile" />
             </div>
-
-
         );
     }
 }

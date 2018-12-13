@@ -123,21 +123,23 @@ class DesignTablecomponent extends Component {
         })
     }
     TableHeader = () => (
-        <Button.Group>
-            <Button onClick={this.CreateTable.bind(this, 'new')}>新建表单</Button>
-            <Button onClick={this.CreateMenu.bind(this, 'level1')}>新建根菜单</Button>
-            <Button onClick={this.CreateMenu.bind(this, 'level2')}>添加下级菜单</Button>
-            <Button onClick={this.CreateTable.bind(this, 'Edit')}>编辑</Button>
-            <Popconfirm title="确定删除？" onConfirm={this.handleDelete.bind(this)}>
-                <Button type='danger'>删除</Button>
-            </Popconfirm>
+        <div>
+            <Button.Group>
+                <Button onClick={this.CreateTable.bind(this, 'new')}>新建表单</Button>
+                <Button onClick={this.CreateMenu.bind(this, 'level1')}>新建根菜单</Button>
+                <Button onClick={this.CreateMenu.bind(this, 'level2')}>添加下级菜单</Button>
+                <Button onClick={this.CreateTable.bind(this, 'Edit')}>编辑</Button>
+                <Popconfirm title="确定删除？" onConfirm={this.handleDelete.bind(this)}>
+                    <Button type='danger'>删除</Button>
+                </Popconfirm>
+            </Button.Group>
             <Loadup readUploadFiled={this.readUploadFiled.bind(this)}></Loadup>
-        </Button.Group>
+        </div>
     )
     readUploadFiled = (filed) => {
         // console.log(filed);
         let body = JSON.parse(filed)
-        console.log(body);
+        // console.log(body);
 
         //表单
         // let body = JSON.parse(this.state.selectData.Bytes)
