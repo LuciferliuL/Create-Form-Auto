@@ -56,10 +56,10 @@ class Info extends Component {
             title: '数据源',
             dataIndex: 'DataSource',
         }, {
-            title: '创建时间',
-            dataIndex: 'CreateTime',
+            title: '最后修改时间',
+            dataIndex: 'LastModifyTime',
             render: (text, record) => {
-                return text.substr(0, 10);
+                return text.replace('T', ' ');
             }
         }, {
             title: '状态',
@@ -218,7 +218,7 @@ class Info extends Component {
         let s = this.props.information;
         // console.log(s);
 
-        if (s.DueDatetype == '立即') {
+        if (s.DueDatetype === '立即') {
             s.MsgTemplateId = global.msgcfg.autotemplateid;
         }
         else {

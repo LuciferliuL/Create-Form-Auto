@@ -7,6 +7,11 @@ const columns = [{
 }, {
     title: '最后修改时间',
     dataIndex: 'LastModifyTime',
+    render: (text, record) => {
+        return (
+            <div >{text.replace('T', ' ')}</div>
+        )
+    }
 }, {
     title: '所属分公司',
     dataIndex: 'BranchId',

@@ -61,7 +61,7 @@ class DesignTablecomponent extends Component {
             key: 'LastModifyTime',
             render: (text, record) => {
                 return (
-                    <div style={{ padding: '10px' }}>{text.slice(0, 19)}</div>
+                    <div style={{ padding: '10px' }}>{text.replace('T', ' ')}</div>
                 )
             }
         }, {
@@ -106,6 +106,11 @@ class DesignTablecomponent extends Component {
     }
     //delete
     handleDelete = () => {
+
+        if (!this.state.selectData.PK) {
+            message.warning('请选中数据项！');
+            return;
+        }
 
         POST$(API('Delete').http + this.state.selectData.PK + '/Delete', {}, (e) => {
             if (e.result) {

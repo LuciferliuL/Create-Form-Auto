@@ -179,9 +179,9 @@ class TABLECOMPONENT extends Component {
                 let tbodytd = []
                 columnskeys.forEach((key, index) => {
                     let datacontent = e[key.dataIndex];
-                    if (isNaN(datacontent) && !isNaN(Date.parse(datacontent))) {
-                        datacontent = datacontent.substr(0, 10);//取短日期；
-                    }
+                    //if (isNaN(datacontent) && !isNaN(Date.parse(datacontent))) {
+                    //    datacontent = datacontent.substr(0, 10);//取短日期；
+                    //}
 
 
                     tbodytd.push(

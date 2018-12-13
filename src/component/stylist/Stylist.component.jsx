@@ -261,6 +261,7 @@ class Stylistcomponent extends Component {
         // console.log(data);
 
         this.setState({
+            indexTable: "0",
             tableSourceData: data
         })
         // this.props.currentAttr = {}
