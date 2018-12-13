@@ -55,8 +55,8 @@ class Tags extends Component {
     }
 
     componentWillReceiveProps(pre) {
-        // console.log(pre);
-
+        console.log(pre);
+        this.setState({ CurrentIndex: 0, activetr: 0 });
         //this.setState({
         //    activeKey: pre.dataContent[pre.dataContent.length - 1].Name
         //})

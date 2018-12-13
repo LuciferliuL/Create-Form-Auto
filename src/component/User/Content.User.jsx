@@ -383,7 +383,7 @@ class ContentUser extends Component {
         var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.85;
         const { pane } = this.props;
 
-        console.log(this.props);
+        // console.log(this.props);
 
         let Dr = []
         let width_ = this.state.domWidth / 24
