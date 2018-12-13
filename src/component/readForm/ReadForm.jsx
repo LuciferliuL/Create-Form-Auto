@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Card, Col, Row, Table, Tree, Spin, message, Button,Input } from 'antd'
+import { Card, Col, Row, Table, Tree, Spin, message, Button, Input } from 'antd'
 import { API } from '../../lib/API/check.API.js'
 import { GET$, POST$, treeData } from '../../lib/MATH/math.js'
 import { selectkeysToHeader } from '../Slider/action/Header.action'
@@ -131,8 +131,16 @@ class ReadForm extends Component {
     }
     Add = () => {
         this.state.rows.forEach(e => e.SOURCEID = this.state.keys)
+
+        if (this.state.rows.length === 0) {
+            message.error('请选择项信息！');
+            return;
+        }
+
         POST$(API('Role').http, this.state.rows, (res) => {
-            if (res.length > 0) {
+            if (res.error && res.status !== 500) {
+                message.error('数据错误')
+            } else {
                 this.setState({
                     loading: false,
                     selectedRowKeys: [],
@@ -146,8 +154,6 @@ class ReadForm extends Component {
                 message.success('添加成功')
                 this.props.onTodoClick(['表单总览'])
                 this.props.history.push('/Design/er')
-            } else {
-                message.error('数据错误')
             }
         })
     }
@@ -171,7 +177,7 @@ class ReadForm extends Component {
     }
     render() {
         var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.9
-        const { loading, data, columns, selectedRowKeys ,searchdata} = this.state
+        const { loading, data, columns, selectedRowKeys, searchdata } = this.state
         const rowSelection = {
             onChange: this.rowSelectionChange,
             getCheckboxProps: record => ({

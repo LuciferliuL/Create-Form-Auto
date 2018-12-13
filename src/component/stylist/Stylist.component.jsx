@@ -7,13 +7,13 @@ import PublicComponent from '../PublicComponent/Public.Component'
 import SliderCard from '../SliderCard/SliderCard'
 import SliderRightcomponent from '../SliderRIght/SliderRight.component'
 import { Dragact } from 'dragact'
-import { formUpdataFromCurrent} from '../SliderRIght/action/Right.action'
+import { formUpdataFromCurrent } from '../SliderRIght/action/Right.action'
 import { updataValues } from '../PublicComponent/lookup/action/lookup.action'
 import { POST$, treeData } from '../../lib/MATH/math'
 import { API } from '../../lib/API/check.API'
 import { selectkeysToHeader } from '../Slider/action/Header.action'
 import TABLECOMPONENT from '../PublicComponent/table/Table'
-import {RightMoveArr,LeftMoveArr} from '../Iphone/Func'
+import { RightMoveArr, LeftMoveArr } from '../Iphone/Func'
 
 const getblockStyle = isDragging => {
     return {
@@ -271,22 +271,22 @@ class Stylistcomponent extends Component {
         const { indexTable, tableSourceData } = this.state
         let indexTableNumber = Number(indexTable)
         // console.log(e);
-        if(e === 'left'){
+        if (e === 'left') {
             let i = indexTableNumber - 1 > 0 ? indexTableNumber - 1 : 0
-            let data = LeftMoveArr(tableSourceData,indexTableNumber,tableSourceData.length)
+            let data = LeftMoveArr(tableSourceData, indexTableNumber, tableSourceData.length)
             // console.log(String(i));
             this.callback(String(i))
             this.setState({
                 // indexTable:i,
-                tableSourceData:data
+                tableSourceData: data
             })
-        }else{
+        } else {
             let i = indexTableNumber + 1 < tableSourceData.length - 1 ? indexTableNumber + 1 : tableSourceData.length - 1
-            let data = RightMoveArr(tableSourceData,indexTableNumber,tableSourceData.length)
+            let data = RightMoveArr(tableSourceData, indexTableNumber, tableSourceData.length)
             this.callback(String(i))
             this.setState({
                 // indexTable:i,
-                tableSourceData:data
+                tableSourceData: data
             })
         }
     }
@@ -313,7 +313,7 @@ class Stylistcomponent extends Component {
 
         var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.70
         const { getFieldDecorator } = this.props.form;
-        const {indexTable} = this.state
+        const { indexTable } = this.state
         let tabs_ = []
         this.state.tableSourceData.forEach((e, i) => {
             tabs_.push(
@@ -325,12 +325,12 @@ class Stylistcomponent extends Component {
         const operations = <Button.Group>
             <Button
                 style={this.state.read ? { display: 'unset' } : { display: 'none' }}
-                onClick={this.Clickmove.bind(this,'left')}>
+                onClick={this.Clickmove.bind(this, 'left')}>
                 <Icon type="swap-left" />
             </Button>
             <Button
                 style={this.state.read ? { display: 'unset' } : { display: 'none' }}
-                onClick={this.Clickmove.bind(this,'right')}>
+                onClick={this.Clickmove.bind(this, 'right')}>
                 <Icon type="swap-right" />
             </Button>
             <Button
@@ -452,7 +452,7 @@ class Stylistcomponent extends Component {
                                     <Popconfirm title="你要干什么？"
                                         icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
                                         okText="编辑"
-                                        cancelText="删除"
+                                        cancelText="取消"
                                         onConfirm={this.confirm.bind(this, this.state.tableSourceData)}
                                     // onCancel={this.cancel.bind(this, this.state.tableSourceData)}
                                     >
