@@ -218,7 +218,7 @@ class Info extends Component {
         let s = this.props.information;
         // console.log(s);
 
-        if (s.DueDatetype == '立即') {
+        if (s.DueDatetype === '立即') {
             s.MsgTemplateId = global.msgcfg.autotemplateid;
         }
         else {

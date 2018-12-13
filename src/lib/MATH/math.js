@@ -2,7 +2,6 @@ import 'isomorphic-fetch'
 import $ from 'jquery'
 import { notification } from 'antd'
 import '../API/url.API'
-import { func } from 'prop-types';
 
 /**
  * 

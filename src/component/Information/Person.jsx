@@ -17,14 +17,10 @@ class Person extends Component {
         columns: [{
             title: '姓名',
             dataIndex: 'name',
-            width: 100
+            width: "65%"
         }, {
             title: '职位',
-            dataIndex: 'jobTitle',
-            width: 100
-        }, {
-            title: 'openId',
-            dataIndex: 'openId',
+            dataIndex: 'jobTitle'
         }],
         data: [],
         columns2: [{
@@ -89,7 +85,6 @@ class Person extends Component {
         } else {
             this.setState({
                 data2: [],
-                data: [],
                 selectedRowKeys: [],
             })
         }
