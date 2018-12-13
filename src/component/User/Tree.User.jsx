@@ -92,13 +92,11 @@ class TreeUser extends Component {
             treeData.length > 0 ?
 
                 <Menu
+                    defaultOpenKeys={['0submenu']}
                     mode="inline"
                     theme="dark">
                     {M}
                 </Menu>
-
-
-
                 : null
         );
     }

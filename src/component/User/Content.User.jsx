@@ -59,9 +59,9 @@ class ContentUser extends Component {
         //let Prop = this.props
         //let returnData = {}
         //const { currentTabsIndex } = this.state;
-        //this.setState({
-        //    activetr: pre.tableSource[pre.CurrentIndex].tr
-        //});
+        this.setState({
+            activetr: pre.tableSource[pre.CurrentIndex].tr
+        });
         //console.log(pre.tableSource[pre.CurrentIndex]);
     }
 

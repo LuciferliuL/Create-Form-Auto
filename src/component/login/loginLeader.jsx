@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Row, Col, Card, Icon, Avatar, Layout } from 'antd'
+import { Row, Col, Card, Icon, Avatar, Layout, Dropdown, Tag, Menu } from 'antd'
 import { withRouter } from 'react-router-dom'
 
 const { Meta } = Card;
@@ -15,6 +15,9 @@ function mapStateToProps(state) {
 class loginLeader extends Component {
     state = {
         h: 0,
+        user: JSON.parse(sessionStorage.getItem('values')),
+        userdata: JSON.parse(sessionStorage.getItem('udata')),
+        model: sessionStorage.getItem("model"),
         data: [{
             IconType: "setting",//图标
             AvatarSrc: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",//人物头像
@@ -61,8 +64,20 @@ class loginLeader extends Component {
             h: h
         })
     }
+    enter = () => {
+        window.location.href = "/"
+    }
+
     render() {
-        const { h, data } = this.state
+        const { h, data, userdata } = this.state
+        const menu = (
+            <Menu>
+                <Menu.Item>
+                    <a onClick={this.enter.bind(this)}>退出登录</a>
+                </Menu.Item>
+            </Menu>
+        );
+
         let dataList = []
         let colwidth = 0
         switch (data.length) {
@@ -78,13 +93,14 @@ class loginLeader extends Component {
             default:
                 colwidth = 4
         }
+
         data.forEach((e, i) => {
             return dataList.push(
                 <Col span={colwidth} key={i}>
                     <Card
                         style={{ width: '85%', marginTop: 20 }}
                         actions={e.MetaTitle === 'Management' ? [<Icon type={e.IconType}
-                            onClick={() => {this.props.history.push('/BaseData/UserList')}} /> ,<a href="http://obs.myhwclouds.com/jztmobile/JzterpDataPlugin.dll">PL/SQL插件</a> ] 
+                            onClick={() => { this.props.history.push('/BaseData/UserList') }} />, <a href="http://obs.myhwclouds.com/jztmobile/JzterpDataPlugin.dll">PL/SQL插件</a>]
                             : [<Icon type={e.IconType}
                                 onClick={() => {
                                     if (e.MetaTitle === 'DESGIN') {
@@ -107,17 +123,20 @@ class loginLeader extends Component {
         })
         return (
             <Layout>
-                <Header>Header</Header>
+                <Header><div style={{ float: 'right' }}>
+                    <Tag color='blue' style={{ float: 'left', marginTop: '25px', background: 'none', border: 'none', fontSize: '14px', color: '#fff' }}>
+                        {userdata.Organization.OrganizationName}
+                    </Tag>
+                    <Dropdown overlay={menu} placement="bottomCenter">
+                        <Tag style={{ float: 'left', marginTop: '25px', background: 'none', border: 'none', fontSize: '14px', color: '#fff' }}>{userdata.UserName}</Tag>
+                    </Dropdown>
+                </div></Header>
                 <Content>
-                    {/* {this.state.showOrHiden ? */}
                     <Card style={{ height: h }}>
                         <Row align='middle' justify='start' style={{ marginTop: '5%' }}>
-                            {/* <Col span={2}></Col> */}
                             {dataList}
-                            {/* <Col span={2}></Col> */}
                         </Row>
                     </Card>
-                    {/* // :<Information height={h}></Information>} */}
                 </Content>
                 <Footer style={{ textAlign: 'center' }}>
                     ERP Design ©2018 Created by LEO

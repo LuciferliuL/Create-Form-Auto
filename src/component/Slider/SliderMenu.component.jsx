@@ -46,6 +46,7 @@ class SliderMenucomponent extends Component {
         return (
             <Menu
                 forceSubMenuRender={true}
+                defaultOpenKeys={['网页方案']}
                 selectedKeys={this.props.selectedKeys}
                 theme="dark"
                 defaultSelectedKeys={this.props.selectedKeys}
@@ -108,12 +109,12 @@ const sliderData = [
             type: 'book',
             children: [],
             link: '/Design/Iphoneer'
-        },{
+        }, {
             key: '移动设计',
             type: 'question-circle',
             children: [],
             link: '/Design/Iphone'
-        },{
+        }, {
             key: '移动权限',
             type: 'lock',
             children: [],

@@ -49,12 +49,12 @@ class Headercomponent extends Component {
 
         const menu = (
             <Menu>
-                <Menu.Item>
+                {/* <Menu.Item>
                     <a target="_blank">个人设置</a>
                 </Menu.Item>
                 <Menu.Item>
                     <a target="_blank">个人中心</a>
-                </Menu.Item>
+                </Menu.Item> */}
                 <Menu.Item>
                     <a onClick={this.enter.bind(this)}>                    {
                         this.state.model === "design" ? "返回首页" : "退出登录"
