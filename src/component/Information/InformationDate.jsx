@@ -50,7 +50,7 @@ class InformationDate extends Component {
         }
 
         const seloptm = [];
-        for (let i = 5; i < 60; i = i + 5) {
+        for (let i = 1; i < 60; i = i + 1) {
             let index = `0 */${i} * * * ?`
             seloptm.push(<Option value={index} key={i}>{i}分钟</Option>)
         }

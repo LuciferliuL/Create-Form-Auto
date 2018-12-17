@@ -135,7 +135,7 @@ class TABLECOMPONENT extends Component {
         const { data, columnskeys } = this.state
         const { activetr } = this.props;
 
-        // console.log(activetr);
+        console.log(activetr);
 
         let widths = 0
         let columnsData = []
@@ -194,10 +194,9 @@ class TABLECOMPONENT extends Component {
                 let tbodytd = []
                 columnskeys.forEach((key, index) => {
                     let datacontent = e[key.dataIndex];
-                    //if (isNaN(datacontent) && !isNaN(Date.parse(datacontent))) {
-                    //    datacontent = datacontent.substr(0, 10);//取短日期；
-                    //}
-
+                    if (typeof datacontent === 'string' && datacontent.indexOf('T') === 10 && isNaN(datacontent) && !isNaN(Date.parse(datacontent))) {
+                        datacontent = datacontent.substr(0, 10);//取短日期；
+                    }
 
                     tbodytd.push(
                         <td key={e.indexs + index}
