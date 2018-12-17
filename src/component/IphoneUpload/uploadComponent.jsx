@@ -35,7 +35,7 @@ class UploadComponent extends Component {
             let base64 = {
                 "PicInfoByBase64": fileStringBase64,
                 "BranchId": "FDG",
-                "FileName": "1111.apk",
+                "FileName": this.state.fileName,
                 "PicType": "jztmobile"
             }
             $.ajax({
@@ -44,14 +44,14 @@ class UploadComponent extends Component {
                 type: 'post',
                 data: base64,
                 success: function (params) {
-                    // console.log(params);
+                    // console.log(this.props);
                     this.props.spinChange()
                     if (params) {
                         message.success('恭喜上传成功')
                     } else {
                         message.error('上传失败')
                     }
-                }
+                }.bind(this)
             })
         }.bind(this)
     }
