@@ -102,7 +102,7 @@ class TreeUser extends Component {
     }
 }
 function mapStateToProps(State) {
-    console.log(State);
+    // console.log(State);
 
     return {
         TabsData: State.TabsData,

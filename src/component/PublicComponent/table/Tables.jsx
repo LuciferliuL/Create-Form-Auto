@@ -69,6 +69,19 @@ class TABLECOMPONENT extends Component {
 
 
     }
+    shouldComponentUpdate(nextprops, nextstate) {
+        // console.log(nextprops);
+        console.log(nextstate);
+
+        let nextP = JSON.parse(JSON.stringify(nextprops))
+        console.log(nextP);
+        console.log(this.props);
+        if (nextprops.PublicData.dataSource.length === 0) {
+            return false
+        } else {
+            return true
+        }
+    }
     onmouseup = () => {
 
         document.removeEventListener('mousemove', this.mos)
@@ -117,6 +130,8 @@ class TABLECOMPONENT extends Component {
         }
     }
     render() {
+        console.log(11111111);
+
         const { data, columnskeys } = this.state
         const { activetr } = this.props;
 

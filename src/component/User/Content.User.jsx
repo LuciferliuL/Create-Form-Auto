@@ -15,7 +15,7 @@ const TabPane = Tabs.TabPane;
 const ButtonGroup = Button.Group;
 // let  indexCurrentContst = 0
 function mapStateToProps(State) {
-    console.log(State);
+    // console.log(State);
 
     return {
 
