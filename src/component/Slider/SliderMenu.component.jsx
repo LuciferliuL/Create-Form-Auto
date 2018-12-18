@@ -4,6 +4,7 @@ import { Link, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { selectkeysToHeader } from './action/Header.action'
 import { stylistDataSourceAsync, fugai, tableReset } from '../stylist/action/Stylist.action'
+import { array } from 'prop-types';
 const SubMenu = Menu.SubMenu;
 
 class SliderMenucomponent extends Component {
@@ -16,13 +17,20 @@ class SliderMenucomponent extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props.history);
     }
 
     render() {
 
-        const { history } = this.props;
+        const { history, selectedKeys } = this.props;
         let _path = history.location.pathname;
+
+        var _selectedkeys = [];
+        if (Array.isArray(selectedKeys)) {
+            _selectedkeys = selectedKeys;
+        }
+        else
+            _selectedkeys = [selectedKeys];
+
 
         const menudata = []
         sliderData.forEach(e => {
@@ -68,9 +76,9 @@ class SliderMenucomponent extends Component {
         return (
             <Menu
                 forceSubMenuRender={true}
-                // selectedKeys={this.props.selectedKeys}
+                selectedKeys={_selectedkeys}
                 theme="dark"
-                // defaultSelectedKeys={this.props.selectedKeys}
+                defaultSelectedKeys={_selectedkeys}
                 mode="inline"
                 onSelect={this.onSelect}>
                 {menudata}
