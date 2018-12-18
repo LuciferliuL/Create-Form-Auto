@@ -81,11 +81,18 @@ class TreeUser extends Component {
         const { treeData } = this.state
         let M = []
         treeData.forEach((e, index) => {
-            M.push(
-                <SubMenu key={index + 'submenu'} title={<span>{e.Name}</span>}>
-                    {this.menu(e.children)}
-                </SubMenu>
-            )
+            if(e.children && e.children.length > 0){
+                M.push(
+                    <SubMenu key={index + 'submenu'} title={<span>{e.Name}</span>}>
+                        {this.menu(e.children)}
+                    </SubMenu>
+                )
+            }else{
+                M.push(
+                    <Menu.Item key={index + 'submenu'} onClick={this.menuClick.bind(this, e)}>{e.Name}</Menu.Item>
+                )
+            }
+          
         })
 
         return (
@@ -102,7 +109,7 @@ class TreeUser extends Component {
     }
 }
 function mapStateToProps(State) {
-    console.log(State);
+    // console.log(State);
 
     return {
         TabsData: State.TabsData,

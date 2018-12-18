@@ -68,9 +68,9 @@ class SliderMenucomponent extends Component {
         return (
             <Menu
                 forceSubMenuRender={true}
-                selectedKeys={this.props.selectedKeys}
+                // selectedKeys={this.props.selectedKeys}
                 theme="dark"
-                defaultSelectedKeys={this.props.selectedKeys}
+                // defaultSelectedKeys={this.props.selectedKeys}
                 mode="inline"
                 onSelect={this.onSelect}>
                 {menudata}

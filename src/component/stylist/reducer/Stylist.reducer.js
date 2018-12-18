@@ -192,7 +192,7 @@ export const tableSource = (state = [table], action) => {
 const table = {
     GridX: 0, GridY: 0, w: 24, h: 8, key: 'tablesKey' + Math.random(), pageSize: 200, scroll: 1200,
     icons: 'table', label: '简单表格', type: 'Table', id: 'tables', float: 0,
-    SQL: 'select * where', groupname: '', tr: 0, pageNum: 1,
+    SQL: 'select * where', groupname: '', tr: 0, pageNum: 1,isCustomDirective:false,CustomDirectiveURL:'',CustomDirectiveMethod:'',
     columns: [
         {
             title: '',

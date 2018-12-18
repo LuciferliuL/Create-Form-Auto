@@ -5,7 +5,7 @@ import { formUpdataFromCurrent } from '../SliderRIght/action/Right.action'
 import PublicComponent from '../PublicComponent/Public.Component'
 import TABLECOMPONENT from '../PublicComponent/table/Tables'
 import { API } from '../../lib/API/check.API'
-import { POST$, httprequest, getrequestparam, getDat, formatDate, getstartHours, getendHours } from '../../lib/MATH/math'
+import { POST$, httprequest, getrequestparam, getDat, formatDate, getstartHours, getendHours, GETFetch } from '../../lib/MATH/math'
 import { _clear, _tableUpdataFromResults, tableTr0, fugai } from '../stylist/action/Stylist.action'
 import { tAddDown, tReduceUp } from '../PublicComponent/lookup/action/lookup.action';
 
@@ -15,7 +15,7 @@ const TabPane = Tabs.TabPane;
 const ButtonGroup = Button.Group;
 // let  indexCurrentContst = 0
 function mapStateToProps(State) {
-    console.log(State);
+    // console.log(State);
 
     return {
 
@@ -171,6 +171,7 @@ class ContentUser extends Component {
         // this.setState({
         //     loading: true
         // })
+        console.log(tableSource);
 
         //input获取焦点
         var oInput = document.getElementById("input");
@@ -272,26 +273,69 @@ class ContentUser extends Component {
 
         //table行数
         let post = new Promise((resolve, reject) => {
-            let body = {
-                "Sql": SQL,
-                "Param": JSON.stringify(valueList),
-                "PageIndex": page,
-                "PageSize": 200,
-                isPage: true
-            }
-            POST$(API('SQL', this.state.branchtype).http, body, (res) => {
-                if (res.Results) {
-                    tableSource[CurrentIndex].dataSource = res.Results;
-                    tableSource[CurrentIndex].tr = 0;
-                    tableSource[CurrentIndex].pageSize = res.RecordCount;
 
-                    console.log(this.props);
-
-                    resolve(true);
+            if (tableSource[0].isCustomDirective) {
+                if (tableSource[0].CustomDirectiveMethod === 1) {
+                    let str = ''
+                    Object.keys(valueList).forEach(e => {
+                        str += `&${e}=${valueList[e]}`
+                    })
+                    let urlString = `&Sql= ${SQL}${str}&PageIndex=${page}&PageSize= 200&isPage=true`
+                    GETFetch(tableSource[0].CustomDirectiveURL + urlString, (res) => {
+                        if (res.Results) {
+                            tableSource[CurrentIndex].dataSource = res.Results;
+                            tableSource[CurrentIndex].tr = 0;
+                            tableSource[CurrentIndex].pageSize = res.RecordCount;
+                            resolve(true);
+                        } else {
+                            reject(res);
+                        }
+                    })
                 } else {
-                    reject(res);
+                    let body = {
+                        "Sql": SQL,
+                        ...valueList,
+                        "PageIndex": page,
+                        "PageSize": 200,
+                        isPage: true
+                    }
+                    POST$(tableSource[0].CustomDirectiveURL, body, (res) => {
+                        if (res.Results) {
+                            tableSource[CurrentIndex].dataSource = res.Results;
+                            tableSource[CurrentIndex].tr = 0;
+                            tableSource[CurrentIndex].pageSize = res.RecordCount;
+
+                            // console.log(this.props);
+
+                            resolve(true);
+                        } else {
+                            reject(res);
+                        }
+                    })
                 }
-            })
+            } else {
+                let body = {
+                    "Sql": SQL,
+                    "Param": JSON.stringify(valueList),
+                    "PageIndex": page,
+                    "PageSize": 200,
+                    isPage: true
+                }
+                POST$(API('SQL', this.state.branchtype).http, body, (res) => {
+                    if (res.Results) {
+                        tableSource[CurrentIndex].dataSource = res.Results;
+                        tableSource[CurrentIndex].tr = 0;
+                        tableSource[CurrentIndex].pageSize = res.RecordCount;
+
+                        console.log(this.props);
+
+                        resolve(true);
+                    } else {
+                        reject(res);
+                    }
+                })
+            }
+
         });
 
         Promise.race([post])

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Form, Icon, Input, Button, Row, Col, Modal, Table, Tag } from 'antd';
+import { Form, Icon, Input, Button, Row, Col, Modal, Table, Tag, Checkbox, Radio } from 'antd';
 import { LookUpApi } from '../../lib/API/lookUpList'
 import { POST$ } from '../../lib/MATH/math'
 
@@ -10,7 +10,12 @@ const baseData = [
     { label: '检索名称', id: 'label', message: '检索名称必填' },
     { label: '显示字符', id: 'uniqueKey', message: '显示字符字段必填' },
     { label: '回传KEY', id: 'upKey', message: '回传KEY字段必填' },
+    { label: '自定义地址', id: 'CustomDirectiveURL', message: '自定义地址字段必填' },
+    { label: '自定义方法', id: 'CustomDirectiveMethod', message: '自定义方法字段必填' },
+    { label: '是否自定义接口', id: 'isCustomDirective', message: '是否自定义接口字段必填' },
 ]
+
+
 const { TextArea } = Input;
 
 function mapStateToProps(state) {
@@ -268,17 +273,42 @@ class LookUpForm extends React.Component {
             wrapperCol: { xs: { span: 24 }, sm: { span: 18 } }
         }
         let formData = []
-        baseData.forEach(e => (
-            formData.push(
-                <FormItem {...layout} label={e.label} key={e.id}>
-                    {getFieldDecorator(e.id, {
-                        rules: [{ required: true, message: e.message }],
-                    })(
-                        <Input />
-                    )}
-                </FormItem>
-            )
-        ))
+        baseData.forEach(e => {
+            if (e.id === 'isCustomDirective') {
+                formData.push(
+                    <FormItem {...layout} label={e.label} key={e.id}>
+                        {getFieldDecorator(e.id, {
+                            rules: [{ required: true, message: e.message }],
+                        })(
+                            <Checkbox></Checkbox>
+                        )}
+                    </FormItem>
+                )
+            } else if(e.id === 'CustomDirectiveMethod'){
+                formData.push(
+                    <FormItem {...layout} label={e.label} key={e.id}>
+                        {getFieldDecorator(e.id, {
+                            rules: [{ required: true, message: e.message }],
+                        })(
+                            <Radio.Group>
+                                <Radio value={0}>POST</Radio>
+                                <Radio value={1}>GET</Radio>
+                            </Radio.Group>
+                        )}
+                    </FormItem>
+                )
+            }else {
+                formData.push(
+                    <FormItem {...layout} label={e.label} key={e.id}>
+                        {getFieldDecorator(e.id, {
+                            rules: [{ required: true, message: e.message }],
+                        })(
+                            <Input />
+                        )}
+                    </FormItem>
+                )
+            }
+        })
 
         return (
             <Row>
