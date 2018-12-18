@@ -56,11 +56,11 @@ class UploadComponent extends Component {
         }.bind(this)
     }
     updataName = (e) => {
-        console.log(e.target.value);
+        // console.log(e.target.value);
         let value = e.target.value
         let arr = value.split('\\')
         let fileName = arr[arr.length - 1]
-        console.log(fileName);
+        // console.log(fileName);
         this.setState({
             fileName: fileName
         })

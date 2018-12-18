@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Tabs, Form, Input, Switch, InputNumber, Radio, Icon, Select } from 'antd'
+import { Card, Tabs, Form, Input, Switch, InputNumber, Radio, Icon, Select, Checkbox } from 'antd'
 import { connect } from 'react-redux'
 import { currentAttrUpdata, formUpdataFromCurrent, hidenDrawer, flagChange } from './action/Right.action.js'
 import Drawercomponent from '../Drawer/Drawer.component'
@@ -246,7 +246,46 @@ class SliderRightcomponent extends Component {
                     break;
             }
         })
+        if (pre.currentAttr.type === 'Table' || pre.currentAttr.type === 'Lookup') {
+            uniqueList.push(
+                <div key={pre.currentAttr.key + pre.currentAttr.SQL}>
+                    <FormItem
+                        label='是否自定义接口'
+                        {...formItemLayout}
+                    >
+                        {getFieldDecorator('isCustomDirective')(
+                            <Checkbox></Checkbox>
+                        )}
+                    </FormItem>
+                    {
+                        pre.currentAttr.isCustomDirective ?
+                            <div>
+                                <FormItem
+                                    label='自定义地址'
+                                    {...formItemLayout}
+                                >
+                                    {getFieldDecorator('CustomDirectiveURL')(
+                                        <Input></Input>
+                                    )}
+                                </FormItem>
+                                <FormItem
+                                    label='自定义方法'
+                                    {...formItemLayout}
+                                >
+                                    {getFieldDecorator('CustomDirectiveMethod')(
+                                        <Radio.Group>
+                                            <Radio value={0}>POST</Radio>
+                                            <Radio value={1}>GET</Radio>
+                                        </Radio.Group>
+                                    )}
+                                </FormItem>
+                            </div>
+                            : null
+                    }
+                </div>
 
+            )
+        }
         this.setState({
             uniqueList: uniqueList,
             value: dateChange,
@@ -334,14 +373,6 @@ class SliderRightcomponent extends Component {
                     <Tabs defaultActiveKey="1">
                         <TabPane tab="基础属性" key="1">
                             {inputList}
-                            {/* <FormItem
-                                label='必填'
-                                {...formItemLayout}
-                            >
-                                {getFieldDecorator('required')(
-                                    <Switch checked={currentAttr.required}></Switch>
-                                )}
-                            </FormItem> */}
                             <FormItem
                                 label='禁止'
                                 {...formItemLayout}
@@ -422,7 +453,7 @@ class SliderRightcomponent extends Component {
 }
 
 const mapPropsToState = (state) => {
-    console.log(state);
+    // console.log(state);
 
     return {
     }
@@ -451,12 +482,14 @@ const mapDispatchProps = (dispatch) => {
 }
 export default connect(mapPropsToState, mapDispatchProps)(Form.create({
     onFieldsChange(props, changedFields) {
-        console.log(1);
+        // console.log(1);
 
         let value = changedFields[Object.keys(changedFields)[0]]['value']
         let label = changedFields[Object.keys(changedFields)[0]]['name']
         let obj = {}
         obj[label] = value;
+        // console.log(obj);
+        
         Object.assign(props.currentAttr, obj);
         props.updata(props.currentAttr);//修改current
 

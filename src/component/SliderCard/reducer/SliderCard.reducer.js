@@ -33,16 +33,6 @@ const SData = [
             wrapperCol: { xs: { span: 24 }, sm: { span: 8 } }
         }
     },
-    // {
-    //     GridX: 0, GridY: 0, w: 8, h: 1, key: '0',
-    //     icons: 'select', id: 8, type: 'Select', required: false,
-    //     message: "123", label: "下拉框", disabled: false,
-    //     GroupValue: [{ value: 'Apple', name: 'Apple' }, { value: 'Pear', name: 'Pear' }],
-    //     layout: {
-    //         labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
-    //         wrapperCol: { xs: { span: 24 }, sm: { span: 16 } }
-    //     }
-    // },
     {
         GridX: 0, GridY: 0, w: 8, h: 1, key: '0',
         icons: 'calendar', id: 8, type: 'Date', required: false,
@@ -64,60 +54,9 @@ const SData = [
         }
     },
     {
-        //     GridX: 0, GridY: 0, w: 24, h: 8, key: '0', pageSize: 200, scroll: 1200,
-        //     icons: 'table', label: '简单表格', type: 'Table',
-        //     SQL: 'select * where', groupname: '',
-        //     columns: [
-        //     ],
-        //     dataSource: []
-        // },
-        // {
-        //     GridX: 0, GridY: 0, w: 8, h: 1, key: '0',
-        //     icons: 'diff', id: 8, type: 'LookUp', required: false,
-        //     message: "", label: "LookUp", disabled: false, upKey: '',
-        //     show: false, scroll: 1200,
-        //     layout: {
-        //         labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
-        //         wrapperCol: { xs: { span: 24 }, sm: { span: 16 } }
-        //     }, tr: 0, values: '', uniqueKey: 'key',
-        //     columns: [
-        //         {
-        //             title: 'Date',
-        //             dataIndex: 'date',
-        //             width: '20%',
-        //         }, {
-        //             title: 'Amount',
-        //             dataIndex: 'amount',
-        //             width: '10%',
-        //         }, {
-        //             title: 'Type',
-        //             dataIndex: 'type',
-        //             width: '10%',
-        //         }, {
-        //             title: 'Note',
-        //             dataIndex: 'note',
-        //             width: '10%',
-        //         }, {
-        //             title: 'Action',
-        //             dataIndex: 'action',
-        //             width: '50%'
-        //         }],
-        //     SQL: '',
-        //     dataSource: []
-        // }, {
         GridX: 0, GridY: 0, w: 24, h: 1, key: '0',
         icons: 'copy', id: 8, type: 'Group', label: "说明", orientation: 'left'
     }
-    // , {
-    //     GridX: 0, GridY: 0, w: 4, h: 1, key: '0',
-    //     icons: 'key', id: 8, type: 'Switch', required: false,
-    //     message: "123", label: "开关", checked: false, disabled: false,
-    //     unCheckedChildren: 'NO', checkedChildren: 'YES',
-    //     layout: {
-    //         labelCol: { xs: { span: 24 }, sm: { span: 12 }, },
-    //         wrapperCol: { xs: { span: 24 }, sm: { span: 12 } }
-    //     }
-    // }
 ]
 
 export const SliderCardData = (state = SData, action) => {
@@ -154,9 +93,9 @@ const SQL = [
             labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
             wrapperCol: { xs: { span: 24 }, sm: { span: 16 } }
         }, tr: 0, values: '', uniqueKey: 'PRODNAME', upKey: 'PRODID',
-        scroll: 1200,
-        show: false,
-        columns: [{
+        scroll: 1200,show: false,
+        columns: [
+            {
             title: "采购员ID",
             dataIndex: "PURCHASER",
             width: 100,
