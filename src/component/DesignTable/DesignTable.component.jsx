@@ -316,7 +316,7 @@ class DesignTablecomponent extends Component {
 
                     this.props.fugai(body.FormData) //添加表单的
                     this.props.tableFugai(body.TableData)//添加表格的
-                    this.props.update({})//用来确定是否新建
+                    this.props.update(selectData)//用来确定是否新建
                     this.props.onTodoClick(['表单设计'])
                     let path = {
                         pathname: '/Design/Stylist',

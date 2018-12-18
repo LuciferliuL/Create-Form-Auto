@@ -524,7 +524,7 @@ const mapDispatchProps = (dispatch) => {
 export default connect(mapStateToProps, mapDispatchProps)(Form.create({
     mapPropsToFields(props) {
         let Field = {}
-        // console.log(props);
+        console.log(props);
         //length是否大于0  显示为 是否新建或编辑
         if (Object.keys(props.InitStylistData).length > 0) {
             Field['Name'] = Form.createFormField({ value: props.InitStylistData.Name });

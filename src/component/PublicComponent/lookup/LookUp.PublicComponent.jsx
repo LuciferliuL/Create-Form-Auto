@@ -5,7 +5,7 @@ import './LookUp.PublicComponent.css'
 import { shows, upDataCurrentDataSource, updataValues, trAddDown, trReduceUp, onClickTr } from './action/lookup.action'
 import { currentAttr } from '../../stylist/action/Stylist.action'
 import { formUpdataFromCurrent } from '../../SliderRIght/action/Right.action'
-import { POST$ } from '../../../lib/MATH/math'
+import { POST$, GETFetch } from '../../../lib/MATH/math'
 import { API } from '../../../lib/API/check.API'
 import TablePublicComponent from '../table/Table.PublicComponent'
 
@@ -28,18 +28,45 @@ class LookUpPublicComponent extends Component {
         let res = this.props.UpdataFormData[this.props.UpdataFormData.length - 1] //每次获取新加入的
         if (res.SQL && res.SQL.length > 0) {
             let obj = this.props.UpdataFormData.find(e => e.key === res.key)
-            let body = {
-                "Sql": obj.SQL,
-                "Param": JSON.stringify(abbr),
-                "PageIndex": 1,
-                "PageSize": 1,
-                isPage: true
+
+            console.log(obj);
+            if (obj.isCustomDirective) {
+                if (obj.CustomDirectiveMethod === 1) {
+
+                    let urlString = `&Sql= ${obj.SQL}&abbr=${abbr}&PageIndex=${1}&PageSize= 1&isPage=true`
+                    GETFetch(obj.CustomDirectiveURL + urlString, (res) => {
+                        obj.dataSource = res.Results
+                        obj.totalPage = res.RecordCount
+                        this.props.upForm(obj)
+                    })
+                } else {
+                    let body = {
+                        "Sql": obj.SQL,
+                        ...abbr,
+                        "PageIndex": 1,
+                        "PageSize": 1,
+                        isPage: true
+                    }
+                    POST$(API('SQL').http, body, (res) => {
+                        obj.dataSource = res.Results
+                        obj.totalPage = res.RecordCount
+                        this.props.upForm(obj)
+                    })
+                }
+            } else {
+                let body = {
+                    "Sql": obj.SQL,
+                    "Param": JSON.stringify(abbr),
+                    "PageIndex": 1,
+                    "PageSize": 1,
+                    isPage: true
+                }
+                POST$(API('SQL').http, body, (res) => {
+                    obj.dataSource = res.Results
+                    obj.totalPage = res.RecordCount
+                    this.props.upForm(obj)
+                })
             }
-            POST$(API('SQL').http, body, (res) => {
-                obj.dataSource = res.Results
-                obj.totalPage = res.RecordCount
-                this.props.upForm(obj)
-            })
         }
     }
     componentWillReceiveProps(pre) {
@@ -50,6 +77,71 @@ class LookUpPublicComponent extends Component {
     }
     ClickHandleKey = (key, page, pagesize, show) => {
         let obj = this.props.PublicData
+
+
+        if (obj.isCustomDirective) {
+            if (obj.CustomDirectiveMethod === 1) {
+
+                let urlString = `&Sql= ${obj.SQL}&abbr=${abbr}&PageIndex=${1}&PageSize= 1&isPage=true`
+                GETFetch(obj.CustomDirectiveURL + urlString, (res) => {
+                    this.props.UpDataCurrent(obj)
+                    this.props.upDataCurrentDataSource(res.Results, res.RecordCount)
+                    this.props.upForm(this.props.current)
+                    this.setState({
+                        shows: true,
+                        loading: false
+                    }, () => {
+                        setTimeout(() => {
+                            window.addEventListener('keyup', this.handleKeyDown)
+                        }, 1000);
+                    })
+                })
+            } else {
+                let body = {
+                    "Sql": obj.SQL,
+                    ...abbr,
+                    "PageIndex": 1,
+                    "PageSize": 1,
+                    isPage: true
+                }
+                POST$(API('SQL').http, body, (res) => {
+                    this.props.UpDataCurrent(obj)
+                    this.props.upDataCurrentDataSource(res.Results, res.RecordCount)
+                    this.props.upForm(this.props.current)
+                    this.setState({
+                        shows: true,
+                        loading: false
+                    }, () => {
+                        setTimeout(() => {
+                            window.addEventListener('keyup', this.handleKeyDown)
+                        }, 1000);
+                    })
+                })
+            }
+        } else {
+            let body = {
+                "Sql": obj.SQL,
+                "Param": JSON.stringify(abbr),
+                "PageIndex": 1,
+                "PageSize": 1,
+                isPage: true
+            }
+            POST$(API('SQL').http, body, (res) => {
+                this.props.UpDataCurrent(obj)
+                this.props.upDataCurrentDataSource(res.Results, res.RecordCount)
+                this.props.upForm(this.props.current)
+                this.setState({
+                    shows: true,
+                    loading: false
+                }, () => {
+                    setTimeout(() => {
+                        window.addEventListener('keyup', this.handleKeyDown)
+                    }, 1000);
+                })
+            })
+        }
+
+
         let body = {
             "Sql": obj.SQL,
             "Param": JSON.stringify(abbr),
@@ -189,13 +281,13 @@ class LookUpPublicComponent extends Component {
     }
     LookUpChange = (e) => {
         // console.log(e.target.value);
-        
+
         if (e.target.value === '') {
             let data = this.props.PublicData
             this.setState({
                 value: ''
             })
-          
+
             data.values = ''
             this.props.ChangeOn(data, data.key)
             this.props.UpdataFormData.find(e => e.key === data.key).values = ''
@@ -225,7 +317,7 @@ class LookUpPublicComponent extends Component {
         const { label, layout } = this.props.PublicData
         const { shows } = this.state
         // console.log(this.props.PublicData);
-        
+
         return (
 
             <div className="certain-category-search-wrapper" style={{ width: '100%' }}>
@@ -264,7 +356,7 @@ class LookUpPublicComponent extends Component {
 }
 const mapStateToProps = (state) => {
     // console.log(state);
-    
+
     return {
         current: state.currentAttr,
         UpdataFormData: state.UpdataFormData
