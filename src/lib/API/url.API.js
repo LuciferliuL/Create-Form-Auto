@@ -43,7 +43,7 @@ else if (environment === 'product') {
         pub: "XT-abd10904-f8d6-47cc-8be1-32c1cb18a229",
         pubsercet: "11a8551ab4d10bf786faba3740934a89",
         corntemplateid: "I9MessageSendcron",
-        autotemplateid: "I9MessageSendhw",
+        autotemplateid: "I9MessageSendexec",
         filepath: "C:\\Program Files (x86)\\JZTERP\\CenterQuerybuild",//design路径
         fileurl: "http://10.3.4.233:9003/"//design站点
     }

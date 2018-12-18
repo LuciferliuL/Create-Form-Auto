@@ -115,6 +115,7 @@ class Info extends Component {
                 <Button onClick={this.edit.bind(this, 'add')}>新增</Button>
                 <Button onClick={this.edit.bind(this, 'edit')}>编辑</Button>
                 <Button onClick={this.edit.bind(this, 'look')}>查看</Button>
+                <Button onClick={this.edit.bind(this, 'stop')}>暂停</Button>
                 <Button onClick={this.edit.bind(this, 'del')}>删除</Button>
                 <Button onClick={this.checkedLog.bind(this)}>查看日志</Button>
             </ButtonGroup>
@@ -183,7 +184,35 @@ class Info extends Component {
                         news: true
                     }) : message.warning('请选择数据')
                 break;
+            case 'stop':
+
+                if (this.state.selectedData[0].PK === -1) {
+                    message.warning('请选择数据')
+                    return;
+                }
+                POST$(API('i9stop', this.state.selectedRowKeys[0]).http, {}, (res) => {
+                    // console.log(res);
+                    if (res.result) {
+                        message.success('暂停成功！')
+                        GET$(API('geti9msgall').http, (res) => {
+                            console.log(res);
+                            this.setState({
+                                data: res,
+                                showdatalog: false,
+                                selectedData: [{ PK: -1 }],
+                                selectedRowKeys: []
+                            })
+                        })
+                    } else {
+                        message.error('操作失败！')
+                    }
+                })
+                break;
             case 'del':
+                if (this.state.selectedData[0].PK === -1) {
+                    message.warning('请选择数据')
+                    return;
+                }
                 POST$(API('i9Del', this.state.selectedRowKeys[0]).http, {}, (res) => {
                     // console.log(res);
                     if (res.result) {
