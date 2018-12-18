@@ -34,7 +34,12 @@ export const API = (k, id) => {
         case 'i9Del':
             return {
                 method: 'POST',
-                http: global.cfg.centerQueryAPI + 'api/DataMsg/' + id + '/delete' //获取列表
+                http: global.cfg.centerQueryAPI + 'api/DataMsg/' + id + '/delete' //删除
+            }
+        case 'i9stop':
+            return {
+                method: 'POST',
+                http: global.cfg.centerQueryAPI + 'api/DataMsg/' + id + '/stop' //暂停
             }
         case "geti9msgsendlist"://获取日志
             return {
