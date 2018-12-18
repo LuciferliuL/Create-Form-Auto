@@ -50,7 +50,9 @@ class TABLECOMPONENT extends Component {
                     colHeight: colHeight,
                     columnskeys: row
                 }
-            ))
+            ),()=>{
+                console.log(this.state.data);
+            })
         } else {
 
             Source.map((e, i) => {
@@ -63,7 +65,10 @@ class TABLECOMPONENT extends Component {
                     colHeight: colHeight,
                     columnskeys: pre.PublicData.columns
                 }
-            ))
+            ),()=>{
+                 console.log(this.state.data);
+                
+            })
         }
 
 
@@ -135,7 +140,9 @@ class TABLECOMPONENT extends Component {
         const { data, columnskeys } = this.state
         const { activetr } = this.props;
 
-        console.log(activetr);
+        console.log(columnskeys);
+        console.log(data);
+        
 
         let widths = 0
         let columnsData = []

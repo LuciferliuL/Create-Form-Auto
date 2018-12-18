@@ -253,7 +253,10 @@ class SliderRightcomponent extends Component {
                         label='是否自定义接口'
                         {...formItemLayout}
                     >
-                        {getFieldDecorator('isCustomDirective')(
+                        {getFieldDecorator('isCustomDirective',{
+                             valuePropName: 'checked',
+                            //  initialValue: true,
+                        })(
                             <Checkbox></Checkbox>
                         )}
                     </FormItem>
@@ -510,6 +513,8 @@ export default connect(mapPropsToState, mapDispatchProps)(Form.create({
                 Field[e] = Form.createFormField({ value: currentAttr[e] })
             })
         }
+        console.log(Field);
+        
         return Field;
     },
     onValuesChange(_, values) {
