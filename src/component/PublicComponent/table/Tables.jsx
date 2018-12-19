@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Tooltip } from 'antd'
+// import { Table, Tooltip } from 'antd'
 import { connect } from 'react-redux'
 import './Table.PublicComponent.css'
 import { tAddDown, tReduceUp } from '../lookup/action/lookup.action';
@@ -54,7 +54,6 @@ class TABLECOMPONENT extends Component {
                 console.log(this.state.data);
             })
         } else {
-
             Source.map((e, i) => {
                 e.indexs = i + 'tables'
                 data.push(e)

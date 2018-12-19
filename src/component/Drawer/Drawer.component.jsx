@@ -26,36 +26,40 @@ class Drawercomponent extends Component {
 
             console.log(this.props.currentAttr);
             const { currentAttr } = this.props
-            let columns = currentAttr.columns
-            if (columns[0].title === '') {
+            if (!currentAttr.isCustomDirective) {
+                let columns = currentAttr.columns
+                if (columns[0].title === '') {
 
-                let abbr = {};
-                let body = {
-                    "Sql": this.props.currentAttr.SQL,
-                    "Param": JSON.stringify(abbr),
-                    "PageIndex": 1,
-                    "PageSize": 100,
-                    isPage: true
-                };
-                POST$(API('GetSqlColumns').http, body, (res) => {
-                    if (res.error) {
+                    let abbr = {};
+                    let body = {
+                        "Sql": this.props.currentAttr.SQL,
+                        "Param": JSON.stringify(abbr),
+                        "PageIndex": 1,
+                        "PageSize": 100,
+                        isPage: true
+                    };
+                    POST$(API('GetSqlColumns').http, body, (res) => {
+                        if (res.error) {
 
-                    }
-                    else {
-                        // console.log(res);
-                        let data = []
-                        res.forEach(e => {
-                            let key = {
-                                title: e.ColumnName,
-                                dataIndex: e.ColumnName,
-                                width: 200,
-                            }
-                            data.push(key)
-                        })
-                        this.props.currentAttr.columns = data
-                        this.props.tableedit(this.props.currentAttr)
-                    }
-                });
+                        }
+                        else {
+                            // console.log(res);
+                            let data = []
+                            res.forEach(e => {
+                                let key = {
+                                    title: e.ColumnName,
+                                    dataIndex: e.ColumnName,
+                                    width: 200,
+                                }
+                                data.push(key)
+                            })
+                            this.props.currentAttr.columns = data
+                            this.props.tableedit(this.props.currentAttr)
+                        }
+                    });
+                } else {
+                    this.props.tableedit(this.props.currentAttr)
+                }
             } else {
                 this.props.tableedit(this.props.currentAttr)
             }
