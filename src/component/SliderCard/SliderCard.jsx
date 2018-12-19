@@ -33,6 +33,9 @@ class SliderCard extends Component {
             })
         })
     }
+    shouldComponentUpdate(){
+        return false
+    }
     drag = (obj, ev) => {
         let ADD_TAG = JSON.parse(JSON.stringify(obj))
         ADD_TAG.id = (Math.random() * 1000).toFixed(2)

@@ -30,7 +30,7 @@ class loginLeader extends Component {
             AvatarSrc: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",//人物头像
             MetaTitle: "BPMADMIN",//卡片抬头
             MetaDescription: "流程管理",//卡片描述
-            href: 'http://10.3.2.21:20427/'//跳转地址
+            href: 'http://10.3.4.233:20427/'//跳转地址
             // href:'http://10.3.4.177:9003'
         }, {
             IconType: "radius-setting",//图标
@@ -45,12 +45,12 @@ class loginLeader extends Component {
             MetaDescription: "群体信息发送",//卡片描述<Icon type="" theme="outlined" />
             href: 'http://10.3.4.177:9003/Information'//跳转地址
         }, {
-                IconType: "bulb",//图标
-                AvatarSrc: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",//人物头像
-                MetaTitle: "Iphone",//卡片抬头<Icon type="" theme="outlined" />
-                MetaDescription: "移动商务打包上传",//卡片描述
-                href: 'www.baidu.com'//跳转地址
-            }, {
+            IconType: "bulb",//图标
+            AvatarSrc: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",//人物头像
+            MetaTitle: "Iphone",//卡片抬头<Icon type="" theme="outlined" />
+            MetaDescription: "移动商务打包上传",//卡片描述
+            href: 'www.baidu.com'//跳转地址
+        }, {
             IconType: "bulb",//图标
             AvatarSrc: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",//人物头像
             MetaTitle: "Management",//卡片抬头<Icon type="" theme="outlined" />
@@ -107,9 +107,11 @@ class loginLeader extends Component {
                                         this.props.history.push('/Design/er')
                                     } else if (e.MetaTitle === 'I9群信息') {
                                         this.props.history.push('/Info')
-                                    }else if(e.MetaTitle === 'Iphone'){
+                                    } else if (e.MetaTitle === 'Iphone') {
                                         this.props.history.push('/iphoneUpload')
-                                    }else {
+                                    } else if (e.MetaTitle === 'CONFIGUI') {
+                                        this.props.history.push('/configUI')
+                                    } else {
                                         window.location.href = e.href
                                     }
                                 }} />]}
