@@ -262,6 +262,16 @@ function getHours() {
 }
 export { getHours }
 
+function upperJSONKey(jsonObj) {
+    for (var key in jsonObj) {
+        jsonObj[key.toUpperCase()] = jsonObj[key];
+        if (key.toUpperCase() !== key)
+            delete (jsonObj[key]);
+    }
+    return jsonObj;
+}
+export { upperJSONKey }
+
 //下载
 function downloadFile(fileName, content) {
     // 创建隐藏的可下载链接

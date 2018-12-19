@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import './Table.PublicComponent.css'
 import { tAddDown, tReduceUp } from '../lookup/action/lookup.action';
-import { MathRandom } from '../../../lib/MATH/math'
+import { MathRandom, upperJSONKey } from '../../../lib/MATH/math'
 
 let nums = 0
 let pointX = 0 //点击原点
@@ -33,16 +33,19 @@ class TABLECOMPONENT extends Component {
 
             let keys = Object.keys(Source[0])
             Source.map((e, i) => {
-                e.indexs = i + 'tables'
-                data.push(e)
+
+                let ee = upperJSONKey(e);
+                ee.indexs = i + 'tables'
+                data.push(ee)
             })
             for (var i = 0; i < colHeight - Source.length; i++) {
                 let e = {}
                 keys.forEach(x => {
                     e[x] = '-'
                 })
-                e.indexs = i + 'tt'
-                data.push(e)
+                let ee = upperJSONKey(e);
+                ee.indexs = i + 'tt'
+                data.push(ee)
             }
             this.setState(() => (
                 {
@@ -50,13 +53,14 @@ class TABLECOMPONENT extends Component {
                     colHeight: colHeight,
                     columnskeys: row
                 }
-            ),()=>{
+            ), () => {
                 console.log(this.state.data);
             })
         } else {
             Source.map((e, i) => {
-                e.indexs = i + 'tables'
-                data.push(e)
+                let ee = upperJSONKey(e);
+                ee.indexs = i + 'tables'
+                data.push(ee)
             })
             this.setState(() => (
                 {
@@ -64,14 +68,11 @@ class TABLECOMPONENT extends Component {
                     colHeight: colHeight,
                     columnskeys: pre.PublicData.columns
                 }
-            ),()=>{
-                 console.log(this.state.data);
-                
+            ), () => {
+                console.log(this.state.data);
+
             })
         }
-
-
-
     }
     shouldComponentUpdate(nextprops, nextstate) {
         // console.log(nextprops);
@@ -141,7 +142,7 @@ class TABLECOMPONENT extends Component {
 
         console.log(columnskeys);
         console.log(data);
-        
+
 
         let widths = 0
         let columnsData = []
