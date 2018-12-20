@@ -200,7 +200,7 @@ $.ajaxSetup({
         500: function (res) {
             notification.error({
                 message: '服务器错误 500！',
-                description: res.responseJSON[0].ShortText
+                description: res && res.responseJSON && res.responseJSON.length > 0 ? res.responseJSON[0].ShortText : ""
             });
         }
     }

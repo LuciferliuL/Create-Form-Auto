@@ -33,8 +33,8 @@ class SliderCard extends Component {
             })
         })
     }
-    shouldComponentUpdate(){
-        return false
+    shouldComponentUpdate() {
+        return true
     }
     drag = (obj, ev) => {
         let ADD_TAG = JSON.parse(JSON.stringify(obj))
@@ -76,12 +76,14 @@ class SliderCard extends Component {
                 </CardGrid>
             )
         })
+
+
         const z = []
         if (this.state.tableDataSource.length > 0) {
             this.state.tableDataSource.forEach(e => {
                 let cardDatas = JSON.parse(e.Bytes)
                 // console.log(cardDatas);
-                
+
                 z.push(
                     <CardGrid style={gridStyle} key={cardDatas.icons + Math.random()} draggable="true" onDragStart={this.drag.bind(this, cardDatas)}>
                         <Icon type={cardDatas.icons} theme="outlined" />
