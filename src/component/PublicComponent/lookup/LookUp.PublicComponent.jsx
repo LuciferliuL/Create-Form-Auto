@@ -83,7 +83,7 @@ class LookUpPublicComponent extends Component {
                 let urlString = `&Sql= ${obj.SQL}&abbr=${abbr}&PageIndex=${1}&PageSize= 1&isPage=true`
                 GETFetch(obj.CustomDirectiveURL + urlString, (res) => {
                     this.props.UpDataCurrent(obj)
-                    this.props.upDataCurrentDataSource(res.Results, res.RecordCount)
+                    this.props.upDataCurrentDataSource(res, 0)
                     this.props.upForm(this.props.current)
                     this.setState({
                         shows: true,
@@ -104,7 +104,7 @@ class LookUpPublicComponent extends Component {
                 }
                 POST$(API('SQL').http, body, (res) => {
                     this.props.UpDataCurrent(obj)
-                    this.props.upDataCurrentDataSource(res.Results, res.RecordCount)
+                    this.props.upDataCurrentDataSource(res, 0)
                     this.props.upForm(this.props.current)
                     this.setState({
                         shows: true,
@@ -138,30 +138,6 @@ class LookUpPublicComponent extends Component {
                 })
             })
         }
-
-
-        let body = {
-            "Sql": obj.SQL,
-            "Param": JSON.stringify(abbr),
-            "PageIndex": page,
-            "PageSize": pagesize,
-            isPage: true
-        }
-
-        POST$(API('SQL').http, body, (res) => {
-            // console.log(res);
-            this.props.UpDataCurrent(obj)
-            this.props.upDataCurrentDataSource(res.Results, res.RecordCount)
-            this.props.upForm(this.props.current)
-            this.setState({
-                shows: true,
-                loading: false
-            }, () => {
-                setTimeout(() => {
-                    window.addEventListener('keyup', this.handleKeyDown)
-                }, 1000);
-            })
-        })
     }
     Cancel = () => {
         this.setState({
