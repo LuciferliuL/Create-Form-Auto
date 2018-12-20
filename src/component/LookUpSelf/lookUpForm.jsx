@@ -34,7 +34,7 @@ class LookUpForm extends React.Component {
         Tabledata: [
 
         ],
-        isDirective:false,
+        isDirective: false,
         columns: [
             {
                 title: '列名',
@@ -103,16 +103,31 @@ class LookUpForm extends React.Component {
             }
         ]
     }
+    componentDidMount() {
+        console.log(this.props.tabledata);
+        if (this.props.tabledata.length > 0) {
+            let isD = JSON.parse(this.props.tabledata[0].Bytes)
+            // console.log(isD);
+            this.setState({
+                isDirective: isD.isCustomDirective
+            })
+        }
 
+    }
     componentWillReceiveProps(pre) {
         // pre.form.resetFields()
-        this.setState({
-            visible: false,
-            SQL: '',
-            name: '',
-            columnsIndex: -1,
-            Tabledata: [],
-        })
+        if (pre.tabledata.length > 0) {
+            let isD = JSON.parse(pre.tabledata[0].Bytes)
+            console.log(isD);
+            this.setState({
+                visible: false,
+                SQL: '',
+                name: '',
+                columnsIndex: -1,
+                Tabledata: [],
+                isDirective: isD.isCustomDirective
+            })
+        }
     }
     inputChange = (name, e) => {
         const { Tabledata, columnsIndex } = this.state
@@ -268,7 +283,7 @@ class LookUpForm extends React.Component {
         })
     }
     render() {
-        const { Tabledata, columns , isDirective} = this.state
+        const { Tabledata, columns, isDirective } = this.state
         const { getFieldDecorator } = this.props.form;
         var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.8
 
@@ -278,17 +293,19 @@ class LookUpForm extends React.Component {
         }
         let formData = []
         // console.log(baseData);
-        
+
         baseData.forEach(e => {
             if (e.id === 'isCustomDirective') {
                 formData.push(
                     <FormItem {...layout} label={e.label} key={e.id}>
-                        {getFieldDecorator(e.id)(
-                            <Checkbox initialValue={isDirective} onChange={()=>{this.setState({isDirective:!isDirective})}}></Checkbox>
+                        {getFieldDecorator(e.id, {
+                            valuePropName: 'checked',
+                        })(
+                            <Checkbox onChange={() => { this.setState({ isDirective: !isDirective }) }}></Checkbox>
                         )}
                     </FormItem>
                 )
-            } else if(e.id === 'CustomDirectiveMethod' && isDirective){
+            } else if (e.id === 'CustomDirectiveMethod' && isDirective) {
                 formData.push(
                     <FormItem {...layout} label={e.label} key={e.id}>
                         {getFieldDecorator(e.id)(
@@ -299,7 +316,7 @@ class LookUpForm extends React.Component {
                         )}
                     </FormItem>
                 )
-            } else if(e.id === 'CustomDirectiveURL' && isDirective){
+            } else if (e.id === 'CustomDirectiveURL' && isDirective) {
                 formData.push(
                     <FormItem {...layout} label={e.label} key={e.id}>
                         {getFieldDecorator(e.id)(
@@ -307,7 +324,7 @@ class LookUpForm extends React.Component {
                         )}
                     </FormItem>
                 )
-            }else if(e.id !== 'CustomDirectiveURL' && e.id !== 'CustomDirectiveMethod'){
+            } else if (e.id !== 'CustomDirectiveURL' && e.id !== 'CustomDirectiveMethod') {
                 formData.push(
                     <FormItem {...layout} label={e.label} key={e.id}>
                         {getFieldDecorator(e.id, {
@@ -402,7 +419,7 @@ export default connect(
     mapStateToProps,
 )(Form.create({
     mapPropsToFields(props) {
-        console.log(props);
+        // console.log(props);
         let field = {}
         if (props.tabledata.length > 0) {
             let source = JSON.parse(props.tabledata[0].Bytes)
@@ -411,6 +428,8 @@ export default connect(
                 field[e] = Form.createFormField({ value: source[e] })
             })
         }
+        console.log(field);
+
         return field
     }
 })(LookUpForm));
