@@ -41,6 +41,11 @@ export const API = (k, id) => {
                 method: 'POST',
                 http: global.cfg.centerQueryAPI + 'api/DataMsg/' + id + '/stop' //暂停
             }
+        case 'i9stopid':
+            return {
+                method: 'POST',
+                http: global.cfg.centerQueryAPI + 'api/DataMsg/' + id + '/stopprocess' //暂停
+            }
         case "geti9msgsendlist"://获取日志
             return {
                 method: 'POST',

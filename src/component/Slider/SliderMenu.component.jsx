@@ -4,7 +4,6 @@ import { Link, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { selectkeysToHeader } from './action/Header.action'
 import { stylistDataSourceAsync, fugai, tableReset } from '../stylist/action/Stylist.action'
-import { array } from 'prop-types';
 const SubMenu = Menu.SubMenu;
 
 class SliderMenucomponent extends Component {

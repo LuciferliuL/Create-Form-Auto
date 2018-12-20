@@ -43,6 +43,7 @@ class Info extends Component {
             MsgTemplateId: global.msgcfg.autotemplateid,
             Receivers: '[]',
             Sender: null,
+            OpName: '',
             Sqls: '[]',
             Bytes: "",
             DeptID: global.msgcfg.filepath,
@@ -139,6 +140,7 @@ class Info extends Component {
                         Receivers: '[]',
                         Sender: null,
                         Sqls: '[]',
+                        OpName: '附件',///附件，文本
                         Bytes: "",
                         DeptID: global.msgcfg.filepath,
                         DeptName: global.msgcfg.fileurl,
@@ -154,6 +156,7 @@ class Info extends Component {
                     DataSource: "集中",//集中，分公司；
                     DueDatetype: "立即",
                     DueDateCorn: "",//
+                    OpName: "附件",//附件，文本
                     MsgTemplateId: global.msgcfg.autotemplateid,
                     Receivers: '[]',
                     Sender: null,
@@ -165,6 +168,17 @@ class Info extends Component {
                 break;
             case 'edit':
                 console.log(this.state);
+
+                if (this.state.selectedData[0].PK === -1) {
+                    message.warning('请选择数据！')
+                    return;
+                }
+
+                if (this.state.selectedData[0].WorkFlowGuid !== null && this.state.selectedData[0].WorkFlowGuid !== '') {
+                    message.warning('请先将流程暂停！')
+                    return;
+                }
+
                 this.props.copyDataSource(this.state.selectedData[0])//选择的数据
                 this.state.selectedData[0].PK !== -1 ?
                     this.setState({
@@ -190,7 +204,9 @@ class Info extends Component {
                     message.warning('请选择数据')
                     return;
                 }
-                POST$(API('i9stop', this.state.selectedRowKeys[0]).http, {}, (res) => {
+
+                POST$(API('i9stop', this.state.selectedData[0].PK).http, {}, (res) => {
+                    //POST$(API('i9stopid', 'b8070000-ad2d-38de-a057-08d6659fefe4').http, {}, (res) => {
                     // console.log(res);
                     if (res.result) {
                         message.success('暂停成功！')
@@ -249,12 +265,23 @@ class Info extends Component {
         let s = this.props.information;
         // console.log(s);
 
-        if (s.DueDatetype === '立即') {
-            s.MsgTemplateId = global.msgcfg.autotemplateid;
+        if (s.OpName === null || s.OpName === '' || s.OpName === "附件") {
+            if (s.DueDatetype === '立即') {
+                s.MsgTemplateId = global.msgcfg.autotemplateid;
+            }
+            else {
+                s.MsgTemplateId = global.msgcfg.corntemplateid;
+            }
         }
-        else {
-            s.MsgTemplateId = global.msgcfg.corntemplateid;
+        else {//文本
+            if (s.DueDatetype === '立即') {
+                s.MsgTemplateId = global.msgcfg.autotxt;
+            }
+            else {
+                s.MsgTemplateId = global.msgcfg.corntxt;
+            }
         }
+
 
         s.DeptID = global.msgcfg.filepath;
         s.DeptName = global.msgcfg.fileurl;
