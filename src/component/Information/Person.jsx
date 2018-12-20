@@ -107,6 +107,11 @@ class Person extends Component {
         let param = {
             Param: JSON.stringify(ss),
         };
+
+        this.setState({
+            data: []
+        })
+
         POST$(API('geti9allpersons').http, param, (res) => {
             // console.log(res);
             this.setState({

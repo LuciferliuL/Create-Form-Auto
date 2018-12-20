@@ -69,7 +69,8 @@ class Info extends Component {
     }
     componentDidMount() {
         GET$(API('geti9msgall').http, (res) => {
-            // console.log(res);
+
+            console.log(res);
             this.setState({
                 data: res
             })
