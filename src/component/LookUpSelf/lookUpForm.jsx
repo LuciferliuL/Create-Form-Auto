@@ -31,7 +31,10 @@ class LookUpForm extends React.Component {
         name: '',
         i: -1,
         columnsIndex: -1,
-        Tabledata: [],
+        Tabledata: [
+
+        ],
+        isDirective:false,
         columns: [
             {
                 title: '列名',
@@ -102,6 +105,7 @@ class LookUpForm extends React.Component {
     }
 
     componentWillReceiveProps(pre) {
+        // pre.form.resetFields()
         this.setState({
             visible: false,
             SQL: '',
@@ -264,7 +268,7 @@ class LookUpForm extends React.Component {
         })
     }
     render() {
-        const { Tabledata, columns } = this.state
+        const { Tabledata, columns , isDirective} = this.state
         const { getFieldDecorator } = this.props.form;
         var h = (document.documentElement.clientHeight || document.body.clientHeight) * 0.8
 
@@ -273,23 +277,21 @@ class LookUpForm extends React.Component {
             wrapperCol: { xs: { span: 24 }, sm: { span: 18 } }
         }
         let formData = []
+        // console.log(baseData);
+        
         baseData.forEach(e => {
             if (e.id === 'isCustomDirective') {
                 formData.push(
                     <FormItem {...layout} label={e.label} key={e.id}>
-                        {getFieldDecorator(e.id, {
-                            rules: [{ required: true, message: e.message }],
-                        })(
-                            <Checkbox></Checkbox>
+                        {getFieldDecorator(e.id)(
+                            <Checkbox initialValue={isDirective} onChange={()=>{this.setState({isDirective:!isDirective})}}></Checkbox>
                         )}
                     </FormItem>
                 )
-            } else if(e.id === 'CustomDirectiveMethod'){
+            } else if(e.id === 'CustomDirectiveMethod' && isDirective){
                 formData.push(
                     <FormItem {...layout} label={e.label} key={e.id}>
-                        {getFieldDecorator(e.id, {
-                            rules: [{ required: true, message: e.message }],
-                        })(
+                        {getFieldDecorator(e.id)(
                             <Radio.Group>
                                 <Radio value={0}>POST</Radio>
                                 <Radio value={1}>GET</Radio>
@@ -297,7 +299,15 @@ class LookUpForm extends React.Component {
                         )}
                     </FormItem>
                 )
-            }else {
+            } else if(e.id === 'CustomDirectiveURL' && isDirective){
+                formData.push(
+                    <FormItem {...layout} label={e.label} key={e.id}>
+                        {getFieldDecorator(e.id)(
+                            <Input />
+                        )}
+                    </FormItem>
+                )
+            }else if(e.id !== 'CustomDirectiveURL' && e.id !== 'CustomDirectiveMethod'){
                 formData.push(
                     <FormItem {...layout} label={e.label} key={e.id}>
                         {getFieldDecorator(e.id, {
