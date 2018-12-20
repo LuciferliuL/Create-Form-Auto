@@ -292,7 +292,7 @@ class Stylistcomponent extends Component {
         }
     }
     tableedit = (ev) => {
-        console.log(ev);
+        // console.log(ev);
         const { tableSourceData, indexTable } = this.state
         let list = []
         // console.log(tableSourceData);

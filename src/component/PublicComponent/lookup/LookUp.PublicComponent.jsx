@@ -35,8 +35,7 @@ class LookUpPublicComponent extends Component {
 
                     let urlString = `&Sql= ${obj.SQL}&abbr=${abbr}&PageIndex=${1}&PageSize= 1&isPage=true`
                     GETFetch(obj.CustomDirectiveURL + urlString, (res) => {
-                        obj.dataSource = res.Results
-                        obj.totalPage = res.RecordCount
+                        obj.dataSource = res
                         this.props.upForm(obj)
                     })
                 } else {
@@ -48,8 +47,7 @@ class LookUpPublicComponent extends Component {
                         isPage: true
                     }
                     POST$(API('SQL').http, body, (res) => {
-                        obj.dataSource = res.Results
-                        obj.totalPage = res.RecordCount
+                        obj.dataSource = res
                         this.props.upForm(obj)
                     })
                 }
