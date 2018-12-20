@@ -8,7 +8,7 @@ import { API } from '../../lib/API/check.API'
 import { POST$, httprequest, getrequestparam, getDat, formatDate, getstartHours, getendHours, GETFetch } from '../../lib/MATH/math'
 import { _clear, _tableUpdataFromResults, tableTr0, fugai } from '../stylist/action/Stylist.action'
 import { tAddDown, tReduceUp } from '../PublicComponent/lookup/action/lookup.action';
-
+import downloadExl from '../../lib/MATH/xlsx'
 
 
 const TabPane = Tabs.TabPane;
@@ -66,103 +66,119 @@ class ContentUser extends Component {
     }
 
     DAOCHU = () => {
-        let valueList = {};
+        let valueList = [];
         const { tableSource, data, CurrentIndex } = this.props;
+        // console.log(tableSource);
+        // console.log(data);
+        // console.log(CurrentIndex);
+        if (tableSource[CurrentIndex].isCustomDirective) {
 
-        let SQL = tableSource[CurrentIndex].SQL;
-        data.map(e => {
-            if (e.type !== 'Table' && e.type !== 'Group') {
-                if (e.type === 'LookUp') {
-                    valueList[e.id] = e.values[e.upKey] === undefined ? '' : e.values[e.upKey];
-                } else if (e.type === 'Input' && e.typePoint === 0) {
-                    valueList[e.id] = e.defaultValue === undefined ? '' : e.defaultValue;
-                } else if (e.type === 'Input' && e.typePoint !== 0) {
-                    valueList[e.typePoint] = e.defaultValue === undefined ? '' : e.defaultValue;
+            tableSource[CurrentIndex].dataSource.forEach(e => {
+                let value = {}
+                tableSource[CurrentIndex].columns.forEach(k => {
+                    // let title = k['title']
+                    value[k.title] = e[k.dataIndex]
+                })
+                valueList.push(value)
+            })
+            // console.log(valueList);
+            downloadExl(valueList)
+        } else {
+            let SQL = tableSource[CurrentIndex].SQL;
+            data.map(e => {
+                if (e.type !== 'Table' && e.type !== 'Group') {
+                    if (e.type === 'LookUp') {
+                        valueList[e.id] = e.values[e.upKey] === undefined ? '' : e.values[e.upKey];
+                    } else if (e.type === 'Input' && e.typePoint === 0) {
+                        valueList[e.id] = e.defaultValue === undefined ? '' : e.defaultValue;
+                    } else if (e.type === 'Input' && e.typePoint !== 0) {
+                        valueList[e.typePoint] = e.defaultValue === undefined ? '' : e.defaultValue;
+                    }
+                    else if (e.type === "Range") {
+                        let days = ['', ''];
+                        let oneweekdate = new Date();
+                        let ds = new Date();
+
+                        if (e.defaultValue === -1) {
+                            //当天
+                            oneweekdate = new Date()
+                            days = [formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours(), getDat() + getendHours()]
+                        } else if (e.defaultValue === 1) {
+                            //前一天
+                            ds = new Date()
+                            oneweekdate = new Date(ds - 24 * 3600 * 1000);
+                            days = [formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours(), getDat() + getendHours()]
+                        } else if (e.defaultValue === 7) {
+                            ds = new Date()
+                            oneweekdate = new Date(ds - 7 * 24 * 3600 * 1000);
+                            days = [formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours(), getDat() + getendHours()]
+                        } else if (e.defaultValue === 30) {
+                            ds = new Date()
+                            ds.setMonth(ds.getMonth() - 1);
+                            days = [formatDate(ds, 'yyyy-MM-dd') + getstartHours(), getDat() + getendHours()]
+                        }
+                        else if (e.defaultValue.length > 0 && e.defaultValue[0] !== '') {
+                            days = [formatDate(new Date(e.defaultValue[0]), 'yyyy-MM-dd') + getstartHours(), formatDate(new Date(e.defaultValue[1]), 'yyyy-MM-dd') + getendHours()]
+                        }
+                        valueList[e.id] = days
+                    } else if (e.type === 'RadioGroup') {
+                        valueList[e.id] = e.defaultValue === '-1' ? ' ' : e.defaultValue;
+                    } else if (e.type === 'Date') {
+                        let days = '';
+                        let oneweekdate = new Date();
+                        let ds = new Date();
+
+                        if (e.defaultValue === -1) {
+                            //当天
+                            oneweekdate = new Date()
+                            days = formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours()
+                        } else if (e.defaultValue === 1) {
+                            //前一天
+                            ds = new Date()
+                            oneweekdate = new Date(ds - 24 * 3600 * 1000);
+                            days = formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours()
+                        } else if (e.defaultValue === 7) {
+                            ds = new Date()
+                            oneweekdate = new Date(ds - 7 * 24 * 3600 * 1000);
+                            days = formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours()
+                        } else if (e.defaultValue === 30) {
+                            ds = new Date()
+                            ds.setMonth(ds.getMonth() - 1);
+                            days = formatDate(ds, 'yyyy-MM-dd') + getstartHours()
+                        }
+                        else if (e.defaultValue !== 3) {
+                            oneweekdate = new Date(e.defaultValue)
+                            days = formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours()
+                        }
+                        valueList[e.id] = days;
+                    } else {
+                        valueList[e.id] = e.defaultValue === undefined ? '' : e.defaultValue;
+                    }
                 }
-                else if (e.type === "Range") {
-                    let days = ['', ''];
-                    let oneweekdate = new Date();
-                    let ds = new Date();
+                return true
+            })
+            let cols = {}
+            tableSource[CurrentIndex].columns.forEach(e => {
+                cols[e.dataIndex] = e.title
+            })
+            let param = {
+                Param: JSON.stringify(valueList),
+                Columns: JSON.stringify(cols),
+                IsPage: true,
+                PageIndex: 1,
+                PageSize: 350,
+                Sql: SQL
+            };
 
-                    if (e.defaultValue === -1) {
-                        //当天
-                        oneweekdate = new Date()
-                        days = [formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours(), getDat() + getendHours()]
-                    } else if (e.defaultValue === 1) {
-                        //前一天
-                        ds = new Date()
-                        oneweekdate = new Date(ds - 24 * 3600 * 1000);
-                        days = [formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours(), getDat() + getendHours()]
-                    } else if (e.defaultValue === 7) {
-                        ds = new Date()
-                        oneweekdate = new Date(ds - 7 * 24 * 3600 * 1000);
-                        days = [formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours(), getDat() + getendHours()]
-                    } else if (e.defaultValue === 30) {
-                        ds = new Date()
-                        ds.setMonth(ds.getMonth() - 1);
-                        days = [formatDate(ds, 'yyyy-MM-dd') + getstartHours(), getDat() + getendHours()]
-                    }
-                    else if (e.defaultValue.length > 0 && e.defaultValue[0] !== '') {
-                        days = [formatDate(new Date(e.defaultValue[0]), 'yyyy-MM-dd') + getstartHours(), formatDate(new Date(e.defaultValue[1]), 'yyyy-MM-dd') + getendHours()]
-                    }
-                    valueList[e.id] = days
-                } else if (e.type === 'RadioGroup') {
-                    valueList[e.id] = e.defaultValue === '-1' ? ' ' : e.defaultValue;
-                } else if (e.type === 'Date') {
-                    let days = '';
-                    let oneweekdate = new Date();
-                    let ds = new Date();
-
-                    if (e.defaultValue === -1) {
-                        //当天
-                        oneweekdate = new Date()
-                        days = formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours()
-                    } else if (e.defaultValue === 1) {
-                        //前一天
-                        ds = new Date()
-                        oneweekdate = new Date(ds - 24 * 3600 * 1000);
-                        days = formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours()
-                    } else if (e.defaultValue === 7) {
-                        ds = new Date()
-                        oneweekdate = new Date(ds - 7 * 24 * 3600 * 1000);
-                        days = formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours()
-                    } else if (e.defaultValue === 30) {
-                        ds = new Date()
-                        ds.setMonth(ds.getMonth() - 1);
-                        days = formatDate(ds, 'yyyy-MM-dd') + getstartHours()
-                    }
-                    else if (e.defaultValue !== 3) {
-                        oneweekdate = new Date(e.defaultValue)
-                        days = formatDate(oneweekdate, 'yyyy-MM-dd') + getstartHours()
-                    }
-                    valueList[e.id] = days;
-                } else {
-                    valueList[e.id] = e.defaultValue === undefined ? '' : e.defaultValue;
-                }
-            }
-            return true
-        })
-        let cols = {}
-        tableSource[CurrentIndex].columns.forEach(e => {
-            cols[e.dataIndex] = e.title
-        })
-        let param = {
-            Param: JSON.stringify(valueList),
-            Columns: JSON.stringify(cols),
-            IsPage: true,
-            PageIndex: 1,
-            PageSize: 350,
-            Sql: SQL
-        };
-
-        var params = getrequestparam('exportsqldata', JSON.stringify(param), this.state.branchtype);
-        httprequest(params, (result) => {
-            var url = window.URL.createObjectURL(result)
-            var a = document.createElement('a')
-            a.href = url
-            a.download = "数据.xls"
-            a.click()
-        });
+            var params = getrequestparam('exportsqldata', JSON.stringify(param), this.state.branchtype);
+            httprequest(params, (result) => {
+                var url = window.URL.createObjectURL(result)
+                var a = document.createElement('a')
+                a.href = url
+                a.download = "数据.xls"
+                a.click()
+            });
+        }
     }
 
     SQLChecked = (page) => {
@@ -282,7 +298,7 @@ class ContentUser extends Component {
                     })
                     let urlString = `&Sql= ${SQL}${str}&PageIndex=${page}&PageSize= 200&isPage=true`
                     GETFetch(tableSource[0].CustomDirectiveURL + urlString, (res) => {
-                        if (res.length > 0 ) {
+                        if (res.length > 0) {
                             tableSource[CurrentIndex].dataSource = res;
                             tableSource[CurrentIndex].tr = 0;
                             tableSource[CurrentIndex].pageSize = res.length;
@@ -303,7 +319,7 @@ class ContentUser extends Component {
                         isPage: true
                     }
                     POST$(tableSource[0].CustomDirectiveURL, body, (res) => {
-                        if (res.length > 0 ) {
+                        if (res.length > 0) {
                             tableSource[CurrentIndex].dataSource = res;
                             tableSource[CurrentIndex].tr = 0;
                             tableSource[CurrentIndex].pageSize = res.length;
@@ -490,6 +506,7 @@ class ContentUser extends Component {
         })
         return (
             <Spin spinning={this.state.loading}>
+                <a href="" download='数据.xlsx' id='hf'></a>
                 <Card
                     ref={this.myRef}
                     style={{ minHeight: h + 'px', borderTop: '1px solid #eae7e7' }}
