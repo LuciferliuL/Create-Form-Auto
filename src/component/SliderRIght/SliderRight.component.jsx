@@ -246,7 +246,7 @@ class SliderRightcomponent extends Component {
                     break;
             }
         })
-        if (pre.currentAttr.type === 'Table' || pre.currentAttr.type === 'Lookup') {
+        if (pre.currentAttr.type === 'Table' || pre.currentAttr.type === 'LookUp') {
             uniqueList.push(
                 <div key={pre.currentAttr.key + pre.currentAttr.SQL}>
                     <FormItem
