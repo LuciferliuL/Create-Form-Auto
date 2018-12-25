@@ -296,12 +296,12 @@ class ContentUser extends Component {
                     Object.keys(valueList).forEach(e => {
                         str += `&${e}=${valueList[e]}`
                     })
-                    let urlString = `&Sql= ${SQL}${str}&PageIndex=${page}&PageSize= 200&isPage=true`
+                    let urlString = `&Sql= ${SQL}${str}&PageIndex=${page}&PageSize=200&isPage=true`
                     GETFetch(tableSource[0].CustomDirectiveURL + urlString, (res) => {
-                        if (res.length > 0) {
-                            tableSource[CurrentIndex].dataSource = res;
+                        if (res.Results) {
+                            tableSource[CurrentIndex].dataSource = res.Results;
                             tableSource[CurrentIndex].tr = 0;
-                            tableSource[CurrentIndex].pageSize = res.length;
+                            tableSource[CurrentIndex].pageSize = res.RecordCount;
 
                             // console.log(this.props);
 
@@ -319,10 +319,10 @@ class ContentUser extends Component {
                         isPage: true
                     }
                     POST$(tableSource[0].CustomDirectiveURL, body, (res) => {
-                        if (res.length > 0) {
-                            tableSource[CurrentIndex].dataSource = res;
+                        if (res.Results) {
+                            tableSource[CurrentIndex].dataSource = res.Results;
                             tableSource[CurrentIndex].tr = 0;
-                            tableSource[CurrentIndex].pageSize = res.length;
+                            tableSource[CurrentIndex].pageSize = res.RecordCount;
 
                             // console.log(this.props);
 

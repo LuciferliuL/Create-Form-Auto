@@ -87,23 +87,27 @@ class SliderRightcomponent extends Component {
                     break;
                 case 'upKey':
                     let selectOptions_ = []
-                    if (pre.currentAttr.dataSource.length > 0) {
+                    if (pre.currentAttr.dataSource && pre.currentAttr.dataSource.length > 0) {
                         Object.keys(pre.currentAttr.dataSource[0]).forEach(e => { selectOptions_.push(<Option value={e} key={e}>{e}</Option>) })
-                        uniqueList.push(
-                            <div key={pre.currentAttr.key + 'upKey'}>
-                                <FormItem
-                                    label='回传KEY'
-                                    {...formItemLayout}
-                                >
-                                    {getFieldDecorator('upKey')(
-                                        <Select style={{ width: '100%' }} onChange={this.handleChange}>
-                                            {selectOptions_}
-                                        </Select>
-                                    )}
-                                </FormItem>
-                            </div>
-                        )
                     }
+                    else {
+                        selectOptions_.push(<Option value={pre.currentAttr.upKey} key={pre.currentAttr.upKey}>{pre.currentAttr.upKey}</Option>);
+                    }
+
+                    uniqueList.push(
+                        <div key={pre.currentAttr.key + 'upKey'}>
+                            <FormItem
+                                label='回传KEY'
+                                {...formItemLayout}
+                            >
+                                {getFieldDecorator('upKey')(
+                                    <Select style={{ width: '100%' }} onChange={this.handleChange}>
+                                        {selectOptions_}
+                                    </Select>
+                                )}
+                            </FormItem>
+                        </div>
+                    )
 
                     break
                 case 'GroupValue':
@@ -196,24 +200,29 @@ class SliderRightcomponent extends Component {
                     )
                     break;
                 case 'uniqueKey':
+
                     let selectOptions = [];
-                    if (pre.currentAttr.dataSource.length > 0) {
+                    if (pre.currentAttr.dataSource && pre.currentAttr.dataSource.length > 0) {
                         Object.keys(pre.currentAttr.dataSource[0]).forEach(e => { selectOptions.push(<Option value={e} key={e}>{e}</Option>) })
-                        uniqueList.push(
-                            <div key={pre.currentAttr.key + 'uniqueKey'}>
-                                <FormItem
-                                    label='显示字符'
-                                    {...formItemLayout}
-                                >
-                                    {getFieldDecorator('uniqueKey')(
-                                        <Select style={{ width: '100%' }} onChange={this.handleChange}>
-                                            {selectOptions}
-                                        </Select>
-                                    )}
-                                </FormItem>
-                            </div>
-                        )
                     }
+                    else {
+                        selectOptions.push(<Option value={pre.currentAttr.uniqueKey} key={pre.currentAttr.uniqueKey}>{pre.currentAttr.uniqueKey}</Option>);
+                    }
+
+                    uniqueList.push(
+                        <div key={pre.currentAttr.key + 'uniqueKey'}>
+                            <FormItem
+                                label='显示字符'
+                                {...formItemLayout}
+                            >
+                                {getFieldDecorator('uniqueKey')(
+                                    <Select style={{ width: '100%' }} onChange={this.handleChange}>
+                                        {selectOptions}
+                                    </Select>
+                                )}
+                            </FormItem>
+                        </div>
+                    )
 
                     break;
                 case 'isTrueInLookUp':
@@ -253,8 +262,8 @@ class SliderRightcomponent extends Component {
                         label='是否自定义接口'
                         {...formItemLayout}
                     >
-                        {getFieldDecorator('isCustomDirective',{
-                             valuePropName: 'checked',
+                        {getFieldDecorator('isCustomDirective', {
+                            valuePropName: 'checked',
                             //  initialValue: true,
                         })(
                             <Checkbox></Checkbox>
@@ -492,7 +501,7 @@ export default connect(mapPropsToState, mapDispatchProps)(Form.create({
         let obj = {}
         obj[label] = value;
         // console.log(obj);
-        
+
         Object.assign(props.currentAttr, obj);
         props.updata(props.currentAttr);//修改current
 
@@ -514,7 +523,7 @@ export default connect(mapPropsToState, mapDispatchProps)(Form.create({
             })
         }
         console.log(Field);
-        
+
         return Field;
     },
     onValuesChange(_, values) {

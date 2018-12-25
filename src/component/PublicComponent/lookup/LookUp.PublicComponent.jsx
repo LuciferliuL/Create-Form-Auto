@@ -35,7 +35,8 @@ class LookUpPublicComponent extends Component {
 
                     let urlString = `&Sql= ${obj.SQL}&abbr=${abbr}&PageIndex=${1}&PageSize= 1&isPage=true`
                     GETFetch(obj.CustomDirectiveURL + urlString, (res) => {
-                        obj.dataSource = res
+                        obj.dataSource = res.Results;
+                        obj.totalPage = res.RecordCount;
                         this.props.upForm(obj)
                     })
                 } else {
@@ -47,7 +48,8 @@ class LookUpPublicComponent extends Component {
                         isPage: true
                     }
                     POST$(API('SQL').http, body, (res) => {
-                        obj.dataSource = res
+                        obj.dataSource = res.Results;
+                        obj.totalPage = res.RecordCount;
                         this.props.upForm(obj)
                     })
                 }
@@ -83,7 +85,7 @@ class LookUpPublicComponent extends Component {
                 let urlString = `&Sql= ${obj.SQL}&abbr=${abbr}&PageIndex=${1}&PageSize= 1&isPage=true`
                 GETFetch(obj.CustomDirectiveURL + urlString, (res) => {
                     this.props.UpDataCurrent(obj)
-                    this.props.upDataCurrentDataSource(res, 0)
+                    this.props.upDataCurrentDataSource(res.Results, res.RecordCount)
                     this.props.upForm(this.props.current)
                     this.setState({
                         shows: true,
@@ -104,7 +106,7 @@ class LookUpPublicComponent extends Component {
                 }
                 POST$(API('SQL').http, body, (res) => {
                     this.props.UpDataCurrent(obj)
-                    this.props.upDataCurrentDataSource(res, 0)
+                    this.props.upDataCurrentDataSource(res.Results, res.RecordCount)
                     this.props.upForm(this.props.current)
                     this.setState({
                         shows: true,
