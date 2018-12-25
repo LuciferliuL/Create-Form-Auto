@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {  Menu, Button, Layout,Tag, Dropdown } from 'antd'
+import { Menu, Button, Layout, Tag, Dropdown } from 'antd'
 import { API } from '../../lib/API/configui'
 import { POST$ } from '../../lib/MATH/math'
 import { menu } from './configui'
@@ -31,7 +31,7 @@ class configUI extends Component {
     menuClick = (record, e) => {
         // console.log(record);
         this.setState({
-            UIhref: "http://10.3.4.233:8090" + record.Param2
+            UIhref: "http://10.3.4.233:8090/" + record.Param2
         })
     }
     menu = (data, list = []) => {
@@ -54,7 +54,7 @@ class configUI extends Component {
     }
     render() {
         let h = document.documentElement.clientHeight
-        const { menuNode, UIhref,  userdata } = this.state
+        const { menuNode, UIhref, userdata } = this.state
         let m = []
         if (menuNode.length > 0) {
             menuNode.forEach(e => {
@@ -74,13 +74,15 @@ class configUI extends Component {
         );
         return (
             <Layout>
-                <Sider>  <Menu
-                    // defaultOpenKeys={['0submenu']}
-                    style={{ height: h }}
-                    mode="inline"
-                    theme="dark">
-                    {m}
-                </Menu></Sider>
+                <Sider>
+                    <Menu
+                        // defaultOpenKeys={['0submenu']}
+                        style={{ height: h }}
+                        mode="inline"
+                        theme="dark">
+                        {m}
+                    </Menu>
+                </Sider>
                 <Layout>
                     <Header>
                         <div style={{ float: 'right' }}>
@@ -97,9 +99,6 @@ class configUI extends Component {
                     </Content>
                 </Layout>
             </Layout>
-
-
-
         );
     }
 }
