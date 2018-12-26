@@ -36,7 +36,7 @@ class loginLeader extends Component {
             IconType: "radius-setting",//图标
             AvatarSrc: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",//人物头像
             MetaTitle: "DESGIN",//卡片抬头
-            MetaDescription: "表单设计",//卡片描述<Icon type="" theme="outlined" />
+            MetaDescription: "查询表单设计",//卡片描述<Icon type="" theme="outlined" />
             href: 'http://10.3.4.177:9003/Design'//跳转地址
         }, {
             IconType: "rocket",//图标
@@ -49,6 +49,12 @@ class loginLeader extends Component {
             AvatarSrc: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",//人物头像
             MetaTitle: "Iphone",//卡片抬头<Icon type="" theme="outlined" />
             MetaDescription: "移动商务打包上传",//卡片描述
+            href: 'www.baidu.com'//跳转地址
+        }, {
+            IconType: "bulb",//图标
+            AvatarSrc: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",//人物头像
+            MetaTitle: "表单构建",//卡片抬头<Icon type="" theme="outlined" />
+            MetaDescription: "输入表单构建",//卡片描述
             href: 'www.baidu.com'//跳转地址
         }, {
             IconType: "bulb",//图标
@@ -111,7 +117,9 @@ class loginLeader extends Component {
                                         this.props.history.push('/iphoneUpload')
                                     } else if (e.MetaTitle === 'CONFIGUI') {
                                         this.props.history.push('/configUI')
-                                    } else {
+                                    } else if(e.MetaTitle === '表单构建'){
+                                        this.props.history.push('/form')
+                                    }else {
                                         window.location.href = e.href
                                     }
                                 }} />]}

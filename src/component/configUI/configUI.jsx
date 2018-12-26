@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Menu, Button, Layout, Tag, Dropdown } from 'antd'
+import { Menu,  Layout, Tag, Dropdown } from 'antd'
 import { API } from '../../lib/API/configui'
 import { POST$ } from '../../lib/MATH/math'
-import { menu } from './configui'
+import { menu } from './configuiMath'
 
 const SubMenu = Menu.SubMenu;
-const { Header, Footer, Sider, Content, } = Layout
+const { Header, Sider, Content, } = Layout
 function mapStateToProps(state) {
     return {
 

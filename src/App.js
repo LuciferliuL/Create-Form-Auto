@@ -9,7 +9,8 @@ import loginLeader from './component/login/loginLeader'
 import Info from './component/Information/info.jsx'
 import UserHome from './component/BaseData/UserHome.jsx'
 import iphoneUpload from './component/IphoneUpload/iphoneUpload'
-import configUI from './component/configUI/configUI'
+import configUI from './component/configUI/configUI.jsx'
+import form from './buildForm/form'
 
 class App extends React.Component {
     render() {
@@ -24,6 +25,7 @@ class App extends React.Component {
                     <Route path="/Info" component={Info}></Route>
                     <Route path='/iphoneUpload' component={iphoneUpload}></Route>
                     <Route path='/configUI' component={configUI}></Route>
+                    <Route path='/form' component={form}></Route>
                     <Redirect to='/'></Redirect>
                 </Switch>
             </HashRouter >
