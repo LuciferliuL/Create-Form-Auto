@@ -95,7 +95,7 @@ class configUI extends Component {
                         </div>
                     </Header>
                     <Content>
-                        <iframe src={UIhref} frameBorder="0" style={{ width: '100%', height: h - 10 }}></iframe>
+                        <iframe src={UIhref} frameBorder="0" style={{ width: '100%', height: h - 10 }} title='fffffffffffff'></iframe>
                     </Content>
                 </Layout>
             </Layout>
