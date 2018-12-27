@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Input, Form, Icon, Modal, List, Button, Select } from 'antd'
+import { Input, Form, Icon, Modal, List, Button, Select, Radio } from 'antd'
 
 const FormItem = Form.Item
 const Option = Select.Option
 const { TextArea } = Input;
+const RadioButton = Radio.Button;
+const RadioGroup = Radio.Group;
+
 
 function mapStateToProps(state) {
     return {
@@ -171,17 +174,17 @@ class IphoneC extends Component {
         }
 
     }
-    TagsChange = (name, index, ev) => {
+    //true false
+    selectedChange = (name, index, ev) => {
         // console.log(name);
         // console.log(index);
-        // console.log(ev);
-
-        const { data } = this.state
+        // console.log(ev.target.value);
+        const { data} = this.state
         let obj = []
         data.forEach((e, i) => {
             if (i === index) {
                 let d = {}
-                d[name] = typeof ev === 'string' ? Trim(ev) : Trim(ev.target.value)
+                d[name] = ev.target.value
                 let filed = Object.assign({}, e, d)
                 // console.log(filed);
                 obj.push(filed)
@@ -189,6 +192,43 @@ class IphoneC extends Component {
                 obj.push(e)
             }
         })
+        this.setState({
+            data: obj
+        })
+    }
+    TagsChange = (name, index, ev) => {
+        // console.log(name);
+        // console.log(index);
+        // console.log(ev);
+
+        const { data, Type } = this.state
+        let obj = []
+        if (Type !== 'table') {
+            data.forEach((e, i) => {
+                if (i === index) {
+                    let d = {}
+                    d[name] = typeof ev === 'string' ? Trim(ev) : Trim(ev.target.value)
+                    let filed = Object.assign({}, e, d)
+                    // console.log(filed);
+                    obj.push(filed)
+                } else {
+                    obj.push(e)
+                }
+            })
+        } else {
+            data.forEach((e, i) => {
+                if (i === index) {
+                    let d = {}
+                    d[name] = typeof ev === 'string' ? Trim(ev).toUpperCase() : Trim(ev.target.value).toUpperCase()
+                    let filed = Object.assign({}, e, d)
+                    // console.log(filed);
+                    obj.push(filed)
+                } else {
+                    obj.push(e)
+                }
+            })
+        }
+
         this.setState({
             data: obj
         })
@@ -346,14 +386,6 @@ class IphoneC extends Component {
                 )
             } else if (e === 'show') {
                 return false //暂时不显示
-                // CurrentInput.push(
-                //     <FormItem {...formItemLayout} label={e} key={e + i}>
-                //         <Select value={JSON.stringify(CurrentData[e])} onChange={this.SelectChange.bind(this, e)}>
-                //             <Option value='true'>显示</Option>
-                //             <Option value='false'>隐藏</Option>
-                //         </Select>
-                //     </FormItem>
-                // )
             } else if (e === 'mode' && CurrentData.type === 'input') {
                 CurrentInput.push(
                     <FormItem {...formItemLayout} label='组件类型' key={e + i}>
@@ -500,17 +532,39 @@ class IphoneC extends Component {
                                             </div>
                                         )
                                     } else {
-                                        listColumns.forEach(element => (
-                                            Tags.push(
-                                                <Input
-                                                    addonBefore={element === 'name' ? '名称' : element === 'value' ? "数值" : element}
-                                                    style={{ marginRight: 10 }}
-                                                    key={element}
-                                                    value={item[element]}
-                                                    onChange={this.TagsChange.bind(this, element, index)}>
-                                                </Input>
-                                            )
-                                        ))
+                                        listColumns.forEach(element => {
+                                            console.log(element)
+                                            if (element === 'selected') {
+                                                Tags.push(
+                                                    // <Input
+                                                    //     addonBefore={element === 'name' ? '名称' : element === 'value' ? "数值" : element}
+                                                    //     style={{ marginRight: 10 }}
+                                                    //     key={element}
+                                                    //     value={item[element]}
+                                                    //     onChange={this.TagsChange.bind(this, element, index)}>
+                                                    // </Input>
+                                                    <div style={{ margin: 10 }} key={element}>
+                                                        <span>是否选中：</span>
+                                                        <RadioGroup onChange={this.selectedChange.bind(this, element, index)} value={item[element]} style={{display:'inline-block',width:140}} >
+                                                            <RadioButton value={true}>true</RadioButton>
+                                                            <RadioButton value={false}>false</RadioButton>
+                                                        </RadioGroup>
+                                                    </div>
+
+                                                )
+                                            } else {
+                                                Tags.push(
+                                                    <Input
+                                                        addonBefore={element === 'name' ? '名称' : element === 'value' ? "数值" : element}
+                                                        style={{ marginRight: 10 }}
+                                                        key={element}
+                                                        value={item[element]}
+                                                        onChange={this.TagsChange.bind(this, element, index)}>
+                                                    </Input>
+                                                )
+                                            }
+
+                                        })
                                     }
 
 
