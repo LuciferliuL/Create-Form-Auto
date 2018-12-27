@@ -130,8 +130,7 @@ class Drawercomponent extends Component {
     }
     SQLChange = (e) => {
         this.props.sqlValueChange(e.target.value);
-        console.log(e);
-
+        // console.log(e);
     }
     render() {
         let content = []
