@@ -118,7 +118,7 @@ class loginLeader extends Component {
                                     } else if (e.MetaTitle === 'CONFIGUI') {
                                         this.props.history.push('/configUI')
                                     } else if(e.MetaTitle === '表单构建'){
-                                        this.props.history.push('/form')
+                                        this.props.history.push('/form/formInfo')
                                     }else {
                                         window.location.href = e.href
                                     }

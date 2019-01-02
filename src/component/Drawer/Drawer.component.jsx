@@ -7,7 +7,6 @@ import { upDataCurrentDataSource } from '../PublicComponent/lookup/action/lookup
 import { tableFugai } from '../stylist/action/Stylist.action'
 import { API } from '../../lib/API/check.API'
 import { POST$ } from '../../lib/MATH/math'
-import { Object } from 'es6-shim';
 
 
 const InputGroup = Input.Group
